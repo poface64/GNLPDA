@@ -1,0 +1,12 @@
+Dataset,Muestras,Variables,Clases
+iris,150,4,3
+penguins,342,4,3
+pimadiabetes,768,8,2
+wines,178,13,3
+indicadores2000,2442,12,5
+indicadores2005,2454,12,5
+indicadores2010,2456,12,5
+indicadores2015,2446,12,5
+indicadores2020,2469,12,5
+Cebolla3D,300,3,3
+Cebolla10D,300,10,3

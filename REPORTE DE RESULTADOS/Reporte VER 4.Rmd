@@ -1,0 +1,1070 @@
+---
+title: "Experimentación con Kernells e implementación del GPNLDA con cross validation k = 30"
+date: "2026-02-19"
+author: "Ángel García Báez"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: flatly
+    code_folding: hide
+---
+
+```{css, echo=FALSE}
+pre {
+  background-color: #ffffff;
+  border: 2px solid #003366;
+  border-radius: 6px;
+  color: #000000;
+}
+
+code {
+  color: #000000;
+  background-color: #ffffff;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,
+                      warning = F,
+                      message = F)
+```
+
+```{r}
+# Librerías necesarias 
+library(kernlab) # Para hacer el kernell PCA
+library(MASS) # Para usar el LDA como proyector y clasificador
+library(caret) # Para hacer las separaciones de los datasets
+library(ggplot2) # Para la visualización
+library(patchwork) # Para combinar los gráficos al fina
+
+#### Obtención de metricas ####
+
+# Esta función se encarga de extraer las metrias adaptando sí hay 2 o 3 categorias
+# obj_cm = El objeto que contiene las metricas como lista
+# metrica_nombre = Nombre exacto de la metrica que se quiere extraer
+obtener_metrica <- function(obj_cm, metrica_nombre) {
+  metrica_valor <- obj_cm$byClass
+  
+  # Si es una matriz (Multiclase), extraemos la columna y promediamos
+  if (is.matrix(metrica_valor)) {
+    return(mean(metrica_valor[, metrica_nombre], na.rm = TRUE))
+  } 
+  # Si es un vector (Binario), extraemos el valor directamente por nombre
+  else {
+    return(metrica_valor[metrica_nombre])
+  }
+}
+
+#### Arreglador de datasets con k = 2 ####
+# La función agrega una columna de 0  a el resultado de la proyección con k = 2 
+# X = La matriz de datos proyectados con LDA
+# clase = La variable de clases 
+arreglador = function(X,clase){
+  # Si la clase es mayor a 3, no hagas nada
+  if(length(unique(clase))>2){
+    # Devuelve los datos como estan
+    return(X)
+  }else{
+    # Si NO es el caso, arregla el conjunto
+    X$LD2 = rep(0,nrow(X))
+    return(X)}
+}
+
+
+# Funciones necesarias para que esto funcione #
+
+#### Funciones para hacer las evaluaciones de los clasificadores lineales ####
+
+#### Evaluador lineal ####
+# Se encarga de ejecutar las pruebas sobre los métodos sin Kernell
+# df = Conjunto de datos con vars. numericas y la etiqueta
+# etiqueta_col = Nombre de la columna que contiene la etiqueta
+# nombre_dataset = Nombre del dataset donde se esta ejecutando la prueba
+
+
+#### Motor de Evaluación Lineal (Corregido y Blindado) ####
+
+motor_lineal <- function(tren_X, tren_y, test_X, test_y, nombre_dataset = "Dataset") {
+  
+  # --- BLOQUE 1: LDA PURO ---
+  modelo_lda_puro <- lda(tren_y ~ ., data = tren_X)
+  
+  pred_lda_puro_tren <- predict(modelo_lda_puro, tren_X)
+  pred_lda_puro_test <- predict(modelo_lda_puro, test_X)
+  
+  cm_lda_tren <- confusionMatrix(pred_lda_puro_tren$class, tren_y)
+  cm_lda_test <- confusionMatrix(pred_lda_puro_test$class, test_y)
+  
+  met_lda <- data.frame(
+    Metodo    = "LDA Puro",
+    Accuracy  = round(cm_lda_test$overall['Accuracy'], 4),
+    Precision = round(obtener_metrica(cm_lda_test, 'Precision'), 4),
+    Recall    = round(obtener_metrica(cm_lda_test, 'Recall'), 4),
+    F1        = round(obtener_metrica(cm_lda_test, 'F1'), 4),
+    stringsAsFactors = FALSE
+  )
+  
+  # Preparación de datos para gráficos LDA Puro
+  # Forzamos que la columna se llame 'etiqueta' dentro del DF
+  df_lda_puro_tren <- arreglador(as.data.frame(pred_lda_puro_tren$x), tren_y)
+  df_lda_puro_tren$etiqueta <- tren_y
+  
+  df_lda_puro_test <- arreglador(as.data.frame(pred_lda_puro_test$x), test_y)
+  df_lda_puro_test$etiqueta <- test_y
+  
+  p1_lda <- ggplot(df_lda_puro_tren, aes(x = LD1, y = LD2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() + 
+    labs(title = "LDA Puro: Train", subtitle = paste("Acc:", round(cm_lda_tren$overall['Accuracy'], 4)))
+  
+  p2_lda <- ggplot(df_lda_puro_test, aes(x = LD1, y = LD2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() + 
+    labs(title = "LDA Puro: Test", subtitle = paste("Acc:", round(cm_lda_test$overall['Accuracy'], 4)))
+
+  # --- BLOQUE 2: PCA (Correlaciones) + LDA ---
+  # El escalado ya se hizo externamente, pero prcomp con scale.=T es redundancia segura
+  pca_modelo <- prcomp(tren_X, center = TRUE, scale. = TRUE)
+  
+  # Dataframes para proyecciones PCA (PC1 y PC2)
+  df_tren_pca <- as.data.frame(pca_modelo$x[, 1:2])
+  df_tren_pca$etiqueta <- tren_y 
+  
+  df_test_pca <- as.data.frame(predict(pca_modelo, test_X)[, 1:2])
+  df_test_pca$etiqueta <- test_y
+  
+  # Varianza Explicada (Corregido a suma de cuadrados de sdev)
+  varexp <- round(sum(pca_modelo$sdev[1:2]^2) / sum(pca_modelo$sdev^2) * 100, 2)
+  
+  # LDA sobre las 2 componentes de PCA
+  modelo_lda_pca <- lda(etiqueta ~ ., data = df_tren_pca)
+  pred_pca_lda_tren <- predict(modelo_lda_pca, df_tren_pca)
+  pred_pca_lda_test <- predict(modelo_lda_pca, df_test_pca)
+  
+  cm_pca_lda_tren <- confusionMatrix(pred_pca_lda_tren$class, tren_y)
+  cm_pca_lda_test <- confusionMatrix(pred_pca_lda_test$class, test_y)
+  
+  met_pca_lda <- data.frame(
+    Metodo    = "PCA + LDA",
+    Accuracy  = round(cm_pca_lda_test$overall['Accuracy'], 4),
+    Precision = round(obtener_metrica(cm_pca_lda_test, 'Precision'), 4),
+    Recall    = round(obtener_metrica(cm_pca_lda_test, 'Recall'), 4),
+    F1        = round(obtener_metrica(cm_pca_lda_test, 'F1'), 4),
+    stringsAsFactors = FALSE
+  )
+  
+  # Dataframes para proyecciones LDA sobre PCA
+  df_plot_lda_pca_tren <- arreglador(as.data.frame(pred_pca_lda_tren$x), tren_y)
+  df_plot_lda_pca_tren$etiqueta <- tren_y
+  
+  df_plot_lda_pca_test <- arreglador(as.data.frame(pred_pca_lda_test$x), test_y)
+  df_plot_lda_pca_test$etiqueta <- test_y
+
+  # Gráficos PCA + LDA con mapeo seguro
+  g1_pca <- ggplot(df_tren_pca, aes(x = PC1, y = PC2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() + 
+    labs(title = "PCA Train", subtitle = paste("Var. Exp:", varexp, "%"))
+  
+  g2_pca <- ggplot(df_test_pca, aes(x = PC1, y = PC2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() + labs(title = "PCA Test")
+
+  g3_lda_pca <- ggplot(df_plot_lda_pca_tren, aes(x = LD1, y = LD2, color = etiqueta)) + 
+    geom_point(alpha = 0.7) + theme_minimal() + 
+    labs(title = "LDA(PCA) Train", subtitle = paste("Acc:", round(cm_pca_lda_tren$overall['Accuracy'], 4)))
+  
+  g4_lda_pca <- ggplot(df_plot_lda_pca_test, aes(x = LD1, y = LD2, color = etiqueta)) + 
+    geom_point(alpha = 0.7) + theme_minimal() + 
+    labs(title = "LDA(PCA) Test", subtitle = paste("Acc:", round(cm_pca_lda_test$overall['Accuracy'], 4)))
+
+  # --- CONSOLIDACIÓN FINAL ---
+  figura_lda_puro <- (p1_lda | p2_lda) + plot_layout(guides = 'collect') & theme(legend.position = 'bottom')
+  figura_pca_lda  <- (g1_pca | g2_pca) / (g3_lda_pca | g4_lda_pca) + plot_layout(guides = 'collect') & theme(legend.position = 'bottom')
+  
+  return(list(
+    metricas = rbind(met_lda, met_pca_lda),
+    plot_lda_puro = figura_lda_puro,
+    plot_pca_lda = figura_pca_lda
+  ))
+}
+
+#### Función para procesar los datos con kernels ####
+
+motor_kpca <- function(tren_X, tren_y, test_X, test_y, 
+                       kernel_tipo = "rbfdot", 
+                       nombre_exp = "Experimento",
+                       umbral = 0.9) {
+  
+  # 0. Configuración del Kernel
+  config <- switch(kernel_tipo,
+                   "polynomial2" = list(tipo = "polydot", pars = list(degree = 2, scale = 1, offset = 1)),
+                   "polynomial3" = list(tipo = "polydot", pars = list(degree = 3, scale = 1, offset = 1)),
+                   "gaussiano"   = list(tipo = "rbfdot",  pars = list(sigma = 0.1)),
+                   "tangente"    = list(tipo = "tanhdot", pars = list(scale = 1, offset = 1)),
+                   stop("Kernel no reconocido."))
+  
+  # 1. Calibración Dinámica de Componentes (Retener umbral de varianza)
+  kpca_calibracion <- kpca(~., data = tren_X, kernel = config$tipo, kpar = config$pars)
+  autovalores <- eig(kpca_calibracion)
+  var_acumulada <- cumsum(autovalores / sum(autovalores))
+  n_features_optimo <- which(var_acumulada >= umbral)[1]
+  
+  if(is.na(n_features_optimo) || n_features_optimo < 2) n_features_optimo <- 2
+  
+  # 2. Modelo Final con n componentes
+  kpca_modelo <- kpca(~., data = tren_X, kernel = config$tipo, kpar = config$pars, 
+                      features = n_features_optimo)
+  
+  # 3. Proyecciones
+  df_tren_kpca <- as.data.frame(rotated(kpca_modelo))
+  df_tren_kpca$etiqueta <- tren_y
+  
+  # Proyección de prueba con control de errores (esencial para 'tangente')
+  df_test_kpca <- tryCatch({
+    X_test_mat <- as.matrix(sapply(test_X, as.numeric))
+    temp_df <- as.data.frame(predict(kpca_modelo, X_test_mat))
+    temp_df$etiqueta <- test_y
+    temp_df
+  }, error = function(e) return(NULL))
+  
+  if (is.null(df_test_kpca)) {
+    return(list(metricas = data.frame(Metodo=kernel_tipo, Accuracy=NA, Precision=NA, Recall=NA, F1=NA), 
+                plot_combinado = NULL))
+  }
+  
+  # 4. Clasificación LDA sobre KPCA
+  modelo_lda <- lda(etiqueta ~ ., data = df_tren_kpca)
+  pred_tren <- predict(modelo_lda, df_tren_kpca)
+  pred_test <- predict(modelo_lda, df_test_kpca)
+  
+  cm_test <- confusionMatrix(pred_test$class, test_y)
+  cm_tren <- confusionMatrix(pred_tren$class, tren_y)
+  
+  # 5. Métricas
+  met_kpca <- data.frame(
+    Metodo    = kernel_tipo,
+    Accuracy  = round(cm_test$overall['Accuracy'], 4),
+    Precision = round(obtener_metrica(cm_test, 'Precision'), 4),
+    Recall    = round(obtener_metrica(cm_test, 'Recall'), 4),
+    F1        = round(obtener_metrica(cm_test, 'F1'), 4),
+    stringsAsFactors = FALSE
+  )
+  
+  # 6. Gráficos (Usando el 'arreglador' del usuario)
+  # Proyecciones LDA para visualización
+  proj_lda_tren <- arreglador(as.data.frame(pred_tren$x), tren_y)
+  proj_lda_tren$etiqueta <- tren_y
+  
+  proj_lda_test <- arreglador(as.data.frame(pred_test$class), test_y) # Simplificado para el plot
+  proj_lda_test <- arreglador(as.data.frame(pred_test$x), test_y)
+  proj_lda_test$etiqueta <- test_y
+  
+  p1 <- ggplot(df_tren_kpca, aes(x = V1, y = V2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() +
+    labs(title = paste("KPCA Train:", kernel_tipo), subtitle = paste("Var. Expl:", round(var_acumulada[n_features_optimo], 4)))
+  
+  p2 <- ggplot(df_test_kpca, aes(x = V1, y = V2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() + labs(title = "KPCA Test")
+  
+  p3 <- ggplot(proj_lda_tren, aes(x = LD1, y = LD2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() +
+    labs(title = "LDA Proj Train", subtitle = paste("Acc:", round(cm_tren$overall['Accuracy'], 4)))
+  
+  p4 <- ggplot(proj_lda_test, aes(x = LD1, y = LD2, color = etiqueta)) +
+    geom_point(alpha = 0.7) + theme_minimal() +
+    labs(title = "LDA Proj Test", subtitle = paste("Acc:", round(cm_test$overall['Accuracy'], 4)))
+  
+  grafico_final <- (p1 | p2) / (p3 | p4) + plot_layout(guides = 'collect') & theme(legend.position = 'bottom')
+  
+  return(list(metricas = met_kpca, plot_combinado = grafico_final))
+}
+
+#### Función para evaluar los resultados lineales y con kernells ####
+
+evaluar_dataset_kfold <- function(df_input, 
+                                  etiqueta_nombre = "etiqueta", 
+                                  nombre_dataset = "Dataset", 
+                                  k_folds = 10) {
+  
+  # 1. Preparación Inicial
+  X_total <- as.data.frame(scale(df_input[, names(df_input) != etiqueta_nombre]))
+  y_total <- as.factor(df_input[[etiqueta_nombre]])
+  
+  # 2. Creación de los Folds
+  set.seed(456)
+  folds <- createFolds(y_total, k = k_folds, list = TRUE)
+  
+  # 3. Métodos
+  metodos_kernels <- c("polynomial2", "polynomial3", "gaussiano")
+  
+  # 4. Contenedores
+  historico_metricas <- data.frame()
+  mejores_graficos <- list()
+  record_accuracy <- setNames(rep(0, 5), c("LDA Puro", "PCA + LDA", metodos_kernels))
+  
+  cat("--- Iniciando Cross-Validation (k =", k_folds, ") ---\n")
+  
+  for (i in 1:k_folds) {
+    cat("Procesando Fold", i, "...\n")
+    test_idx <- folds[[i]]
+    tren_X <- X_total[-test_idx, ]; tren_y <- y_total[-test_idx]
+    test_X <- X_total[test_idx, ]; test_y <- y_total[test_idx]
+    
+    # --- EJECUCIÓN LINEAL ---
+    res_lin <- motor_lineal(tren_X, tren_y, test_X, test_y)
+    historico_metricas <- rbind(historico_metricas, res_lin$metricas)
+    
+    # Registro de mejor gráfico (Lineales)
+    for (m in c("LDA Puro", "PCA + LDA")) {
+      acc <- res_lin$metricas$Accuracy[res_lin$metricas$Metodo == m]
+      if (acc > record_accuracy[m]) {
+        record_accuracy[m] <- acc
+        mejores_graficos[[gsub(" ", "_", m)]] <- if(m == "LDA Puro") res_lin$plot_lda_puro else res_lin$plot_pca_lda
+      }
+    }
+    
+    # --- EJECUCIÓN KERNELS ---
+    for (k_tipo in metodos_kernels) {
+      res_k <- motor_kpca(tren_X, tren_y, test_X, test_y, kernel_tipo = k_tipo)
+      historico_metricas <- rbind(historico_metricas, res_k$metricas)
+      
+      acc_k <- res_k$metricas$Accuracy
+      if (!is.na(acc_k) && acc_k > record_accuracy[k_tipo]) {
+        record_accuracy[k_tipo] <- acc_k
+        mejores_graficos[[k_tipo]] <- res_k$plot_combinado
+      }
+    }
+  }
+  
+  # 5. Consolidación Numérica (Promedios y Desviaciones)
+  cat("--- Consolidando Tabla Numérica ---\n")
+  
+  # Calculamos medias
+  tabla_medias <- aggregate(cbind(Accuracy, Precision, Recall, F1) ~ Metodo, 
+                            data = historico_metricas, FUN = mean)
+  colnames(tabla_medias)[-1] <- paste0(colnames(tabla_medias)[-1], "_Mean")
+  
+  # Calculamos desviaciones estándar
+  tabla_sd <- aggregate(cbind(Accuracy, Precision, Recall, F1) ~ Metodo, 
+                        data = historico_metricas, FUN = sd)
+  colnames(tabla_sd)[-1] <- paste0(colnames(tabla_sd)[-1], "_SD")
+  
+  # Unimos ambas tablas
+  tabla_final <- merge(tabla_medias, tabla_sd, by = "Metodo")
+  
+  # Redondear todo a 4 decimales
+  num_cols <- sapply(tabla_final, is.numeric)
+  tabla_final[num_cols] <- lapply(tabla_final[num_cols], round, 4)
+  
+  # Ordenar métodos
+  orden_deseado <- c("LDA Puro", "PCA + LDA", metodos_kernels)
+  tabla_final <- tabla_final[match(orden_deseado, tabla_final$Metodo), ]
+  cat("--- Evaluación Finalizada ---\n")
+  
+  return(list(
+    tabla_resumen = tabla_final,
+    mejores_figuras = mejores_graficos,
+    datos_brutos = historico_metricas
+  ))
+}
+
+# Funcion para tablas bonitas
+# X es la tabla en formato dataframe #
+tb = function(X){autofit(theme_box(flextable(X)))}
+
+# Función para la tabla final bonita y resaltada 
+tb2 <- function(X){
+  library(dplyr)
+  # 1 Calcular columna auxiliar automáticamente
+  X2 <- X %>%
+    group_by(dataset) %>%
+    mutate(destacar = ifelse(F1_Mean == max(F1_Mean, na.rm = TRUE), 1, 0)) %>%
+    ungroup()
+  # 2 Crear flextable con tu estilo base
+  ft <- autofit(theme_box(flextable(X2)))
+  # 3 Aplicar negritas donde destacar == 1
+  ft <- bold(ft,
+             i = ~ destacar == 1,
+             bold = TRUE,
+             part = "body")
+  # 4 Eliminar columna auxiliar
+  ft <- delete_columns(ft, "destacar")
+  return(ft)
+}
+
+```
+
+
+```{r}
+#### Funciones para reportar lo de Julia ####
+library(tidyverse)
+library(knitr)
+# Generador de resumen estadístico #
+generar_resumen_estadistico <- function(ruta_csv, nombre_ds) {
+  df <- read.csv(ruta_csv)
+  df %>%
+    summarise(
+      Dataset = nombre_ds,
+      Accuracy = paste0(round(mean(Acc), 4), " ± ", round(sd(Acc), 4)),
+      Precision = paste0(round(mean(Prec), 4), " ± ", round(sd(Prec), 4)),
+      Recall = paste0(round(mean(Rec), 4), " ± ", round(sd(Rec), 4)),
+      F1 = paste0(round(mean(F1), 4), " ± ", round(sd(F1), 4)),
+      Tiempo = paste0(round(mean(Tiempo), 2), " ± ", round(sd(Tiempo), 2)),
+      Vars_E1 = paste0(round(mean(Vars_E1), 1), " ± ", round(sd(Vars_E1), 1)),
+      Vars_E2 = paste0(round(mean(Vars_E2), 1), " ± ", round(sd(Vars_E2), 1))
+    )
+}
+
+#### Gráficar el mejor LDA DEL CONDADO ####
+library(MASS)
+library(ggplot2)
+
+library(MASS)
+library(ggplot2)
+library(dplyr)
+
+graficar_mejor_corrida_lda <- function(ruta_csv, df_expandido, nombre_ds) {
+  # 1. Cargar el detalle de las 30 corridas
+  detalle <- read.csv(ruta_csv)
+  
+  # 2. Identificar la mejor corrida (Mayor Accuracy)
+  mejor_fila <- detalle[which.max(detalle$Acc), ]
+  
+  # 3. Extraer y limpiar los términos seleccionados
+  # Se asume que en Julia los guardamos como "Var1, Var2*Var3"
+  terminos_str <- as.character(mejor_fila$Nombres_E2)
+  terminos_vec <- unlist(strsplit(terminos_str, ", "))
+  
+  # 4. Preparar el subset de datos
+  # IMPORTANTE: Asegúrate de que df_expandido tenga la columna de etiquetas como factor
+  # Suponiendo que la etiqueta se llama 'y' o 'clase'
+  X_visual <- df_expandido[, terminos_vec]
+  y_labels <- df_expandido$y # Ajustar al nombre real de tu columna objetivo
+  
+  # 5. Ajustar el modelo LDA
+  modelo_lda <- lda(X_visual, grouping = y_labels)
+  
+  # 6. Proyectar los datos en los Discriminantes Lineales (LDs)
+  proyeccion <- predict(modelo_lda)$x %>% as.data.frame()
+  proyeccion$Clase <- y_labels
+  
+  # 7. Construcción del gráfico con ggplot2
+  p <- ggplot(proyeccion, aes(x = LD1, y = LD2, color = Clase, fill = Clase)) +
+    geom_point(size = 3, alpha = 0.7) +
+    stat_ellipse(geom = "polygon", alpha = 0.15, level = 0.95) + # Elipse de confianza al 95%
+    theme_minimal() +
+    labs(
+      title = paste("Proyección LDA - Mejor Corrida:", nombre_ds),
+      subtitle = paste("Términos óptimos:", terminos_str),
+      caption = paste("Acc (Ext):", round(mejor_fila$Acc, 4), " | F1:", round(mejor_fila$F1, 4)),
+      x = "Discriminante Lineal 1 (LD1)",
+      y = "Discriminante Lineal 2 (LD2)"
+    ) +
+    theme(
+      legend.position = "bottom",
+      plot.title = element_text(face = "bold", size = 14),
+      plot.subtitle = element_text(size = 10, color = "darkblue")
+    )
+  
+  return(p)
+}
+
+```
+
+
+```{r}
+library(tidyverse)
+library(MASS)
+library(ggplot2)
+library(patchwork) # Para poner los gráficos juntos
+library(tidyverse)
+
+obtener_rutas_resultados <- function(ruta_carpeta) {
+  # 1. Listar archivos que terminan en .csv y contienen "Resultados_Detalle"
+  archivos_csv <- list.files(path = ruta_carpeta, 
+                             pattern = "^Resultados_Detalle_.*\\.csv$", 
+                             full.names = TRUE)
+  
+  # 2. Extraer el nombre del dataset para identificar cada ruta
+  # Quitamos el prefijo "Resultados_Detalle_" y la extensión ".csv"
+  nombres_datasets <- archivos_csv %>% 
+    basename() %>% 
+    str_replace("Resultados_Detalle_", "") %>% 
+    str_replace("\\.csv$", "")
+  
+  # 3. Guardar en un dataframe o lista nombrada para fácil acceso
+  df_rutas <- data.frame(
+    dataset = nombres_datasets,
+    ruta = archivos_csv,
+    stringsAsFactors = FALSE
+  )
+  
+  message(paste(">>> Se encontraron", nrow(df_rutas), "datasets procesados."))
+  return(df_rutas)
+}
+
+# --- USO ---
+# Solo cambia esta ruta a la de tu PC
+mi_ruta <- "C:\\Users\\Angel\\Desktop\\GPNLDA  EN JULIA\\REPORTE\\"
+mis_resultados <- obtener_rutas_resultados(mi_ruta)
+
+
+library(tidyverse)
+library(knitr)
+
+# Suponiendo que 'mis_resultados' ya contiene las rutas obtenidas anteriormente
+tabla_tesis_final <- map_df(1:nrow(mis_resultados), function(i) {
+  
+  # 1. Leer el CSV de la corrida actual
+  df_corrida <- read.csv(mis_resultados$ruta[i])
+  
+  # 2. Función auxiliar para el formato "Media ± Std"
+  # Usamos 4 decimales para métricas y 2 para tiempo/variables
+  fmt_m <- function(x) paste0(round(mean(x), 4), " ± ", round(sd(x), 4))
+  fmt_t <- function(x) paste0(round(mean(x), 2), " ± ", round(sd(x), 2))
+  
+  # 3. Resumen por dataset
+  df_corrida %>%
+    summarise(
+      Dataset = mis_resultados$dataset[i],
+      Accuracy = fmt_m(Acc),
+      Precision = fmt_m(Prec),
+      Recall = fmt_m(Rec),
+      F1_Score = fmt_m(F1),
+      Vars_E1 = fmt_t(Vars_E1),
+      Vars_E2 = fmt_t(Vars_E2),
+      Tiempo_Seg = fmt_t(Tiempo), # <--- Tiempo con Desviación Estándar
+      Ahorro_Mem = paste0(round(mean(Ahorro)*100, 2), "%")
+    )
+})
+
+# Mostrar en formato profesional para RMarkdown
+# Ver la tabla final lista para el RMarkdown
+tb(tabla_tesis_final)
+
+```
+
+
+
+
+# Introducción
+
+En el presente reporte se busca resumir la información visual y analítica de los experimentos realizados haciendo un uso *naive* de las técnicas de PCA y KPCA para la proyección de los datos en nuevos espacios que posteriormente fueron evaluadas mediante LDA.
+
+A continuación se muestran las combinaciones de técnicas utilizadas para este reporte:
+
+-   LDA
+-   PCA + LDA
+-   KPCA + LDA usando kernel Cuadrático
+-   KPCA + LDA usando kernel Cubico
+-   KPCA + LDA usando kernel Gaussiano ($\sigma = 0.1$)
+-   *KPCA + LDA usando kernel Tangente hiperbólica*
+
+Por otro lado, se describen los conjuntos de datos utilizados para esta experimentación:
+
+```{r}
+# Crear el dataframe
+datasets <- data.frame(
+  Datos = c("Iris", 
+            "PalmerPenguins", 
+            "Diabetes", 
+            "Wine",
+            "Indicadores 2000",
+            "Indicadores 2000",
+            "Indicadores 2000"),
+  Muestras = c(150, 342, 768, 178, 300, 300, 300),
+  Variables = c(4, 4, 8, 13, 3, 10, 20),
+  Clases = c(3, 3, 2, 3, 3, 3, 3))
+### Mostrar bonito con la libreria ###
+library(flextable)
+tb(datasets)
+
+
+
+
+```
+
+# Experimentación
+
+Para la experimentación, cada conjunto de datos fue divido en 10 subgrupos estratificas para probar el rendimiento de los modelos respectivamente.
+
+Para el computo de las componentes principales clásicas, se utilizo la matriz de correlaciones para que las escalas de las variables no maximicen la varianza de forma artificial.
+
+La cantidad de componentes principales utilizadas para KPCA vienen dadas por las necesarias para lograr obtener un minimo del 90% de variabilidad explicada.
+
+El rendimiento de los modelos fue evaluado conforme a las siguientes métricas:
+
+-   Accuracy
+-   Precission
+-   Recall
+-   F1-score
+-   No. de variables.
+
+# Resultados
+
+A continuación se muestran los resultados de las métricas y una muestra gráfica de lo que ocurrio para cada base de datos.
+
+```{r}
+# Cargar todas las rutas que estan en la carpeta de datasets #
+ruta = "C:\\Users\\Angel\\Desktop\\GPNLDA  EN JULIA\\DATASETS\\"
+# Listar todos los elementos 
+rutas = paste0(ruta,"\\", list.files(ruta))
+```
+
+```{r}
+i = 1
+nombre <- mis_resultados$dataset[i]
+ruta <- mis_resultados$ruta[i]
+df_exp_actual = read.csv(ruta)
+
+    
+# Suponiendo que tienes los datasets cargados en una lista con el mismo nombre
+
+df_exp_actual <- datasets_expandidos[[nombre]] 
+    
+p_final <- graficar_mejor_corrida_lda(ruta, df_exp_actual, nombre)
+```
+
+
+
+
+## Resultados para iris
+
+```{r}
+#### Ejecutar para iris ####
+datos1 <- read.csv(rutas[1])
+resultados1 <- evaluar_dataset_kfold(
+  df_input = datos1, 
+  etiqueta_nombre = names(datos1)[ncol(datos1)], 
+  nombre_dataset = "Iris",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados1$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados1$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados1$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados1$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados1$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados1$tabla_resumen)
+```
+
+## Resultados para Palmer Penguins
+
+```{r}
+#### Ejecutar para iris ####
+datos2 <- read.csv(rutas[2])
+resultados2 <- evaluar_dataset_kfold(
+  df_input = datos2, 
+  etiqueta_nombre = names(datos2)[ncol(datos2)], 
+  nombre_dataset = "PalmerPen",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados2$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados2$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados2$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados2$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados2$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados2$tabla_resumen)
+```
+
+## Resultados para Diabetes
+
+```{r}
+#### Ejecutar para iris ####
+datos3 <- read.csv(rutas[3])
+resultados3 <- evaluar_dataset_kfold(
+  df_input = datos3, 
+  etiqueta_nombre = names(datos3)[ncol(datos3)], 
+  nombre_dataset = "Diabetes",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados3$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados3$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados3$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados3$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados3$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados3$tabla_resumen)
+```
+
+## Resultados para Wine
+
+```{r}
+#### Ejecutar para iris ####
+datos4 <- read.csv(rutas[4])
+resultados4 <- evaluar_dataset_kfold(
+  df_input = datos4, 
+  etiqueta_nombre = names(datos4)[ncol(datos4)], 
+  nombre_dataset = "Wine",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados4$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados4$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados4$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados4$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados4$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados4$tabla_resumen)
+```
+
+## Resultados para Cebolla 3D
+
+```{r}
+#### Ejecutar para iris ####
+datos5 <- read.csv(rutas[5])
+resultados5 <- evaluar_dataset_kfold(
+  df_input = datos5, 
+  etiqueta_nombre = names(datos5)[ncol(datos5)], 
+  nombre_dataset = "Cebolla3D",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados5$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados5$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados5$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados5$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados5$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados5$tabla_resumen)
+```
+
+## Resultados para Cebolla 10D
+
+```{r}
+#### Ejecutar para iris ####
+datos6 <- read.csv(rutas[6])
+resultados6 <- evaluar_dataset_kfold(
+  df_input = datos6, 
+  etiqueta_nombre = names(datos6)[ncol(datos6)], 
+  nombre_dataset = "Cebolla10D",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados6$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados6$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados6$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados6$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados6$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados6$tabla_resumen)
+```
+
+## Resultados para Cebolla 20D
+
+```{r}
+#### Ejecutar para iris ####
+datos7 <- read.csv(rutas[7])
+resultados7 <- evaluar_dataset_kfold(
+  df_input = datos7, 
+  etiqueta_nombre = names(datos7)[ncol(datos7)], 
+  nombre_dataset = "Cebolla20D",
+  k_folds = 10
+)
+```
+
+### LDA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados7$mejores_figuras$LDA_Puro
+
+```
+
+### LDA + PCA
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados7$mejores_figuras$`PCA_+_LDA`
+```
+
+### Kernell Cuadratico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados7$mejores_figuras$polynomial2
+```
+
+### Kernell Cubico
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados7$mejores_figuras$polynomial3
+```
+
+### Kernell Gaussiano
+
+```{r}
+### Mostrar el gráfico que corresponde al cuadratico ###
+resultados7$mejores_figuras$gaussiano
+```
+
+### Kernell Tangente Hiperbolica
+
+### Resumen de resultados
+
+```{r}
+# Mostrar el resumen bonito #
+tb(resultados7$tabla_resumen)
+```
+
+# Resumen del resumen
+
+```{r}
+# Mostrar el resumen bonito #
+#tb(resultados1$tabla_comparativa)))
+# Mostrar el resumen bonito #
+#tb(resultados2$tabla_comparativa)))
+# Mostrar el resumen bonito #
+#tb(resultados3$tabla_comparativa)))
+# Mostrar el resumen bonito #
+#tb(resultados4$tabla_comparativa)))
+# Mostrar el resumen bonito #
+#tb(resultados5$tabla_comparativa)))
+# Mostrar el resumen bonito #
+#tb(resultados6$tabla_comparativa)))
+# Mostrar el resumen bonito #
+#tb(resultados7$tabla_comparativa)))
+
+# Resumen del resumen #
+dataset = rep(datasets$Datos,each = 5)
+resumen = rbind.data.frame(resultados1$tabla_resumen,
+                           resultados2$tabla_resumen,
+                           resultados3$tabla_resumen,
+                           resultados4$tabla_resumen,
+                           resultados5$tabla_resumen,
+                           resultados6$tabla_resumen,
+                           resultados7$tabla_resumen)
+# Mostrar el resumen #
+resumen$dataset = dataset
+resumen = resumen[,c(10,1:9)]
+tb2(resumen)
+```

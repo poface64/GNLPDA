@@ -1,0 +1,136 @@
+---
+title: "DOCUMENTACION DE QUE SE HIZO PARA LOS RESULTADOS DEL ARTICULO"
+date: "2026-02-19"
+author: "Ángel García Báez"
+output:
+  html_document:
+    toc: true
+    number_sections: true
+    toc_depth: 3
+    toc_float:
+      collapsed: true
+      smooth_scroll: true
+    theme: flatly
+    code_folding: hide
+---
+
+```{css, echo=FALSE}
+pre {
+  background-color: #ffffff;
+  border: 2px solid #003366;
+  border-radius: 6px;
+  color: #000000;
+}
+
+code {
+  color: #000000;
+  background-color: #ffffff;
+}
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = T,
+                      warning = F,
+                      message = F)
+```
+
+
+# Estado actual 
+
+Hasta este momento, se tiene el algoritmo GNLPDA calibrado con ayuda de IRACE y se cuentan con 8 datasets de diferentes caracteristicas (lineales, no lineales, con alta dimensionalidad y varias categorias.)
+
+NOTA QUE TODOS LOS DATASETS TIENEN LA SIGUIENTE CARACTERISTICA: ESTAN ORGANIZADOS DE TAL FORMA QUE PRIMERO ESTAN LAS CARACTERISTICAS NUMERICAS Y LUEGO ESTAN LAS ETIQUETAS.
+
+```{r}
+#### Librerias necesarias ####
+library(xtable) # Obtener el codigo a latex
+library(flextable) # Para mostrar las tablas bonitas
+
+#### Funciones auxiliares ####
+# Funcion para hacer las tablas bonitas
+tb = function(X){
+  # Convertir la tabla con una manita de gato
+  resu = autofit(theme_box(flextable(X)))
+  #Devolver el resultado
+  return(resu)
+}
+```
+
+```{r}
+# Creación del DataFrame de caracterización de datasets
+datasets<- data.frame(
+  Dataset = c("Palmer Penguins", "Wine", "Pima Indians", "Cebolla 3D", 
+              "Cebolla 10D", "Cebolla 20D", "Breast Cancer (WDBC)", "Ionosphere"),
+  Instancias = c(344, 178, 768, 300, 300, 300, 569, 351),
+  Atributos = c(4, 13, 8, 3, 10, 20, 30, 34),
+  Clases = c(3, 3, 2, 2, 2, 2, 2, 2),
+  Naturaleza = c("Lineal", "Lineal", "No Lineal / Ruido", 
+                 "Altamente No Lineal", "Alta Dimensionalidad", 
+                 "Alta Dimensionalidad", "Clínico / Alta Dim.", "Electromagnético")
+)
+
+# Visualizar la tabla
+# print(datasets) # Visualizar normal
+tb(datasets) #Visualizar con flextable
+
+#print(xtable(datasets,caption="Resumen de los datasets seleccionados"),
+#      include.rownames=FALSE)
+
+```
+
+# Calibración de parametros.
+
+El algoritmo fue calibrado haciendo uso de la herramienta Irace, encontrando teniendo esta rejilla de búsqueda:
+
+```{r}
+# Crear el DataFrame del espacio de búsqueda (Search Space)
+tuning_space <- data.frame(
+  Parametro = c("p_mut", "popSize", "p_cruza", "lambda", "n_gen"),
+  Descripcion = c("Probabilidad de Mutación", 
+                  "Tamaño de la Población", 
+                  "Probabilidad de Cruza", 
+                  "Factor de Penalización (Parsimonia)", 
+                  "Número de Generaciones"),
+  Tipo = c("Real (r)", "Entero (i)", "Real (r)", "Real (r)", "Entero (i)"),
+  Rango_Min = c(0.05, 20, 0.4, 0.01, 20),
+  Rango_Max = c(0.2, 100, 0.95, 0.2, 100)
+)
+tb(tuning_space)
+
+```
+
+Y logrando encontrar los siguientes parametros.
+
+```{r}
+# Crear el DataFrame del espacio de búsqueda (Search Space)
+mejorconfig = data.frame(Parametro = c("p_mut", "popSize", "p_cruza", "lambda", "n_gen"),
+                        valores = round(c(0.0524,64,0.9061,0.01,94),2))
+
+tb(mejorconfig)
+
+```
+
+# Estructura para la automatización de las evaluaciones
+
+Para obtener resultados que se puedan replicar exactamente con los mismos 10 kfolds tanto para el LDA + la expansión como para los otros métodos, se hizo una conexion entre R y Julia.
+
+- Primero, se extraen las variables unicas de las 30 corridas del dataset $i-ésimo$
+- Posteriormente, se carga el dataset $i-ésimo$ y se seleccionan unicamente las variables unicas anteriores
+- Con el dataset filtrado en variables, se procede a realizar la expansión de terminos en Julia
+- El resultado se devuelve a R para seguir con el análisis.
+- Se obtienen aquí los 10 k-folds que se usaran para todo el análisis.
+- Sobre el resultado, se extraen los términos seleccionados de cada corrida para solo quedarse con esos en el dataset
+
+
+
+Se envia el dataset NORMALIZADO a julia para realizar la expansión y que devuelva dicho data
+
+# Corridas experimentales 
+
+A continuación se corrio una corrida de prueba para verificar que la cosa funciona y no se muere.
+
+
+
+
+
+
