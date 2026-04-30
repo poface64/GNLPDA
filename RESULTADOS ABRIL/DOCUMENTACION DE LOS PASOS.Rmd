@@ -97,6 +97,8 @@ tuning_space <- data.frame(
 )
 tb(tuning_space)
 
+write.csv(tuning_space,"Marco de calibracion.csv",row.names = F)
+
 ```
 
 Y logrando encontrar los siguientes parametros.

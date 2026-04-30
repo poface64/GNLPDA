@@ -1,0 +1,6 @@
+"Parametro","Descripcion","Tipo","Rango_Min","Rango_Max"
+"p_mut","Probabilidad de Mutación","Real (r)",0.05,0.2
+"popSize","Tamaño de la Población","Entero (i)",20,100
+"p_cruza","Probabilidad de Cruza","Real (r)",0.4,0.95
+"lambda","Factor de Penalización (Parsimonia)","Real (r)",0.01,0.2
+"n_gen","Número de Generaciones","Entero (i)",20,100
