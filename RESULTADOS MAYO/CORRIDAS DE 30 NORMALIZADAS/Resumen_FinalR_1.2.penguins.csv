@@ -1,0 +1,2 @@
+"Dataset","Mean_Accuracy","Std_Accuracy","Mean_F1","Std_F1","Mean_Precision","Std_precision","Mean_Recall","Std_Recall"
+"1.2.penguins.csv",0.991087344028521,0,0.988883409261607,0,0.991666666666667,0,0.987460317460317,0
