@@ -630,3 +630,11 @@ plot(A1$scores[,1:2],
 
 #### Gráfico rapido de la IONOSPHERA ####
 
+df1 = read.csv(rutasDS[8])
+
+png("plotIONOSPHERA.png", width = 1600, height = 900, res = 150)
+
+plot(df1[,3:8], pch = 16,
+     col = as.factor(df1$Class))
+
+dev.off()

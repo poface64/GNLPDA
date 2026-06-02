@@ -1,0 +1,7 @@
+"estado","rangoSw","dimension","condicionSw","maxImaginario"
+"OK",9,9,25.25,1.1429e-16
+"OK",65,65,1271.8,1.4452e-15
+"OK",9,9,1385.8,6.0615e-15
+"Sw singular",12,65,2.88137123992229e+21,NA
+"Sw singular",12,135,25364578444544081920,NA
+"Sw singular",12,170,2.24601644209231e+20,NA

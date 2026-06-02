@@ -1,0 +1,230 @@
+---
+title: "LDA y MASS LDA"
+author: "Angel"
+date: "2026-06-02"
+output: word_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# LDA clásico, problemas numéricos y soluciones modernas
+
+## 1. LDA base (formulación clásica)
+
+El Análisis Discriminante Lineal (LDA) busca encontrar una proyección lineal que maximice la separación entre clases en relación con la variabilidad intra-clase.
+
+Se definen las matrices:
+
+### Dispersión intra-clase
+
+\[
+S_W = \sum_{k=1}^{K} \sum_{x_i \in C_k} (x_i - \mu_k)(x_i - \mu_k)^T
+\]
+
+### Dispersión entre clases
+
+\[
+S_B = \sum_{k=1}^{K} n_k (\mu_k - \mu)(\mu_k - \mu)^T
+\]
+
+El problema clásico se formula como:
+
+\[
+S_W^{-1} S_B w = \lambda w
+\]
+
+o equivalentemente:
+
+\[
+\arg\max_W \frac{\mathrm{tr}(W^T S_B W)}{\mathrm{tr}(W^T S_W W)}
+\]
+
+---
+
+## 2. Problemas del LDA clásico
+
+### 2.1 Singularidad de \(S_W\) (SSS problem)
+
+Cuando:
+
+- \(p > n\)
+- o existen variables colineales
+
+entonces:
+
+\[
+\det(S_W) = 0
+\]
+
+y \(S_W\) no es invertible.
+
+---
+
+### 2.2 Mal condicionamiento
+
+Incluso si \(S_W\) es invertible:
+
+- puede tener número de condición muy alto
+- amplifica errores numéricos
+
+---
+
+### 2.3 Inestabilidad espectral
+
+Numéricamente, \(S_W^{-1}S_B\) puede generar:
+
+- autovalores complejos (ruido numérico)
+- vectores propios inestables
+
+---
+
+## 3. Diagnóstico de problemas
+
+En la práctica, los problemas se detectan con:
+
+### 3.1 Rango
+
+\[
+\mathrm{rank}(S_W) < p \Rightarrow \text{singularidad}
+\]
+
+### 3.2 Número de condición
+
+\[
+\kappa(S_W) \gg 1 \Rightarrow \text{mal condicionamiento}
+\]
+
+### 3.3 Parte imaginaria
+
+\[
+\max |\mathrm{Im}(\lambda)| \approx 0
+\]
+
+- \(10^{-15}\): ruido numérico
+- \(> 10^{-10}\): inestabilidad real
+
+---
+
+## 4. Pseudoinversa de Moore–Penrose
+
+Se reemplaza:
+
+\[
+S_W^{-1} \rightarrow S_W^{+}
+\]
+
+Usando SVD:
+
+\[
+S_W = U \Sigma U^T
+\]
+
+\[
+S_W^{+} = U \Sigma^{+} U^T
+\]
+
+### Ventajas
+
+- Permite invertir matrices singulares
+- Extiende LDA al caso \(p \gg n\)
+
+### Limitaciones
+
+- No elimina la degeneración del problema
+- Mantiene el espacio original completo
+- Puede generar soluciones no únicas
+
+---
+
+## 5. SVD y blanqueamiento (whitening)
+
+Otra alternativa más estable es transformar el problema.
+
+### Descomposición
+
+\[
+S_W = U \Sigma U^T
+\]
+
+### Transformación
+
+\[
+X_{white} = \Sigma^{-1/2} U^T X
+\]
+
+Entonces:
+
+\[
+S_W \rightarrow I
+\]
+
+y el problema se convierte en:
+
+\[
+S_W^{-1/2} S_B S_W^{-1/2}
+\]
+
+---
+
+### Ventajas del whitening
+
+- Matriz simétrica garantizada
+- Autovalores reales
+- Estabilidad numérica alta
+- Eliminación de escalas redundantes
+
+---
+
+## 6. Implementación en MASS::lda
+
+La implementación de LDA en R:
+
+:contentReference[oaicite:0]{index=0}
+
+no calcula directamente \(S_W^{-1}S_B\).
+
+En su lugar:
+
+- utiliza descomposición QR/SVD
+- elimina direcciones de rango nulo
+- proyecta datos en el subespacio de dimensión \(\le K-1\)
+
+Esto implica:
+
+> El problema se resuelve en el subespacio donde \(S_W\) es efectivamente invertible.
+
+---
+
+## 7. Comparación conceptual
+
+| Método | Estrategia | Manejo SSS | Estabilidad |
+|--------|------------|------------|-------------|
+| LDA clásico | Inversa directa | No soporta | Baja |
+| LDA + pseudoinversa | Regularización algebraica | Parcial | Media |
+| LDA + SVD / whitening (MASS) | Reducción de subespacio | Sí | Alta |
+
+---
+
+## 8. Conclusión
+
+El problema del LDA clásico no es únicamente de inversión matricial, sino de estructura geométrica del espacio de datos.
+
+Las soluciones modernas no “corrigen” el método clásico, sino que:
+
+> reformulan el problema en un subespacio donde la solución es computable y estable.
+
+En particular:
+
+- la pseudoinversa extiende el método a matrices singulares
+- SVD y whitening estabilizan la geometría del problema
+- MASS::lda evita la inversión directa y trabaja en el subespacio de rango efectivo
+
+---
+
+## 9. Interpretación final
+
+El fenómeno SSS no es un error de implementación, sino una propiedad inherente a los problemas de alta dimensionalidad.
+
+Por ello, la diferencia entre el LDA clásico y implementaciones robustas como MASS::lda no es solo numérica, sino estructural y geométrica.
