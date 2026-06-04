@@ -166,13 +166,13 @@ library(kfda)
 
 #### Probar rapido los 6 modelos ####
 
-mk1 = kfda(cebollaC1E)
+mk1 = kfda(cebollaC1E,kernel.name = "rbfdot")
 plot(mk1$LDs,col = cebollaC1E$class ,pch = 16,
      main = "KFDA 1")
-mk2 = kfda(cebollaC2E)
+mk2 = kfda(cebollaC2E,kernel.name = "rbfdot")
 plot(mk2$LDs,col = cebollaC2E$class ,pch = 16,
      main = "KFDA 2")
-mk3 = kfda(cebollaC3E)
+mk3 = kfda(cebollaC3E,kernel.name = "rbfdot")
 plot(mk3$LDs,col = cebollaC3E$class ,pch = 16,
      main = "KFDA 3")
 mk4 = kfda(cebollaC4E)
@@ -184,6 +184,9 @@ plot(mk5$LDs,col = cebollaC5E$class ,pch = 16,
 mk6 = kfda(cebollaC6E)
 plot(mk6$LDs,col = cebollaC6E$class ,pch = 16,
      main = "KFDA 6")
+
+
+
 
 
 

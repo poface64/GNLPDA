@@ -1,0 +1,698 @@
+---
+title: "LDA y MASS LDA"
+author: "Angel"
+date: "2026-06-02"
+output: 
+  word_document:
+    toc: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# LDA clásico, problemas numéricos y soluciones modernas
+
+## 1. LDA base (formulación clásica)
+
+El Análisis Discriminante Lineal (LDA) busca encontrar una proyección lineal que maximice la separación entre clases en relación con la variabilidad intra-clase.
+
+Se definen las matrices:
+
+### Dispersión intra-clase
+
+\[
+S_W = \sum_{k=1}^{K} \sum_{x_i \in C_k} (x_i - \mu_k)(x_i - \mu_k)^T
+\]
+
+### Dispersión entre clases
+
+\[
+S_B = \sum_{k=1}^{K} n_k (\mu_k - \mu)(\mu_k - \mu)^T
+\]
+
+El problema clásico se formula como:
+
+\[
+S_W^{-1} S_B w = \lambda w
+\]
+
+o equivalentemente:
+
+\[
+\arg\max_W \frac{\mathrm{tr}(W^T S_B W)}{\mathrm{tr}(W^T S_W W)}
+\]
+
+---
+
+## 2. Problemas del LDA clásico
+
+### 2.1 Singularidad de \(S_W\) (SSS problem)
+
+Cuando:
+
+- \(p > n\)
+- o existen variables colineales
+
+entonces:
+
+\[
+\det(S_W) = 0
+\]
+
+y \(S_W\) no es invertible.
+
+---
+
+### 2.2 Mal condicionamiento
+
+Incluso si \(S_W\) es invertible:
+
+- puede tener número de condición muy alto
+- amplifica errores numéricos
+
+---
+
+### 2.3 Inestabilidad espectral
+
+Numéricamente, \(S_W^{-1}S_B\) puede generar:
+
+- autovalores complejos (ruido numérico)
+- vectores propios inestables
+
+---
+
+## 3. Diagnóstico de problemas
+
+En la práctica, los problemas se detectan con:
+
+### 3.1 Rango
+
+\[
+\mathrm{rank}(S_W) < p \Rightarrow \text{singularidad}
+\]
+
+### 3.2 Número de condición
+
+\[
+\kappa(S_W) \gg 1 \Rightarrow \text{mal condicionamiento}
+\]
+
+### 3.3 Parte imaginaria
+
+\[
+\max |\mathrm{Im}(\lambda)| \approx 0
+\]
+
+- \(10^{-15}\): ruido numérico
+- \(> 10^{-10}\): inestabilidad real
+
+---
+
+## 4. Pseudoinversa de Moore–Penrose
+
+Se reemplaza:
+
+\[
+S_W^{-1} \rightarrow S_W^{+}
+\]
+
+Usando SVD:
+
+\[
+S_W = U \Sigma U^T
+\]
+
+\[
+S_W^{+} = U \Sigma^{+} U^T
+\]
+
+### Ventajas
+
+- Permite invertir matrices singulares
+- Extiende LDA al caso \(p \gg n\)
+
+### Limitaciones
+
+- No elimina la degeneración del problema
+- Mantiene el espacio original completo
+- Puede generar soluciones no únicas
+
+---
+
+## 5. SVD y blanqueamiento (whitening)
+
+Otra alternativa más estable es transformar el problema.
+
+### Descomposición
+
+\[
+S_W = U \Sigma U^T
+\]
+
+### Transformación
+
+\[
+X_{white} = \Sigma^{-1/2} U^T X
+\]
+
+Entonces:
+
+\[
+S_W \rightarrow I
+\]
+
+y el problema se convierte en:
+
+\[
+S_W^{-1/2} S_B S_W^{-1/2}
+\]
+
+---
+
+### Ventajas del whitening
+
+- Matriz simétrica garantizada
+- Autovalores reales
+- Estabilidad numérica alta
+- Eliminación de escalas redundantes
+
+---
+
+## 6. Implementación en MASS::lda
+
+La implementación de LDA en R:
+
+:contentReference[oaicite:0]{index=0}
+
+no calcula directamente \(S_W^{-1}S_B\).
+
+En su lugar:
+
+- utiliza descomposición QR/SVD
+- elimina direcciones de rango nulo
+- proyecta datos en el subespacio de dimensión \(\le K-1\)
+
+Esto implica:
+
+> El problema se resuelve en el subespacio donde \(S_W\) es efectivamente invertible.
+
+---
+
+## 7. Comparación conceptual
+
+| Método | Estrategia | Manejo SSS | Estabilidad |
+|--------|------------|------------|-------------|
+| LDA clásico | Inversa directa | No soporta | Baja |
+| LDA + pseudoinversa | Regularización algebraica | Parcial | Media |
+| LDA + SVD / whitening (MASS) | Reducción de subespacio | Sí | Alta |
+
+---
+
+## 8. Conclusión
+
+El problema del LDA clásico no es únicamente de inversión matricial, sino de estructura geométrica del espacio de datos.
+
+Las soluciones modernas no “corrigen” el método clásico, sino que:
+
+> reformulan el problema en un subespacio donde la solución es computable y estable.
+
+En particular:
+
+- la pseudoinversa extiende el método a matrices singulares
+- SVD y whitening estabilizan la geometría del problema
+- MASS::lda evita la inversión directa y trabaja en el subespacio de rango efectivo
+
+---
+
+## 9. Interpretación final
+
+El fenómeno SSS no es un error de implementación, sino una propiedad inherente a los problemas de alta dimensionalidad.
+
+Por ello, la diferencia entre el LDA clásico y implementaciones robustas como MASS::lda no es solo numérica, sino estructural y geométrica.
+
+\newpage
+
+
+# Kernel Fisher Discriminant Analysis (KFDA)
+
+## 1. Motivación
+
+El Análisis Discriminante Lineal (LDA) busca encontrar una combinación lineal de variables que maximice la separación entre clases respecto a la variabilidad intra-clase.
+
+Sin embargo, LDA presenta una limitación fundamental:
+
+> Sólo puede encontrar estructuras discriminantes lineales en el espacio original de variables.
+
+Cuando las clases presentan fronteras no lineales, LDA puede fallar incluso si las clases son perfectamente separables mediante una transformación adecuada del espacio.
+
+---
+
+## 2. Idea fundamental de los métodos kernel
+
+La idea consiste en transformar implícitamente los datos originales
+
+[
+x \in \mathbb{R}^p
+]
+
+a un espacio de características de mayor dimensión
+
+[
+\phi(x) \in \mathcal{H}
+]
+
+donde:
+
+* (\mathcal{H}) puede tener dimensión muy alta;
+* incluso puede ser un espacio de dimensión infinita.
+
+En este nuevo espacio, estructuras no lineales pueden volverse linealmente separables.
+
+---
+
+### Ejemplo conceptual
+
+Considérese un problema donde una clase se encuentra dentro de un círculo y otra clase forma un anillo exterior.
+
+En el espacio original no existe ninguna recta capaz de separar ambas clases.
+
+Sin embargo, mediante una transformación apropiada:
+
+[
+\phi(x)
+=======
+
+(x_1^2,\sqrt{2}x_1x_2,x_2^2)
+]
+
+la frontera circular puede transformarse en una separación lineal dentro del espacio de características.
+
+---
+
+## 3. El Kernel Trick
+
+Construir explícitamente (\phi(x)) puede resultar computacionalmente imposible.
+
+Para evitarlo se utiliza una función kernel definida como:
+
+[
+K(x_i,x_j)
+==========
+
+\langle \phi(x_i), \phi(x_j) \rangle.
+]
+
+El kernel permite calcular productos internos en el espacio transformado sin construir explícitamente (\phi(x)).
+
+Este resultado es conocido como:
+
+> **Kernel Trick**
+
+---
+
+## 4. Kernels más utilizados
+
+### Kernel lineal
+
+[
+K(x,y)=x^Ty
+]
+
+Equivale al caso clásico de LDA.
+
+---
+
+### Kernel polinomial
+
+[
+K(x,y)
+======
+
+(x^Ty+c)^d
+]
+
+donde:
+
+* (c) es una constante;
+* (d) es el grado del polinomio.
+
+---
+
+### Kernel Gaussiano (RBF)
+
+[
+K(x,y)
+======
+
+\exp\left(
+-\frac{|x-y|^2}{2\sigma^2}
+\right)
+]
+
+Es uno de los kernels más utilizados debido a su capacidad para modelar fronteras altamente no lineales.
+
+---
+
+## 5. Formulación de Fisher en el espacio kernel
+
+En lugar de trabajar directamente con los datos originales, KFDA aplica el criterio de Fisher en el espacio transformado.
+
+Se definen:
+
+### Dispersión intra-clase
+
+[
+S_W^\phi
+]
+
+### Dispersión entre clases
+
+[
+S_B^\phi
+]
+
+calculadas utilizando las representaciones (\phi(x)).
+
+El criterio de optimización es:
+
+[
+J(w)
+====
+
+\frac{w^T S_B^\phi w}
+{w^T S_W^\phi w}.
+]
+
+---
+
+## 6. Teorema del Representante
+
+Un resultado fundamental establece que la solución óptima siempre puede escribirse como una combinación lineal de las muestras de entrenamiento:
+
+[
+w
+=
+
+\sum_{i=1}^{n}
+\alpha_i \phi(x_i).
+]
+
+Por lo tanto, en lugar de buscar directamente (w), basta encontrar los coeficientes
+
+[
+\alpha
+======
+
+(\alpha_1,\ldots,\alpha_n)^T.
+]
+
+Este resultado reduce un problema potencialmente infinito a uno de dimensión finita.
+
+---
+
+## 7. Matriz Kernel
+
+Se construye la matriz kernel:
+
+[
+K=
+\begin{bmatrix}
+K(x_1,x_1) & \cdots & K(x_1,x_n) \
+\vdots & \ddots & \vdots \
+K(x_n,x_1) & \cdots & K(x_n,x_n)
+\end{bmatrix}.
+]
+
+La matriz (K) tiene tamaño
+
+[
+n \times n.
+]
+
+---
+
+### Observación importante
+
+Mientras que LDA clásico trabaja con matrices de tamaño
+
+[
+p \times p,
+]
+
+KFDA trabaja principalmente con matrices de tamaño
+
+[
+n \times n.
+]
+
+Esto resulta especialmente útil cuando:
+
+[
+p \gg n.
+]
+
+---
+
+## 8. Reformulación del criterio de Fisher
+
+Las medias de clase en el espacio kernel se definen como:
+
+[
+m_k
+===
+
+\frac{1}{n_k}
+\sum_{i\in C_k}
+\phi(x_i).
+]
+
+Utilizando el Teorema del Representante, todas las cantidades pueden expresarse exclusivamente mediante la matriz kernel.
+
+Después de la reformulación algebraica se obtiene:
+
+[
+J(\alpha)
+=========
+
+\frac{\alpha^T M \alpha}
+{\alpha^T N \alpha}
+]
+
+donde:
+
+* (M) representa la dispersión entre clases;
+* (N) representa la dispersión intra-clase.
+
+Ambas matrices se construyen únicamente a partir de (K).
+
+---
+
+## 9. Problema generalizado de autovalores
+
+La optimización conduce al problema:
+
+[
+M\alpha
+=======
+
+\lambda N\alpha.
+]
+
+Esta ecuación es el análogo kernelizado del problema clásico de Fisher:
+
+[
+S_B w
+=====
+
+\lambda S_W w.
+]
+
+Por tanto, KFDA conserva exactamente la filosofía de LDA, pero en un espacio de características inducido por el kernel.
+
+---
+
+## 10. Clasificación de nuevas observaciones
+
+Dada una nueva muestra
+
+[
+x^*,
+]
+
+se construye el vector kernel
+
+[
+k(x^*)
+======
+
+\begin{bmatrix}
+K(x_1,x^*) \
+K(x_2,x^*) \
+\vdots \
+K(x_n,x^*)
+\end{bmatrix}.
+]
+
+La proyección discriminante se obtiene mediante:
+
+[
+f(x^*)
+======
+
+\alpha^T k(x^*).
+]
+
+Obsérvese que nunca es necesario calcular explícitamente (\phi(x^*)).
+
+Todo el procedimiento se realiza únicamente mediante evaluaciones del kernel.
+
+---
+
+## 11. Singularidad y regularización
+
+Al igual que ocurre con LDA en problemas de alta dimensionalidad, KFDA puede presentar problemas de singularidad.
+
+La matriz de dispersión intra-clase en el espacio kernel suele ser singular debido a que:
+
+* el espacio RKHS puede tener dimensión muy elevada;
+* la dimensión puede incluso ser infinita;
+* las muestras disponibles son finitas.
+
+Por esta razón, las implementaciones prácticas incorporan regularización.
+
+Una estrategia común consiste en reemplazar:
+
+[
+N
+\rightarrow
+N+\lambda I
+]
+
+donde:
+
+* (\lambda > 0) es un parámetro de regularización;
+* (I) es la matriz identidad.
+
+Esta regularización es análoga a los enfoques tipo ridge utilizados en implementaciones modernas de LDA.
+
+---
+
+## 12. Comparación entre LDA y KFDA
+
+| Característica              | LDA              | KFDA                      |
+| --------------------------- | ---------------- | ------------------------- |
+| Espacio de trabajo          | (\mathbb{R}^p)   | RKHS (\mathcal{H})        |
+| Tipo de separación          | Lineal           | No lineal                 |
+| Transformación de variables | No               | Implícita mediante kernel |
+| Matriz principal            | (S_W, S_B)       | Matriz kernel (K)         |
+| Dimensión del problema      | (p)              | (n)                       |
+| Interpretabilidad           | Alta             | Menor                     |
+| Riesgo de sobreajuste       | Moderado         | Mayor                     |
+| Necesidad de regularización | Frecuente en SSS | Muy frecuente             |
+
+---
+
+## 13. Relación con SVM
+
+KFDA y las Máquinas de Vectores de Soporte (SVM) comparten una base matemática similar.
+
+Ambos métodos:
+
+* utilizan kernels;
+* operan en espacios RKHS;
+* generan fronteras no lineales en el espacio original.
+
+La diferencia principal es que:
+
+* KFDA maximiza la razón entre dispersión entre clases y dispersión intra-clase;
+* SVM maximiza el margen de separación entre clases.
+
+---
+
+## 14. Interpretación geométrica
+
+Desde una perspectiva geométrica, KFDA puede interpretarse como una generalización no lineal del criterio de Fisher.
+
+Mientras que LDA busca:
+
+[
+x
+\longrightarrow
+w^T x,
+]
+
+KFDA busca:
+
+[
+x
+\longrightarrow
+\phi(x)
+\longrightarrow
+w^T\phi(x).
+]
+
+La separación sigue siendo lineal en el espacio de características, pero se vuelve no lineal cuando se observa desde el espacio original.
+
+Por ello, KFDA puede resolver problemas donde las clases presentan:
+
+* fronteras circulares;
+* estructuras concéntricas;
+* espirales;
+* distribuciones altamente no lineales.
+
+---
+
+## 15. Conclusión
+
+Kernel Fisher Discriminant Analysis extiende el criterio clásico de Fisher a espacios de características inducidos por funciones kernel.
+
+Su principal ventaja consiste en permitir separaciones no lineales manteniendo la formulación discriminante original.
+
+En esencia:
+
+> LDA busca la mejor proyección lineal en el espacio original de variables, mientras que KFDA busca la mejor proyección lineal en un espacio de características inducido por un kernel, lo que equivale a una separación no lineal en el espacio original.
+
+De esta manera, KFDA combina la interpretación estadística del criterio de Fisher con la flexibilidad de los métodos kernel modernos.
+
+---
+
+## Kernel Fisher Discriminant Analysis (KFDA)
+
+### Matriz Kernel
+
+$$K_{ij}=K(x_i,x_j)$$
+
+***
+
+### Representación
+
+$$w=\sum_{i=1}^{n}\alpha_i\,\phi(x_i)$$
+
+***
+
+### Problema de Fisher
+
+$$J(\alpha) = \frac{\alpha^T M \alpha} {\alpha^T N \alpha}$$
+
+***
+
+### Problema de Autovalores
+
+$$M\alpha = \lambda (N+\gamma I)\alpha$$
+
+***
+
+### Entonces
+
+$$f(x) = \alpha^T k(x)$$
+
+***
+
+### Interpretación
+
+$$x \;\rightarrow\; \phi(x) \;\rightarrow\; w^T\phi(x)$$
+
+* LDA en espacio kernel.
+* Permite fronteras de decisión no lineales.
+* Mantiene el criterio discriminante de Fisher.
