@@ -33,7 +33,7 @@ semillas <- sample(1:10000,30,replace = F)
 # =========================================================================
 # CICLO MAESTRO: PROCESAMIENTO DE LOS 8 DATASETS
 # =========================================================================
-i = 8
+
 for (i in 1:length(rutasDS)) {
   
   # 1. Extraer el nombre limpio del dataset para subcarpetas y títulos
@@ -72,7 +72,7 @@ for (i in 1:length(rutasDS)) {
     SVM_Poly3  = NA,
     GNLPDA     = NA
   )
-  s = 1
+  
   # -------------------------------------------------------------------------
   # CICLO INTERNO: LAS 30 SEMILLAS
   # -------------------------------------------------------------------------
@@ -154,7 +154,8 @@ for (i in 1:length(rutasDS)) {
       return(NA)
     })
   }
-  
+  # Rellenar especificamente para hacer funcional para el caso 7 
+  #resultados_particiones$GNLPDA[is.na(resultados_particiones$GNLPDA)] = mean(resultados_particiones$GNLPDA,na.rm = T )
   # -------------------------------------------------------------------------
   # EXPORTACIÓN DEL ENTREGABLE 1: Matriz de Precisiones Crudas
   # -------------------------------------------------------------------------
@@ -168,6 +169,7 @@ for (i in 1:length(rutasDS)) {
     mutate(Metodo = as.factor(Metodo), Semilla = as.factor(Semilla)) %>% 
     filter(!is.na(Precision)) %>% 
     as.data.frame()
+  # Refactorizar para evitar problemas en el caso que se desecha todo
   df_long$Metodo = factor(df_long$Metodo)
   
   g_box <- ggplot(df_long, aes(x = Metodo, y = Precision, fill = Metodo)) +
