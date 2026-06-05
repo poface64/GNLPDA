@@ -1,0 +1,68 @@
+# ==============================================================================
+# GENERADOR DE PARTICIONES ESTRATIFICADAS PARA DISEÑO EXPERIMENTAL (R)
+# ==============================================================================
+
+# Instalar/Cargar librerías necesarias
+#if(!require(caret)) install.packages("caret", dependencies=TRUE)
+library(caret)
+
+# CONFIGURACIÓN DE RUTAS
+# Cambiar por la ruta real de la carpeta que contiene los 8 datasets
+ruta_datasets <- "~/Desktop/GNLPDA/RESULTADOS JUNIO/DATASETS/"
+ruta_salida   <- "~/Desktop/GNLPDA/RESULTADOS JUNIO/NUEVAS CORRIDAS DE 30 JUNIO/"
+
+# Crear la carpeta de salida si no existe
+if(!dir.exists(ruta_salida)) dir.create(ruta_salida, recursive = TRUE)
+
+# Obtener la lista de todos los archivos CSV en la carpeta
+archivos_csv <- list.files(path = ruta_datasets, pattern = "\\.csv$", full.names = TRUE)
+
+# Definir las 33 semillas fijas (del 1 al 33 para máxima simplicidad y orden)
+semillas <- 1:33
+total_corridas <- length(semillas)
+
+cat("Iniciando la generación de particiones estratificadas...\n")
+
+# BUCLE PRINCIPAL: Procesar cada uno de los datasets
+for (archivo in archivos_csv) {
+  
+  # 1. Leer el dataset actual
+  nombre_dataset <- basename(archivo)
+  cat("\nProcesando:", nombre_dataset, "\n")
+  df <- read.csv(archivo)
+  
+  n_filas <- nrow(df)
+  
+  # Asumimos que la última columna es la variable clase/etiqueta para estratificar
+  clase <- df[[ncol(df)]]
+  
+  # 2. Inicializar la matriz que guardará las etiquetas de cada corrida
+  # Filas = registros del dataset, Columnas = cada una de las 33 corridas
+  matriz_particiones <- matrix(NA, nrow = n_filas, ncol = total_corridas)
+  colnames(matriz_particiones) <- paste0("Run_", semillas)
+  
+  # 3. Generar las 33 particiones estratificadas
+  for (i in 1:total_corridas) {
+    set.seed(semillas[i])
+    
+    # createDataPartition devuelve los índices del conjunto de ENTRENAMIENTO (70%)
+    indices_train <- createDataPartition(clase, p = 0.70, list = FALSE)
+    
+    # Llenar la columna correspondiente
+    matriz_particiones[, i] <- "Test"                 # Por defecto todos son Test
+    matriz_particiones[indices_train, i] <- "Train"   # Los seleccionados son Train
+  }
+  
+  # 4. Convertir a dataframe y agregar una columna con el índice original de la fila
+  df_particiones <- as.data.frame(matriz_particiones)
+  df_particiones <- cbind(RowIndex = 1:n_filas, df_particiones)
+  
+  # 5. Exportar el archivo CSV de particiones correspondiente
+  nombre_salida <- paste0(tools::file_path_sans_ext(nombre_dataset), "_partitions.csv")
+  write.csv(df_particiones, file = file.path(ruta_salida, nombre_salida), row.names = FALSE)
+  
+  cat("Archivo guardado con éxito:", nombre_salida, "\n")
+}
+
+cat("\n¡Proceso terminado! Se han generado las matrices para todos los datasets.\n")
+
