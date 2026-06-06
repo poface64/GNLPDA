@@ -19,7 +19,7 @@ for file in "$DIRECTORIO_DATASETS"/*.csv; do
     echo -e "\e[36mIniciando: ${nombre_base}.csv\e[0m"
     
     # Se le pasan DOS argumentos a Julia: el dataset original y su CSV de particiones
-    julia -t 11 experimento_unicoR2.jl "$file" "$archivo_particiones"
+    julia -t 11 --project=@Angel experimento_unicoR2.jl "$file" "$archivo_particiones"
     
     echo -e "\e[32mFinalizado y memoria liberada para: ${nombre_base}\e[0m"
     echo "------------------------------------------------"
