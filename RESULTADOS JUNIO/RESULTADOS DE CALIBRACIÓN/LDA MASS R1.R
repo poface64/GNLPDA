@@ -25,7 +25,7 @@ cat("Ecosistema 'future' inicializado exitosamente con:", num_cores, "hilos de p
 
 # Obtener los nombres de los datasets originales
 archivos_csv <- list.files(path = ruta_datasets, pattern = "\\.csv$", full.names = TRUE)
-archivos_csv <- archivos_csv[!grepl("_partitions", archivos_csv)][-c(2,9,10)]
+archivos_csv <- archivos_csv[!grepl("_partitions", archivos_csv)][c(2,9,10)]
 
 # BUCLE PRINCIPAL: Procesar Instancia por Instancia (Secuencial)
 for (archivo in archivos_csv) {
@@ -73,23 +73,37 @@ for (archivo in archivos_csv) {
     
     # EVALUACIÓN DIRECTA (Método Analítico sin Grid Search interno)
     tryCatch({
+      
       modelo_final         <- MASS::lda(x = X_train_run, grouping = y_train_run)
       predicciones_finales <- predict(modelo_final, X_test_run)$class
       cm                   <- caret::confusionMatrix(predicciones_finales, y_test_run)
       
-      # BLINDAJE UNIVERSAL DE MÉTRICAS (Asegura compatibilidad estructural)
-      metricas_clase <- as.matrix(t(cm$byClass))
-      if (!(nrow(metricas_clase) == 1 && ncol(metricas_clase) != 11)) {
-        metricas_clase <- cm$byClass
+      accuracy <- cm$overall["Accuracy"]
+      kappa    <- cm$overall["Kappa"]
+      
+      # Extracción adaptada a clasificación binaria o multiclase
+      if (length(unique(y_train_run)) == 2) {
+        
+        macro_f1   <- cm$byClass["F1"]
+        macro_rec  <- cm$byClass["Sensitivity"]
+        macro_prec <- cm$byClass["Precision"]
+        
+      } else {
+        
+        macro_f1   <- mean(cm$byClass[, "F1"], na.rm = TRUE)
+        macro_rec  <- mean(cm$byClass[, "Sensitivity"], na.rm = TRUE)
+        macro_prec <- mean(cm$byClass[, "Precision"], na.rm = TRUE)
+        
       }
       
-      macro_f1   <- mean(metricas_clase[, "F1"], na.rm = TRUE)
-      macro_rec  <- mean(metricas_clase[, "Sensitivity"], na.rm = TRUE)
-      macro_prec <- mean(metricas_clase[, "Precision"], na.rm = TRUE)
-      accuracy   <- cm$overall["Accuracy"]
-      kappa      <- cm$overall["Kappa"]
     }, error = function(e) {
-      accuracy   <<- 0; kappa <<- 0; macro_f1 <<- 0; macro_rec <<- 0; macro_prec <<- 0
+      
+      accuracy   <<- 0
+      kappa      <<- 0
+      macro_f1   <<- 0
+      macro_rec  <<- 0
+      macro_prec <<- 0
+      
     })
     
     # -> DETENCIÓN DEL CRONÓMETRO Y CÓMPUTO DEL TIEMPO TRANSCURRIDO
