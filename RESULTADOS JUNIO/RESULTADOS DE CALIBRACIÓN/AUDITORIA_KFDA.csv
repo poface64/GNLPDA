@@ -1,0 +1,8 @@
+"Dataset","Corridas_Totales","Corridas_Validas","Estatus"
+"1.2.penguins",33,33,"EXITOSA (100% Replicable)"
+"1.4.wines",33,33,"EXITOSA (100% Replicable)"
+"3.1.Cebolla3D",33,33,"EXITOSA (100% Replicable)"
+"3.2.Cebolla10D",33,33,"EXITOSA (100% Replicable)"
+"3.3.Cebolla20D",33,33,"EXITOSA (100% Replicable)"
+"4.1.CancerWisconsin",33,33,"EXITOSA (100% Replicable)"
+"4.2.Ionosphere",33,33,"EXITOSA (100% Replicable)"
