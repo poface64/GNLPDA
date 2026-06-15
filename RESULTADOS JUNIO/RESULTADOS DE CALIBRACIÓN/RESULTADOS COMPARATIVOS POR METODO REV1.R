@@ -41,7 +41,7 @@ for (archivo in archivos_csv) {
   
   # DEFINICIÓN DEL FILTRO DE EXCLUSIÓN HOMOGÉNEO (30 Bloques de Friedman)
   # Omitimos la corrida 11, 32 y 33 de las bitácoras que contienen las 33 originales
-  corridas_validas <- c(1:10, 12:31)
+  corridas_validas <- c(1:33)
   
   # BUCLE INTERMEDIO: Extraer datos de cada método para el dataset I-esimo
   for (nombre_metodo in names(metodos)) {
@@ -137,6 +137,7 @@ if (length(archivos_long) == 0) {
 }
 
 # BUCLE PRINCIPAL: Procesar cada archivo largo y generar su gráfico de cajas
+archivo = archivos_long[8]
 for (archivo in archivos_long) {
   
   # Extraer el nombre base del dataset para títulos y archivos de guardado
@@ -147,9 +148,17 @@ for (archivo in archivos_long) {
   
   # 1. Cargar el dataframe en formato largo
   df_grafico <- read.csv(archivo)
+  if(nombre_archivo=="4.2.Ionosphere_long_graficos.csv"){
+    # Cambiar los valores del QDA por NA's
+    df_grafico[df_grafico$Metodo=="QDA",2] = NA
+  }
   
   # Forzar a que la columna de Método sea un Factor para el correcto mapeo estético
   df_grafico$Metodo <- as.factor(df_grafico$Metodo)
+  
+  # Forzar a quitar las corridas 11,33 y 32
+  condicion1 = (df_grafico$Bloque == 11 | df_grafico$Bloque == 32 | df_grafico$Bloque == 33)
+  df_grafico = df_grafico[!condicion1,]
   
   # 2. Construcción de la Arquitectura Gráfica con ggplot2
   p <- ggplot(df_grafico, aes(x = Metodo, y = Accuracy, fill = Metodo)) +
@@ -207,3 +216,34 @@ for (archivo in archivos_long) {
 cat("\n==================================================================\n")
 cat(" Proceso concluido. Las figuras quedaron organizadas de forma aislada.\n")
 cat("==================================================================\n")
+
+
+##### Armar el script para comparar los métodos con ayuda de Friedman y de Nemenyi ####
+
+generalnorm = data.frame(Metodo="",Wvalor=0,Pvalor=0,Normalidad="")[-1,]
+for(j in 9:10){
+  archivo = archivos_long[j]
+  # 1. Cargar el dataframe en formato largo
+  df_grafico <- read.csv(archivo)
+  condicion1 = (df_grafico$Bloque == 11 | df_grafico$Bloque == 32 | df_grafico$Bloque == 33)
+  df_grafico <- read.csv(archivo)[-condicion1,]
+
+    G1 = tapply(df_grafico$Accuracy,df_grafico$Metodo,
+              shapiro.test)
+  resumenNORM = data.frame(Wvalor = 0,Pvalor = 0)
+  for(i in 1:length(G1)){
+    resumenNORM[i,] = round(c(Wvalor = G1[[i]]$statistic,Pvalor = G1[[i]]$p.value ),4)
+  }
+  resumenNORM$Metodo = names(G1)
+  resumenNORM = resumenNORM[,c(3,1,2)]
+  resumenNORM$Normalidad = ifelse(resumenNORM$Pvalor>=0.05,"Normal","")
+  resumenNORM$Dataset = basename(archivo)
+  # Concatenar con el nuevo archivo
+  generalnorm = rbind.data.frame(generalnorm,resumenNORM)
+  
+}
+
+
+
+generalnorm
+archivos_long
