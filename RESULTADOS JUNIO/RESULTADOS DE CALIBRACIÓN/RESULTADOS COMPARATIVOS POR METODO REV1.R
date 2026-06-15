@@ -5,9 +5,9 @@ rm(list=ls())
 # ==============================================================================
 
 # CONFIGURACIÓN DE RUTAS DE LA TESIS
-ruta_base        <- "C:\\Users\\Angel\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN/"
-ruta_datasets    <- "C:\\Users\\Angel\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\DATASETS/"
-ruta_consolidado <- "C:\\Users\\Angel\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\CONSOLIDADO_GRAFICOS/"
+ruta_base        <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN/"
+ruta_datasets    <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\DATASETS/"
+ruta_consolidado <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\CONSOLIDADO_GRAFICOS/"
 
 if(!dir.exists(ruta_consolidado)) dir.create(ruta_consolidado, recursive = TRUE)
 
@@ -57,7 +57,7 @@ for (archivo in archivos_csv) {
     # Leer el csv histórico del competidor
     df_res_metodo <- read.csv(path_archivo_res)
     
-    # CASO 1: Si es tu propuesta GNLPDA, el archivo ya viene recortado a 30 filas
+    # CASO 1: Si es tu propuesta GNLPDA
     if (nombre_metodo == "GNLPDA") {
       df_long_temp <- data.frame(
         Bloque   = df_res_metodo$Bloque_Friedman,
@@ -100,7 +100,11 @@ cat(" Proceso concluido. Todos los archivos de formato largo están listos.\n")
 cat("==================================================================\n")
 
 
-##########################################
+#### Script para hacer los boxplots a partir de los datos en formato largo ####
+### Pendiente corregir el estilo
+### Reordenar los métodos (GNLPDA, LDA, QDA, KFDA, SVM)
+### Aquí NO hay problema con la aparición del QDA
+### Recordar que corta las observaciones 11, 33 y 32
 
 rm(list=ls())
 
@@ -112,7 +116,7 @@ library(ggplot2)
 library(RColorBrewer)
 
 # CONFIGURACIÓN DE RUTAS DE LA TESIS
-ruta_consolidado <- "C:\\Users\\Angel\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\CONSOLIDADO_GRAFICOS/"
+ruta_consolidado <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\CONSOLIDADO_GRAFICOS/"
 # Subcarpeta exclusiva para las imágenes de salida
 ruta_figuras     <- file.path(ruta_consolidado, "GRAFICOS_R")
 
@@ -154,8 +158,13 @@ for (archivo in archivos_long) {
   }
   
   # Forzar a que la columna de Método sea un Factor para el correcto mapeo estético
-  df_grafico$Metodo <- as.factor(df_grafico$Metodo)
+  df_grafico$Metodo <- factor(df_grafico$Metodo,
+                              levels = c("GNLPDA","LDA","QDA","KFDA",
+                                         "SVM_POLY2","SVM_POLY3","SVM_RBF"),
+                              labels = c("GNLPDA","LDA","QDA","KFDA",
+                                         "SVM(POL2)","SVM(POL3)","SVM(Gauss)"))
   
+  # Ordenar los métodos
   # Forzar a quitar las corridas 11,33 y 32
   condicion1 = (df_grafico$Bloque == 11 | df_grafico$Bloque == 32 | df_grafico$Bloque == 33)
   df_grafico = df_grafico[!condicion1,]
@@ -217,33 +226,285 @@ cat("\n==================================================================\n")
 cat(" Proceso concluido. Las figuras quedaron organizadas de forma aislada.\n")
 cat("==================================================================\n")
 
+#### Diagnostico de supuestos sobre los anovas de medidas repetidas ####
 
-##### Armar el script para comparar los métodos con ayuda de Friedman y de Nemenyi ####
+#### JUSTIFICACIÓN DE FRIEDMAN ####
 
-generalnorm = data.frame(Metodo="",Wvalor=0,Pvalor=0,Normalidad="")[-1,]
-for(j in 9:10){
-  archivo = archivos_long[j]
-  # 1. Cargar el dataframe en formato largo
-  df_grafico <- read.csv(archivo)
-  condicion1 = (df_grafico$Bloque == 11 | df_grafico$Bloque == 32 | df_grafico$Bloque == 33)
-  df_grafico <- read.csv(archivo)[-condicion1,]
+library(rstatix)
+library(dplyr)
 
-    G1 = tapply(df_grafico$Accuracy,df_grafico$Metodo,
-              shapiro.test)
-  resumenNORM = data.frame(Wvalor = 0,Pvalor = 0)
-  for(i in 1:length(G1)){
-    resumenNORM[i,] = round(c(Wvalor = G1[[i]]$statistic,Pvalor = G1[[i]]$p.value ),4)
-  }
-  resumenNORM$Metodo = names(G1)
-  resumenNORM = resumenNORM[,c(3,1,2)]
-  resumenNORM$Normalidad = ifelse(resumenNORM$Pvalor>=0.05,"Normal","")
-  resumenNORM$Dataset = basename(archivo)
-  # Concatenar con el nuevo archivo
-  generalnorm = rbind.data.frame(generalnorm,resumenNORM)
+# Lista para guardar resultados
+reporte_list <- list()
+
+for (i in 1:10) {
+  # Cargar el archivo
+  archivo <- archivos_long[i]
   
+  if (!file.exists(archivo)) next
+  
+  datos <- read.csv(archivo)
+  
+  # Filtrado correcto (arreglado condicion1 -> condicion)
+  condicion <- datos$Bloque %in% c(11, 32, 33)
+  datos1 <- datos[!condicion, ]
+  ## Filtrado preventivo para QDA en el dataset 8
+  if(i == 8){
+    # Retirar QDA por reportar solo NA's
+    datos1 = datos1[!datos1$Metodo=="QDA",]}
+  
+  datos1$Bloque <- factor(datos1$Bloque)
+  datos1$Metodo <- factor(datos1$Metodo)
+  
+  nombre_dataset <- tools::file_path_sans_ext(basename(archivo))
+  nombre_dataset <- sub("^\\d+\\.\\d+\\.([^_]+).*", "\\1", nombre_dataset)
+  
+  # =========================================================
+  # 1. MODELO ANOVA (medidas repetidas)
+  # =========================================================
+  modelo <- aov(
+    Accuracy ~ Metodo + Error(Bloque/Metodo),
+    data = datos1
+  )
+  
+  residuos <- modelo$`Bloque:Metodo`$residuals
+  
+  # =========================================================
+  # 2. SHAPIRO SOBRE RESIDUOS
+  # =========================================================
+  sh <- tryCatch(
+    shapiro.test(residuos),
+    error = function(e) NULL
+  )
+  
+  W_shapiro <- if (!is.null(sh)) round(as.numeric(sh$statistic), 4) else NA
+  p_shapiro <- if (!is.null(sh)) round(sh$p.value, 4) else NA
+  
+  normalidad <- ifelse(!is.na(p_shapiro) & p_shapiro >= 0.05,
+                       "Si", "No")
+  
+  # =========================================================
+  # 3. MAUCHLY (ESFERICIDAD)
+  # =========================================================
+  anova_rm <- tryCatch(
+    anova_test(
+      data = datos1,
+      dv = Accuracy,
+      wid = Bloque,
+      within = Metodo
+    ),
+    error = function(e) NULL
+  )
+  
+  mauchly <- if (!is.null(anova_rm)) {
+    as.data.frame(anova_rm$`Mauchly's Test for Sphericity`)[1, ]
+  } else {
+    NULL
+  }
+  
+  W_mauchly <- if (!is.null(mauchly)) round(mauchly$W, 4) else NA
+  p_mauchly <- if (!is.null(mauchly)) round(mauchly$p, 4) else NA
+  
+  esfericidad <- ifelse(!is.na(p_mauchly) & p_mauchly >= 0.05,
+                        "Si", "No")
+  
+  # =========================================================
+  # 4. ARMAZÓN DEL REPORTE
+  # =========================================================
+  reporte_list[[i]] <- data.frame(
+    Dataset = nombre_dataset,
+    W_Shapiro = W_shapiro,
+    P_Shapiro = p_shapiro,
+    Normalidad = normalidad,
+    W_Mauchly = W_mauchly,
+    P_Mauchly = p_mauchly,
+    Esfericidad = esfericidad,
+    stringsAsFactors = FALSE
+  )
 }
 
+# =========================================================
+# 5. TABLA FINAL
+# =========================================================
+reporte_final <- bind_rows(reporte_list)
 
+print(reporte_final)
 
-generalnorm
-archivos_long
+##### HACER LAS PRUEBAS DE BLOQUES DE FRIEDMAN ####
+
+# ==============================================================================
+# PIPELINE INFERENCIAL MAESTRO: FRIEDMAN, NEMENYI Y DIAGRAMAS DE DEMŠAR (R)
+# ==============================================================================
+
+rm(list=ls())
+
+library(dplyr)
+library(tidyr)
+library(PMCMRplus)
+library(tsutils)
+
+# ── CONFIGURACIÓN DE PARÁMETROS DEL TORNEO DE CAMPEONES ───────────────────────
+MODO_CAMPEONES <- TRUE    # TRUE: Filtra y evalúa solo campeones | FALSE: Evalúa todo el benchmark
+METODOS_TOP    <- c("GNLPDA", "KFDA", "SVM_POLY2",
+                    "SVM_POLY3", "SVM_RBF")
+
+  
+# ── CONFIGURACIÓN DE RUTAS DEL PROYECTO ───────────────────────────────────────
+ruta_consolidados <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\CONSOLIDADO_GRAFICOS/"
+ruta_salidas_raiz  <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\ANALISIS_ESTADISTICO_INFERENCIALES/"
+
+# Definición del prefijo dinámico para organización de archivos
+prefijo <- ifelse(MODO_CAMPEONES, "Champ_", "")
+
+# Creación de la estructura física de directorios (Solo 2 carpetas especializadas)
+ruta_diagramas_cd  <- file.path(ruta_salidas_raiz, "DIAGRAMAS_CD_DEMSAR")
+ruta_matrices_nem  <- file.path(ruta_salidas_raiz, "MATRICES_NEMENYI")
+
+if (!dir.exists(ruta_salidas_raiz)) dir.create(ruta_salidas_raiz, recursive = TRUE)
+if (!dir.exists(ruta_diagramas_cd))  dir.create(ruta_diagramas_cd, recursive = TRUE)
+if (!dir.exists(ruta_matrices_nem))  dir.create(ruta_matrices_nem, recursive = TRUE)
+
+# Buscar los archivos de origen en formato largo
+archivos_long <- list.files(path = ruta_consolidados, pattern = "_long_graficos\\.csv$", full.names = TRUE)
+
+# Inicializar el dataframe contenedor para el concentrado único de Friedman
+concentrado_friedman <- data.frame(
+  Dataset          = character(),
+  Metodo_Prueba    = character(),
+  Estadistico_Chi2 = numeric(),
+  Grados_Libertad  = integer(),
+  P_Valor          = numeric(),
+  Significativo    = character(),
+  stringsAsFactors = FALSE
+)
+
+# ==============================================================================
+# CICLO MAESTRO: PROCESAMIENTO INFERENCIAL POR DATASET
+# ==============================================================================
+
+for (i in seq_along(archivos_long)) {
+  # Cargar el archivo i-esimo
+  archivo <- archivos_long[i]
+  if (!file.exists(archivo)) next
+  
+  # Extraer el nombre base del dataset libre de sufijos de gráficos
+  nombre_archivo <- basename(archivo)
+  nombre_base    <- gsub("_long_graficos\\.csv$", "", nombre_archivo)
+  
+  cat("=========================================================================\n")
+  cat("INICIANDO ANÁLISIS INFERENCIAL: ", nombre_base, " (", i, " de ", length(archivos_long), ")\n", sep="")
+  if (MODO_CAMPEONES) cat("  [MODO ACTIVADO]: Torneo de Campeones Seleccionados\n")
+  cat("=========================================================================\n")
+  
+  # 1. Cargar el dataframe en formato largo
+  df_long <- read.csv(archivo)
+  
+  # 2. Exclusión homogénea estricta de las 3 corridas con ruido inductivo
+  df_limpio <- df_long[!(df_long$Bloque %in% c(11, 32, 33)), ]
+  # 3. FILTRADO REACTIVO: Detectar clasificadores colapsados o con varianza cero
+  metodos_validos <- df_limpio %>%
+    group_by(Metodo) %>%
+    summarise(v_acc = var(Accuracy, na.rm = TRUE), .groups = 'drop') %>%
+    filter(!is.na(v_acc) & v_acc > 0) %>%
+    pull(Metodo)
+  
+  # 4. APLICACIÓN DEL INTERRUPTOR (Filtro base o Torneo de Campeones)
+  if (MODO_CAMPEONES) {
+    # Filtrado por lista de inclusión estricta
+    df_filtrado <- df_limpio %>% filter(Metodo %in% METODOS_TOP)
+    metodos_finales <- intersect(metodos_validos, METODOS_TOP)
+  } else {
+    # Conservar todos los métodos que pasaron el filtro de varianza
+    df_filtrado <- df_limpio %>% filter(Metodo %in% metodos_validos)
+    metodos_finales <- metodos_validos
+  }
+  
+  # Asegurar la correcta naturaleza factorial para R
+  df_filtrado$Bloque <- factor(df_filtrado$Bloque)
+  df_filtrado$Metodo <- factor(df_filtrado$Metodo)
+  
+  # Validar que existan suficientes métodos operativos para ejecutar la comparación
+  if (length(unique(df_filtrado$Metodo)) < 2) {
+    cat("  [!] Error: Elementos insuficientes para efectuar el test en este escenario.\n")
+    next
+  }
+  
+  # ============================================================================
+  # EVALUACIÓN 1: TEST DE FRIEDMAN POR RANGOS GLOBAL
+  # ============================================================================
+  prueba_friedman <- friedman.test(Accuracy ~ Metodo | Bloque, data = df_filtrado)
+  
+  # Guardar los estadísticos en el concentrado único global
+  fila_friedman <- data.frame(
+    Dataset          = nombre_base,
+    Metodo_Prueba    = prueba_friedman$method,
+    Estadistico_Chi2 = round(as.numeric(prueba_friedman$statistic), 4),
+    Grados_Libertad  = as.integer(prueba_friedman$parameter),
+    P_Valor          = round(as.numeric(prueba_friedman$p.value), 6),
+    Significativo    = ifelse(prueba_friedman$p.value < 0.05, "Si", "No"),
+    stringsAsFactors = FALSE
+  )
+  concentrado_friedman <- rbind(concentrado_friedman, fila_friedman)
+  
+  cat("  -> P-Valor de Friedman Global:", round(prueba_friedman$p.value, 6), "\n")
+  
+  # ============================================================================
+  # EVALUACIÓN 2: POST-HOC DE NEMENYI Y RECOLECCIÓN DE GRÁFICOS
+  # ============================================================================
+  if (prueba_friedman$p.value < 0.05) {
+    cat("  -> Friedman Significativo (p < 0.05). Ejecutando Post-Hoc de Nemenyi...\n")
+    
+    # Cálculo formal de comparaciones múltiples por parejas
+    prueba_nemenyi <- frdAllPairsNemenyiTest(
+      y      = df_filtrado$Accuracy, 
+      groups = df_filtrado$Metodo, 
+      blocks = df_filtrado$Bloque
+    )
+    
+    # Extracción y formateo limpio de la matriz de p-valores a 4 decimales
+    matriz_p <- as.data.frame(prueba_nemenyi$p.value)
+    matriz_p_pulida <- round(matriz_p, 4)
+    
+    # Exportación tabular directa a la carpeta unificada con nomenclatura limpia
+    nombre_nemenyi_csv <- paste0(prefijo, nombre_base, "_matriz_nemenyi.csv")
+    write.csv(matriz_p_pulida, file = file.path(ruta_matrices_nem, nombre_nemenyi_csv), row.names = TRUE)
+    
+    # --------------------------------------------------------------------------
+    # GENERACIÓN DEL DIAGRAMA DE DIFERENCIA CRÍTICA (DEMŠAR)
+    # --------------------------------------------------------------------------
+    # Re-transformar temporalmente a formato ancho para el motor gráfico de tsutils
+    df_wide_temp <- df_filtrado %>%
+      pivot_wider(id_cols = Bloque, names_from = Metodo, values_from = Accuracy)
+    
+    matriz_precisiones <- df_wide_temp %>%
+      select(all_of(metodos_finales)) %>%
+      as.matrix()
+    
+    nombre_diagrama_png <- paste0(prefijo, nombre_base, "_cd_diagram.png")
+    path_diagrama <- file.path(ruta_diagramas_cd, nombre_diagrama_png)
+    
+    png(filename = path_diagrama, width = 7, height = 3.5, units = "in", res = 300)
+    
+    # Dibujar rangos y marcar las líneas horizontales de indiferencia de Demšar
+    tsutils::nemenyi(matriz_precisiones, conf.level = 0.95, plottype = "mcb")
+    
+    dev.off()
+    cat("  -> Diagrama de Diferencia Crítica generado en alta definición.\n")
+    
+  } else {
+    cat("  -> Friedman No Significativo (p >= 0.05). Se omite la fase de comparaciones locales.\n")
+  }
+  
+  cat("  -> Análisis del dataset concluido de forma exitosa.\n\n")
+}
+
+# ==============================================================================
+# EXPORTACIÓN DEL CONCENTRADO MAESTRO ÚNICO DE FRIEDMAN
+# ==============================================================================
+nombre_concentrado_friedman <- paste0(prefijo, "Resumen_Global_Friedman.csv")
+write.csv(concentrado_friedman, file = file.path(ruta_salidas_raiz, nombre_concentrado_friedman), row.names = FALSE)
+
+cat("=========================================================================\n")
+cat(" PIPELINE EJECUTADO CON ÉXITO: Espacio inferencial unificado y ordenado.\n")
+cat(" Archivo Maestro de Friedman y subcarpetas actualizadas correctamente.\n")
+cat("=========================================================================\n")
+
