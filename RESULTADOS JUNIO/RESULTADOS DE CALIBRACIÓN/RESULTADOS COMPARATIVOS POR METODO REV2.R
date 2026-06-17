@@ -576,3 +576,7 @@ cat("=========================================================================\n
 cat(" PIPELINE EJECUTADO CON ÉXITO: Archivos inferenciales unificados.\n")
 cat(" Archivo Maestro de Friedman y subcarpetas actualizados correctamente.\n")
 cat("=========================================================================\n")
+
+
+
+
