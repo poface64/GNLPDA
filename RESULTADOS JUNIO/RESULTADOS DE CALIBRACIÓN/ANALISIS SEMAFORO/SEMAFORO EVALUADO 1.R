@@ -55,6 +55,7 @@ for (i in 1:nrow(tabla_casos)) {
 
 
 #### Aquí empieza la parte gráfica pesada ####
+
 rm(list=ls())
 
 # Carga de librerías requeridas
@@ -62,11 +63,9 @@ library(MASS)
 library(ggplot2)
 library(gridExtra) # Para emparejar las gráficas visualmente
 library(JuliaCall)
-source("C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\ANALISIS SEMAFORO\\FUNCIONES SEMAFORO REV1.R")
 
 # 1. Configuración de Entornos y Rutas
 ruta_carpeta <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\ANALISIS SEMAFORO"
-
 # Carga de funciones externas (Asegurar que las correcciones de Sw estén hechas en este archivo)
 source(file.path(ruta_carpeta, "FUNCIONES SEMAFORO REV1.R"))
 

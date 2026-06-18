@@ -72,9 +72,6 @@ normalizar_nombres <- function(vector_nombres) {
 }
 
 #### LDA PURO A MANO ####
-
-X = iris[,-5]
-Y = iris$Species
 LDAM <- function(X, Y){
   
   # Preparación de datos
@@ -149,7 +146,7 @@ LDAM <- function(X, Y){
   
   #### Orddenar explicitamente ####
   orden <- order(Re(A$values), decreasing = TRUE)
-  SV <- A$vectors[, orden[1:(nr - 1)], drop = FALSE]
+  SV <- Re(A$vectors[, orden[1:(nr - 1)], drop = FALSE])
   
   # Proyecciones
   Z <- X %*% SV
