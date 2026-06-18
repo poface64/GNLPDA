@@ -1,5 +1,6 @@
 rm(list=ls())
 
+
 #### Cargar las funciones necesarias ####
 source("FUNCIONES PARA EL SEMAFORO.R")
 

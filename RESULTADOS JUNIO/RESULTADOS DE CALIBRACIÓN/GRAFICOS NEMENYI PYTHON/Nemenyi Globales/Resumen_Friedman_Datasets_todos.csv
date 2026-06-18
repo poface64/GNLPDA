@@ -1,0 +1,11 @@
+Dataset,Estadistico_Friedman,Grados_Libertad,p-valor,Significativo_Alfa_0.05
+1.2.penguins_long_graficos,48.1754,6,0.001,Sí
+1.3.pimadiabetes_long_graficos,49.1584,6,0.001,Sí
+1.4.wines_long_graficos,94.416,6,0.001,Sí
+3.1.Cebolla3D_long_graficos,142.5513,6,0.001,Sí
+3.2.Cebolla10D_long_graficos,144.8571,6,0.001,Sí
+3.3.Cebolla20D_long_graficos,167.2136,6,0.001,Sí
+4.1.CancerWisconsin_long_graficos,61.2705,6,0.001,Sí
+4.2.Ionosphere_long_graficos,86.3632,5,0.001,Sí
+5.4.indicadores2015_long_graficos,169.5262,6,0.001,Sí
+5.5.indicadores2020_long_graficos,169.8564,6,0.001,Sí
