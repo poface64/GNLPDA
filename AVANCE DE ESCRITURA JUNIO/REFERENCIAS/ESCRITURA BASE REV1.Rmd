@@ -1,0 +1,215 @@
+---
+title: "GNLPDA REV 1"
+author: "Ángel García Báez"
+date: "2026-06-19"
+output: 
+  word_document:
+    toc: true
+    number_sections: true
+    reference: "PLANTILLA JUNIO.docx"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+# Capítulo 1. Introducción
+
+## Contexto y motivación
+## Planteamiento del problema
+## Hipótesis
+## Objetivos
+### Objetivo general
+### Objetivos específicos
+## Contribuciones
+## Organización de la tesis
+
+# Capítulo 2. Marco Teórico
+
+## Reducción de dimensionalidad
+### Fundamentos y necesidad de la reducción de dimensionalidad
+### Selección de características
+### Extracción de características
+### Métodos filtro
+### Métodos wrapper
+### Métodos embedded
+
+## Análisis Discriminante
+### Fundamentos
+### LDA para dos clases
+### LDA multiclase
+### Matriz de dispersión intra-clase
+### Matriz de dispersión inter-clase
+### Criterio de Fisher
+### Obtención de vectores discriminantes
+### Clasificación mediante LDA
+### Supuestos estadísticos
+### Limitaciones de LDA
+### Variantes computacionales de LDA
+### Análisis Discriminante Cuadrático (QDA)
+### Comparación entre LDA y QDA
+
+## Problema Small Sample Size
+### Definición formal
+### Singularidad de Sw
+### Impacto en LDA
+### Estrategias para mitigarlo
+
+## Expansión polinomial
+### Espacios de características
+### Teorema de Cover
+### Expansión polinomial explícita
+### Crecimiento combinatorial
+### Relación con SSS
+
+## Algoritmos genéticos
+### Inspiración biológica
+### Representación cromosómica
+### Función fitness
+### Selección
+### Cruza
+### Mutación
+### Aplicaciones en selección de características
+
+## Métodos kernel
+### Fundamentos
+### Kernel Trick
+### Funciones kernel
+#### Polinomial
+#### Gaussiano
+### KFDA
+### Ventajas y limitaciones
+
+## Máquinas de Soporte Vectorial
+### Fundamentos
+### Margen máximo
+### SVM polinomial
+### SVM RBF
+
+## Métricas de clasificación
+### Matriz de confusión
+### Accuracy
+### Precision
+### Recall
+### F1-score
+
+# Capítulo 3. Estado del Arte
+
+## Variantes lineales del análisis discriminante
+### Regularized LDA
+### Two-Stage LDA
+### Variantes lineales relevantes
+
+## Métodos kernel para clasificación
+### Kernel PCA
+### KFDA
+### SVM Polinomial
+### SVM RBF
+
+## Selección de características basada en algoritmos evolutivos
+### GA para selección de variables
+### GA + LDA
+### Métodos híbridos
+### GPDA y trabajos relacionados
+
+## Limitaciones identificadas
+### Explosión dimensional
+### Problema SSS
+### Pérdida de interpretabilidad
+### Costos computacionales
+
+## Posicionamiento de GNLPDA
+### Vacío identificado
+### Justificación de la propuesta
+### Diferencias respecto al estado del arte
+
+# Capítulo 4. Metodología
+
+## Arquitectura general de GNLPDA
+### Descripción general
+### Flujo del algoritmo
+### Complejidad general del método
+
+## Expansión polinomial
+### Generación de términos
+### Restricción por variables seleccionadas
+
+## Fase I: Selección de variables originales
+### Codificación cromosómica
+### Espacio de búsqueda
+### Evaluación
+
+## Fase II: Selección de términos polinomiales
+### Codificación cromosómica
+### Espacio de búsqueda
+### Evaluación
+
+## Función fitness
+### Accuracy
+### Penalización por complejidad
+### Fitness final
+
+## Calibración mediante irace
+### Parámetros calibrados
+### Escenario experimental
+### Configuración seleccionada
+
+## Diseño experimental
+### Datasets
+#### Datasets reales
+#### Datasets sintéticos
+### Generación de datasets tipo cebolla
+### Competidores
+### Particiones
+### Validación
+### Análisis estadístico
+
+# Capítulo 5. Resultados
+
+## Caracterización de datasets
+### Datasets sintéticos
+### Datasets reales
+### Estadísticas descriptivas
+### Pairplots y análisis exploratorio
+### Observaciones preliminares
+
+## Estudio del problema SSS
+### Escenarios evaluados 
+### LDA clásico
+### MASS-LDA
+### KFDA
+### Discusión
+
+## Visualización de proyecciones 
+### LDA
+### KFDA
+### GNLPDA
+### Comparación visual
+
+## Comparación global entre métodos
+### Accuracy
+### Precision
+### Recall
+### F1-score
+
+## Análisis Técnico y Estadístico
+### Friedman
+### Nemenyi
+### Interpretación
+
+# Capítulo 6. Discusión
+
+## Interpretación geométrica
+## Interpretación estadística
+## Fortalezas de GNLPDA
+## Limitaciones identificadas
+## Amenazas a la validez
+
+# Capítulo 7. Conclusiones
+
+## Conclusiones
+## Cumplimiento de objetivos
+## Contribuciones
+## Trabajo futuro

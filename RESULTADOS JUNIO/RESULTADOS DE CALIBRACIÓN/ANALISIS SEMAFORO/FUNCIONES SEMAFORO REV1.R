@@ -140,6 +140,8 @@ LDAM <- function(X, Y){
       estado <- paste0(estado," + Eigenvalores complejos")
     }
   }
+  # Cambiar los eigenvalores por reales de raiz #
+  
   # Varianza explicada
   VE <- round(100 *Re(A$values)/sum(Re(A$values)),4)
   # Selección de discriminantes
@@ -176,7 +178,7 @@ LDAM <- function(X, Y){
     coeficientes = SV,
     proyecciones = Z,
     metricas = metricas,
-    eigen = A$values,
+    eigen = Re(A$values),
     Sw = Sw,
     Sb = Sb)
   return(resu)

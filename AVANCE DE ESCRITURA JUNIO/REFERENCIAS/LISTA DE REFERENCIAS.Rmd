@@ -1,0 +1,30 @@
+---
+title: "Referencias del trabajo"
+author: "Ángel García Báez"
+date: "2026-06-19"
+output: 
+  word_document:
+    toc: true
+    number_sections: true
+    reference: "PLANTILLA JUNIO.docx"
+bibliography: referencias.bib
+csl: apa.csl   # opcional (estilo de citas)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+
+# Referencias del capitulo 1
+
+- Introducción mi compa @Bharadiya2023
+- Introducción mi compa el @Wani2025
+
+\newpage
+
+# Referencias
+
+

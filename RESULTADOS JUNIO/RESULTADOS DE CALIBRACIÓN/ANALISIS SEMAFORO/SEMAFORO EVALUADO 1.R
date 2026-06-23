@@ -54,126 +54,181 @@ for (i in 1:nrow(tabla_casos)) {
 }
 
 
-#### Aquí empieza la parte gráfica pesada ####
+# =========================================================================
+# SCRIPT UNIFICADO: GENERACIÓN DUAL (TRÍPTICOS E INDIVIDUALES) - VERSIÓN TESIS
+# =========================================================================
 
 rm(list=ls())
 
-# Carga de librerías requeridas
 library(MASS)
+library(kernlab)
 library(ggplot2)
-library(gridExtra) # Para emparejar las gráficas visualmente
+library(gridExtra)
 library(JuliaCall)
 
-# 1. Configuración de Entornos y Rutas
-ruta_carpeta <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\ANALISIS SEMAFORO"
-# Carga de funciones externas (Asegurar que las correcciones de Sw estén hechas en este archivo)
-source(file.path(ruta_carpeta, "FUNCIONES SEMAFORO REV1.R"))
+# 1. Configuración de Entornos y Rutas Absolutas
+ruta_base        <- "C:\\Users\\Angeal\\Desktop\\GNLPDA\\RESULTADOS JUNIO\\RESULTADOS DE CALIBRACIÓN\\ANALISIS SEMAFORO"
+ruta_tripticos   <- file.path(ruta_base, "Gráficos Tripticos")
+ruta_individuales <- file.path(ruta_base, "Gráficos Individuales")
 
-# Listar de forma ordenada los archivos CSV generados previamente
-archivos_csv <- list.files(path = ruta_carpeta, pattern = "^caso_.*\\.csv$", full.names = TRUE)
+# Crear directorios estructurados si no existen
+if (!dir.exists(ruta_tripticos))   dir.create(ruta_tripticos, recursive = TRUE)
+if (!dir.exists(ruta_individuales)) dir.create(ruta_individuales, recursive = TRUE)
 
-# Opcional: Asegurar orden numérico de los archivos por si el OS los desordena
+# Carga de funciones externas de soporte
+source(file.path(ruta_base, "FUNCIONES SEMAFORO REV1.R"))
+source(file.path(ruta_base, "KFDA MANUAL.r"))
+
+# Tabla de metadatos oficial del experimento
+tabla_meta <- data.frame(
+  Caso    = 1:6,
+  Obs     = c(150, 150, 15, 15, 15, 15),
+  Vars    = c(3, 10, 3, 10, 15, 17),
+  Atr_Pol = c(9, 65, 9, 65, 135, 170)
+)
+
+archivos_csv <- list.files(path = ruta_base, pattern = "^caso_.*\\.csv$", full.names = TRUE)
 archivos_csv <- archivos_csv[order(gsub(".*caso_([0-9]+)_.*", "\\1", archivos_csv))]
 
-# 2. Ciclo Principal del Experimento
+# 2. Definición Estricta de la Paleta de Color Institucional UV y Comentarios Corregidos
+paleta_uv <- c("G_1" = "#B22222",   # Rojo Alizarina (Capa Interna)
+               "G_2" = "#02963E",   # Verde UV (Capa Media)
+               "G_3" = "#043B7B")   # Azul UV (Capa Externa)
+
+# Configuración del Estilo Cohesivo para la Tesis (Sin leyendas)
+estilo_base <- theme_minimal() +
+  theme(
+    plot.title      = element_text(face = "bold", size = 13, hjust = 0.5),
+    plot.subtitle   = element_text(size = 9.5, color = "gray25", hjust = 0.5),
+    axis.title      = element_text(size = 10, face = "bold"),
+    axis.text       = element_text(size = 9),
+    legend.position = "none" # Eliminación absoluta de leyendas en el entorno global
+  )
+
+# Parámetros estandarizados para alta nitidez y presencia de puntos
+ajuste_puntos <- list(
+  geom_point(shape = 21, size = 3, stroke = 0.4, color = "#FFFFFF", alpha = 1.0),
+  scale_fill_manual(values = paleta_uv),
+  scale_color_manual(values = paleta_uv)
+)
+
+# 3. Ciclo de Ejecución y Modelado
 for (i in 1:length(archivos_csv)) {
   
-  # --- PASO 1: Carga del caso i-ésimo ---
-  ruta_actual <- archivos_csv[i]
-  nombre_base <- basename(ruta_actual)
-  cat(sprintf("\n=========================================================\n"))
-  cat(sprintf("PROCESANDO: %s\n", nombre_base))
-  cat(sprintf("=========================================================\n"))
+  num_caso <- i
+  meta <- tabla_meta[tabla_meta$Caso == num_caso, ]
+  sub_titulo_lineal <- paste0("Obs: ", meta$Obs, " | Vars: ", meta$Vars, " | Terms: ", meta$Atr_Pol)
   
-  df_vivos <- read.csv(ruta_actual, stringsAsFactors = FALSE)
-  df_vivos$class <- as.factor(df_vivos$class)
+  cat(sprintf("\nPROCESANDO CASO %d (N=%d, D=%d) -> Flujo Dual Simplificado\n", num_caso, meta$Obs, meta$Vars))
   
-  # --- PASO 2: Separación de Variables (X) y Etiquetas (Y) ---
-  X_original <- df_vivos[, names(df_vivos) != "class"]
-  Y <- df_vivos$class
+  df_vivos <- read.csv(archivos_csv[i], stringsAsFactors = FALSE)
+  X_original <- as.matrix(df_vivos[, names(df_vivos) != "class"])
+  y <- as.factor(df_vivos$class)
   
-  # --- PASO 3: Expansión Polinomial Grado 2 vía Julia ---
-  cat("Ejecutando expansión polinomial en Julia...\n")
-  X_expandido <- polexpj(X_original, grado = 2)
+  # --- Expansión Polinomial Explícita vía Julia (Exclusiva para aproximaciones lineales) ---
+  X_expandido <- polexpj(as.data.frame(X_original), grado = 2)
   
-  # Almacén temporal para los plots de esta iteración
-  plot_lda_puro <- NULL
-  plot_lda_mass <- NULL
-  
-  # =======================================================================
-  # --- PASO 4: Modelado y Proyección con LDA PURO ---
-  # =======================================================================
-  cat("Evaluando LDA Puro...\n")
-  resultado_puro <- LDAM(X_expandido, Y)
-  
-  if (resultado_puro$estado != "OK") {
-    cat(sprintf("[!] LDA Puro no computable en este caso. Razón: %s\n", resultado_puro$estado))
-    
-    # Generar una gráfica vacía con la notificación del error numérico
-    plot_lda_puro <- ggplot() + 
-      annotate("text", x = 4, y = 4, label = sprintf("INCOMPUTABLE\n(%s)", resultado_puro$estado), 
-               color = "darkred", size = 5, fontface = "bold") +
-      theme_void() +
-      labs(title = paste("LDA Puro -", nombre_base)) +
-      theme(plot.title = element_text(hjust = 0.5, color = "darkred"))
+  # -------------------------------------------------------------------------
+  # MODELO 1: LDA CLÁSICO
+  # -------------------------------------------------------------------------
+  if (num_caso >= 4) {
+    g1 <- ggplot() +
+      annotate("text", x = 0.5, y = 0.5, label = "INCOMPUTABLE\n(Problema SSS: D >> N)", size = 3.5, color = "#B22222", fontface = "bold") +
+      theme_void() + labs(title = "LDA Clásico", subtitle = sub_titulo_lineal) + estilo_base
   } else {
-    # Si es computable, estructurar las proyecciones (Se asumen nr-1 = 2 dimensiones proyectadas)
-    df_proy_pura <- as.data.frame(resultado_puro$proyecciones)
-    df_proy_pura$Clase <- Y
-    
-    plot_lda_puro <- ggplot(df_proy_pura, aes(x = ND1, y = ND2, color = Clase)) +
-      geom_point(size = 2.5, alpha = 0.8) +
-      labs(title = paste("LDA Puro -", nombre_base), x = "Discriminante 1", y = "Discriminante 2") +
-      theme_minimal() +
-      theme(plot.title = element_text(hjust = 0.5))
+    md1E <- LDAM(X_expandido, y)
+    if (md1E$estado == "Sw singular") {
+      g1 <- ggplot() +
+        annotate("text", x = 0.5, y = 0.5, label = "INCOMPUTABLE\n(Sw Singular)", size = 3.5, color = "#B22222", fontface = "bold") +
+        theme_void() + labs(title = "LDA Clásico", subtitle = sub_titulo_lineal) + estilo_base
+    } else {
+      df_manual <- data.frame(Re(md1E$proyecciones[, 1:2]))
+      colnames(df_manual) <- c("LD1", "LD2")
+      df_manual$class <- y
+      
+      g1 <- ggplot(df_manual, aes(x = LD1, y = LD2, fill = class, color = class)) +
+        ajuste_puntos + 
+        #coord_equal() + # Preservación de la relación de aspecto geométrica interna
+        labs(title = "LDA Clásico", subtitle = sub_titulo_lineal, x = "Dimensión Discriminante 1", y = "Dimensión Discriminante 2") + 
+        estilo_base
+    }
   }
   
-  # =======================================================================
-  # --- PASO 5: Modelado y Proyección con LDA MASS ---
-  # =======================================================================
-  cat("Evaluando LDA MASS...\n")
-  
-  # Encapsular en tryCatch por extrema seguridad, aunque SVD es altamente resiliente
-  plot_lda_mass <- tryCatch({
-    modelo_mass <- lda(X_expandido, grouping = Y)
-    proyeccion_mass <- predict(modelo_mass, X_expandido)$x
+  # -------------------------------------------------------------------------
+  # MODELO 2: LDA MASS (SVD)
+  # -------------------------------------------------------------------------
+  g2 <- tryCatch({
+    mmd1E <- lda(X_expandido, y)
+    m1 <- predict(mmd1E)
+    df_mass <- data.frame(m1$x[, 1:2])
+    colnames(df_mass) <- c("LD1", "LD2")
+    df_mass$class <- y
     
-    df_proy_mass <- as.data.frame(proyeccion_mass)
-    df_proy_mass$Clase <- Y
-    
-    ggplot(df_proy_mass, aes(x = LD1, y = LD2, color = Clase)) +
-      geom_point(size = 2.5, alpha = 0.8) +
-      labs(title = paste("LDA MASS -", nombre_base), x = "LD 1", y = "LD 2") +
-      theme_minimal() +
-      theme(plot.title = element_text(hjust = 0.5))
-    
+    ggplot(df_mass, aes(x = LD1, y = LD2, fill = class, color = class)) +
+      ajuste_puntos + 
+      #coord_equal() + # Preservación de la relación de aspecto geométrica interna
+      labs(title = "LDA MASS", subtitle = sub_titulo_lineal, x = "Dimensión Discriminante 1", y = "Dimensión Discriminante 2") + 
+      estilo_base
   }, error = function(e) {
-    ggplot() + 
-      annotate("text", x = 4, y = 4, label = "MASS COLAPSO (Inesperado)", color = "red", size = 5) +
-      theme_void() +
-      labs(title = paste("LDA MASS -", nombre_base))
+    ggplot() +
+      annotate("text", x = 0.5, y = 0.5, label = "MASS Colapso Numérico", size = 3.5, color = "#B22222") +
+      theme_void() + labs(title = "LDA MASS", subtitle = sub_titulo_lineal) + estilo_base
   })
   
-  # =======================================================================
-  # --- PASO 6: Visualización Emparejada (Lado a Lado) y Guardado ---
-  # =======================================================================
-  # Combinar los dos gráficos en un solo lienzo comparativo
-  grafica_comparativa <- grid.arrange(plot_lda_puro, plot_lda_mass, ncol = 2)
+  # -------------------------------------------------------------------------
+  # MODELO 3: KFDA (KERNEL GAUSSIANO + HEURÍSTICA DE LA MEDIANA CORREGIDA)
+  # -------------------------------------------------------------------------
+  matriz_distancias <- as.matrix(dist(X_original))
+  distancias_vivas <- matriz_distancias[lower.tri(matriz_distancias)]
+  mediana_cuadrados <- median(distancias_vivas^2)
   
-  # Construcción del nombre del gráfico de salida
-  nombre_grafico <- sprintf("comparativa_caso_%d.png", i)
-  ruta_grafico <- file.path(ruta_carpeta, nombre_grafico)
+  # Corrección de la variable huérfana para mitigar indeterminaciones por sigmas infinitos
+  if (mediana_cuadrados == 0) { 
+    mediana_cuadrados <- 1e-5 
+  }
+  sigma_heuristico <- 1 / mediana_cuadrados
   
-  # Guardar a disco en alta resolución para la tesis (300 DPI)
-  ggsave(ruta_grafico, plot = grafica_comparativa, width = 12, height = 5, dpi = 300)
-  cat(sprintf("✓ Gráfica comparativa guardada: %s\n", nombre_grafico))
+  funcion_rbf <- rbfdot(sigma = sigma_heuristico)
+  K_train <- kernelMatrix(funcion_rbf, X_original)
+  
+  g3 <- tryCatch({
+    modelo_kfda <- kfda_entrenar(K_train, y, r = NULL, reg = 1e-6)
+    df_proy_kfda <- as.data.frame(modelo_kfda$Z_train)
+    colnames(df_proy_kfda) <- c("KFDA1", "KFDA2")
+    df_proy_kfda$class <- y
+    
+    sub_titulo_kfda <- paste0("Obs: ", meta$Obs, " | Vars: ", meta$Vars, " | σ: ", round(sigma_heuristico, 3))
+    
+    ggplot(df_proy_kfda, aes(x = KFDA1, y = KFDA2, fill = class, color = class)) +
+      ajuste_puntos + 
+      #coord_equal() + # Preservación de la relación de aspecto geométrica interna
+      labs(title = "KFDA (Kernel Gaussiano)", subtitle = sub_titulo_kfda, x = "Dimensión Discriminante 1 (ψ₁)", y = "Dimensión Discriminante 2 (ψ₂)") + 
+      estilo_base
+  }, error = function(e) {
+    ggplot() +
+      annotate("text", x = 0.5, y = 0.5, label = "KFDA Colapso Numérico", size = 3.5, color = "darkorange") +
+      theme_void() + labs(title = "KFDA (Kernel)", subtitle = sub_titulo_lineal) + estilo_base
+  })
+  
+  # =========================================================================
+  # FLUJO DE EXPORTACIÓN 1: GRÁFICOS INDIVIDUALES (SIN LEYENDA)
+  # =========================================================================
+  ggsave(file.path(ruta_individuales, sprintf("caso_%d_1_lda_clasico.png", num_caso)), plot = g1, width = 5.5, height = 5, dpi = 300)
+  ggsave(file.path(ruta_individuales, sprintf("caso_%d_2_lda_mass.png", num_caso)),    plot = g2, width = 5.5, height = 5, dpi = 300)
+  ggsave(file.path(ruta_individuales, sprintf("caso_%d_3_kfda.png", num_caso)),        plot = g3, width = 5.5, height = 5, dpi = 300)
+  
+  # =========================================================================
+  # FLUJO DE EXPORTACIÓN 2: TRÍPTICO SIMPLIFICADO (SIN CÓDIGO MUERTO DE LEYENDAS)
+  # =========================================================================
+  # Ensamble directo en una sola fila simétrica limpia (1x3)
+  triptico_final <- arrangeGrob(g1, g2, g3, ncol = 3)
+  
+  # Guardar tríptico conservando dimensiones e inyección estricta a disco
+  ggsave(file.path(ruta_tripticos, sprintf("triptico_caso_%d.png", num_caso)), plot = triptico_final, width = 15, height = 4.8, dpi = 300)
+  
+  cat(sprintf("✓ Exportación dual simplificada del Caso %d completada.\n", num_caso))
 }
 
-cat("\n---------------------------------------------------------\n")
-cat("Experimento finalizado. Las proyecciones visuales están listas para análisis.\n")
-
-
-
-
-
-
+cat("\n=========================================================\n")
+cat("PROCESO TERMINADO: Gráficos de tesis generados con éxito.\n")
+cat("=========================================================\n")
