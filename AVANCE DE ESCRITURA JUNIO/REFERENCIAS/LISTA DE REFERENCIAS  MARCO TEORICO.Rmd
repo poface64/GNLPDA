@@ -1,0 +1,186 @@
+---
+title: "Referencias del trabajo"
+author: "Ángel García Báez"
+date: "2026-06-19"
+output: 
+  word_document:
+    toc: true
+    number_sections: true
+bibliography: referencias.bib
+csl: apa.csl   # opcional (estilo de citas)
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+# Marco teorico
+
+## Seccion 1, seleccion de caracteristicas.
+
+Primero @hastie2009elements
+
+@sorzano2014
+
+Siguiente parrafo @tang2014feature
+
+Siguiente @jain2000statistical
+
+@medina2025genetic
+
+@kohavi1997wrappers
+
+@guyon2003introduction
+
+@raudys1991small
+
+@chandrashekar2014survey
+
+@fisher1936use
+
+@bishop2006pattern
+
+@mclachlan2004discriminant
+
+@martinez2001pca
+
+@fukunaga2013introduction
+
+@duda2000pattern
+
+@belhumeur2002eigenfaces
+
+@mika1999fisher
+
+@gao2006direct
+
+## Cuarta subsección de LDA
+
+@venables2013modern
+
+@krzanowski1995discriminant,
+
+@friedman1989regularized
+
+@golub2013matrix
+
+@montgomery2021introduction
+
+# Referencias de polinomial expansión:
+
+@kanade2016
+
+@cover1965
+
+
+# Algoritmos geneticos
+
+@goldberg1989
+
+@siedlecki1989note
+
+@scholkopf2002learning
+
+@cortes1995support
+
+@rudin2019stop
+
+## Palmer Penguins
+
+@horst2022palmer
+
+## Wines
+
+@barth2021classification
+
+## Cancer wisconsin
+
+@salama2012breast
+
+## Ionosphere
+
+@sigillito1989johns
+
+## Pimba diabetes
+
+@smith1988using
+
+## Indicadores
+
+
+@articlenavarro2025bayesian
+
+# Irace
+
+@lopez2016irace
+
+@pereira2015overview,
+
+@demvsar2006statistical
+
+
+# Otra sección 
+
+# Estado del arte
+
+## LDA REGULARIZADO 
+
+Esta mi compa @yang2023, @li2024, @araveeporn2023
+
+## LDA en 2 etapas.
+
+Primero es @agatra2025 y luego es @buhas2024
+
+## Variantes relevantes
+
+Primero es  @shi2024new y @van2024, @liu2024efficient
+
+# Métodos Kernels
+
+## KPCA
+
+Primero es @medina2025 y luego @briscik2023
+
+## KFDA
+
+Primero es @du2024 y luego @kim2018
+
+## SVM pol 
+
+@scholkopf2018learning y @jalili2025
+
+## SVM Gauss
+
+@remaki2026rbf y @zhang2024fast
+
+## GA para selección de variables.
+
+@al2021 y @wang2026
+
+## GA + LDA
+
+@bahlool2025 y @lara2025
+
+## Métodos Hibridos 
+
+El @wang2022hybrid y @manhrawy2026 
+
+## GPDA
+
+@medina2025genetic
+
+## Posicionamiento del GNLPDA
+
+@martirosyan2026
+
+## Por si se necesita
+
+@rudin2019stop
+
+
+
+
+
+
