@@ -1,0 +1,91 @@
+---
+title: "GNLPDA REV 1"
+author: "Ángel García Báez"
+date: "2026-06-19"
+output: 
+  word_document:
+    toc: true
+    number_sections: true
+    reference: "PLANTILLA JUNIO.docx"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+## 4.2 Configuración y calibración de GNLPDA
+
+Una vez definida la arquitectura general de GNLPDA, fue necesario establecer la configuración del algoritmo genético utilizado en ambas fases de selección. Dado que el desempeño de los algoritmos evolutivos puede depender de la elección de sus parámetros de control, se realizó una calibración automática mediante *irace*, con el propósito de identificar una configuración adecuada para el problema de selección de características considerado en esta investigación (López-Ibáñez et al., 2016).
+
+### 4.2.1 Parámetros del algoritmo genético
+
+El algoritmo genético empleado en GNLPDA utiliza una representación binaria pura. En ambas fases, cada cromosoma se codifica como un vector de ceros y unos, donde el valor 1 indica la inclusión de una variable o término, y el valor 0 indica su exclusión. En la primera fase, los genes representan variables originales; en la segunda fase, representan términos del espacio polinomial restringido.
+
+La selección de individuos se realiza mediante torneo binario. En este esquema, dos individuos son seleccionados aleatoriamente de la población y compiten con base en su valor de aptitud; el individuo con mejor *fitness* tiene mayor probabilidad de ser elegido como progenitor. Para la recombinación, se emplea cruza de un solo punto, mientras que la mutación se implementa como inversión de bits sobre la representación binaria. Además, se incorpora elitismo, preservando automáticamente los dos mejores individuos de cada generación para la generación siguiente. Esta estrategia evita que las mejores soluciones encontradas se pierdan por efecto de los operadores estocásticos.
+
+Los parámetros de control del algoritmo genético son comunes para ambas fases de GNLPDA. Es decir, la Fase I y la Fase II utilizan el mismo número de generaciones, tamaño de población, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$). La diferencia entre fases está determinada por el espacio de búsqueda: variables originales en la primera fase y términos polinomiales en la segunda.
+
+**Tabla 4.1. Parámetros finales del algoritmo genético empleado en GNLPDA**
+
+| Parámetro | Valor final |
+| :--- | :--- |
+| Número de generaciones ($n_{\text{gen}}$) | 94 |
+| Tamaño de población ($\text{tam\_pop}$) | 64 |
+| Probabilidad de cruza ($p_{\text{cruza}}$) | 0.90 |
+| Probabilidad de mutación ($p_{\text{mut}}$) | 0.05 |
+| Penalización por complejidad ($\lambda$) | 0.01 |
+| Selección | Torneo binario |
+| Cruza | Un punto |
+| Representación | Binaria |
+| Elitismo | 2 mejores individuos |
+
+### 4.2.2 Calibración mediante irace
+
+La calibración de parámetros se realizó mediante *irace*, una herramienta de configuración automática basada en carreras iteradas. Este procedimiento evalúa distintas configuraciones candidatas sobre un conjunto de instancias de calibración y descarta progresivamente aquellas configuraciones con menor desempeño, concentrando el presupuesto de evaluación en las alternativas más prometedoras.
+
+En esta investigación, **irace** fue utilizado para calibrar cinco parámetros principales de GNLPDA: probabilidad de mutación, tamaño de población, probabilidad de cruza, penalización por complejidad y número de generaciones. Los rangos de búsqueda considerados fueron los siguientes:
+
+**Tabla 4.2. Rangos de calibración considerados por irace**
+
+| Parámetro | Tipo | Rango de búsqueda |
+| :--- | :--- | :--- |
+| $p_{\text{mut}}$ | Real | $[0.05, 0.20]$ |
+| $\text{popSize}$ | Entero | $[20, 100]$ |
+| $p_{\text{cruza}}$ | Real | $[0.40, 0.95]$ |
+| $\lambda$ | Real | $[0.01, 0.20]$ |
+| $n_{\text{gen}}$ | Entero | $[20, 100]$ |
+
+Dado que *irace* opera como un procedimiento de minimización, el criterio objetivo se definió a partir del *fitness* penalizado obtenido por GNLPDA al finalizar la segunda etapa. En particular, para cada configuración candidata se ejecutó el procedimiento completo de dos fases y se tomó el mejor valor de aptitud obtenido en la Fase II, denotado como $F_2(\mathbf{z}^{(2)*})$. A partir de este valor, la función de costo entregada a *irace* se definió como:
+
+$$\mathcal{L}_{irace}=1-F_2(\mathbf{z}^{(2)*})$$
+
+De esta forma, minimizar $\mathcal{L}_{irace}$ equivale a favorecer configuraciones que produzcan un mayor *fitness* penalizado en la segunda etapa. Este criterio incorpora simultáneamente la exactitud promedio estimada mediante validación cruzada estratificada de cinco pliegues y la penalización por complejidad asociada al número de términos polinomiales seleccionados.
+
+El presupuesto máximo de calibración se fijó en 5000 experimentos. Para reducir el tiempo de ejecución, el proceso se paralelizó utilizando 11 núcleos de procesamiento.
+
+### 4.2.3 Escenarios de calibración y configuración final
+
+La calibración se realizó utilizando cuatro escenarios: Iris, Pima, Cebolla 3D y Cebolla 10D. Los conjuntos Iris y Pima se emplearon como conjuntos de referencia clásicos en clasificación supervisada, mientras que los escenarios Cebolla 3D y Cebolla 10D se incorporaron como casos sintéticos con estructura no lineal y geometría concéntrica. Esta combinación permitió que la calibración considerara tanto datos de referencia ampliamente utilizados como escenarios diseñados para exigir transformaciones no lineales del espacio de entrada.
+
+La configuración seleccionada por *irace* fue posteriormente fijada y utilizada en las ejecuciones experimentales de GNLPDA. De esta forma, los parámetros del algoritmo no fueron ajustados manualmente para cada conjunto de datos, sino definidos previamente mediante un proceso automático de calibración.
+
+La configuración final adoptada fue la siguiente:
+
+| Parámetro | Valor final |
+| :--- | :--- |
+| Número de generaciones ($n_{\text{gen}}$) | 94 |
+| Tamaño de población ($\text{tam\_pop}$) | 64 |
+| Probabilidad de cruza ($p_{\text{cruza}}$) | 0.90 |
+| Probabilidad de mutación ($p_{\text{mut}}$) | 0.05 |
+| Penalización por complejidad ($\lambda$) | 0.01 |
+| Selección | Torneo binario |
+| Cruza | Un punto |
+| Representación | Binaria |
+| Elitismo | 2 mejores individuos |
+
+Estos valores se emplearon tanto en la selección evolutiva de variables originales como en la selección de términos polinomiales, manteniendo constante la configuración genética a lo largo de las dos fases de GNLPDA.
+
+
+

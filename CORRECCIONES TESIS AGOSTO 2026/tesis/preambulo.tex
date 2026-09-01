@@ -1,0 +1,90 @@
+% =========================================================
+% preambulo.tex
+% Paquetes y configuración compartida por TODO el documento.
+% Se carga una sola vez desde main.tex
+% =========================================================
+
+
+
+% ---------- Codificación e idiomas ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+% Toda la tesis se escribe en español (el cuerpo, el índice, "Capítulo",
+% "Figura", "Tabla", etc.). Se deja "english" cargado por si en algún
+% punto necesitas una cita o término puntual en inglés con \foreignlanguage.
+% IMPORTANTE: el ÚLTIMO idioma listado es el que queda activo por defecto,
+% por eso "spanish" va al final.
+% La opción "es-tabla" fuerza que las tablas digan "Tabla X" en vez del
+% default de babel, que es "Cuadro X".
+\usepackage[english,spanish,es-tabla]{babel}
+% ---------- Geometría de página (A4, como el PDF original) ----------
+\usepackage[a4paper,margin=2.5cm]{geometry}
+
+% ---------- Tipografía del CUERPO del documento ----------
+% El PDF de Víctor usa "NimbusRomNo9L", el clon libre de Times
+% que trae TeX Live. mathptmx activa esa fuente (texto y matemáticas).
+\usepackage{mathptmx}
+
+% ---------- Tipografía de la PORTADA (Gill Sans) ----------
+% Se deja disponible aquí, pero SOLO se usa dentro de portada.tex
+% con \sffamily, para no afectar el resto de los capítulos.
+\usepackage{gillius2}
+
+% ---------- Imágenes ----------
+\usepackage{graphicx}
+\usepackage{svg}
+\graphicspath{{figuras/}} % así no repites la ruta en cada capítulo
+\usepackage{subcaption}
+
+% ---------- Color para tablas ----------
+% La opción [table] habilita \rowcolor (paquete colortbl por dentro),
+% para poder pintar filas completas de una tabla.
+\usepackage[table]{xcolor}
+
+% ------------------------------------------------
+% Color institucional para tablas
+% ------------------------------------------------
+\definecolor{azultabla}{HTML}{4F81BC}
+
+% Encabezado de tabla
+\newcommand{\encabezadotabla}{%
+	\rowcolor{azultabla}%
+	\color{white}\bfseries
+}
+
+\newcommand{\encabezado}[1]{%
+	\cellcolor{azultabla}\color{white}\bfseries #1%
+}
+
+
+% ---------- Matemáticas ----------
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% ---------- Pseudocódigo / algoritmos ----------
+% algorithm2e: fácil de traducir a español (SetKw, nombres de "Entrada",
+% "Salida", "mientras", "si", etc.) y se ve limpio en tesis.
+% [ruled,vlined]: caja con línea superior/inferior y líneas verticales
+% de indentado, que es el estilo más común en tesis de cómputo.
+\usepackage[ruled,vlined,linesnumbered]{algorithm2e}
+\SetKwInput{KwEntrada}{Entrada}
+\SetKwInput{KwSalida}{Salida}
+\renewcommand{\algorithmcfname}{Algoritmo}
+
+% ---------- Enlaces y referencias cruzadas ----------
+\usepackage[numbers]{natbib}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    citecolor=black,
+    urlcolor=blue,
+    pdftitle={Genetic Non-Linear Polynomial Discriminant Analysis},
+    pdfauthor={Ángel García Báez}
+}
+
+%---- Manejo de la bibliografia (BibTeX clásico numérico) ----%
+% ---------- Bibliografía: BibTeX clásico + natbib + estilo DIN ----------
+% natdin.bst necesita el paquete natbib para funcionar (no es opcional).
+% [numbers] hace que las citas en el texto salgan como [1], [2]... en vez de (Autor, Año).
+\bibliographystyle{natdin}

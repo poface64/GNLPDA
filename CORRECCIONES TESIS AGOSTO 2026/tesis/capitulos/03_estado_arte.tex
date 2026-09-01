@@ -1,0 +1,105 @@
+% =========================================================
+% capitulos/02_marco_teorico.tex
+% Placeholder con las herramientas que se van a usar en la
+% tesis: tablas con el estilo azul, pseudocódigo y ecuaciones
+% numeradas / sin numerar de distintos tipos.
+% =========================================================
+
+\chapter{Estado del arte}
+\label{chap:Estado_Arte}
+
+\section{Variantes lineales del análisis discriminante}
+
+\subsection{Regularized LDA}
+
+Históricamente, el Análisis Discriminante Lineal (LDA) ha sido una metodología central para la reducción de dimensionalidad supervisada y la clasificación lineal. No obstante, su formulación clásica presenta limitaciones importantes en escenarios de alta dimensionalidad y tamaño muestral reducido. En particular, cuando el número de variables es comparable o superior al número de observaciones, la matriz de dispersión intraclase puede volverse singular o estar mal condicionada, lo que dificulta resolver directamente el problema generalizado asociado al criterio de Fisher \cite{yang2023efficient}.
+
+Para mitigar esta dificultad, las variantes regularizadas de LDA incorporan términos de penalización o contracción sobre la matriz de dispersión, con el objetivo de mejorar su estabilidad numérica. En términos generales, estas estrategias modifican la estimación de la matriz de covarianza o añaden un término de regularización que favorece la inversión del sistema y reduce la sensibilidad del modelo ante fluctuaciones derivadas de muestras pequeñas. En este sentido, la regularización no elimina por completo los riesgos asociados al problema SSS, pero constituye una alternativa práctica para mejorar la estabilidad del discriminante lineal en contextos de alta dimensionalidad \cite{Araveeporn2023}.
+
+\subsection{Two-Stage LDA}
+
+Una estrategia alternativa frente a la singularidad en espacios de alta dimensionalidad consiste en utilizar esquemas de reducción de dimensionalidad en dos etapas. En la arquitectura comúnmente denominada PCA-LDA, primero se aplica Análisis de Componentes Principales para proyectar los datos hacia un subespacio de menor dimensión.
+Esta etapa permite reducir la redundancia y mejorar el condicionamiento del problema antes de aplicar LDA \cite{agatra2025evaluating}.
+
+Posteriormente, LDA incorpora la información de clase para buscar una proyección
+que favorezca la separabilidad entre grupos dentro del subespacio retenido. Esta
+aproximación ha sido empleada en diversos problemas aplicados debido a su simplicidad y viabilidad computacional. Sin embargo, debe considerarse que PCA es un método no supervisado, por lo que puede descartar componentes de baja varianza que podrían contener información discriminativa relevante. En consecuencia, PCA-LDA puede ser útil en contextos ($p > n$), pero su desempeño depende de la relación entre varianza retenida y capacidad discriminativa de las clases \cite{buhas2024renal}.
+
+\subsection{Variantes lineales relevantes}
+
+Además de la regularización directa y de los esquemas en dos etapas, se han propuesto variantes lineales orientadas a mejorar la estabilidad, la interpretabilidad y la selección de variables en escenarios de alta dimensionalidad. Una línea relevante corresponde a las formulaciones basadas en el problema Trace-Ratio, que buscan optimizar de forma más directa la relación entre dispersión interclase e intraclase. En particular, las formulaciones recientes de Trace-Ratio LDA han sido estudiadas como alternativas para enfrentar el problema Small Sample Size, al reformular el criterio discriminante de manera más adecuada
+para matrices de dispersión deficientes en rango \cite{li2024revised} \cite{shi2024new}.
+
+Por otro lado, los enfoques de Sparse LDA incorporan mecanismos de penalización o selección que promueven soluciones con un número reducido de variables activas. Esta propiedad resulta especialmente relevante cuando, además de clasificar correctamente, se requiere identificar predictores interpretables \cite{liu2024efficient}. 
+
+En esta misma línea, métodos de Inteligencia Artificial Explicable, como los enfoques basados en SHAP, pueden utilizarse como apoyo para priorizar variables relevantes en conjuntos de datos pequeños y de alta dimensionalidad, aunque no sustituyen por sí mismos la formulación discriminante del modelo \cite{van2024itershap}.
+
+\section{Métodos kernel para clasificación}
+
+\subsection{Kernel PCA}
+
+Las proyecciones lineales pueden resultar insuficientes para capturar distribuciones de datos subyacentes complejas, lo que justifica la adopción de enfoques basados en mapeos no lineales. El Análisis de Componentes Principales con Kernel (KPCA) permite relajar la restricción de linealidad al mapear las características originales hacia un espacio de Hilbert de alta dimensionalidad, donde es posible extraer componentes principales no lineales \cite{medina2025insights}.
+ 
+En aplicaciones caracterizadas por el problema de muestra reducida, este mapeo implícito puede resultar útil para el preprocesamiento y mitigación de ruido; sin embargo, introduce la desventaja de oscurecer la influencia individual de cada variable original. Recientes innovaciones matemáticas han propuesto gradientes interpretables y expansiones del espacio de características para rastrear el peso original de las variables de entrada, contribuyendo a mejorar la interpretabilidad de un modelo tradicionalmente considerado de caja negra \cite{briscik2023improvement}.
+
+\subsection{KFDA}
+
+Aunque la reducción de dimensionalidad no supervisada es útil, los escenarios de
+clasificación exigen estrategias que prioricen la discriminación entre clases. El Análisis Discriminante de Fisher mediante Kernel (KFDA) aprovecha mapeos no lineales inducidos por funciones kernel para transformar problemas fuertemente no separables en hiperespacios donde las clases pueden delimitarse analíticamente \cite{du2024exploring}.
+
+Al trasladar la métrica de Fisher al espacio de Hilbert, el algoritmo enfrenta inevitablemente el desafío de la deficiencia de rango en la matriz de covarianza proyectada, un problema crítico cuando la cantidad de sujetos ($n$) es escasa. Para contrarrestar esta inestabilidad intrínseca, arquitecturas contemporáneas optan por integrar el KFDA dentro de métodos de ensamble y regularización estocástica, lo que promueve una mayor diversidad en los subespacios discriminativos y estabiliza el cálculo del hiperplano sin sacrificar el poder del análisis no lineal \cite{kim2026kernel}. 
+
+\subsection{SVM Polinomial}
+
+Las Máquinas de Vectores de Soporte (SVM) constituyen una alternativa ampliamente utilizada para problemas de clasificación, especialmente cuando se emplean funciones kernel que permiten modelar fronteras de decisión no lineales. En el caso del kernel polinomial, la transformación inducida permite capturar interacciones entre variables sin calcular explícitamente todas las combinaciones en el espacio expandido (\cite{scholkopf2018learning}).
+
+No obstante, su aplicación en escenarios de alta dimensionalidad ($p>n$) requiere
+una selección cuidadosa de hiperparámetros. Un grado polinomial elevado puede producir fronteras de decisión excesivamente complejas y aumentar el riesgo de sobreajuste, especialmente cuando el número de observaciones es reducido. Por ello, la selección del grado del polinomio y de los parámetros asociados al kernel resulta determinante para equilibrar flexibilidad y capacidad de generalización \cite{jalili2025performance}.
+
+\subsection{SVM RBF}
+
+A diferencia del kernel polinomial, cuyo grado controla explícitamente la complejidad de las interacciones modeladas, el kernel de Función de Base Radial (RBF) permite inducir fronteras de decisión altamente no lineales mediante una medida de similitud local entre observaciones. Esta flexibilidad lo convierte en una alternativa atractiva para problemas donde las clases no son linealmente separables. Sin embargo, en escenarios SSS también puede incrementar el riesgo de sobreajuste si los hiperparámetros no se ajustan adecuadamente \cite{remaki2026rbf}.
+
+En particular, el parámetro de ancho de banda, usualmente expresado mediante ($\gamma$) o ($\sigma$), controla el alcance de influencia de cada observación en el espacio inducido por el kernel. Valores inadecuados pueden producir fronteras excesivamente fragmentadas o, por el contrario, modelos demasiado suaves. Por ello, la selección de hiperparámetros resulta crítica para obtener un equilibrio entre flexibilidad y generalización. Asimismo, trabajos recientes han explorado mecanismos de explicación para modelos SVM-RBF mediante patrones de activación, con el propósito de mejorar la interpretabilidad de modelos kernel tradicionalmente difíciles de analizar \cite{zhang2024fast}.
+
+\section{Selección de características basada en algoritmos evolutivos}
+
+\subsection{GA para selección de variables}
+
+La maldición de la dimensionalidad dificulta el uso de enfoques exhaustivos de selección deterministas, dado que el volumen de permutaciones crece exponencialmente en función de las variables de entrada. Para navegar este vasto espacio de búsqueda sin incurrir en costos computacionales prohibitivos, los Algoritmos Genéticos (GA) han sido ampliamente empleados como estrategias de búsqueda estocástica. En lugar de evaluar características de forma aislada, un GA codifica subconjuntos de variables en estructuras cromosómicas, sometiéndolas a un proceso de evolución iterativa mediante selección, cruza y mutación \cite{al2021population}. Una ventaja potencial de este enfoque en el contexto $p>n$ reside en su capacidad para evadir óptimos locales y descubrir dependencias no lineales multivariadas. Investigaciones recientes han sofisticado estas arquitecturas implementando mecanismos de selección multiobjetivo adaptativos, buscando un equilibrio entre la minimización del número de características retenidas y la maximización del poder predictivo del clasificador final \cite{wang2026improved}.
+
+\subsection{GA + LDA}
+
+La integración de algoritmos genéticos con LDA puede entenderse como una estrategia de selección de características orientada a reducir la dimensionalidad antes de estimar el discriminante lineal. En escenarios donde $p>n$, seleccionar un subconjunto de variables puede contribuir a disminuir la singularidad de la matriz de dispersión intraclase y mejorar la estabilidad del modelo. Bajo enfoques de este tipo, el algoritmo genético explora combinaciones de variables, mientras que LDA puede utilizarse como clasificador o como criterio de evaluación de la calidad discriminativa del subconjunto seleccionado \cite{lara2025feature}.
+
+La literatura reciente muestra aplicaciones de algoritmos genéticos para selección de características en problemas de clasificación; sin embargo, su integración específica con LDA debe presentarse como una estrategia posible más que como una mejora universal frente a alternativas paramétricas \cite{bahlool2025fasttree}.
+
+\subsection{Métodos híbridos}
+
+Los métodos híbridos de selección de características surgen como una alternativa para reducir el costo computacional de las estrategias evolutivas puras en dominios de alta dimensionalidad. En general, estas arquitecturas combinan una etapa inicial de filtrado, basada en criterios estadísticos o medidas de relevancia, con una etapa posterior de búsqueda más fina mediante metaheurísticas. La primera fase permite descartar un número considerable de variables redundantes o poco informativas, mientras que la segunda explora subconjuntos candidatos considerando posibles interacciones entre predictores.
+
+Esta combinación puede favorecer una búsqueda más eficiente y mejorar la estabilidad de la selección en determinados contextos, especialmente cuando el espacio original de variables es muy amplio. Sin embargo, su desempeño depende del criterio de filtrado, de la metaheurística empleada, de la función objetivo y del clasificador final. Por ello, más que garantizar una convergencia acelerada o una estabilidad superior en todos los casos, los métodos híbridos se presentan como una estrategia prometedora cuyo rendimiento requiere validación empírica en cada dominio de aplicación \cite{wang2022hybrid} \cite{manhrawy2026hybrid}.
+
+\subsection{GPDA}
+
+Con el propósito de afrontar las limitaciones que presentan LDA y sus variantes en escenarios de Small Sample Size (SSS), Medina et al. (2025) \cite{medina2025genetic} propusieron el Análisis Discriminante Proyectivo Genético (GPDA), una técnica de reducción de dimensionalidad basada en computación evolutiva. A diferencia de los enfoques tradicionales sustentados en el criterio de Fisher y en la estimación de matrices de dispersión, GPDA formula la búsqueda de proyecciones discriminantes como un problema de optimización evolutiva sobre matrices ortonormales. La calidad de cada proyección se evalúa mediante el índice de silueta, permitiendo maximizar directamente la separabilidad entre clases sin recurrir a la inversión o descomposición de la matriz de dispersión intraclase. Esta estrategia permite evitar la inversión directa de matrices de dispersión, mitigando los problemas de singularidad característicos del escenario SSS y proporciona representaciones de baja dimensión con elevada capacidad discriminativa.
+
+\section{Limitaciones identificadas}
+
+A partir de la revisión anterior, puede observarse que las metodologías empleadas para abordar la alta dimensionalidad y el problema Small Sample Size (SSS) enfrentan compromisos recurrentes entre estabilidad numérica, capacidad discriminativa, interpretabilidad y costo computacional. En los enfoques derivados de LDA, una dificultad central se presenta cuando el número de variables es comparable o superior al número de observaciones ($p>n$), ya que la matriz de dispersión intraclase puede volverse singular o mal condicionada. Para mitigar esta limitación, la literatura ha propuesto estrategias como regularización, reducción previa de dimensionalidad, selección de características, métodos evolutivos y formulaciones Trace-Ratio orientadas al problema SSS \cite{li2024revised}. 
+
+Los métodos kernel, por su parte, permiten capturar relaciones no lineales mediante mapeos implícitos hacia espacios de mayor dimensionalidad. Esta propiedad resulta útil cuando las clases no son separables linealmente; sin embargo, también dificulta la interpretación directa de la contribución de las variables originales. Aunque trabajos recientes han propuesto mecanismos para explicar modelos kernel, como KPCA o SVM-RBF, la trazabilidad de los predictores continúa siendo menos directa que en modelos basados en transformaciones explícitas \cite{briscik2023improvement} \cite{zhang2024fast}.
+
+
+De forma complementaria, los algoritmos evolutivos y los métodos híbridos ofrecen una vía flexible para explorar subconjuntos de variables o matrices de proyección sin depender necesariamente de la inversión directa de matrices de dispersión. No obstante, estas estrategias pueden implicar mayores costos computacionales y requieren definir cuidadosamente la función objetivo, los operadores evolutivos y los criterios de convergencia. En consecuencia, el estado del arte muestra que aún existe espacio para propuestas que combinen reducción de dimensionalidad, manejo del escenario SSS, modelado no lineal explícito e interpretabilidad de los predictores originales.
+
+\section{Posicionamiento de GNLPDA}
+
+Frente a estas limitaciones, el Análisis Discriminante Polinomial No Lineal Genético (GNLPDA) se posiciona como una alternativa metodológica orientada a integrar tres elementos: búsqueda evolutiva de proyecciones discriminativas, manejo de escenarios ($p>n$) y modelado explícito de relaciones no lineales. En este sentido, GNLPDA retoma la lógica evolutiva presente en GPDA, al formular la búsqueda de proyecciones como un problema de optimización (Medina et al., 2025), pero introduce una expansión polinomial explícita que permite representar interacciones entre variables sin recurrir necesariamente a un mapeo kernel implícito basado en matrices de Gram.
+
+El aporte central de GNLPDA radica en que la no linealidad se incorpora mediante términos polinomiales definidos sobre las variables originales. A diferencia de los métodos kernel, donde el mapeo al espacio de características suele operar de manera implícita, esta formulación permite conservar una relación más directa entre los predictores iniciales, sus interacciones y la proyección discriminativa resultante.  Por ello, el método busca equilibrar la capacidad de modelar fronteras de decisión no lineales con una mayor trazabilidad analítica de las características utilizadas.
+
+No obstante, el posicionamiento de GNLPDA debe plantearse de manera prudente: su ventaja no radica en eliminar por completo los problemas de interpretabilidad, costo computacional o sobreajuste, sino en proponer una vía explícita para abordarlos dentro de una formulación evolutiva. En consecuencia, su pertinencia debe evaluarse empíricamente frente a métodos lineales, kernel, evolutivos e híbridos, considerando tanto el desempeño discriminativo como la estabilidad, la complejidad computacional y la interpretabilidad del modelo obtenido.
+
+
+

@@ -1,0 +1,539 @@
+% =========================================================
+% capitulos/02_marco_teorico.tex
+% Placeholder con las herramientas que se van a usar en la
+% tesis: tablas con el estilo azul, pseudocódigo y ecuaciones
+% numeradas / sin numerar de distintos tipos.
+% =========================================================
+
+\chapter{Metodología}
+\label{chap:Metodología}
+
+\section{Selección evolutiva en dos fases}
+
+
+La arquitectura GNLPDA realiza la búsqueda de características mediante dos fases
+evolutivas consecutivas. La primera fase opera sobre el espacio de variables originales y tiene como objetivo identificar qué variables conviene expandir polinomialmente. La segunda fase opera sobre el espacio polinomial generado a partir del subconjunto seleccionado en la
+primera etapa, con el propósito de conservar únicamente los términos lineales, cuadráticos o
+de interacción que aportan al desempeño discriminante.
+
+Ambas fases siguen una lógica \textit{wrapper}: cada cromosoma codifica un subconjunto candidato de características, dicho subconjunto se evalúa mediante LDA y el valor de aptitud se calcula a partir de la exactitud promedio obtenida mediante validación cruzada estratificada de cinco pliegues. Además, ambas etapas emplean la misma configuración general del algoritmo genético, incluyendo tamaño de población, número de generaciones, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$). La diferencia entre ambas fases no radica en los operadores evolutivos utilizados, sino en el espacio sobre el que se realiza la búsqueda.
+
+En el protocolo experimental de esta investigación, la búsqueda evolutiva se realiza
+únicamente sobre la partición de entrenamiento. Dentro de esta partición, GNLPDA calcula
+el \textit{fitness} de cada cromosoma mediante validación cruzada interna estratificada de cinco pliegues. La partición de prueba permanece separada durante todo el proceso de selección y se utiliza únicamente para la evaluación final del modelo seleccionado. De esta manera, la
+validación cruzada interna guía la búsqueda evolutiva, mientras que la evaluación sobre
+prueba estima la capacidad de generalización del método.
+
+\subsection{Fase I: selección de variables originales}
+
+
+En la primera fase, el algoritmo genético explora subconjuntos de las variables originales del conjunto de datos. Sea $X_{train} \in \mathbb{R}^{n\times p}$ la matriz de entrenamiento, donde $n$ representa el número de observaciones y $p$ el número de variables originales. Cada solución candidata se representa mediante un cromosoma binario de longitud $p$:
+
+\begin{equation}
+	z^{(1)} = [z_1,z_2,\dots,z_p],  \quad z_j \in \{0,1\}
+	\label{eq:EM1}
+\end{equation}
+
+
+El valor $z_j=1$ indica que la variable $x_j$ es seleccionada, mientras que $z_j=0$ indica que dicha variable es excluida. El número de variables originales activas en el cromosoma se define mediante la norma $\ell_0$:
+
+\begin{equation}
+	q = |z^{1}|_0
+	\label{eq:EM2}
+\end{equation}
+
+Para evitar soluciones degeneradas, se establece una condición mínima de factibilidad: todo cromosoma debe seleccionar al menos dos variables originales. Si $q<2$, la solución se considera no válida y recibe automáticamente una aptitud igual a cero. Esta regla evita evaluar subconjuntos insuficientes para construir una expansión polinomial útil o para estimar una proyección discriminante mediante LDA. En cambio, no se impone un límite superior al número de variables activas; la complejidad de las soluciones grandes se controla mediante el término de penalización incluido en la función de aptitud.
+
+A partir del cromosoma $z^{(1)}$, se construye el subconjunto $X_{z^{(1)}}$,formado únicamente por las variables originales activas. Sobre este subconjunto se aplica una expansión polinomial de segundo grado, denotada como $\phi_2(X_{z^{(1)}})$. Esta expansión genera términos lineales, términos cuadráticos e interacciones entre las variables seleccionadas. Por ejemplo, si un cromosoma activa las variables $\{x_1,x_3\}$, la expansión cuadrática restringida produce el conjunto:
+
+\begin{equation}
+	\phi_2(\{x_1,x_3\}) = \{x_1,x_3,x_1^2,x_3^2,x_1x_3\}
+	\label{eq:EM3}
+\end{equation}
+
+El subconjunto expandido se evalúa mediante LDA usando validación cruzada estratificada de cinco pliegues. Para cada cromosoma válido, la aptitud se define como la exactitud promedio obtenida por LDA menos una penalización proporcional al número de variables originales seleccionadas. Por tanto, la función de aptitud de la primera fase queda definida como:
+
+\begin{equation}
+	F_1(\mathbf{z}^{(1)}) = 
+	\begin{cases} 
+		0, & \text{si } q < 2, \\
+		\text{Acc}_{CV5}(\phi_2(X_{\mathbf{z}^{(1)}}), \mathbf{y}_{\text{train}}) - \lambda \frac{q}{p}, & \text{si } q \geq 2.
+	\end{cases}
+	\label{eq:EM4}
+\end{equation}
+
+En esta expresión, $Acc_{CV5}$ representa la exactitud promedio de validación cruzada, $q$ es el número de variables originales seleccionadas, $p$ es el número total de variables originales disponibles y $\lambda$ controla la intensidad de la penalización por complejidad. La fracción $\frac{q}{p}$ normaliza la penalización respecto al tamaño del espacio original, favoreciendo soluciones que logren buen desempeño con un menor número de variables.
+
+La salida de esta fase es el cromosoma con mayor valor de aptitud:
+
+\begin{equation}
+	\mathbf{z}^{(1)*} = \operatorname*{argmax}_{\mathbf{z}^{(1)}} F_1(\mathbf{z}^{(1)})
+	\label{eq:EM5}
+\end{equation}
+
+así como el subconjunto de variables originales asociado:
+
+\begin{equation}
+	S^* = \{x_j:z_j^{(1)}=1\}
+	\label{eq:EM6}
+\end{equation}
+
+Este subconjunto define qué variables originales serán utilizadas para construir el espacio polinomial restringido de la segunda fase.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{M1.png}
+	\caption{Fase I de GNLPDA: selección evolutiva de variables originales y evaluación mediante expansión polinomial y LDA. Fuente: Elaboración propia}
+	\label{fig:M1}
+\end{figure}
+
+\subsection{Fase II: selección de términos polinomiales}
+
+La segunda fase toma como entrada el subconjunto ganador $S^*$ obtenido en la Fase I. A partir de estas variables se genera una expansión polinomial de segundo grado, pero ahora el  algoritmo genético no selecciona variables originales, sino términos individuales del espacio expandido. Estos términos pueden corresponder a variables lineales, términos cuadráticos o interacciones.
+
+Sea $D^*$ el número total de términos generados por la expansión polinomial restringida de $S^*$.
+
+Si la expansión es cuadrática y no incluye término de sesgo, entonces:
+
+
+\begin{equation}
+	D^* = \binom{q+2}{2}-1
+	\label{eq:EM7}
+\end{equation}
+
+El cromosoma de la segunda fase se define como:
+
+\begin{equation}
+	Z^{(2)} = [z_1,z_2,\dots,z_{D^*}],\quad z_j \in \{0,1\}
+	\label{eq:EM8}
+\end{equation}
+
+En esta fase, cada gen representa un término específico del espacio polinomial restringido. Por ejemplo, si $S^*= \{x_1,x_3\}$, los genes pueden corresponder a los términos ordenados del espacio:
+
+\begin{equation}
+	\{x_1,x_2,x_1^2,x_3^2,x_1x_3\}
+	\label{eq:EM9}
+\end{equation}
+
+Así, un cromosoma de la forma:
+
+\begin{equation}
+	\{x_1,x_1^2,x_1x_3\}
+	\label{eq:EM10}
+\end{equation}
+
+El número de términos activos en la segunda fase se define mediante:
+
+\begin{equation}
+	s = |z^{(0)}|_0
+	\label{eq:EM11}
+\end{equation}
+
+De manera análoga a la primera fase, se establece una condición mínima de factibilidad. Si un cromosoma selecciona menos de dos términos polinomiales, es decir, si $s<2$, la solución se considera no válida y recibe una aptitud igual a cero. Esta regla evita evaluar representaciones excesivamente reducidas que no ofrecen una base suficiente para estimar una proyección discriminante mediante LDA.
+Para cada cromosoma válido, se construye una matriz de datos formada únicamente por los términos polinomiales activos. Esta matriz se evalúa nuevamente mediante LDA y validación cruzada estratificada de cinco pliegues. La función de aptitud de la segunda fase se define como:
+
+\begin{equation}
+	F_2(\mathbf{z}^{(2)}) = 
+	\begin{cases} 
+		0, & \text{si } s < 2, \\
+		\text{Acc}_{CV5}(X_{\phi,z^{(2)}}, \mathbf{y}_{\text{train}}) - \lambda \frac{s}{D^*}, & \text{si } s \geq 2.
+	\end{cases}
+	\label{eq:EM12}
+\end{equation}
+
+En esta expresión, $X_{\phi,z^{(2)}}$ representa la matriz formada por los términos polinomiales seleccionados, $s$ es el número de términos activos, $D^*$ es el número total de términos disponibles en el espacio expandido restringido y $\lambda$ es el mismo parámetro de penalización utilizado en la primera fase. Esta función favorece subconjuntos que alcancen alta exactitud con un número reducido de términos polinomiales.
+
+La salida de la segunda fase es el subconjunto de términos polinomiales que maximiza la función de aptitud:
+
+\begin{equation}
+	\mathbf{z}^{(2)*} = \operatorname*{argmax}_{\mathbf{z}^{(2)}} F_2(\mathbf{z}^{(2)})
+	\label{eq:EM13}
+\end{equation}
+
+Este subconjunto constituye la representación final seleccionada por GNLPDA. Su propósito es conservar únicamente los términos que contribuyen al desempeño discriminante, descartando variables lineales, términos cuadráticos o interacciones cuya inclusión no compense el aumento de complejidad del modelo.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{M2.png}
+	\caption{Fase II de GNLPDA: selección evolutiva de términos polinomiales sobre el espacio expandido restringido. Fuente: Elaboración propia.}
+	\label{fig:M2}
+\end{figure}
+
+\subsection{Salida del procedimiento y ajuste final de LDA}
+
+Una vez finalizadas ambas fases, GNLPDA devuelve un subconjunto final de términos
+polinomiales seleccionados. En el protocolo experimental, dicho subconjunto se utiliza para transformar tanto la partición de entrenamiento como la partición de prueba. Posteriormente, se ajusta un modelo LDA final sobre la partición de entrenamiento transformada y se evalúa su desempeño sobre la partición de prueba transformada.
+
+El conjunto de prueba permanece separado del proceso de búsqueda evolutiva y no participa en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo interno del fitness. De esta manera, su uso se reserva exclusivamente para estimar la capacidad de generalización del modelo seleccionado.
+
+La salida del método puede resumirse en tres elementos: el subconjunto de variables
+originales retenidas en la primera fase, el subconjunto de términos polinomiales
+seleccionados en la segunda fase y la proyección discriminante final obtenida mediante LDA.
+En conjunto, estos elementos permiten reportar tanto el desempeño predictivo del método como la reducción dimensional lograda respecto al espacio polinomial completo.
+
+En términos metodológicos, la primera fase reduce el espacio de variables que serán
+expandidas, mientras que la segunda fase reduce el espacio polinomial resultante. Esta doble selección evita explorar directamente toda la expansión polinomial de las variables originales y permite controlar el crecimiento combinatorio del problema. Por ello, GNLPDA busca equilibrar tres objetivos: mejorar la separabilidad entre clases, conservar una representación parsimoniosa y reducir el riesgo de singularidad, colinealidad y sobreajuste asociado al uso directo del espacio expandido completo.
+
+Siendo entonces que la arquitectura completa y estructurada se ve así: 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{M3.png}
+	\caption{Arquitectura completa de GNLPDA. Fuente: Elaboración propia.}
+	\label{fig:M3}
+\end{figure}
+
+
+\section{Configuración y calibración de GNLPDA}
+
+Una vez definida la arquitectura general de GNLPDA, fue necesario establecer la
+configuración del algoritmo genético utilizado en ambas fases de selección. Dado que el desempeño de los algoritmos evolutivos puede depender de la elección de sus parámetros de control, se realizó una calibración automática mediante irace, con el propósito de identificar una configuración adecuada para el problema de selección de características considerado en esta investigación \cite{lopez2016irace}.
+
+\subsection{Parámetros del algoritmo genético}
+
+El algoritmo genético empleado en GNLPDA utiliza una representación binaria pura. En
+ambas fases, cada cromosoma se codifica como un vector de ceros y unos, donde el valor 1 indica la inclusión de una variable o término, y el valor 0 indica su exclusión. En la primera fase, los genes representan variables originales; en la segunda fase, representan términos del espacio polinomial restringido.
+
+La selección de individuos se realiza mediante torneo binario. En este esquema, dos individuos son seleccionados aleatoriamente de la población y compiten con base en su valor de aptitud; el individuo con mejor fitness tiene mayor probabilidad de ser elegido como progenitor. Para la recombinación, se emplea cruza de un solo punto, mientras que la mutación se implementa como inversión de bits sobre la
+representación binaria. Además, se incorpora elitismo, preservando automáticamente los dos mejores individuos de cada generación para la generación siguiente. Esta estrategia evita que las mejores soluciones encontradas se pierdan por efecto de los operadores estocásticos.
+
+Los parámetros de control del algoritmo genético son comunes para ambas fases de
+GNLPDA. Es decir, la Fase I y la Fase II utilizan el mismo número de generaciones, tamaño de población, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$).
+
+La diferencia entre fases está determinada por el espacio de búsqueda: variables originales en la primera fase y términos polinomiales en la segunda.
+
+\begin{table}[htbp]
+	\centering	
+	\begin{tabular}{|c|c|}
+		\hline
+		\encabezado{Parámetro} &
+		\encabezado{Valor final} \\
+		\hline
+		
+		Número de generaciones & 94 \\
+		\hline
+		Tamaño de población & 64 \\
+		\hline
+		Probabilidad de cruza & 0.9 \\
+		\hline
+		Probabilidad de mutación & 0.05 \\
+		\hline
+		Penalización & 0.01 \\
+		\hline
+		Selección & Torneo binario \\
+		\hline
+		Cruza & Un punto \\
+		\hline
+		Representación & Binaria \\
+		\hline
+		Elitismo & \begin{tabular}{c}
+			2 mejores\\
+			individuos
+		\end{tabular} \\
+		\hline
+	\end{tabular}
+	\caption{Parámetros finales del algoritmo genético empleado en GNLPDA.}	
+	\label{tab:MM1}
+
+\end{table}
+
+\subsection{Calibración mediante irace}
+
+La calibración de parámetros se realizó mediante irace, una herramienta de configuración automática basada en carreras iteradas. Este procedimiento evalúa distintas configuraciones candidatas sobre un conjunto de instancias de calibración y descarta progresivamente aquellas configuraciones con menor desempeño, concentrando el presupuesto de evaluación en las alternativas más prometedoras.
+
+En esta investigación, irace fue utilizado para calibrar cinco parámetros principales de GNLPDA: probabilidad de mutación, tamaño de población, probabilidad de cruza, penalización por complejidad y número de generaciones. Los rangos de búsqueda considerados fueron los siguientes:
+
+\begin{table}[htbp]
+	\centering	
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\encabezado{Parámetro} &
+		\encabezado{Tipo} &
+		\encabezado{Rango de búsqueda} \\
+		\hline
+		
+		ngen & Entero & [20, 100] \\
+		\hline
+		pobsize & Entero & [20, 100] \\
+		\hline
+		prob cruza & Real & [0.4, 0.95] \\
+		\hline
+		prob muta & Real & [0.05, 0.2] \\
+		\hline
+		Penalizador & Real & [0.01, 0.2] \\
+		\hline
+	\end{tabular}
+	\caption{Rangos de calibración considerados por irace.}	
+	\label{tab:MM2}
+\end{table}
+
+Dado que irace opera como un procedimiento de minimización, el criterio objetivo se definió a partir del fitness penalizado obtenido por GNLPDA al finalizar la segunda etapa. En particular, para cada configuración candidata se ejecutó el procedimiento completo de dos fases y se tomó el mejor valor de aptitud obtenido en la Fase II, denotado como $F_2{(z^{(2)*})}$. A partir de este valor, la función de costo entregada a irace se definió como:
+
+\begin{equation}
+	\mathcal{L}_{irace} = 1-F_2{(z^{(2)*})}
+	\label{eq:EM14}
+\end{equation}
+
+
+De esta forma, minimizar $\mathcal{L}_{irace}$ equivale a favorecer configuraciones que produzcan un mayor fitness penalizado en la segunda etapa. Este criterio incorpora simultáneamente la exactitud promedio estimada mediante validación cruzada estratificada de cinco pliegues y la penalización por complejidad asociada al número de términos polinomiales seleccionados.
+
+El presupuesto máximo de calibración se fijó en 5000 experimentos. Para reducir el tiempo de ejecución, el proceso se paralelizó utilizando 11 núcleos de procesamiento.
+
+\section{Diseño experimental}
+
+\subsection{Conjuntos de datos utilizados}
+
+Para evaluar el desempeño de GNLPDA se utilizaron diez conjuntos de datos con diferentes tamaños muestrales, dimensionalidades, números de clases y niveles de complejidad geométrica. La selección de estos conjuntos busca cubrir escenarios de clasificación binaria y multiclase, así como problemas donde la frontera de separación entre clases puede variar desde casos relativamente favorables para métodos lineales hasta escenarios con estructuras no lineales o traslape significativo entre clases.
+
+Los conjuntos Palmer Penguins y Wines se incorporaron como puntos de partida
+experimentales. Ambos corresponden a conjuntos de referencia ampliamente utilizados en clasificación supervisada y presentan una estructura de clases relativamente favorable para métodos lineales. Palmer Penguins contiene mediciones morfológicas de tres especies de pingüinos, mientras que Wines describe muestras de vino mediante variables químicas asociadas a tres clases. Estos conjuntos permiten verificar el comportamiento de GNLPDA en escenarios clásicos donde se espera que métodos lineales como LDA tengan un desempeño competitivo \cite{horst2022palmer}\cite{barth2021classification}.
+
+Los conjuntos Breast Cancer Wisconsin Diagnostic (WDBC) e Ionosphere se incluyeron como escenarios de referencia con mayor dimensionalidad. Aunque también pueden presentar una separación relativamente favorable para clasificadores lineales, su interés experimental radica en el incremento del número de variables. WDBC corresponde a un problema binario de diagnóstico de cáncer de mama a partir de características extraídas de imágenes digitalizadas de masas celulares. Por su parte, Ionosphere corresponde a un problema binario asociado con señales de radar, donde las observaciones se describen mediante un conjunto de variables numéricas de mayor dimensión. Estos conjuntos permiten analizar si GNLPDA conserva un comportamiento adecuado cuando aumenta el número de características originales disponibles \cite{salama2012breast} \cite{sigillito1989classification}.
+
+Para evaluar explícitamente el comportamiento de los métodos ante estructuras no lineales, se generaron tres conjuntos sintéticos denominados Cebolla3D, Cebolla10D y Cebolla20D. Estos conjuntos fueron construidos mediante un procedimiento de generación de datos concéntricos, de elaboración propia, en el que las clases se distribuyen en capas o regiones radiales. Por construcción, estos escenarios no presentan una separación lineal directa en el espacio original, por lo que permiten analizar la utilidad de la expansión polinomial y de la selección evolutiva de términos dentro de GNLPDA. La inclusión de versiones en 3, 10 y 20 dimensiones permiten observar el efecto del incremento dimensional en un problema no
+lineal controlado.
+
+El conjunto pimadiabetes se incorporó como un caso clásico de clasificación binaria con mayor dificultad práctica. Este conjunto reúne variables clínicas asociadas al diagnóstico de diabetes y es conocido por presentar traslape entre clases, ruido y presencia de valores faltantes o codificados de forma problemática. Por ello, constituye un escenario útil para evaluar el desempeño de GNLPDA en un problema donde la separación entre clases no es necesariamente clara, incluso después de aplicar transformaciones al espacio de características \cite{smith1988using}.
+
+Finalmente, se incluyeron dos conjuntos de indicadores de rezago social correspondientes a los años 2015 y 2020. Estos datos fueron proporcionados por un investigador colaborador y corresponden a una aplicación reciente en un contexto real. A diferencia de los conjuntos clásicos de referencia, estos datos presentan un mayor número de observaciones y cinco clases, lo que permite evaluar el comportamiento de GNLPDA en un problema multiclase aplicado. Además, su inclusión amplía el análisis experimental hacia un dominio distinto al de los repositorios tradicionales de aprendizaje automático \cite{navarro2025bayesian}.
+
+La Tabla~\ref{tab:MM3}, resume las principales características de los conjuntos de datos utilizados en la evaluación experimental:
+
+
+\begin{table}[htbp]
+	\centering
+	
+	\begin{tabular}{|c|c|c|c|}
+		\hline
+		\encabezado{Dataset} &
+		\encabezado{Muestras} &
+		\encabezado{Variables} &
+		\encabezado{Clases} \\
+		\hline
+		
+		penguins & 342 & 4 & 3 \\
+		\hline
+		wines & 178 & 13 & 3 \\
+		\hline
+		Breast Cancer (WDBC) & 569 & 30 & 2 \\
+		\hline
+		Ionosphere & 351 & 34 & 2 \\
+		\hline
+		Cebolla3D & 300 & 3 & 3 \\
+		\hline
+		Cebolla10D & 300 & 10 & 3 \\
+		\hline
+		Cebolla20D & 300 & 20 & 3 \\
+		\hline
+		pimadiabetes & 768 & 8 & 2 \\
+		\hline
+		Indicadores 2015 & 2446 & 12 & 5 \\
+		\hline
+		Indicadores 2020 & 2470 & 12 & 5 \\
+		\hline
+	\end{tabular}
+	\caption{Resumen de datasets y características.}	
+	\label{tab:MM3}	
+\end{table}
+
+En conjunto, estos datos permiten evaluar el método en cuatro tipos de escenarios: conjuntos clásicos con separabilidad relativamente favorable, conjuntos de referencia con mayor número de variables, conjuntos sintéticos no lineales de estructura controlada y aplicaciones reales con mayor tamaño muestral. Esta diversidad experimental permite analizar no solo la exactitud predictiva de GNLPDA, sino también su capacidad para seleccionar representaciones compactas en problemas con distintas características geométricas y dimensionales.
+
+\subsection{Generación de conjuntos sintéticos tipo Cebolla}
+
+Además de los conjuntos de referencia y de aplicación real, se generaron tres conjuntos sintéticos denominados Cebolla3D, Cebolla10D y Cebolla20D. Estos conjuntos fueron diseñados con el propósito de evaluar el comportamiento de los métodos en escenarios donde la separación entre clases no es lineal en el espacio original. A diferencia de los conjuntos reales, cuya estructura depende de datos observados, los conjuntos tipo Cebolla permiten controlar explícitamente la geometría del problema y garantizar una estructura concéntrica de clases.
+
+El procedimiento de generación se basa en distribuir observaciones sobre capas radiales alrededor de un centro común. Cada clase se asocia con un intervalo de radios distinto, de manera que la pertenencia de clase depende principalmente de la distancia al origen y no de una combinación lineal de las variables. Por esta razón, las clases no pueden separarse adecuadamente mediante hiperplanos en el espacio original, lo que convierte a estos conjuntos en escenarios adecuados para evaluar métodos que incorporan transformaciones no lineales del espacio de características.
+
+Sea $x_i \in \mathbb{R}^d$ una observación generada en un espacio de dimensión $d$, con $d \in \{3,10,20\}$.
+
+Para cada clase $c \in \{1,2,3\}$ , se define un intervalo radial:
+
+\begin{equation}
+	a_c = 2(c-1), \quad b_c = a_c + 1.5
+	\label{eq:EM15}
+\end{equation}
+
+De esta forma, las tres clases quedan asociadas a los intervalos radiales [0,1.5], [2,3.5] y [4,5.5], respectivamente. La separación entre intervalos radiales introduce una estructura de capas concéntricas, mientras que la dimensión $d$ determina el número de variables del conjunto sintético generado.
+
+Para generar cada observación, primero se obtiene un vector aleatorio $v_i \in \mathbb{R}^d$ con componentes independientes provenientes de una distribución normal estándar:
+
+\begin{equation}
+	v_i \sim \mathcal{N}(\mathbf{0}, I_d)	
+	\label{eq:EM16}
+\end{equation}
+
+Posteriormente, este vector se normaliza para obtener una dirección unitaria:
+
+\begin{equation}
+	u_i = \frac{v_i}{|v_i|}	
+	\label{eq:EM17}
+\end{equation}
+
+El radio de la observación se genera de manera uniforme dentro del intervalo correspondiente a su clase:
+
+\begin{equation}
+	r_i \sim U(a_c,b_c)	
+	\label{eq:EM18}
+\end{equation}
+
+Finalmente, la observación se obtiene escalando la dirección unitaria por el radio generado y agregando una perturbación uniforme por coordenada:
+
+\begin{equation}
+	x_i = r_iu_i + \epsilon_i	
+	\label{eq:EM19}
+\end{equation}
+
+Donde:
+
+\begin{equation}
+	\epsilon_i \sim U\left(-\frac{\eta}{2}, \frac{\eta}{2}\right)^d
+	\label{eq:EM20}
+\end{equation}
+
+y $\eta = 0.1$ controla la magnitud del ruido añadido. La etiqueta de clase se asigna de acuerdo con el intervalo radial utilizado en la generación, produciendo las clases $G_1$, $G_2$ y $G_3$.
+
+En cada conjunto sintético se generaron 100 observaciones por clase, para un total de 300 observaciones distribuidas en tres clases. Cebolla3D permite visualizar directamente la estructura concéntrica del problema, mientras que Cebolla10D y Cebolla20D permiten analizar el comportamiento de los métodos cuando la misma estructura no lineal se presenta en espacios de mayor dimensionalidad.
+
+Estos conjuntos fueron generados específicamente para esta investigación, por lo que se reportan como datos de elaboración propia. Su inclusión permite evaluar si GNLPDA logra aprovechar la expansión polinomial y la selección evolutiva de términos para construir una representación discriminante adecuada en problemas donde la no linealidad está presente por construcción.
+
+\subsection{Protocolo de particionamiento y evaluación}
+
+El preprocesamiento de los conjuntos de datos se mantuvo al mínimo con el propósito de evaluar los métodos sobre representaciones cercanas a los datos originales. No se aplicaron procedimientos de estandarización, normalización, reducción dimensional previa ni transformaciones adicionales sobre las variables de entrada. Únicamente se realizaron depuraciones puntuales cuando fue necesario, tales como la eliminación de variables no predictoras, identificadores o columnas incompatibles con el análisis numérico. De esta forma, las diferencias observadas entre métodos se atribuyen principalmente al procedimiento de clasificación o transformación propio de cada técnica evaluada.
+
+Para estimar el desempeño de los métodos se utilizó un esquema de particionamiento aleatorio repetido. En cada conjunto de datos se generaron 30 particiones independientes con proporción 70/30, donde el 70\% de las observaciones se utilizó como conjunto de entrenamiento y el 30\% restante como conjunto de prueba. Cada partición fue generada a partir de una semilla aleatoria prefijada, de manera que el procedimiento pudiera
+reproducirse.
+
+Todos los métodos comparativos fueron evaluados utilizando exactamente las mismas
+particiones de entrenamiento y prueba. Por tanto, para una semilla dada, GNLPDA, LDA, QDA, KFDA y las variantes de SVM fueron entrenados y evaluados sobre el mismo bloque experimental. Este diseño permite realizar comparaciones emparejadas entre algoritmos, ya que las diferencias de desempeño no dependen de variaciones en los datos utilizados para entrenamiento o prueba, sino del comportamiento de cada método bajo la misma partición.
+
+En el caso particular de GNLPDA, la búsqueda evolutiva se realizó únicamente dentro del conjunto de entrenamiento de cada partición. A su vez, la evaluación interna de los cromosomas se llevó a cabo mediante validación cruzada estratificada de cinco pliegues sobre dicho conjunto de entrenamiento. El conjunto de prueba no participó en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo del fitness. Una vez finalizado el proceso de selección, el modelo final se ajustó con la representación seleccionada sobre el conjunto de entrenamiento y se evaluó sobre el conjunto de prueba correspondiente.
+
+Como resultado, para cada combinación de dataset y método se obtuvieron 30 valores de desempeño, uno por cada partición aleatoria. Estos valores constituyen la base para el análisis comparativo y estadístico descrito en la siguiente sección.
+
+\subsection{Análisis estadístico de resultados}
+
+El análisis estadístico se realizó de manera independiente para cada conjunto de datos. Dado que todos los métodos fueron evaluados sobre las mismas 30 particiones de entrenamiento y prueba, el diseño experimental puede interpretarse como un diseño en bloques emparejados, donde cada partición constituye un bloque y cada algoritmo representa un tratamiento. Bajo este esquema, las comparaciones entre métodos se realizan considerando que todos enfrentan las mismas condiciones experimentales dentro de cada bloque.
+
+Para detectar diferencias globales entre los algoritmos se aplicó la prueba no paramétrica de Friedman. Esta prueba permite comparar múltiples métodos bajo un diseño de bloques, utilizando los rangos de desempeño obtenidos por los algoritmos dentro de cada partición.
+
+En este trabajo, para cada dataset se construyó una matriz de resultados con 30 filas, correspondientes a las particiones aleatorias, y una columna por cada método evaluado. A partir de esta matriz se aplicó la prueba de Friedman con el objetivo de determinar si existían diferencias estadísticamente significativas entre los desempeños de los algoritmos \cite{pereira2015overview}.
+
+Cuando la prueba de Friedman indicó diferencias significativas, se aplicó la prueba post hoc de Nemenyi para identificar entre qué pares de métodos se presentaban diferencias estadísticamente significativas. Esta prueba permite comparar los rangos promedio de los algoritmos y determinar si la diferencia entre dos métodos supera la diferencia crítica establecida para el nivel de significancia considerado \cite{demvsar2006statistical}.
+
+El análisis se realizó en dos niveles. En primer lugar, se consideró el conjunto completo de métodos comparativos, incluyendo LDA, QDA, KFDA, SVM con kernel polinomial de grado 2, SVM con kernel polinomial de grado 3, SVM con kernel gaussiano y GNLPDA.
+
+Esta comparación permite situar la propuesta frente a clasificadores lineales, cuadráticos y no lineales.
+
+En segundo lugar, se repitió el análisis excluyendo a LDA y QDA. Esta segunda comparación se centró únicamente en métodos no lineales o basados en transformaciones del espacio de características, es decir, KFDA, las variantes kernel de SVM y GNLPDA. El propósito de este análisis adicional fue evaluar el comportamiento relativo de la propuesta frente a competidores más cercanos en términos metodológicos, evitando que las diferencias frente a clasificadores lineales dominaran la interpretación de los resultados.
+
+En todos los casos, el análisis estadístico se basó en los resultados obtenidos sobre las 30 particiones aleatorias de cada dataset. De esta forma, la comparación entre métodos incorpora la variabilidad inducida por las particiones entrenamiento-prueba y no depende de una única división de los datos.
+
+\subsection{Evaluación auxiliar del problema Small Sample Size}
+
+Además del análisis comparativo principal, se diseñó una evaluación auxiliar para visualizar el efecto del problema Small Sample Size (SSS) sobre métodos discriminantes. Esta evaluación no tuvo como objetivo comparar exhaustivamente todos los algoritmos del estudio, sino ilustrar el comportamiento de LDA, la implementación lda de la paquetería MASS y KFDA bajo escenarios donde la relación entre número de observaciones y número de variables se vuelve desfavorable.
+
+Para ello, se construyeron cinco escenarios sintéticos con tres clases balanceadas. 
+
+En cada caso se controló el número total de observaciones, el número de atributos originales y el número de atributos resultantes después de aplicar una expansión polinomial de segundo grado sin término de sesgo. Si ($d$) representa el número de atributos originales, el número de términos generados por la expansión cuadrática se calculó como:
+
+\begin{equation}
+	D_\phi = \binom{d+2}{2}-1
+	\label{eq:EM21}
+\end{equation}
+
+La Tabla 4. resume los cinco escenarios considerados:
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		\encabezado{Caso} &
+		\encabezado{Muestras} &
+		\encabezado{Atributos} &
+		\encabezado{\begin{tabular}{c}
+				Atributos\\
+				expandido
+		\end{tabular}} &
+		\encabezado{Clases} &
+		\encabezado{\begin{tabular}{c}
+				Muestras\\
+				por clase
+		\end{tabular}} \\
+		\hline
+		
+		1 & 150 & 3  & 9   & 3 & 50 \\
+		\hline
+		2 & 150 & 10 & 65  & 3 & 50 \\
+		\hline
+		3 & 15  & 3  & 9   & 3 & 5  \\
+		\hline
+		4 & 15  & 10 & 65  & 3 & 5  \\
+		\hline
+		5 & 15  & 15 & 135 & 3 & 5  \\
+		\hline
+	\end{tabular}
+	\caption{Resumen de los escenarios de prueba sintéticos.}
+	\label{tab:MM4}	
+\end{table}
+
+Los dos primeros casos representan escenarios con un número relativamente
+suficiente de observaciones por clase. En el Caso 1, la dimensionalidad es baja tanto en el espacio original como en el espacio expandido. En el Caso 2, la expansión polinomial incrementa considerablemente el número de atributos, aunque el tamaño muestral sigue siendo relativamente amplio.
+
+Los Casos 3, 4 y 5 introducen una condición de escasez muestral, con únicamente 15
+observaciones totales y cinco muestras por clase. El Caso 3 permite observar el efecto de una muestra reducida con baja dimensionalidad. En el Caso 4, la expansión polinomial genera 65 atributos a partir de 10 variables originales, produciendo una relación desfavorable entre dimensión y tamaño muestral. Finalmente, el Caso 5 representa el escenario más severo, ya que combina baja muestra, mayor número de atributos originales y una expansión polinomial de 135 términos.
+
+Esta evaluación permite observar visualmente cómo la expansión del espacio de características puede agravar el problema SSS. En particular, cuando el número de atributos se aproxima o supera el número de observaciones disponibles, la estimación de matrices de dispersión o covarianza puede volverse inestable o singular. Por ello, estos escenarios resultan útiles para contrastar la formulación clásica de LDA, la implementación computacional de LDA en MASS y KFDA bajo condiciones de alta dimensionalidad relativa.
+
+Los resultados derivados de esta evaluación se presentan como un análisis complementario al experimento principal. Su propósito es apoyar la discusión metodológica sobre las limitaciones de los enfoques discriminantes cuando el espacio de características crece de manera considerable respecto al número de observaciones disponibles, especialmente después de aplicar expansiones polinomiales.
+
+\subsection{Métodos comparativos y métrica de evaluación}
+
+Para evaluar el desempeño de GNLPDA se consideraron seis métodos comparativos: LDA, QDA, KFDA con kernel gaussiano, SVM con kernel polinomial de grado 2, SVM con kernel polinomial de grado 3 y SVM con kernel gaussiano. La selección de estos competidores busca contrastar la propuesta frente a clasificadores lineales clásicos, clasificadores cuadráticos, métodos kernel discriminantes y clasificadores kernel ampliamente utilizados en problemas de clasificación supervisada.
+
+El primer método comparativo fue LDA, implementado mediante la función lda de la paquetería MASS de R. Este método se incluyó como línea base, ya que representa el enfoque clásico de separación y proyección lineal supervisada. Además, resulta especialmente relevante porque GNLPDA utiliza internamente esta implementación de LDA para evaluar las representaciones generadas durante su proceso de selección evolutiva. La implementación de MASS es pertinente en este contexto debido a su tratamiento computacional de la estimación discriminante, particularmente cuando aparecen problemas de colinealidad o alta dimensionalidad relativa.
+
+El segundo método fue QDA, considerado como una extensión clásica del análisis discriminante que relaja el supuesto de covarianzas iguales entre clases. A diferencia de LDA, QDA permite fronteras de decisión cuadráticas, por lo que se incorporó como un competidor tradicional capaz de modelar separaciones no estrictamente lineales en el espacio original.
+
+También se incluyó KFDA con kernel gaussiano. Este método constituye una alternativa kernel al análisis discriminante de Fisher, al permitir que la separación entre clases se realice en un espacio de características inducido implícitamente por el kernel. Su inclusión resulta relevante porque conserva una interpretación discriminante y proyectiva, pero incorpora la capacidad de modelar relaciones no lineales entre las observaciones.
+
+Adicionalmente, se evaluaron tres variantes de SVM. La primera corresponde a SVM con kernel polinomial de grado 2, incluida como referencia frente a una transformación polinomial implícita de segundo grado. La segunda corresponde a SVM con kernel polinomial de grado 3, considerada para analizar el efecto de una transformación polinomial implícita de mayor orden. Finalmente, se incluyó SVM con kernel gaussiano, debido a su uso extendido en el estado del arte y a su capacidad para modelar fronteras de decisión no lineales flexibles.
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|p{7.5cm}|}
+		\hline
+		\encabezado{Método} &
+		\encabezado{Variante} &
+		\encabezado{Propósito en la comparación} \\
+		\hline
+		
+		LDA & \begin{tabular}{c}
+			LDA de la\\
+			paquetería\\
+			MASS
+		\end{tabular} & Línea base lineal y proyectiva; implementación usada internamente por GNLPDA. \\
+		\hline
+		QDA & Clásico & Clasificador discriminante con fronteras cuadráticas. \\
+		\hline
+		KFDA & Gauss & Alternativa kernel de Fisher para separación no lineal. \\
+		\hline
+		SVM & Pol (2) & Comparación frente a una transformación polinomial implícita de segundo grado. \\
+		\hline
+		SVM & Pol (3) & Comparación frente a una transformación polinomial implícita de mayor orden. \\
+		\hline
+		SVM & Gauss & Clasificador kernel no lineal ampliamente utilizado. \\
+		\hline
+	\end{tabular}
+	\caption{Resume los métodos comparativos considerados y su propósito dentro del diseño experimental.}
+	\label{tab:MM5}	
+\end{table}
+
+El rendimiento de los métodos se evaluó mediante exactitud (accuracy) sobre el conjunto de prueba. Para una partición dada, la exactitud se calculó como la proporción de observaciones correctamente clasificadas:
+
+\begin{equation}
+	\text{Accuracy} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} \mathbb{I}(\hat{y}_i = y_i)
+	\label{eq:EM22}
+\end{equation}
+
+Dado que cada método fue evaluado sobre las mismas 30 particiones por dataset, para cada combinación método-dataset se obtuvieron 30 valores de exactitud. Estos valores fueron utilizados posteriormente para el análisis estadístico mediante la prueba de Friedman y, cuando correspondió, la prueba post hoc de Nemenyi.
+

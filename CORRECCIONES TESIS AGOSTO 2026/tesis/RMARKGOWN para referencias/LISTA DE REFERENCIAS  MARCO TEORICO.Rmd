@@ -1,0 +1,22 @@
+---
+title: "Referencias del trabajo"
+author: "Ángel García Báez"
+date: "2026-08-31"
+output: 
+  word_document:
+    toc: true
+    number_sections: true
+bibliography: referenciaslimpias.bib
+csl: apa.csl   # opcional (estilo de citas)
+nocite: '@*'
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+\newpage
+
+
+
+

@@ -1,0 +1,132 @@
+% =========================================================
+% capitulos/06_Discusion.tex
+% Placeholder con las herramientas que se van a usar en la
+% tesis: tablas con el estilo azul, pseudocódigo y ecuaciones
+% numeradas / sin numerar de distintos tipos.
+% =========================================================
+
+\chapter{Discusión}
+
+\label{chap:Discusión}
+
+Los resultados obtenidos permiten analizar el comportamiento de GNLPDA desde
+una perspectiva tanto geométrica como estadística, evidenciando los alcances y limitaciones
+de la propuesta frente a distintos tipos de problemas de clasificación. En conjunto, los
+experimentos muestran que el desempeño del método depende en gran medida de la
+naturaleza del conjunto de datos, confirmando que no existe un clasificador universalmente
+superior para todos los escenarios.
+
+\section{Expansión polinomial y separabilidad de los datos}
+
+Las proyecciones obtenidas mediante GNLPDA evidencian el efecto de incorporar
+una expansión polinomial explícita antes del proceso de selección de características. En
+diversos conjuntos de datos se observó que las proyecciones generadas por GNLPDA
+conservan una estructura geométrica similar a la obtenida mediante LDA, aunque presentan
+modificaciones suficientes para incrementar la separación entre las clases. Este
+comportamiento sugiere que la expansión polinomial no sustituye la información contenida
+en el espacio original, sino que incorpora términos de interacción capaces de revelar regiones
+donde la separación lineal resulta más factible.
+
+En contraste, las proyecciones obtenidas mediante KFDA presentan una geometría
+considerablemente distinta. Al construir una matriz kernel y realizar la discriminación sobre
+un espacio inducido implícitamente, las observaciones tienden a formar agrupamientos más
+compactos dentro de cada clase, favoreciendo la separación entre grupos. Sin embargo, dicha
+representación ocurre en un espacio cuya transformación no puede interpretarse
+directamente, lo que dificulta identificar como están afectando las variables o que está
+ocurriendo en el espacio original de las caracteristicas.
+
+Desde esta perspectiva, GNLPDA constituye una alternativa intermedia entre los métodos
+lineales y los métodos kernel. Mientras que conserva la capacidad de generar proyecciones
+explícitas e interpretables, incorpora relaciones no lineales mediante la expansión polinomial
+y la selección evolutiva de términos, permitiendo aproximar parte de la capacidad
+discriminante de los enfoques kernel sin renunciar completamente a la trazabilidad del
+modelo.
+
+\section{Comportamiento frente al problema Small Sample Size}
+
+El estudio realizado sobre escenarios Small Sample Size confirmó experimentalmente las limitaciones teóricas asociadas a la formulación clásica del Análisis Discriminante Lineal.
+Conforme el número de variables superó ampliamente al número de observaciones, la matriz
+de dispersión intra-clase perdió invertibilidad, imposibilitando la obtención de las
+direcciones discriminantes mediante la formulación tradicional.
+
+En contraste, tanto la implementación de LDA basada en descomposición en valores
+singulares, disponible en el paquete MASS de R, como KFDA lograron mantener su
+capacidad para generar proyecciones discriminantes bajo estas condiciones. Estos resultados
+ponen de manifiesto la importancia de emplear formulaciones numéricamente robustas
+cuando se trabaja con conjuntos de datos de alta dimensionalidad y tamaño de muestra
+reducido, ya que permiten evitar el colapso observado en la formulación clásica sin modificar
+el objetivo discriminante del método.
+
+Asimismo, este estudio permitió ilustrar de forma visual cómo distintas
+formulaciones de un mismo modelo pueden presentar comportamientos considerablemente
+diferentes frente a un mismo problema, evidenciando que la implementación computacional
+también desempeña un papel importante en la aplicabilidad práctica de los métodos
+discriminantes.
+
+\section{Comparación con los métodos evaluados}
+
+
+
+La comparación experimental mostró que GNLPDA presenta un comportamiento
+competitivo respecto a los métodos considerados, aunque su desempeño depende de las
+características particulares del conjunto de datos.
+
+En problemas con fronteras de decisión relativamente simples, como Palmer
+Penguins o Wine, los mejores resultados fueron obtenidos por LDA y QDA, cuyos valores
+de exactitud mostraron una menor variabilidad y un desempeño superior al resto de los
+métodos. Estos resultados evidencian que, cuando los supuestos de los modelos clásicos se
+cumplen de forma aproximada, la incorporación de mecanismos más sofisticados no
+necesariamente produce mejoras significativas.
+
+Por otra parte, el conjunto Ionosphere representó un escenario distinto debido a su elevada
+dimensionalidad y al reducido número de observaciones disponibles. En este caso, QDA no
+logró ejecutarse debido a las dificultades asociadas con la estimación de las matrices de
+covarianza requeridas por el modelo, mientras que las formulaciones más robustas de LDA
+y los métodos kernel conservaron su capacidad operativa.
+
+En los conjuntos de datos caracterizados por fronteras de decisión claramente no lineales, los
+métodos basados en kernels, particularmente la SVM con kernel gaussiano, alcanzaron los
+mejores resultados de clasificación, acompañados además de una menor dispersión entre las
+distintas ejecuciones. Aunque GNLPDA no logró superar este comportamiento, sí obtuvo
+desempeños competitivos y estadísticamente comparables con las configuraciones basadas
+en kernels polinomiales, especialmente con SVM de grado dos. Este resultado sugiere que
+una expansión explícita, acompañada de un mecanismo adecuado de selección de variables,
+puede aproximar la capacidad discriminante obtenida mediante kernels implícitos.
+
+En contraste, el conjunto Pima Diabetes representó un escenario particularmente complejo
+debido al elevado traslape existente entre clases. En este caso, todos los métodos evaluados
+alcanzaron desempeños similares, independientemente de su complejidad. Este
+comportamiento pone en evidencia que la capacidad predictiva de un clasificador no depende
+únicamente del algoritmo empleado, sino también de la calidad, estructura y separabilidad
+inherente de los datos disponibles.
+
+Finalmente, los conjuntos correspondientes a los indicadores de rezago social mostraron un
+comportamiento diferente al observado en los problemas anteriores. GNLPDA obtuvo un
+desempeño intermedio entre los métodos clásicos y las máquinas de soporte vectorial,
+mientras que KFDA presentó una disminución importante en su capacidad de clasificación.
+Las proyecciones obtenidas sugieren que estos conjuntos presentan una estructura
+caracterizada por clases progresivas con fronteras poco definidas, situación en la que la
+representación inducida por KFDA no logró capturar adecuadamente las diferencias sutiles
+entre grupos. En cambio, tanto LDA como GNLPDA conservaron una representación más
+consistente de la organización gradual presente en los datos.
+
+\section{Interpretación general de la propuesta}
+
+En conjunto, los resultados obtenidos permiten interpretar a GNLPDA como una estrategia
+que busca equilibrar capacidad predictiva, interpretabilidad y representación geométrica de
+los datos. La propuesta no pretende reemplazar a los métodos clásicos cuando éstos resultan
+suficientes, ni competir directamente con los enfoques kernel en aquellos escenarios donde
+las transformaciones implícitas ofrecen ventajas evidentes. En cambio, plantea una
+alternativa que incorpora relaciones no lineales de manera explícita, conservando la
+posibilidad de identificar las variables y términos polinomiales responsables de la separación
+obtenida.
+
+Esta característica adquiere especial relevancia cuando, además del desempeño predictivo,
+resulta importante comprender la estructura del problema y explicar el comportamiento del
+modelo. En este sentido, GNLPDA ofrece una representación visual compacta de la
+información contenida en espacios de alta dimensionalidad, permitiendo analizar la
+geometría de las clases y facilitando la interpretación de las transformaciones realizadas
+durante el proceso de aprendizaje.
+
+
+

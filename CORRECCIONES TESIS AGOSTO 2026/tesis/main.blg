@@ -1,0 +1,58 @@
+This is BibTeX, Version 0.99d (TeX Live 2025)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: natdin.bst
+A level-1 auxiliary file: capitulos/01_introduccion.aux
+A level-1 auxiliary file: capitulos/02_marco_teorico.aux
+A level-1 auxiliary file: capitulos/03_estado_arte.aux
+A level-1 auxiliary file: capitulos/04_metodologia.aux
+A level-1 auxiliary file: capitulos/05_resultados.aux
+A level-1 auxiliary file: capitulos/06_discusion.aux
+A level-1 auxiliary file: capitulos/07_conclusiones.aux
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Reallocated singl_function (elt_size=4) to 100 items from 50.
+Database file #1: bibliografia/referenciaslimpias.bib
+You've used 67 entries,
+            4728 wiz_defined-function locations,
+            1289 strings with 19709 characters,
+and the built_in function-call counts, 54953 in all, are:
+= -- 5594
+> -- 1854
+< -- 1979
++ -- 2380
+- -- 677
+* -- 4258
+:= -- 9562
+add.period$ -- 71
+call.type$ -- 67
+change.case$ -- 399
+chr.to.int$ -- 66
+cite$ -- 67
+duplicate$ -- 1430
+empty$ -- 3216
+format.name$ -- 1106
+if$ -- 10226
+int.to.chr$ -- 2
+int.to.str$ -- 1
+missing$ -- 344
+newline$ -- 359
+num.names$ -- 268
+pop$ -- 597
+preamble$ -- 1
+purify$ -- 533
+quote$ -- 0
+skip$ -- 3140
+stack$ -- 0
+substring$ -- 3902
+swap$ -- 372
+text.length$ -- 256
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 836
+warning$ -- 0
+while$ -- 489
+width$ -- 0
+write$ -- 901
