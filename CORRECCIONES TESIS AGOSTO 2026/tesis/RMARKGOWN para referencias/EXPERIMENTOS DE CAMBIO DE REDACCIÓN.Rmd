@@ -1,0 +1,135 @@
+---
+title: "Referencias del trabajo"
+author: "Ángel García Báez"
+date: "2026-08-31"
+output: 
+  word_document:
+    toc: true
+    number_sections: true
+bibliography: referenciaslimpias.bib
+csl: apa.csl   # opcional (estilo de citas)
+
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+newpage
+
+
+
+
+
+% =========================================================
+% capitulos/01_introduccion.tex
+% =========================================================
+
+%chapter{Introducción}
+% label{chap:introduccion}
+
+section{Contexto y motivación}
+
+En el marco del Aprendizaje Máquina (Machine Learning), el objetivo fundamental es el desarrollo de algoritmos capaces de identificar patrones complejos en los datos para la toma de decisiones automatizada cite{bharadiya2023tutorial}. En problemas de aprendizaje supervisado, un conjunto de datos puede representarse como una matriz en la que cada fila corresponde a una observación y cada columna a una característica descriptiva. Cuando las observaciones cuentan con una etiqueta de clase, dicha representación se convierte en la base sobre la cual los algoritmos buscan identificar patrones que permitan distinguir entre grupos. Por ello, la calidad de la representación de los datos influye directamente en la capacidad de separación alcanzada por los modelos cite{hastie2009elements}.
+
+No obstante, el desempeño de estos modelos está intrínsecamente ligado a la estructura espacial de las características. En entornos donde los datos presentan estructuras no linealmente separables, la capacidad de aprendizaje de los sistemas lineales se ve comprometida. Por ello, la extracción de características se vuelve una etapa crítica, buscando transformar el espacio original en uno donde las particularidades de los datos sean más accesibles y procesables cite{wani2025comprehensive}.
+
+El manejo de conjuntos de datos con un número elevado de variables plantea desafíos relevantes en términos de costo computacional, redundancia de información y riesgo de sobreajuste cite{sorzano2014survey}. La reducción de dimensionalidad aborda este problema al buscar una representación más compacta, agrupándose en dos enfoques principales: selección de características (conserva un subconjunto original) y extracción de características (transforma el espacio original para generar nuevas proyecciones), como ocurre en el Análisis de Componentes Principales (PCA) o el Análisis Discriminante cite{jain2000statistical}cite{sorzano2014survey}. 
+
+En la Figura ref{fig:MC1} se presenta una taxonomía general de las técnicas de reducción de dimensionalidad cite{medina2025genetic}.
+
+begin{figure}[htbp]
+	centering
+	includegraphics[width=0.6textwidth]{D1.png}
+	caption{Taxonomía de las técnicas de reducción de dimensionalidad. Tomada de cite{medina2025genetic}.}
+	label{fig:MC1}
+end{figure}
+
+Dentro de los métodos de selección, los enfoques textit{wrapper} evalúan subconjuntos de características utilizando el desempeño de un modelo como criterio de calidad cite{kohavi1997wrappers}. Aunque son más costosos computacionalmente que los métodos de filtro, resultan más adecuados cuando la utilidad de una característica depende de su interacción conjunta con otras variables cite{guyon2003introduction}.
+
+section{Planteamiento del problema}
+
+A pesar del avance en las técnicas de reducción de dimensionalidad, los métodos de proyección lineal enfrentan limitaciones severas ante datos que no cumplen con supuestos de normalidad o que poseen estructuras no linealmente separables. Por ejemplo, aunque PCA es ampliamente utilizado para explorar la agrupación de datos en 2D, no optimiza la separabilidad de clases; por su parte, el Análisis Discriminante Lineal (LDA) busca dicha separabilidad, pero fracasa si las fronteras de decisión óptimas son curvas o complejas cite{feng2021comparison}.
+
+El problema se agrava ante la maldición de la dimensionalidad. Adicionalmente, en conjuntos donde el número de observaciones es reducido frente al número de variables, surge el problema de pequeño tamaño de muestra (SSS Problem), imposibilitando el cálculo de matrices de dispersión robustas cite{sharma2015linear}. 
+
+Si se recurre a expansiones polinomiales para tratar la no linealidad, se genera una explosión dimensional inmanejable cite{bishop2006pattern}. Existe, por tanto, una brecha técnica: la falta de un mecanismo que logre proyectar visualmente conjuntos de datos con fronteras no lineales, sin sacrificar la estabilidad del modelo ni perder interpretabilidad en espacios de alta dimensión.
+
+section{Justificación}
+label{sec:Justificacion}
+
+El presente trabajo propone y desarrolla el algoritmo Análisis Discriminante Polinomial No Lineal Genético (GNLPDA), un enfoque híbrido que se ubica en la intersección entre selección y extracción de características. GNLPDA emplea selección evolutiva para identificar variables originales y términos polinomiales relevantes, y utiliza el análisis discriminante para obtener una representación proyectada en baja dimensión.
+
+Esta investigación se justifica por la necesidad imperante de encontrar un equilibrio entre la transformación no lineal, la parsimonia dimensional y, sobre todo, la interpretabilidad. A diferencia de métodos de "caja negra" del estado del arte (como las Máquinas de Soporte Vectorial con kernel), que mapean los datos a espacios de dimensión infinita imposibles de graficar, la propuesta desarrollada ofrece un beneficio dual:
+
+begin{itemize}
+    item textbf{Visualización geométrica:} Permite proyectar estructuras no linealmente separables en espacios compactos (2D o 3D) facilitando el análisis visual de las fronteras de clase.
+    item textbf{Trazabilidad e Interpretabilidad:} Al utilizar un enfoque textit{wrapper}, el proceso permite rastrear exactamente qué variables y qué términos interactivos ($x_ix_j$) fueron seleccionados para construir los ejes discriminantes, ofreciendo una explicación técnica de la proyección final.
+end{itemize}
+
+section{Pregunta de investigación}
+label{sec:Pregunta-Investigacion}
+
+A partir de esta problemática, se plantea la siguiente pregunta de investigación:
+
+begin{itemize}
+	item textbf{¿Es posible integrar la expansión explícita de características con un esquema de selección evolutiva textit{wrapper} para proyectar conjuntos de datos con estructuras no linealmente separables en espacios de baja dimensión (2D/3D), manteniendo un equilibrio competitivo entre exactitud de clasificación e interpretabilidad visual?}
+end{itemize}
+
+section{Hipótesis}
+label{sec:Hipotesis}
+
+La implementación de un mecanismo de selección evolutiva sobre una expansión polinomial explícita (GNLPDA) permite generar representaciones visualizables en baja dimensión (acotadas por el número de clases y hasta un máximo de tres dimensiones) para datos con estructuras no linealmente separables. Esta proyección compacta logra un desempeño de clasificación estadísticamente competitivo frente a métodos no lineales de referencia (basados en kernel), aportando como ventaja fundamental la trazabilidad de las variables seleccionadas y la interpretabilidad visual del espacio transformado.
+
+section{Objetivos}
+label{sec:Objetivos}
+
+subsection{Objetivo general}
+
+Diseñar e implementar el algoritmo GNLPDA como un esquema híbrido de selección y extracción de características que integre expansión polinomial con análisis discriminante evolutivo, con el propósito fundamental de lograr la proyección y visualización en baja dimensión (hasta 3D) de conjuntos de datos con estructuras no linealmente separables, manteniendo un rendimiento competitivo y trazable.
+
+subsection{Objetivos específicos}
+
+begin{itemize}
+	item textbf{Caracterizar} las limitaciones visuales y operativas de técnicas como PCA y LDA ante escenarios de no linealidad y dimensionalidad adversa.
+	item textbf{Diseñar} un mecanismo textit{wrapper} de selección evolutiva en dos fases que reduzca la redundancia espacial, seleccionando explícitamente variables y términos polinomiales relevantes.
+	item textbf{Analizar y contrastar} cualitativamente las proyecciones geométricas de baja dimensión generadas por GNLPDA frente a los métodos de referencia, priorizando su capacidad de visualización.
+	item textbf{Evaluar} estadísticamente el desempeño de clasificación (textit{Accuracy}) de la propuesta frente a técnicas lineales y no lineales (kernel), determinando su nivel de competitividad.
+end{itemize}
+
+section{Contribuciones}
+label{sec:Contribuciones}
+
+Las principales contribuciones de este trabajo son:
+
+begin{itemize}
+item El desarrollo de GNLPDA, un esquema híbrido que aborda el problema de la no linealidad sin recurrir al "truco del kernel", permitiendo la visualización directa del espacio discriminante.
+item La implementación de un mecanismo textit{wrapper} evolutivo en dos fases que mitiga la explosión dimensional propia de las expansiones polinomiales.
+item La demostración empírica de que es factible alcanzar un equilibrio entre el rendimiento predictivo de los métodos de caja negra y la interpretabilidad visual requerida en tareas de análisis exploratorio de datos complejos.
+end{itemize}
+
+section{Alcances y limitaciones}
+label{sec:Alcances-Limitaciones}
+
+begin{itemize}
+	item El enfoque se restringe a tareas de clasificación con conjuntos de datos tabulares estrictamente numéricos (no se abordan imágenes, texto ni series temporales).
+	item Las visualizaciones se acotan a un máximo de tres dimensiones, restricción inherente a la naturaleza del análisis discriminante ($C - 1$ dimensiones para $C$ clases).
+	item La investigación no tiene como propósito superar la exactitud absoluta de algoritmos kernel altamente optimizados, sino proveer una herramienta competitiva cuya ventaja principal recaiga en la interpretabilidad y proyección visual.
+	item La validación empírica se limita a conjuntos de datos con un máximo de 32 variables cuantitativas originales para mantener la trazabilidad de la expansión polinomial.
+end{itemize}
+
+section{Organización de la tesis}
+label{sec:Organizacion-Tesis}
+
+begin{itemize}
+	item El textbf{Capítulo 2} presenta el marco teórico, abordando las técnicas de reducción de dimensionalidad, los fundamentos de PCA y LDA, el problema de tamaño de muestra, algoritmos genéticos y métodos kernel.
+	item El textbf{Capítulo 3} desarrolla el estado del arte revisando enfoques de selección evolutiva, variantes de LDA regularizado y las limitaciones que motivan a GNLPDA.
+	item El textbf{Capítulo 4} describe la arquitectura general de GNLPDA, el pseudocódigo del algoritmo, la función textit{fitness} y el diseño experimental.
+	item El textbf{Capítulo 5} expone los resultados experimentales ordenados por conjuntos de datos, iniciando con escenarios sintéticos e incluyendo descriptivos, proyecciones visuales comparativas y análisis estadístico.
+	item El textbf{Capítulo 6} discute la interpretación de los hallazgos, justificando el balance entre capacidad predictiva e interpretabilidad geométrica alcanzada.
+	item El textbf{Capítulo 7} presenta las conclusiones, el nivel de cumplimiento de los objetivos y las líneas de investigación futura.
+end{itemize}
+
+
+
+
