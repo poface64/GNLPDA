@@ -1,0 +1,191 @@
+% =========================================================
+% capitulos/01_introduccion.tex
+% SOLO contenido. Nada de \documentclass ni \begin{document}.
+	% Este archivo se llama desde main.tex con \include{...}
+	% =========================================================
+	
+	\chapter{Introducción}
+	\label{chap:introduccion}
+	
+	\section{Contexto y motivación}
+	\label{sec:Contexto-Motivación}
+	
+	En el aprendizaje automático supervisado, un conjunto de datos puede representarse como una matriz en la que cada fila corresponde a una observación y cada columna a una característica descriptiva. Cuando dicha matriz posee un número elevado de columnas, su análisis y su representación gráfica se dificultan de manera considerable, un fenómeno conocido como la maldición de la dimensionalidad \textbf{[CITA PENDIENTE]}. La reducción de dimensionalidad surge como respuesta a esta dificultad, al transformar la representación original en una de menor tamaño que conserve la estructura relevante de los datos \textbf{[CITA PENDIENTE]}.
+	
+	Dentro de este campo, la proyección de datos hacia espacios de dos o tres dimensiones tiene, además de un propósito computacional, un propósito exploratorio: permite a un investigador observar directamente si un conjunto de observaciones se agrupa de forma coherente con las clases o condiciones que se buscan distinguir. Esta práctica se ha reportado en dominios tan diversos como la genómica, donde se emplea para observar la separación entre subtipos moleculares de una enfermedad \textbf{[CITA PENDIENTE]}, y el diagnóstico clínico asistido por imagen, donde se utiliza para verificar si biomarcadores extraídos de estudios de imagenología distinguen visualmente entre condición sana y patológica \textbf{[CITA PENDIENTE]}. En ambos casos, la técnica más empleada para producir dicha proyección exploratoria es el Análisis de Componentes Principales (PCA), habitualmente mediante el trazado de sus dos primeras componentes sobre un plano bidimensional \textbf{[CITA PENDIENTE]}.
+	
+	Sin embargo, PCA no es la herramienta más adecuada para este propósito: al ser un método no supervisado, su criterio de optimización es la varianza total de los datos y no la información de la etiqueta de clase, por lo que nada garantiza que las componentes que retiene sean, precisamente, las que mejor separan los grupos \cite{hastie2009elements}. El Análisis Discriminante Lineal (LDA) resuelve esta limitación de manera directa, pues incorpora la información de clase en el propio criterio de proyección, buscando maximizar la dispersión entre clases en relación con la dispersión dentro de cada clase, lo cual lo convierte, en principio, en la herramienta natural para visualizar la separabilidad entre clases de forma supervisada \textbf{[CITA PENDIENTE]}.
+	
+	No obstante, la formulación clásica de LDA impone supuestos que restringen severamente su aplicabilidad —linealidad de la frontera de decisión, normalidad multivariada y matrices de dispersión bien condicionadas \cite{feng2021comparison}—, lo cual ha motivado el desarrollo de variantes que buscan mejorar su desempeño sin abandonar su estructura interpretable. Entre ellas se encuentra el algoritmo evolutivo propuesto por \textbf{[CITA PENDIENTE]}, el cual optimiza la proyección discriminante lineal mediante selección evolutiva, mejorando su capacidad de separación y visualización frente al LDA clásico. Sin embargo, dicha propuesta conserva la restricción de linealidad de su método base: su formulación no incorpora mecanismos para tratar estructuras de separación no lineales entre clases \textbf{[CITA PENDIENTE]}.
+	
+	Una alternativa natural para tratar la no linealidad consiste en expandir explícitamente el espacio de características —por ejemplo, mediante términos polinomiales— de forma que relaciones no lineales en el espacio original se conviertan en relaciones lineales en el espacio expandido, habilitando así el uso de LDA sobre dicho espacio. No obstante, este enfoque introduce una explosión combinatoria del número de variables a medida que aumentan el grado del polinomio y la dimensionalidad original, agravando la maldición de la dimensionalidad y, con ella, el riesgo de sobreajuste \cite{bishop2006pattern}.
+	
+	La alternativa dominante en la literatura para abordar la no linealidad sin expandir explícitamente el espacio es el uso de métodos kernel, como el Kernel Fisher Discriminant Analysis (KFDA), los cuales explotan el truco del kernel para operar de forma implícita en un espacio de características de alta —o incluso infinita— dimensión. Estos métodos sí permiten obtener una proyección discriminante de baja dimensión (hasta $C-1$ dimensiones, al igual que LDA) y, en ese sentido, sí pueden visualizarse. No obstante, dado que el mapeo al espacio de características nunca se calcula de forma explícita, los ejes de dicha proyección resultan combinaciones no accesibles de los datos originales, lo cual reduce la interpretabilidad del proceso \textbf{[CITA PENDIENTE]}: es posible \emph{ver} la separación entre clases, pero no es posible \emph{rastrear} qué variables o interacciones la producen. La proyección resultante es, en este sentido, visualizable pero no interpretable ni trazable.
+	
+	Existe, por tanto, una brecha metodológica concreta: no se cuenta con un mecanismo capaz de producir, para datos con estructuras de separación no lineales, una proyección de baja dimensión que sea simultáneamente visualizable, interpretable y trazable hacia las variables originales —condición que sí satisface LDA en el caso lineal, pero que se pierde tanto al expandir explícitamente el espacio sin ningún control de dimensionalidad, como al recurrir a métodos kernel que operan en espacios implícitos. En este sentido, conviene dejar establecido desde ahora el eje que articula toda la investigación: \textbf{el objetivo central de este trabajo es la visualización de la separabilidad entre clases en problemas con estructuras no lineales}. La expansión polinomial explícita de características, el mecanismo de selección evolutiva y el análisis discriminante lineal no son fines en sí mismos, sino los medios metodológicos que se proponen para alcanzar dicho objetivo. Esta precisión es la que determina, más adelante, tanto la formalización del problema como el alcance de la comparación experimental de esta tesis.
+	
+	\subsection{Representación de datos y reducción de dimensionalidad}
+	\label{subsec:Representacion-datos}
+	
+	En problemas de aprendizaje supervisado, un conjunto de datos puede representarse como una matriz en la que cada fila corresponde a una observación y cada columna a una característica o variable descriptiva. Cuando las observaciones cuentan con una etiqueta de clase, dicha representación se convierte en la base sobre la cual los algoritmos de clasificación buscan identificar patrones que permitan distinguir entre grupos. Por ello, la calidad de la representación de los datos influye directamente en la capacidad de separación alcanzada por los modelos \cite{hastie2009elements}.
+	
+	El manejo de conjuntos de datos con un número elevado de variables plantea desafíos relevantes en términos de costo computacional, redundancia de información y riesgo de sobreajuste \cite{sorzano2014survey}. En estos escenarios, no todas las características contribuyen de manera equivalente al proceso de clasificación; algunas pueden ser irrelevantes, redundantes o incluso introducir ruido en el modelo \cite{tang2014feature}. La reducción de dimensionalidad aborda este problema al buscar una representación más compacta de los datos, procurando conservar la información más relevante para la tarea de análisis.
+	
+	De manera general, las técnicas de reducción de dimensionalidad pueden agruparse en dos enfoques principales: selección de características y extracción de características. La selección de características conserva un subconjunto de las variables originales, por lo que mantiene una relación directa con la representación inicial de los datos. En contraste, la extracción de características transforma el espacio original para generar nuevas variables, componentes o proyecciones, como ocurre en métodos basados en componentes principales o análisis discriminante \cite{jain2000statistical}\cite{sorzano2014survey}.
+	
+	En la Figura \ref{fig:MC1} se presenta una taxonomía general de las técnicas de reducción de dimensionalidad. Esta clasificación permite ubicar los métodos de selección de características, como los enfoques filtro y wrapper, así como los métodos de extracción, entre los que se incluyen técnicas lineales, no lineales, supervisadas y no supervisadas \cite{medina2025genetic}.
+	
+	\begin{figure}[htbp]
+		\centering
+		\includegraphics[width=0.6\textwidth]{D1.png}
+		\caption{Taxonomía de las técnicas de reducción de dimensionalidad. Tomada de \cite{medina2025genetic}.}
+		\label{fig:MC1}
+	\end{figure}
+	
+	Dentro de los métodos de selección de características, los enfoques de tipo filtro evalúan la relevancia de las variables a partir de propiedades intrínsecas de los datos, tales como la varianza, la correlación o la información mutua, sin involucrar directamente un algoritmo de clasificación. Esta independencia del modelo suele hacerlos computacionalmente eficientes y escalables; sin embargo, también puede limitar su capacidad para identificar interacciones complejas entre variables \cite{chandrashekar2014survey}.
+	
+	Por otro lado, los métodos de envoltura (\textit{wrapper}) evalúan subconjuntos de características utilizando el desempeño de un modelo de aprendizaje como criterio de calidad \cite{kohavi1997wrappers}. En este tipo de enfoque, se genera un subconjunto de variables, se entrena o evalúa un modelo con dicho subconjunto y posteriormente se calcula una métrica de desempeño que permite determinar la pertinencia de la selección realizada. Aunque estos métodos suelen ser más costosos computacionalmente que los filtros, pueden resultar más adecuados cuando la utilidad de una característica depende de su interacción con otras variables \cite{guyon2003introduction}.
+	
+	Esta distinción es especialmente relevante para la presente investigación, debido a que la expansión polinomial genera nuevos términos a partir de combinaciones de variables originales. En este contexto, la utilidad de un término cruzado, por ejemplo ($x_ix_j$), puede depender de la presencia conjunta de otros términos en el modelo. Por ello, un enfoque de selección basado en la evaluación del desempeño del modelo resulta pertinente para reducir la redundancia del espacio expandido y conservar únicamente aquellas variables o términos que aporten a la separación entre clases \cite{kohavi1997wrappers}.
+	
+	Desde esta perspectiva, la propuesta desarrollada en esta tesis se ubica en la intersección entre selección y extracción de características: por una parte, emplea selección evolutiva para identificar variables originales y términos polinomiales relevantes; por otra, utiliza el análisis discriminante para obtener una representación proyectada de baja dimensión orientada a favorecer la separación entre clases. Como se detalla en la siguiente sección, esta doble naturaleza —selección más extracción— es precisamente lo que permite que la proyección final conserve la trazabilidad hacia las variables originales, condición indispensable para que la visualización resultante sea no solo posible, sino interpretable.
+	
+	\section{Planteamiento del problema}
+	\label{sec:Planteamiento-Problema}
+	
+	Sea $D$ un conjunto de datos compuesto por $k$ observaciones, definido formalmente como
+	
+	\begin{equation}
+		D = \{(\mathbf{x}, l) \mid \mathbf{x} \in \mathbb{R}^n \text{ y } l \in \{1, \dots, C\}\},
+	\end{equation}
+	
+	\noindent donde cada vector $\mathbf{x}$ representa una observación en un espacio de características de dimensión $n$, y $l$ denota su etiqueta de clase correspondiente. Prescindiendo de las etiquetas, $D$ puede interpretarse como una matriz $\mathbf{X} \in \mathbb{R}^{k \times n}$.
+	
+	Sea $\phi: \mathbb{R}^n \rightarrow \mathbb{R}^m$ una función de expansión polinomial explícita, con $m > n$, que transforma cada observación $\mathbf{x}$ en un vector $\phi(\mathbf{x})$ compuesto por los términos originales y sus combinaciones polinomiales (potencias e interacciones) hasta un grado $d$ definido. Sea además $\mathbf{S} \in \{0,1\}^{m}$ un vector binario de selección que indica qué términos del espacio expandido se conservan, y $\mathbf{W} \in \mathbb{R}^{|\mathbf{S}| \times p}$, con $p \leq C-1$, la matriz de proyección discriminante obtenida sobre el subespacio seleccionado. El conjunto de datos proyectado $D'$ queda definido como
+	
+	\begin{equation}
+		D'_{k \times p} = \left(\phi(\mathbf{X})_{k \times m} \odot \mathbf{S}\right) \times \mathbf{W}_{|\mathbf{S}| \times p},
+	\end{equation}
+	
+	\noindent donde $\odot$ denota la operación de selección de columnas indicada por $\mathbf{S}$.
+	
+	Esta formulación deja planteadas tres preguntas que articulan el problema de investigación:
+	
+	\begin{enumerate}
+		\item ¿Existe un subconjunto de términos del espacio expandido $\phi(\mathbf{X})$ cuya proyección discriminante $D'$ separe linealmente clases que, en el espacio original $\mathbf{X}$, no son linealmente separables?
+		\item ¿Bajo qué condiciones dicho subconjunto puede identificarse mediante un mecanismo de selección evolutiva, evitando la explosión dimensional propia de conservar la totalidad del espacio expandido $\phi(\mathbf{X})$?
+		\item ¿Es la proyección $D'$ resultante trazable hacia los términos originales que la componen —a diferencia de la proyección obtenida por métodos kernel, en los que la función de expansión equivalente nunca se calcula explícitamente—, de forma que $D'$ resulte, además de visualizable, interpretable?
+	\end{enumerate}
+	
+	Como se argumentó en la sección anterior, PCA no responde a la primera pregunta, pues su criterio de optimización ignora la etiqueta $l$ y, por tanto, no maximiza la separación entre clases. LDA sí la aborda, pero únicamente para el caso en que $\phi$ es la identidad, es decir, cuando la separación buscada ya es lineal en el espacio original; su formulación clásica enfrenta además restricciones severas cuando los datos no cumplen con supuestos de normalidad \cite{feng2021comparison}. A esto se suma el problema de pequeño tamaño de muestra (SSS Problem), que surge cuando $n$ se aproxima o supera a $k$, e imposibilita el cálculo de matrices de dispersión robustas \cite{sharma2015linear}.
+	
+	Cuando $\phi$ deja de ser la identidad y se define explícitamente —como en la expansión polinomial—, la dimensión $m$ del espacio transformado crece de forma combinatoria con el grado $d$ y con $n$, agravando la maldición de la dimensionalidad \cite{bishop2006pattern}\cite{asaduzzaman2024dimensionality}: retener $\phi(\mathbf{X})$ en su totalidad resulta computacionalmente inmanejable y estadísticamente inestable. La alternativa dominante en la literatura para evitar este crecimiento consiste en no calcular $\phi$ de forma explícita, sino operar implícitamente sobre el espacio de características mediante el truco del kernel, como ocurre en el Kernel Fisher Discriminant Analysis (KFDA). Este enfoque sí permite obtener una proyección de baja dimensión (hasta $C-1$ dimensiones, igual que LDA) y, en ese sentido, responde parcialmente a la primera pregunta y produce una salida visualizable. Sin embargo, al no calcularse $\phi$ explícitamente, no existe una matriz $\mathbf{W}$ trazable hacia los términos originales: la proyección resultante no responde a la tercera pregunta, pues es visualizable pero no interpretable ni trazable \textbf{[CITA PENDIENTE]}.
+	
+	Existe, por tanto, una brecha metodológica concreta: no se cuenta con un mecanismo que, definiendo $\phi$ de forma explícita y controlando el crecimiento de $m$ mediante un criterio de selección $\mathbf{S}$, permita responder simultáneamente a las tres preguntas planteadas —esto es, obtener una proyección $D'$ que separe estructuras no lineales, que sea de baja dimensión, y que sea trazable hacia las variables originales.
+	
+	\section{Justificación}
+	\label{sec:Justificación}
+	
+	La justificación de esta investigación descansa en tres argumentos complementarios.
+	
+	En primer lugar, un argumento de naturaleza cognitiva y estadística: una proyección visual permite verificar de forma directa, y en una fracción del tiempo que tomaría interpretar una tabla de resultados, si existe una estructura de separación entre clases y cómo se distribuyen los errores de clasificación. Ninguna métrica escalar agregada, como la exactitud, puede sustituir esta función diagnóstica, pues dos modelos con desempeño numérico idéntico pueden presentar geometrías de separación cualitativamente muy distintas.
+	
+	En segundo lugar, un argumento de interpretabilidad: en escenarios donde comprender el porqué de una decisión de clasificación resulta tan relevante como la decisión misma, un método cuya proyección pueda rastrearse hasta las variables originales —y sus interacciones— es preferible frente a un método que solo puede visualizarse, sin poder explicarse.
+	
+	En tercer lugar, un argumento de alcance experimental, que se deriva directamente de los dos anteriores: dado que el objetivo central de este trabajo es producir una proyección visualizable, interpretable y de baja dimensión —y no, en primera instancia, maximizar la exactitud de clasificación—, la comparación experimental se restringe a métodos que también son capaces de producir ese tipo de salida: PCA, el algoritmo evolutivo lineal de referencia \textbf{[CITA PENDIENTE]} y KFDA como referencia no lineal visualizable. Se excluyen explícitamente de la comparación de exactitud los clasificadores de caja negra que no generan una proyección de baja dimensión —por ejemplo, una Máquina de Soporte Vectorial con kernel operando directamente sobre el espacio de decisión—, ya que se sabe de antemano que este tipo de métodos superará en precisión a cualquier enfoque restringido a un espacio interpretable de baja dimensión. Incluirlos en la comparación experimental solo confirmaría una diferencia ya conocida, sin aportar evidencia relevante para la pregunta de investigación planteada.
+	
+	En síntesis, a diferencia de los métodos de "caja negra" que no producen una proyección explícita, el marco de trabajo propuesto ofrece un beneficio dual: \textbf{visualización}, al permitir proyectar estructuras de separación complejas en espacios de baja dimensión (2D o 3D); y \textbf{trazabilidad e interpretabilidad}, al permitir identificar qué variables originales y qué términos polinomiales fueron seleccionados, ofreciendo así una explicación técnica de la proyección final.
+	
+	\section{Pregunta de investigación}
+	\label{sec:Pregunta-Investigación}
+	
+	A partir de esta problemática, la presente investigación plantea la siguiente pregunta de
+	investigación:
+	
+	\begin{itemize}
+		\item \textbf{¿Es posible, mediante una expansión polinomial explícita de características combinada con un mecanismo de selección evolutiva de variables, construir una proyección discriminante visualizable e interpretable en un espacio de baja dimensión (hasta tres dimensiones) para datos con estructuras de separación no lineales, alcanzando un desempeño de clasificación sin diferencias estadísticamente significativas frente a otros métodos que también permiten dicha visualización?}
+	\end{itemize}
+	
+	\section{Hipótesis}
+	\label{sec:Hipótesis}
+	
+	La implementación de un mecanismo de selección evolutiva de variables sobre una expansión polinomial explícita permitirá construir, para datos con estructuras de separación no lineales, una proyección discriminante de baja dimensión (hasta tres dimensiones, acotada por el número de clases) que sea visualizable e interpretable, con valores de exactitud sin diferencias estadísticamente significativas frente a otros métodos capaces de producir proyecciones de baja dimensión —PCA, el algoritmo evolutivo lineal de referencia \textbf{[CITA PENDIENTE]} y KFDA—, y con la ventaja distintiva, no compartida por KFDA, de permitir rastrear la contribución de las variables originales y de sus términos polinomiales en la proyección final.
+	
+	\section{Objetivos}
+	\label{sec:Objetivo-General}
+	
+	\subsection{Objetivo general}
+	
+	Diseñar e implementar un esquema híbrido de selección y extracción de características que, mediante expansión polinomial explícita y selección evolutiva en dos etapas, permita construir y visualizar proyecciones discriminantes de baja dimensión (hasta tres dimensiones), trazables hacia las variables originales, para datos con estructuras de separación no lineal.
+	
+	\subsection{Objetivos específicos}
+	
+	\begin{itemize}
+		\item \textbf{Caracterizar} las limitaciones del Análisis Discriminante Lineal clásico ante escenarios de no linealidad, alta dimensionalidad y muestras pequeñas, en particular en su rol como herramienta de visualización supervisada.
+		
+		\item \textbf{Diseñar e implementar} un mecanismo de selección evolutiva en dos fases —variables originales y términos polinomiales— que reduzca la redundancia del espacio expandido, preservando la trazabilidad de la proyección discriminante resultante.
+		
+		\item \textbf{Generar y analizar} las proyecciones de baja dimensión producidas por el método propuesto, evaluando su capacidad para visualizar de forma interpretable la separación entre clases.
+		
+		\item \textbf{Evaluar} experimentalmente el desempeño del método propuesto, en términos de exactitud (\textit{Accuracy}), frente a otros métodos capaces de producir proyecciones de baja dimensión visualizables (PCA, el algoritmo evolutivo lineal de referencia y KFDA).
+		
+		\item \textbf{Analizar} estadísticamente las diferencias de desempeño entre los métodos evaluados.
+		
+	\end{itemize}
+	
+	\section{Contribuciones}
+	\label{sec:Contribuciones}
+	
+	Las principales contribuciones de este trabajo son las siguientes:
+	
+	\begin{itemize}
+		
+		\item Proponer un esquema híbrido de extracción de características que combina expansión polinomial, selección evolutiva y análisis discriminante para construir proyecciones visualizables e interpretables en problemas de clasificación con estructuras no lineales.
+		
+		\item Incorporar un mecanismo de selección en dos fases orientado a reducir la dimensionalidad del espacio expandido, primero mediante la selección de variables originales y posteriormente mediante la selección de términos polinomiales relevantes, preservando en ambas fases la trazabilidad hacia las variables originales.
+		
+		\item Evaluar la capacidad del método propuesto para generar proyecciones de baja dimensión, hasta un máximo de tres dimensiones, que faciliten la visualización interpretable de la separación entre clases.
+		
+		\item Realizar una comparación experimental frente a métodos que también permiten generar proyecciones de baja dimensión (PCA, el algoritmo evolutivo lineal de referencia y KFDA), considerando la exactitud de clasificación y pruebas estadísticas para analizar la significancia de los resultados, sin extender dicha comparación a clasificadores de caja negra no visualizables.
+		
+		\item Discutir las fortalezas, limitaciones y condiciones bajo las cuales el método propuesto ofrece un desempeño comparable frente a KFDA, destacando su capacidad distintiva para generar representaciones trazables e interpretables en baja dimensión, característica que KFDA no posee.
+		
+	\end{itemize}
+	
+	\section{Alcances y limitaciones}
+	\label{sec:Alcances-Limitaciones}
+	
+	\begin{itemize}
+		
+		\item El enfoque de la investigación se restringe a problemas de aprendizaje supervisado, específicamente en tareas de clasificación.
+		
+		\item El alcance experimental se restringe de forma estricta a conjuntos de datos tabulares con características exclusivamente numéricas. Por tanto, no se consideran en esta etapa datos no estructurados, variables categóricas sin transformación previa, imágenes, texto, señales temporales ni otros tipos de representación.
+		
+		\item Las visualizaciones generadas por el método propuesto se acotan a espacios de baja dimensión, hasta un máximo de tres dimensiones. Esta restricción se relaciona con la naturaleza del análisis discriminante lineal, el cual permite obtener hasta $C - 1$ dimensiones discriminantes, donde $C$ representa el número de clases del problema.
+		
+		\item La comparación experimental de exactitud se restringe a métodos capaces de generar una proyección de baja dimensión (PCA, el algoritmo evolutivo lineal de referencia y KFDA). No se incluyen en dicha comparación clasificadores de caja negra sin salida de baja dimensión explícita, como una SVM con kernel operando directamente sobre el espacio de decisión, dado que su superioridad esperada en exactitud es conocida de antemano y no aportaría evidencia relevante frente al objetivo de visualización que persigue este trabajo.
+		
+		\item La propuesta no busca superar en exactitud a todos los métodos de referencia visualizables, sino obtener un desempeño comparable frente a ellos, aportando como ventaja distintiva la trazabilidad del proceso de selección y la interpretabilidad de las proyecciones generadas.
+		
+		\item La validación empírica del algoritmo se restringe a un conjunto controlado de diez conjuntos de datos, con un máximo de 32 variables cuantitativas originales.
+		
+	\end{itemize}
+	
+	\section{Organización de la tesis}
+	\label{sec:Organización-Tesis}
+	
+	\begin{itemize}
+		
+		\item El \textbf{Capítulo 2} profundiza en el marco teórico necesario para comprender los fundamentos algebraicos y operacionales del Análisis Discriminante Lineal y sus variantes, el problema de pequeño tamaño de muestra, la expansión polinomial, los algoritmos genéticos, los métodos kernel, KFDA, las máquinas de soporte vectorial y las métricas de clasificación utilizadas en el estudio.
+		
+		\item El \textbf{Capítulo 3} desarrolla el estado del arte. En este capítulo se revisan trabajos relacionados con variantes y mejoras del Análisis Discriminante Lineal, métodos kernel como KPCA, KFDA y SVM, así como enfoques de selección de características basados en algoritmos genéticos. Asimismo, se analizan trabajos relacionados con GPDA y se identifican las limitaciones que motivan el desarrollo de la propuesta GNLPDA.
+		
+		\item El \textbf{Capítulo 4} describe la metodología de investigación y el algoritmo propuesto, denominado Genetic Non-Linear Polynomial Discriminant Analysis (GNLPDA). Se presentan la arquitectura general del método, sus fases de selección, la función fitness, el proceso de calibración y el diseño experimental empleado para su evaluación.
+		
+		\item El \textbf{Capítulo 5} presenta los resultados obtenidos al aplicar el método propuesto sobre los conjuntos de datos seleccionados. Se incluyen resultados de clasificación, análisis de proyecciones de baja dimensión y comparaciones frente a los métodos de referencia visualizables.
+		
+		\item El \textbf{Capítulo 6} discute los hallazgos obtenidos, considerando la interpretación técnica de los resultados, las fortalezas del método, sus limitaciones y las condiciones bajo las cuales la propuesta resulta más adecuada.
+		
+		\item El \textbf{Capítulo 7} presenta las conclusiones generales de la investigación, el grado de cumplimiento de los objetivos planteados, las principales contribuciones del trabajo y las líneas de trabajo futuro.
+		
+	\end{itemize}

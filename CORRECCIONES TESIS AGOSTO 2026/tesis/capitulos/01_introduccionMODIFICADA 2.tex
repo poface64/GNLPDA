@@ -1,0 +1,165 @@
+% =========================================================
+% capitulos/01_introduccion.tex
+% SOLO contenido. Nada de \documentclass ni \begin{document}.
+% Este archivo se llama desde main.tex con \include{...}
+% =========================================================
+
+\chapter{Introducción}
+\label{chap:introduccion}
+
+\section{Contexto y motivación}
+
+En el marco del Aprendizaje Máquina (Machine Learning), el objetivo fundamental es el desarrollo de algoritmos capaces de identificar patrones complejos en a partir de datos para la toma de decisiones automatizada en problemas de la vida real en diferentes campos \cite{bharadiya2023tutorial}. Un conjunto de datos puede representarse como una matriz en la que cada fila corresponde a una observación y cada columna a una característica descriptiva. Cuando dicha matriz posee un número elevado de columnas, su análisis y representación gráfica se vuelven complicados de realizar debido a un fenómeno conocido como la maldición de la dimensionalidad \cite{venkat2018curse}. 
+
+La maldición de la dimensionalidad surge como respuesta a esa dificultad para transformar la representación original en una de menor tamaño que busca conservar la mayor cantidad de información posible \cite{nguyen2019ten}.
+
+La proyección de los datos hacia espacios de dos o tres dimensiones tiene, ademas de un propósito computacional de reducir la cantidad de variables con las que se esta trabajando, un propósito de carácter exploratorio puesto que permite observar directamente como se comportan en ese nuevo espacio el conjunto de observaciones que se busca estudiar. 
+
+Esta practica de reducir la dimensionalidad se ha reportado en dominios tan diversos como la genómica y la medicina clínica, donde se emplea para facilitar la visualización de patrones y agrupamientos de características asociadas a diversas patologías \cite{bruno2020data}. Asimismo, en el diagnostico clínico asistido por imagen, la radiómica emplea técnicas de reducción de dimensionalidad para evaluar si los biomarcadores cuantitativos extraídos de estudios imagenologicos permiten discriminar y visualizar de forma clara la separación entre condiciones sanas y patológicas \cite{neha2026radiomics}. En ambos casos, la técnica más empleada para producir dicha proyección exploratoria es mediante el Análisis de Componentes Principales (PCA), comunmente se logra mediante el uso de sus primeras dos componentes sobre un plano de dos dimensiones \cite{kabir2023performance}.
+
+Sin embargo, Componentes Principales no es la herramienta más adecuada para este propósito; al ser un método no supervisado, su criterio de optimización es la varianza total de los datos y no toma en cuenta la información de la etiqueta de clase, por lo que nada garantiza que las componentes obtenidas sean las que mejor separen a los grupos \cite{rabbi2025performance}. El Análisis Discriminante Lineal (LDA) resuelve esta limitación de manera directa, pues incorpora la información de clase en el propio criterio de proyección de tal modo que busca maximizar la dispersión que existe entre las clases en relación con la dispersión dentro de cada clase, lo cual lo hace la herramienta natural para visualizar la separabilidad entre clases de forma supervisada \cite{chhikara2022data}.
+
+No obstante, la formulación clásica de LDA trae consigo una serie de supuestos que restringen severamente su aplicabilidad, tales como la normalidad multivariada de los datos, matrices de dispersión bien condicionadas y que esta diseñado especificamente para ofrecer una separación lineal en los datos \cite{feng2021comparison}. Por lo cual, se ha motivado el desarrollo de variantes que buscan mejorar su desempeño sin abandonar las bondades que ofrece como su estructura interpletable. 
+
+Entre ellas se encuentra el algoritmo evolutivo propuesto GPDA, el cual optimiza la proyección discriminante lineal mediante selección evolutiva, mejorando su capacidad de separación y visualización frente al LDA clásico. 
+Sin embargo, dicha propuesta conserva la restricción de estar restringido a datos con fronteras de decisión lineales. Su formulación no incorpora mecanismos para tratar con estructuras de separación no lineales entre clases \cite{medina2025genetic}.
+
+
+
+
+No obstante, de estos modelos está intrínsecamente ligado a la calidad y la estructura de las características representadas. En entornos donde los datos no presentan una estructura lineal evidente, la capacidad de aprendizaje de los sistemas se ve comprometida. Por ello, la extracción de características se vuelve una etapa crítica, buscando transformar el espacio original en uno donde las particularidades de los datos sean más accesibles y procesables por los algoritmos de clasificación \cite{wani2025comprehensive}.
+
+
+
+
+
+\section{Planteamiento del problema}
+
+A pesar del avance en las técnicas de reducción de dimensionalidad, los métodos clásicos como el Análisis Discriminante Lineal (LDA) enfrentan limitaciones severas cuando los datos no cumplen con supuestos de linealidad o normalidad \cite{feng2021comparison}. El problema se agrava ante la presencia de la maldición de la dimensionalidad, donde el incremento de variables degrada el rendimiento del modelo y eleva el costo computacional \cite{asaduzzaman2024dimensionality}.
+
+Adicionalmente, en conjuntos de datos donde el número de observaciones es reducido frente al número de variables, surge el problema de pequeño tamaño de muestra (SSS Problem), que imposibilita el cálculo de matrices de dispersión robustas \cite{sharma2015linear}. 
+
+Por otro lado, si se recurre a expansiones de características para tratar con la no linealidad, se genera una explosión dimensional que resulta inmanejable \cite{bishop2006pattern}. Existe, por tanto, una brecha técnica: la falta de un mecanismo que logre separar datos complejos sin perderse en espacios de alta dimensión ni sacrificar la estabilidad del modelo.
+
+\section{Justificación}
+\label{sec:Justificación}
+
+Esta investigación se justifica por la necesidad de encontrar un equilibrio óptimo entre la transformación no lineal y la parsimonia dimensional. El trabajo propuesto desarrolla un algoritmo wrapper capaz de solventar la no linealidad mediante expansión polinomial, mitigando simultáneamente la maldición de la dimensionalidad a través de una selección evolutiva de variables.
+
+A diferencia de otros métodos de “caja negra”, como las Máquinas de Soporte Vectorial con kernel, este marco de trabajo ofrece un beneficio dual: Visualización: Permite proyectar estructuras complejas en espacios de baja dimensión (2D o 3D) con una separación de clases clara y fidedigna.
+
+Trazabilidad e Interpretabilidad: El proceso permite rastrear qué variables originales y qué términos interactivos fueron seleccionados, ofreciendo una explicación técnica de la proyección final. Esto resulta vital en aplicaciones donde entender el “porqué” de la decisióndel modelo es tan importante como la precisión misma.
+
+\section{Pregunta de investigación}
+\label{sec:Pregunta-Investigación}
+
+A partir de esta problemática, la presente investigación plantea la siguiente pregunta de
+investigación:
+
+\begin{itemize}
+	\item \textbf{¿Es posible combinar el potencial de la expansión explícita de características con la
+		eficiencia de los métodos de reducción de dimensionalidad, mediante un esquema de
+		selección evolutiva, para lograr la separación de datos con estructuras de separación no
+		lineales y su proyección en un espacio de hasta tres dimensiones?}
+	
+
+\end{itemize}
+
+
+
+\section{Hipótesis}
+\label{sec:Hipótesis}
+
+La implementación de un mecanismo de selección de variables sobre una expansión
+polinomial explícita permitirá obtener valores de exactitud sin diferencias estadísticamente
+significativas frente a los métodos no lineales de referencia considerados en el estudio
+experimental, con la ventaja distintiva de filtrar la redundancia dimensional para generar proyecciones de baja dimensión, acotadas por el número de clases y hasta un máximo de tres dimensiones.
+
+\section{Objetivos}
+\label{sec:Objetivo-General}
+
+\subsection{Objetivo general}
+
+Diseñar e implementar un esquema híbrido de selección y extracción de características que
+integre la expansión polinomial explícita con el análisis discriminante mediante selección
+evolutiva en dos etapas para mejorar la separabilidad de datos con fronteras no lineales y
+facilitar la visualización en espacios de baja dimensión, hasta un máximo de tres
+dimensiones.
+
+\subsection{Objetivos específicos}
+
+\begin{itemize}
+	\item \textbf{Caracterizar} las limitaciones del Análisis Discriminante Lineal clásico ante
+	escenarios de no linealidad, alta dimensionalidad y muestras pequeñas.
+	
+	\item \textbf{Diseñar e implementar} un mecanismo de selección evolutiva que reduzca la
+	redundancia en el espacio expandido mediante la selección de variables originales y términos
+	polinomiales relevantes.
+	
+	\item \textbf{Evaluar} experimentalmente el desempeño del método propuesto frente a técnicas de
+	referencia usando la exactitud (\textit{Accuracy}).
+	
+	\item \textbf{Analizar y comparar} las proyecciones de baja dimensión generadas por los métodos
+	evaluados, considerando su utilidad para la visualización de la separación entre clases.
+	
+	\item \textbf{Analizar} estadísticamente las diferencias de desempeño entre los métodos evaluados.
+	
+\end{itemize}
+
+\section{Contribuciones}
+\label{sec:Contribuciones}
+
+Las principales contribuciones de este trabajo son las siguientes:
+
+\begin{itemize}
+
+\item Proponer un esquema híbrido de extracción de características que combina expansión polinomial, selección evolutiva y análisis discriminante para abordar problemas de
+clasificación y proyección con estructuras no lineales.
+
+\item Incorporar un mecanismo de selección en dos fases orientado a reducir la dimensionalidad del espacio expandido, primero mediante la selección de variables originales y posteriormente mediante la selección de términos polinomiales relevantes.
+
+\item Evaluar la capacidad del método propuesto para generar proyecciones de baja dimensión, hasta un máximo de tres dimensiones que faciliten la visualización de la separación entre clases.
+
+\item Realizar una comparación experimental frente a métodos lineales y no lineales de referencia, considerando la exactitud de clasificación y pruebas estadísticas para analizar la significancia de los resultados.
+
+\item Discutir las fortalezas, limitaciones y condiciones bajo las cuales el método propuesto ofrece un desempeño comparable frente a técnicas basadas en kernel y variantes del análisis discriminante, destacando su capacidad para generar representaciones trazables y visualizables en baja dimensión.
+	
+\end{itemize}
+
+\section{Alcances y limitaciones}
+\label{sec:Alcances-Limitaciones}
+
+
+\begin{itemize}
+	 
+	\item El enfoque de la investigación se restringe a problemas de aprendizaje supervisado específicamente en tareas de clasificación.
+	
+	\item El alcance experimental se restringe de forma estricta a conjuntos de datos tabulares donde las características exclusivamente numéricas. Por tanto, no se consideran en esta etapa datos no estructurados, variables categóricas sin transformación previa, imágenes, texto, señales temporales ni otros tipos de representación.
+	
+	\item Las visualizaciones generadas por el método propuesto se acotan a espacios de baja dimensión, hasta un máximo de tres dimensiones. Esta restricción se relaciona con la naturaleza del análisis discriminante lineal, el cual permite obtener hasta $C - 1$ dimensiones discriminantes, donde $C$ representa el número de clases del problema.
+	
+	\item La propuesta no busca superar en rendimiento a todos los métodos de referencia, sino obtener un desempeño comparable en determinados escenarios, aportando como ventaja la trazabilidad del proceso de selección y la posibilidad de visualizar las proyecciones generadas en baja dimensión.
+	
+	\item La validación empírica del algoritmo se restringe a un conjunto controlado de diez conjuntos de datos, con un máximo de 32 variables cuantitativas originales.
+	
+\end{itemize}
+
+\section{Organización de la tesis}
+\label{sec:Organización-Tesis}
+
+\begin{itemize}
+
+	\item El \textbf{Capítulo 2} presenta el marco teórico necesario para comprender los fundamentos de la investigación. En este capítulo se abordan las técnicas de reducción de dimensionalidad, los fundamentos algebraicos y operacionales del Análisis Discriminante Lineal y sus variantes, el problema de pequeño tamaño de muestra, la expansión polinomial, los algoritmos genéticos, los métodos kernel, KFDA, las máquinas de soporte vectorial y las métricas de clasificación utilizadas en el estudio.
+	
+	\item El \textbf{Capítulo 3} desarrolla el estado del arte. En este capítulo se revisan trabajos relacionados con variantes y mejoras del Análisis Discriminante Lineal, métodos kernel como KPCA, KFDA y SVM, así como enfoques de selección de características basados en algoritmos genéticos. Asimismo, se analizan trabajos relacionados con GPDA y se identifican las limitaciones que motivan el desarrollo de la propuesta GNLPDA.
+	
+	\item El \textbf{Capítulo 4} describe la metodología de investigación y el algoritmo propuesto, denominado Genetic Non-Linear Polynomial Discriminant Analysis (GNLPDA). Se presentan la arquitectura general del método, sus fases de selección, la función fitness, el proceso de calibración y el diseño experimental empleado para su evaluación.
+	
+	\item El \textbf{Capítulo 5} presenta los resultados obtenidos al aplicar el método propuesto sobre los conjuntos de datos seleccionados. Se incluyen resultados de clasificación, análisis de proyecciones de baja dimensión y comparaciones frente a los métodos de referencia.
+	
+	\item El \textbf{Capítulo 6} discute los hallazgos obtenidos, considerando la interpretación técnica de los resultados, las fortalezas del método, sus limitaciones y las condiciones bajo las cuales la propuesta resulta más adecuada.
+	
+	\item El \textbf{Capítulo 7} presenta las conclusiones generales de la investigación, el grado de cumplimiento de los objetivos planteados, las principales contribuciones del trabajo y las líneas de trabajo futuro.
+	
+\end{itemize}
+
