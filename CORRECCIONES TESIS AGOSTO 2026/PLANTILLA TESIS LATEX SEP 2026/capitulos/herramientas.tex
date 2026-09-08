@@ -1,0 +1,218 @@
+% =========================================================
+% capitulos/02_marco_teorico.tex
+% Placeholder con las herramientas que se van a usar en la
+% tesis: tablas con el estilo azul, pseudocódigo y ecuaciones
+% numeradas / sin numerar de distintos tipos.
+% =========================================================
+
+\chapter{Marco Teórico}
+\label{chap:marco-teorico}
+
+Este capítulo se usará más adelante para el desarrollo teórico completo.
+Por ahora contiene ejemplos de referencia de las tres herramientas que se
+usarán a lo largo de la tesis: tablas, pseudocódigo de algoritmos y
+ecuaciones.
+
+\section{Ejemplo de tabla}
+\label{sec:ejemplo-tabla}
+
+La Tabla~\ref{tab:escenarios} resume los cinco escenarios considerados:
+
+\begin{table}[htbp]
+	\centering
+	\label{tab:escenarios}
+	
+	\begin{tabular}{|c|c|c|c|c|c|}
+		\hline
+		\encabezado{Caso} &
+		\encabezado{Muestras} &
+		\encabezado{Atributos} &
+		\encabezado{\begin{tabular}{c}
+				Atributos\\
+				expandido
+		\end{tabular}} &
+		\encabezado{Clases} &
+		\encabezado{\begin{tabular}{c}
+				Muestras\\
+				por clase
+		\end{tabular}} \\
+		\hline
+		
+		1 & 150 & 3  & 9   & 3 & 50 \\
+		\hline
+		2 & 150 & 10 & 65  & 3 & 50 \\
+		\hline
+		3 & 15  & 3  & 9   & 3 & 5  \\
+		\hline
+		4 & 15  & 10 & 65  & 3 & 5  \\
+		\hline
+		5 & 15  & 15 & 135 & 3 & 5  \\
+		\hline
+	\end{tabular}
+	\caption{Resumen de los escenarios de prueba sintéticos.}	
+\end{table}
+
+Este es el estilo estándar para \textbf{todas} las tablas de la tesis: basta
+con escribir \verb|\encabezadotabla| una sola vez justo antes de la primera
+celda de la fila de encabezado (después de un \verb|\hline|), y el resto de
+la tabla (cuerpo, líneas, columnas) se escribe exactamente igual que una
+tabla normal de LaTeX.
+
+\section{Ejemplo de pseudocódigo}
+\label{sec:ejemplo-pseudocodigo}
+
+El Algoritmo~\ref{alg:genetico} muestra la estructura general de un
+algoritmo genético, como referencia para los algoritmos que se describirán
+en el desarrollo de la metodología.
+
+\begin{algorithm}[htbp]
+    \caption{Estructura general de un algoritmo genético}
+    \label{alg:genetico}
+    \KwEntrada{Población inicial $P_0$ de tamaño $n$, número máximo de generaciones $g_{max}$}
+    \KwSalida{Mejor individuo encontrado $x^*$}
+
+    Inicializar la población $P_0$ de forma aleatoria\;
+    Evaluar la aptitud (\textit{fitness}) de cada individuo en $P_0$\;
+    $g \leftarrow 0$\;
+
+    \While{$g < g_{max}$}{
+        Seleccionar individuos padres de $P_g$ según su aptitud\;
+        Aplicar cruza (\textit{crossover}) para generar nuevos individuos\;
+        Aplicar mutación con probabilidad $p_m$\;
+        Evaluar la aptitud de los nuevos individuos\;
+        $P_{g+1} \leftarrow$ nueva generación reemplazando a $P_g$\;
+        $g \leftarrow g + 1$\;
+    }
+
+    $x^* \leftarrow$ individuo con mejor aptitud encontrado en todas las generaciones\;
+    \Return{$x^*$}
+\end{algorithm}
+
+\section{Ejemplos de ecuaciones}
+\label{sec:ejemplo-ecuaciones}
+
+A continuación se muestran distintos formatos de ecuaciones que se usarán
+en la tesis.
+
+\subsection{Ecuación numerada simple, con lista de variables}
+
+La forma más común: una ecuación de una línea, numerada, seguida de la
+explicación de cada término.
+
+\begin{equation}
+    y = ax + b
+    \label{eq:lineal-simple}
+\end{equation}
+
+\noindent donde:
+\begin{itemize}
+    \item $y$ es la variable dependiente (la salida del modelo),
+    \item $x$ es la variable independiente (la entrada),
+    \item $a$ es la pendiente de la recta,
+    \item $b$ es la ordenada al origen.
+\end{itemize}
+
+\subsection{Ecuación sin numerar}
+
+Cuando la ecuación es un paso intermedio que no necesita citarse después,
+se usa el entorno sin número:
+
+\begin{equation*}
+    d(\mathbf{p}, \mathbf{q}) = \sqrt{\sum_{i=1}^{n} (p_i - q_i)^2}
+\end{equation*}
+
+que corresponde a la distancia euclidiana entre dos puntos $\mathbf{p}$ y
+$\mathbf{q}$ en $\mathbb{R}^n$.
+
+\subsection{Ecuación numerada con fracción (caso LDA/Fisher)}
+
+Este es el tipo de ecuación que probablemente más se repita en la tesis,
+al tratarse de un tema de discriminante lineal:
+
+\begin{equation}
+    J(\mathbf{w}) = \frac{\mathbf{w}^T S_B \, \mathbf{w}}{\mathbf{w}^T S_W \, \mathbf{w}}
+    \label{eq:fisher-ratio}
+\end{equation}
+
+\noindent donde $S_B$ es la matriz de dispersión entre clases, $S_W$ es la
+matriz de dispersión intra-clase, y $\mathbf{w}$ es el vector de proyección
+que se busca optimizar.
+
+\subsection{Sistema de ecuaciones alineado}
+
+Cuando se necesita mostrar varios pasos o ecuaciones relacionadas, alineadas
+por el signo igual, se usa \texttt{align} en vez de \texttt{equation}:
+
+\begin{align}
+    \mu_k &= \frac{1}{n_k} \sum_{i \in C_k} x_i \label{eq:media-clase}\\
+    S_W &= \sum_{k=1}^{K} \sum_{i \in C_k} (x_i - \mu_k)(x_i - \mu_k)^T \label{eq:dispersion-intra}
+\end{align}
+
+\noindent la Ecuación~\eqref{eq:media-clase} calcula la media de cada clase
+$C_k$, y la Ecuación~\eqref{eq:dispersion-intra} usa esas medias para
+construir la matriz de dispersión intra-clase.
+
+\subsection{Ecuación en línea (\textit{inline})}
+
+Por último, cuando una expresión matemática es corta y forma parte de una
+oración, no necesita entorno de ecuación ni número: simplemente se escribe
+entre signos de peso, por ejemplo al decir que el vector de proyección
+cumple $\|\mathbf{w}\| = 1$, o que el problema se resuelve para
+$\mathbf{w} \in \mathbb{R}^d$.
+
+\subsection{Formas de insertar una imagen en el documento.}
+
+Puede insertarse una imagen sola como se muestra a continuación
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{PC1.png}
+	\caption{Dimensionality Reduction techniques taxonomy}
+	\label{fig:PCA BASICO}
+\end{figure}
+
+
+Tambien pueden insertarse varios, solo es necesario tener cuidado en como se manejan las formas, los subgráficos, los tamaños y el pie de imagen compuesto.
+
+\begin{figure}[htbp]
+	\centering
+	
+	% Primera fila
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{PC1.png}
+		\caption{R1}
+		\label{fig:R1}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.48\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{PC2.png}
+		\caption{R2}
+		\label{fig:R2}
+	\end{subfigure}
+	
+	\vspace{0.5cm}
+	
+	% Segunda fila
+	\begin{subfigure}[b]{0.46\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{PC3.jpg}
+		\caption{R3}
+		\label{fig:R3}
+	\end{subfigure}
+	\hfill
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{PC4.jpg}
+		\caption{R4}
+		\label{fig:R4}
+	\end{subfigure}
+	
+	\caption{Resultados obtenidos para los cuatro escenarios.}
+	\label{fig:resultados_R}
+\end{figure}
+
+
+
+

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.31)  7 SEP 2026 19:00
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.31)  7 SEP 2026 14:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -905,12 +905,24 @@ LaTeX Info: Redefining \% on input line 23.
  (./capitulos/02_marco_teorico.tex
 Cap\'{\i }tulo 2.
 
+Package natbib Warning: Citation `oettl2024artificial' on page 7 undefined on i
+nput line 18.
+
+
+Package natbib Warning: Citation `abukmeil2021survey' on page 7 undefined on in
+put line 18.
+
+
+Package natbib Warning: Citation `PENDIENTE_VisualizacionAltaDimension' on page
+ 7 undefined on input line 22.
+
+
 Package natbib Warning: Citation `PENDIENTE_MaldicionDimensionalidadDistancias'
- on page 7 undefined on input line 25.
+ on page 7 undefined on input line 24.
 
 
 Package natbib Warning: Citation `PENDIENTE_ReduccionDimensionalVisualizacion' 
-on page 7 undefined on input line 31.
+on page 7 undefined on input line 28.
 
 
 
@@ -922,59 +934,66 @@ on page 7 undefined on input line 31.
 ]
 
 Package natbib Warning: Citation `PENDIENTE_LimitacionesPCAVisualizacion' on pa
-ge 8 undefined on input line 40.
+ge 8 undefined on input line 36.
 
-<figuras/MT1.png, id=287, 1011.78pt x 433.62pt>
+<figuras/MT1.png, id=279, 1011.78pt x 433.62pt>
 File: figuras/MT1.png Graphic file (type png)
 <use figuras/MT1.png>
-Package pdftex.def Info: figuras/MT1.png  used on input line 48.
+Package pdftex.def Info: figuras/MT1.png  used on input line 44.
 (pdftex.def)             Requested size: 455.24411pt x 195.10735pt.
 
+Package natbib Warning: Citation `PENDIENTE_InterpretacionScatterPlots' on page
+ 8 undefined on input line 51.
 
-LaTeX Info: Redefining \. on input line 57.
-LaTeX Info: Redefining \% on input line 57.
+
+
+LaTeX Info: Redefining \. on input line 54.
+LaTeX Info: Redefining \% on input line 54.
 [8 <./figuras/MT1.png>]
 
-LaTeX Info: Redefining \. on input line 77.
-LaTeX Info: Redefining \% on input line 77.
+LaTeX Info: Redefining \. on input line 82.
+LaTeX Info: Redefining \% on input line 82.
 [9]
 
-LaTeX Info: Redefining \. on input line 118.
-LaTeX Info: Redefining \% on input line 118.
+LaTeX Info: Redefining \. on input line 127.
+LaTeX Info: Redefining \% on input line 127.
 [10]
+Underfull \vbox (badness 1810) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 151.
-LaTeX Info: Redefining \% on input line 151.
+
+
+LaTeX Info: Redefining \. on input line 155.
+LaTeX Info: Redefining \% on input line 155.
 [11]
 
-LaTeX Info: Redefining \. on input line 190.
-LaTeX Info: Redefining \% on input line 190.
+LaTeX Info: Redefining \. on input line 189.
+LaTeX Info: Redefining \% on input line 189.
 [12]
 
-LaTeX Info: Redefining \. on input line 215.
-LaTeX Info: Redefining \% on input line 215.
+LaTeX Info: Redefining \. on input line 212.
+LaTeX Info: Redefining \% on input line 212.
 [13]
-<figuras/MC2.png, id=368, 296.307pt x 177.66376pt>
+<figuras/MC2.png, id=359, 296.307pt x 177.66376pt>
 File: figuras/MC2.png Graphic file (type png)
 <use figuras/MC2.png>
-Package pdftex.def Info: figuras/MC2.png  used on input line 237.
+Package pdftex.def Info: figuras/MC2.png  used on input line 230.
 (pdftex.def)             Requested size: 273.14923pt x 163.79149pt.
 
 
-LaTeX Info: Redefining \. on input line 249.
-LaTeX Info: Redefining \% on input line 249.
+LaTeX Info: Redefining \. on input line 252.
+LaTeX Info: Redefining \% on input line 252.
 [14 <./figuras/MC2.png>]
-<figuras/MC3.png, id=384, 259.8435pt x 194.8005pt>
+<figuras/MC3.png, id=376, 259.8435pt x 194.8005pt>
 File: figuras/MC3.png Graphic file (type png)
 <use figuras/MC3.png>
-Package pdftex.def Info: figuras/MC3.png  used on input line 271.
+Package pdftex.def Info: figuras/MC3.png  used on input line 264.
 (pdftex.def)             Requested size: 273.14923pt x 204.79921pt.
 
 
 LaTeX Info: Redefining \. on input line 281.
 LaTeX Info: Redefining \% on input line 281.
 [15 <./figuras/MC3.png>]
-Overfull \hbox (1.00989pt too wide) in paragraph at lines 295--296
+Overfull \hbox (1.00989pt too wide) in paragraph at lines 288--289
 []\T1/ptm/m/n/12 A mo-do de ejem-plo, un cro-mo-so-ma de cin-co di-men-sio-nes 
 es-truc-tu-ra-do co-mo $\OML/ztmcm/m/it/12 z \OT1/ztmcm/m/n/12 = [1\OML/ztmcm/m
 /it/12 ; \OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 1\OML/ztmcm/
@@ -983,55 +1002,42 @@ m/it/12 ; \OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 1]$
 
 
 
-LaTeX Info: Redefining \. on input line 300.
-LaTeX Info: Redefining \% on input line 300.
+LaTeX Info: Redefining \. on input line 306.
+LaTeX Info: Redefining \% on input line 306.
 [16]
-<figuras/MT2.png, id=407, 982.42032pt x 601.4972pt>
+<figuras/MT2.png, id=400, 982.42032pt x 601.4972pt>
 File: figuras/MT2.png Graphic file (type png)
 <use figuras/MT2.png>
-Package pdftex.def Info: figuras/MT2.png  used on input line 316.
+Package pdftex.def Info: figuras/MT2.png  used on input line 309.
 (pdftex.def)             Requested size: 227.62206pt x 139.36021pt.
 
 
-LaTeX Info: Redefining \. on input line 327.
-LaTeX Info: Redefining \% on input line 327.
+LaTeX Info: Redefining \. on input line 338.
+LaTeX Info: Redefining \% on input line 338.
 [17 <./figuras/MT2.png>]
 
-LaTeX Info: Redefining \. on input line 354.
-LaTeX Info: Redefining \% on input line 354.
+LaTeX Info: Redefining \. on input line 360.
+LaTeX Info: Redefining \% on input line 360.
 [18]
 
-LaTeX Info: Redefining \. on input line 397.
-LaTeX Info: Redefining \% on input line 397.
-[19]
-
-LaTeX Info: Redefining \. on input line 416.
-LaTeX Info: Redefining \% on input line 416.
-[20])
+LaTeX Info: Redefining \. on input line 400.
+LaTeX Info: Redefining \% on input line 400.
+[19])
 
 LaTeX Info: Redefining \. on input line 24.
 LaTeX Info: Redefining \% on input line 24.
-[21]
+[20] (./main.bbl
 
-LaTeX Info: Redefining \. on input line 33.
-LaTeX Info: Redefining \% on input line 33.
-[22
+[21
 
 
 
-] (./main.bbl
-
-[23
 
 ]
 
-LaTeX Info: Redefining \. on input line 215.
-LaTeX Info: Redefining \% on input line 215.
-[24{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
-
-LaTeX Info: Redefining \. on input line 323.
-LaTeX Info: Redefining \% on input line 323.
-[25])
+LaTeX Info: Redefining \. on input line 217.
+LaTeX Info: Redefining \% on input line 217.
+[22{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}])
 
 Package natbib Warning: There were undefined citations.
 
@@ -1039,7 +1045,7 @@ Package natbib Warning: There were undefined citations.
 
 LaTeX Info: Redefining \. on input line 36.
 LaTeX Info: Redefining \% on input line 36.
-[26] (./main.aux
+[23] (./main.aux
 LaTeX Info: Redefining \. on input line 14.
 LaTeX Info: Redefining \% on input line 14.
 LaTeX Info: Redefining \. on input line 15.
@@ -1056,13 +1062,13 @@ Package rerunfilecheck Info: File `main.out' has not changed.
 (rerunfilecheck)             Checksum: F80B0EC2722C579E0205F2A31FB5619D;8644.
  ) 
 Here is how much of TeX's memory you used:
- 18603 strings out of 467747
- 311701 string characters out of 5431120
- 775441 words of memory out of 5000000
- 46779 multiletter control sequences out of 15000+600000
+ 18583 strings out of 467747
+ 311241 string characters out of 5431120
+ 775113 words of memory out of 5000000
+ 46766 multiletter control sequences out of 15000+600000
  694910 words of font info for 124 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,6n,134p,1051b,858s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 99i,6n,134p,1016b,858s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Bold.p
 fb><c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Regul
 ar.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c
@@ -1076,10 +1082,10 @@ super/sftt1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb>
 xmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2025/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (30 pages, 738770 bytes).
+Output written on main.pdf (27 pages, 735419 bytes).
 PDF statistics:
- 581 PDF objects out of 1000 (max. 8388607)
- 501 compressed objects within 6 object streams
- 135 named destinations out of 1000 (max. 500000)
+ 558 PDF objects out of 1000 (max. 8388607)
+ 482 compressed objects within 5 object streams
+ 128 named destinations out of 1000 (max. 500000)
  331 words of extra memory for PDF output out of 10000 (max. 10000000)
 

@@ -10,50 +10,53 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliografia/referenciaslimpias.bib
+Warning--I didn't find a database entry for "oettl2024artificial"
+Warning--I didn't find a database entry for "abukmeil2021survey"
+Warning--I didn't find a database entry for "PENDIENTE_VisualizacionAltaDimension"
 Warning--I didn't find a database entry for "PENDIENTE_MaldicionDimensionalidadDistancias"
 Warning--I didn't find a database entry for "PENDIENTE_ReduccionDimensionalVisualizacion"
 Warning--I didn't find a database entry for "PENDIENTE_LimitacionesPCAVisualizacion"
 Warning--I didn't find a database entry for "PENDIENTE_InterpretacionScatterPlots"
 Warning--empty year in us_algoritmos_geneticos
-You've used 44 entries,
+You've used 40 entries,
             4728 wiz_defined-function locations,
-            1171 strings with 15227 characters,
-and the built_in function-call counts, 35383 in all, are:
-= -- 3638
-> -- 1114
-< -- 1335
-+ -- 1570
-- -- 413
-* -- 2644
-:= -- 6109
-add.period$ -- 47
-call.type$ -- 44
-change.case$ -- 250
-chr.to.int$ -- 44
-cite$ -- 45
-duplicate$ -- 911
-empty$ -- 2068
-format.name$ -- 674
-if$ -- 6572
+            1147 strings with 14289 characters,
+and the built_in function-call counts, 30729 in all, are:
+= -- 3173
+> -- 924
+< -- 1104
++ -- 1293
+- -- 340
+* -- 2284
+:= -- 5269
+add.period$ -- 43
+call.type$ -- 40
+change.case$ -- 216
+chr.to.int$ -- 40
+cite$ -- 41
+duplicate$ -- 819
+empty$ -- 1876
+format.name$ -- 560
+if$ -- 5782
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 225
-newline$ -- 242
-num.names$ -- 176
-pop$ -- 379
+missing$ -- 203
+newline$ -- 222
+num.names$ -- 160
+pop$ -- 334
 preamble$ -- 1
-purify$ -- 338
+purify$ -- 296
 quote$ -- 0
-skip$ -- 2099
+skip$ -- 1809
 stack$ -- 0
-substring$ -- 2628
-swap$ -- 226
-text.length$ -- 153
+substring$ -- 2283
+swap$ -- 194
+text.length$ -- 128
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 537
+type$ -- 485
 warning$ -- 1
-while$ -- 307
+while$ -- 267
 width$ -- 0
-write$ -- 591
-(There were 5 warnings)
+write$ -- 540
+(There were 8 warnings)

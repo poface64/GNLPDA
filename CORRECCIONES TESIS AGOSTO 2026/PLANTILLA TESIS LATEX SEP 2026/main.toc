@@ -19,14 +19,14 @@
 \contentsline {subsection}{\numberline {2.1.1}El desafío de visualizar datos de alta dimensión}{7}{subsection.2.1.1}%
 \contentsline {subsection}{\numberline {2.1.2}Reducción dimensional como mecanismo de representación}{7}{subsection.2.1.2}%
 \contentsline {subsection}{\numberline {2.1.3}Proyecciones discriminantes para la visualización supervisada}{8}{subsection.2.1.3}%
-\contentsline {subsection}{\numberline {2.1.4}Visualización en dos y tres dimensiones}{9}{subsection.2.1.4}%
+\contentsline {subsection}{\numberline {2.1.4}Visualización en dos y tres dimensiones}{8}{subsection.2.1.4}%
 \contentsline {section}{\numberline {2.2}Análisis Discriminante Lineal}{9}{section.2.2}%
 \contentsline {subsection}{\numberline {2.2.1}Fundamentos y criterio de Fisher}{9}{subsection.2.2.1}%
 \contentsline {subsection}{\numberline {2.2.2}Extensión multiclase y obtención de ejes discriminantes}{10}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}Supuestos, limitaciones y comparación con QDA}{11}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Implementación computacional y tratamiento de la singularidad}{12}{subsection.2.2.4}%
 \contentsline {section}{\numberline {2.3}Problema de muestras pequeñas (Small Sample Size)}{13}{section.2.3}%
-\contentsline {section}{\numberline {2.4}Expansión polinomial y espacios de caracteristicas}{14}{section.2.4}%
+\contentsline {section}{\numberline {2.4}Expansión polinomial y espacios de caracteristicas}{13}{section.2.4}%
 \contentsline {subsection}{\numberline {2.4.1}Formalización de la expansión polinomial}{14}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}Limitaciones: Crecimiento Combinatorio y Complejidad}{15}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Algoritmos genéticos}{16}{section.2.5}%
@@ -34,6 +34,6 @@
 \contentsline {subsection}{\numberline {2.5.2}Ciclo evolutivo y operadores genéticos}{17}{subsection.2.5.2}%
 \contentsline {subsection}{\numberline {2.5.3}Algoritmos genéticos como estrategia wrapper}{18}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}Métodos kernel y clasificadores no lineales}{18}{section.2.6}%
-\contentsline {subsection}{\numberline {2.6.1}Truco Kernel y funciones kernel}{19}{subsection.2.6.1}%
+\contentsline {subsection}{\numberline {2.6.1}Truco Kernel y funciones kernel}{18}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}KFDA y SVM como enfoques no lineales de referencia}{19}{subsection.2.6.2}%
 \contentsline {subsection}{\numberline {2.6.3}Ventajas, limitaciones e interpretabilidad}{20}{subsection.2.6.3}%

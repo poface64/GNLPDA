@@ -14,62 +14,45 @@
 \section{Representación y visualización de datos multidimensionales}
 \label{sec:Representacion_Visualizacion}
 
-En el desarrollo de sistemas de aprendizaje automático, el análisis exploratorio de los datos es una etapa fundamental para comprender la naturaleza del problema. Antes de entrenar modelos de clasificación complejos, la capacidad de observar geométricamente cómo se distribuyen las observaciones permite explorar patrones, detectar posibles valores atípicos e inspeccionar el grado de solapamiento entre las distintas clases \cite{oettl2024artificial,abukmeil2021survey}. 
-
-En este contexto resulta conveniente distinguir entre la visualización y la representación que la hace posible. La visualización constituye la manifestación gráfica de los datos, mientras que la representación corresponde al espacio de menor dimensión seleccionando para proyectar las observaciones y facilitar su inspección.
+En el desarrollo de sistemas de aprendizaje automático, el análisis exploratorio de los datos es una etapa fundamental para comprender la naturaleza del problema. Antes de entrenar modelos de clasificación complejos, la capacidad de observar geométricamente cómo se distribuyen las observaciones permite explorar patrones, detectar posibles valores atípicos e inspeccionar el grado de solapamiento entre las distintas clases.
+\cite{oettl2024artificial,abukmeil2021survey}. 
 
 \subsection{El desafío de visualizar datos de alta dimensión}
 
-La representación visual directa de datos multidimensionales está limitada por la capacidad de representar simultáneamente un número reducido de dimensiones, generalmente de dos a tres en una gráfica convencional \cite{andrews1972plots,espadoto2021unprojection}. 
+La cognición humana está intrínsecamente limitada a la percepción y comprensión de espacios de hasta tres dimensiones. Sin embargo, en áreas como la bioinformática, el procesamiento de imágenes o la radiómica, los conjuntos de datos suelen representarse en espacios de decenas, cientos o miles de características \cite{PENDIENTE_VisualizacionAltaDimension}. 
 
-Intentar comprender la estructura de un conjunto de datos multidimensional a través del análisis aislado por pares de variables resulta ineficiente y propenso a omitir interacciones complejas que sean clave para entenderlos \cite{andrews1972plots}. A medida que la dimensionalidad aumenta, los datos se vuelven escasos en el espacio representativo, agravando los efectos de la maldición de la dimensionalidad \cite{PENDIENTE_MaldicionDimensionalidadDistancias}. Por lo tanto, surge la necesidad de proyectar esta información hacia espacios de menor dimensión que permitan conservar, de acuerdo con un criterio determinado, características relevantes de la estructura de los datos.
-
+Intentar comprender la estructura de un conjunto de datos multidimensional a través del análisis aislado por pares de variables resulta ineficiente y propenso a omitir interacciones complejas que sean clave para entenderlos. A medida que la dimensionalidad aumenta, los datos se vuelven escasos en el espacio representativo, y las distancias euclidianas entre las observaciones pierden su capacidad para discriminar proximidades significativas, agravando los efectos de la maldición de la dimensionalidad \cite{PENDIENTE_MaldicionDimensionalidadDistancias}. Por lo tanto, surge la necesidad matemática de proyectar esta información hacia subespacios visualmente asimilables sin perder la estructura subyacente.
 
 \subsection{Reducción dimensional como mecanismo de representación}
 
-La reducción dimensional comprende un conjunto de técnicas cuyo propósito es representar los datos mediante un número menor de dimensiones. Cuando la dimensión resultante se restringe a dos o tres dimensiones, estas representaciones pueden utilizarse ademas como herramientas para la exploración visual de los datos \cite{}.
-
-Más allá de la reducción del número de dimensiones, estas técnicas buscan comprimir la información para reducir el costo computacional sino tambien para encontrar un mapeo hacia un espacio de menor dimensión que conserve, de acuerdo con el criterio empleado, características relevantes de la estructura de los datos \cite{PENDIENTE_ReduccionDimensionalVisualizacion}.
+Para cerrar la brecha entre la alta dimensionalidad de los datos y las limitaciones de la percepción humana, se emplean técnicas de reducción dimensional orientadas a la visualización. El objetivo principal de estos mecanismos no es únicamente comprimir la información para reducir el costo computacional, sino encontrar un mapeo hacia un espacio de dimensión $d$ (donde $d \in \{2, 3\}$) que preserve las propiedades topológicas más relevantes del espacio original \cite{PENDIENTE_ReduccionDimensionalVisualizacion}.
 
 Este proceso de representación puede lograrse seleccionando un subconjunto específico de variables (selección de características) o transformando el espacio mediante combinaciones matemáticas (extracción de características). 
 
-La selección de característica conserva un subconjunto de variables originales mientras que la extracción, construye nuevas dimensiones mediante transformaciones o combinaciones de las variables disponibles \cite{}, En el contexto de la visualización, ambas estrategias pueden producir representaciones de baja dimensión, aunque ofrecen diferentes niveles de correspondencia con las variables originales \cite{}.
-
+Para efectos de visualización, la extracción de características suele ser preferida, ya que permite condensar la información de múltiples variables originales en unos pocos ejes proyectados, facilitando una vista panorámica del conjunto de datos.
 
 \subsection{Proyecciones discriminantes para la visualización supervisada}
 
-La utilidad de una visualización depende fuertemente del criterio matemático utilizado para proyectar los datos. El Análisis de Componentes Principales (PCA) constituye una técnica ampliamente utilizada para obtener representaciones de baja dimensión. Al proyectar las observaciones sobre sus dos o tres primeras componentes, se obtiene un mapa que preserva la mayor varianza global de los datos. Sin embargo, al ser un método no supervisado, PCA ignora por completo a qué clase pertenece cada observación \cite{PENDIENTE_LimitacionesPCAVisualizacion}.
+La utilidad de una visualización depende fuertemente del criterio matemático utilizado para proyectar los datos. El Análisis de Componentes Principales (PCA) es históricamente la técnica más utilizada para este propósito. Al proyectar las observaciones sobre sus dos o tres primeras componentes, se obtiene un mapa que preserva la mayor varianza global de los datos. Sin embargo, al ser un método no supervisado, PCA ignora por completo a qué clase pertenece cada observación \cite{PENDIENTE_LimitacionesPCAVisualizacion}.
 
 Cuando el objetivo es analizar problemas de clasificación, la varianza global no siempre coincide con la separabilidad de las clases. Para solventar esto, se requieren proyecciones discriminantes supervisadas, cuyo objetivo es identificar las direcciones del espacio que maximizan la separación entre diferentes grupos.
 
-Para ilustrar esta diferencia fundamental entre la maximización de la varianza global y la maximización de la separabilidad, la figura \ref{fig:MT1} presenta una comparativa geométrica conceptual. Mientras que PCA proyecta los datos buscando la dirección de mayor dispersión general (ignorando las etiquetas de clase), una proyección discriminante orienta los ejes específicamente para maximizar la separación entre las clases respecto a su dispersión interna \cite{}.
+Para ilustrar esta diferencia fundamental entre la maximización de la varianza global y la maximización de la separabilidad, la figura \ref{fig:MT1} presenta una comparativa geométrica conceptual. Mientras que PCA proyecta los datos buscando la dirección de mayor dispersión general (ignorando las etiquetas de clase), una proyección discriminante orienta los ejes específicamente para maximizar la distancia entre los centroides de las clases y minimizar el solapamiento interno.
 
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=1\textwidth]{MT1.png}
-	\caption{Comparativa conceptual entre los criterios de proyección de PCA y LDA. Elaboración propia.}
+	\caption{Comparativa entre el funcionamiento de PCA y LDA. Elaboración propia.}
 	\label{fig:MT1}	
 \end{figure}
 
-\subsection{Visualización de representaciones de baja dimensión}
+\subsection{Visualización en dos y tres dimensiones}
 
+La generación de gráficos de dispersión en dos y tres dimensiones (2D y 3D) a partir de proyecciones discriminantes constituye la herramienta visual más potente para evaluar cualitativamente un problema de clasificación. En un espacio proyectado de baja dimensión, una separación clara entre los grupos indica empíricamente que el problema puede ser resuelto con alta precisión \cite{PENDIENTE_InterpretacionScatterPlots}.
 
-Las representaciones de baja dimensión permiten convertur un conjunto de observaciones definido originalmente en un espacio multidimensional en una geometría que puede ser inspeccionada visualmente. Cuando la representación tiene una, dos o tres dimensiones, es posible recurrir a recursos gráficos que permiten explorar directamente la distribución de las observaciones y su relación con las clases \cite{}.
+No obstante, en el contexto de la inteligencia artificial interpretable, la utilidad de estas representaciones 2D y 3D no radica únicamente en observar clases separadas, sino en la \textbf{trazabilidad} de sus ejes. Si un eje de visualización ($X$ o $Y$) se construye mediante una combinación matemática opaca (como ocurre en métodos de mapeo implícito o topológico), la visualización carece de explicabilidad. Por el contrario, cuando los ejes de proyección pueden rastrearse directamente hacia las variables originales o términos polinomiales explícitos, la representación geométrica se convierte en un instrumento auditable que explica qué factores detonan la separación de las clases. 
 
-En particular, las representaciones bidimensionales permiten visualizar las observaciones mediante planos, mientras que las representaciones tridimensionales permiten extender la inspección a un espacio de tres ejes. Las representaciones unidimensionales por su parte, permiten analizar la distribución de las observaciones sobre un único eje discriminante \cite{}.
-
-En adelante, se considerarán representaciones de baja dimensión aquellas cuya dimensión no sea mayor a tres, es decir $d\leq3$
-
-En un espacio proyectado de baja dimensión, una separación visualmente marcada entre los grupos puede proporcionar evidencia exploratoria de una estructura discriminante, mientras que el desempeño predictivo debe evaluarse mediante métricas cuantitativas \cite{}.
-
-Una representación discriminante de baja dimensión no constituye por sí misma una prueba estadística de separabilidad ni sustituye la evaluación cuantitativa del desempeño de un clasificador. Su utilidad radica en proporcionar una representación geométrica que facilite la exploración de la estructura de los datos y permita formular hipótesis sobre la relación entre las clases, el grado de solapamiento y la presencia de observaciones atípicas.
-
-No obstante, en el contexto de la inteligencia artificial interpretable, la utilidad de estas representaciones 2D y 3D no radica únicamente en observar clases separadas, sino en la \textbf{trazabilidad} de sus ejes. Cuando los ejes proyectados se construyen mediante transformaciones cuya relación con las variables originales no es directamente accesible, resulta difícil interpretar qué características participaron en la construcción de la representación (como ocurre en métodos que utilizan transformaciones implícitas del espacio de características), la interpretación de la representación en términos de las variables originales resulta más difícil. 
-
-Por el contrario, cuiando los ejes de proyección pueden rastrearse hacia las variables originales y hacia los términos transformados que participan en su construcción, la representación proporciona información adicional sobre los elementos que contribuyen a la separación observada.
-
-
-
+El Análisis Discriminante Lineal, que se detallará en la siguiente sección, proporciona precisamente la base matemática para construir estos ejes discriminantes trazables.
 
 
 %%%% AISLAR %%%%%
