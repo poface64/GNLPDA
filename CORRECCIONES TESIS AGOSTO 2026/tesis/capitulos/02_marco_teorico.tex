@@ -16,31 +16,40 @@
 
 En el desarrollo de sistemas de aprendizaje automático, el análisis exploratorio de los datos es una etapa fundamental para comprender la naturaleza del problema. Antes de entrenar modelos de clasificación complejos, la capacidad de observar geométricamente cómo se distribuyen las observaciones permite explorar patrones, detectar posibles valores atípicos e inspeccionar el grado de solapamiento entre las distintas clases \cite{oettl2024artificial,abukmeil2021survey}. 
 
-En este contexto resulta conveniente distinguir entre la visualización y la representación que la hace posible. La visualización constituye la manifestación gráfica de los datos, mientras que la representación corresponde al espacio de menor dimensión seleccionando para proyectar las observaciones y facilitar su inspección.
+En este contexto resulta conveniente distinguir entre la visualización y 
+la representación que la hace posible. La visualización constituye la manifestación gráfica de los datos, mientras que la representación corresponde al espacio de dimensión reducida utilizado para proyectar las observaciones y facilitar su inspección.
+
+
 
 \subsection{El desafío de visualizar datos de alta dimensión}
 
-La representación visual directa de datos multidimensionales está limitada por la capacidad de representar simultáneamente un número reducido de dimensiones, generalmente de dos a tres en una gráfica convencional \cite{andrews1972plots,espadoto2021unprojection}. 
+La representación visual directa de datos multidimensionales está limitada por la capacidad de representar simultáneamente un número reducido de dimensiones, por lo que las representaciones visuales convencionales suelen restringirse a una, dos o tres dimensiones \cite{andrews1972plots,espadoto2021unprojection} .
 
-Intentar comprender la estructura de un conjunto de datos multidimensional a través del análisis aislado por pares de variables resulta ineficiente y propenso a omitir interacciones complejas que sean clave para entenderlos \cite{andrews1972plots}. A medida que la dimensionalidad aumenta, los datos se vuelven escasos en el espacio representativo, agravando los efectos de la maldición de la dimensionalidad \cite{PENDIENTE_MaldicionDimensionalidadDistancias}. Por lo tanto, surge la necesidad de proyectar esta información hacia espacios de menor dimensión que permitan conservar, de acuerdo con un criterio determinado, características relevantes de la estructura de los datos.
+% CORREGIR CITA ARRIBA
+ 
+
+Intentar comprender la estructura de un conjunto de datos multidimensional a través del análisis aislado por pares de variables resulta ineficiente y propenso a omitir interacciones complejas que sean clave para entenderlos \cite{neto2022multivariate}. A medida que la dimensionalidad aumenta, los datos se vuelven escasos en el espacio representativo, agravando los efectos de la maldición de la dimensionalidad \cite{peng2023interpreting}. Por lo tanto, surge la necesidad de proyectar esta información hacia espacios de menor dimensión que permitan conservar, de acuerdo con un criterio determinado, características relevantes de la estructura de los datos.
 
 
 \subsection{Reducción dimensional como mecanismo de representación}
 
-La reducción dimensional comprende un conjunto de técnicas cuyo propósito es representar los datos mediante un número menor de dimensiones. Cuando la dimensión resultante se restringe a dos o tres dimensiones, estas representaciones pueden utilizarse ademas como herramientas para la exploración visual de los datos \cite{}.
+La reducción dimensional comprende un conjunto de técnicas orientadas a representar los datos en un espacio de baja dimensión, con el propósito de preservar, conforme al criterio de la técnica empleada, aquellas propiedades consideradas relevantes de la estructura original \cite{zebari2020comprehensive}. 
 
-Más allá de la reducción del número de dimensiones, estas técnicas buscan comprimir la información para reducir el costo computacional sino tambien para encontrar un mapeo hacia un espacio de menor dimensión que conserve, de acuerdo con el criterio empleado, características relevantes de la estructura de los datos \cite{PENDIENTE_ReduccionDimensionalVisualizacion}.
+Cuando la dimensión resultante es suficientemente baja, estas representaciones también pueden emplearse para la exploración visual de los datos \cite{hasan2021review}.
 
-Este proceso de representación puede lograrse seleccionando un subconjunto específico de variables (selección de características) o transformando el espacio mediante combinaciones matemáticas (extracción de características). 
+En esta tesis se consideran representaciones de baja dimensión aquellas cuya dimensión no sea mayor a tres, es decir, $d\leq3$.
 
-La selección de característica conserva un subconjunto de variables originales mientras que la extracción, construye nuevas dimensiones mediante transformaciones o combinaciones de las variables disponibles \cite{}, En el contexto de la visualización, ambas estrategias pueden producir representaciones de baja dimensión, aunque ofrecen diferentes niveles de correspondencia con las variables originales \cite{}.
 
+Este proceso de representación puede lograrse seleccionando un subconjunto específico de variables (selección de características) o transformando el espacio mediante combinaciones matemáticas (extracción de características) \cite{nogales2023analysis}. 
+
+La selección de características conserva un subconjunto de variables originales mientras que la extracción construye nuevas dimensiones mediante transformaciones o combinaciones de las variables disponibles. En el contexto de la visualización, ambas estrategias pueden producir representaciones de baja dimensión, aunque difieren en el grado de correspondencia directa que mantienen con las variables originales \cite{2}.
 
 \subsection{Proyecciones discriminantes para la visualización supervisada}
 
-La utilidad de una visualización depende fuertemente del criterio matemático utilizado para proyectar los datos. El Análisis de Componentes Principales (PCA) constituye una técnica ampliamente utilizada para obtener representaciones de baja dimensión. Al proyectar las observaciones sobre sus dos o tres primeras componentes, se obtiene un mapa que preserva la mayor varianza global de los datos. Sin embargo, al ser un método no supervisado, PCA ignora por completo a qué clase pertenece cada observación \cite{PENDIENTE_LimitacionesPCAVisualizacion}.
+La utilidad de una visualización depende fuertemente del criterio matemático utilizado para proyectar los datos. El Análisis de Componentes Principales (PCA) constituye una técnica ampliamente utilizada para obtener representaciones de baja dimensión. Al proyectar las observaciones sobre sus primeras componentes, se obtiene un mapa que preserva la mayor varianza global de los datos. Sin embargo, al ser un método no supervisado, PCA no incorpora las etiquetas de clase en el proceso de obtención de las componentes \cite{PENDIENTE_LimitacionesPCAVisualizacion}.
 
-Cuando el objetivo es analizar problemas de clasificación, la varianza global no siempre coincide con la separabilidad de las clases. Para solventar esto, se requieren proyecciones discriminantes supervisadas, cuyo objetivo es identificar las direcciones del espacio que maximizan la separación entre diferentes grupos.
+
+En problemas de clasificación, la varianza global no siempre coincide con la separabilidad de las clases. Cuando el objetivo específico es favorecer la separación entre grupos, resulta conveniente emplear proyecciones discriminantes supervisadas, cuyo propósito es orientar la proyección hacia direcciones que favorezcan la separación entre los grupos \cite{CORREGIR}.
 
 Para ilustrar esta diferencia fundamental entre la maximización de la varianza global y la maximización de la separabilidad, la figura \ref{fig:MT1} presenta una comparativa geométrica conceptual. Mientras que PCA proyecta los datos buscando la dirección de mayor dispersión general (ignorando las etiquetas de clase), una proyección discriminante orienta los ejes específicamente para maximizar la separación entre las clases respecto a su dispersión interna \cite{}.
 
@@ -54,19 +63,18 @@ Para ilustrar esta diferencia fundamental entre la maximización de la varianza 
 \subsection{Visualización de representaciones de baja dimensión}
 
 
-Las representaciones de baja dimensión permiten convertur un conjunto de observaciones definido originalmente en un espacio multidimensional en una geometría que puede ser inspeccionada visualmente. Cuando la representación tiene una, dos o tres dimensiones, es posible recurrir a recursos gráficos que permiten explorar directamente la distribución de las observaciones y su relación con las clases \cite{}.
+Las representaciones de baja dimensión permiten convertir un conjunto de observaciones definido originalmente en un espacio multidimensional en una geometría que puede ser inspeccionada visualmente. Cuando la representación tiene una, dos o tres dimensiones, es posible recurrir a recursos gráficos que permiten explorar directamente la distribución de las observaciones y su relación con las clases \cite{}.
 
-En particular, las representaciones bidimensionales permiten visualizar las observaciones mediante planos, mientras que las representaciones tridimensionales permiten extender la inspección a un espacio de tres ejes. Las representaciones unidimensionales por su parte, permiten analizar la distribución de las observaciones sobre un único eje discriminante \cite{}.
+En un espacio proyectado de baja dimensión, una separación visualmente marcada entre los grupos puede ofrecer evidencia exploratoria acerca de la existencia de una estructura discriminante; sin embargo, dicha representación no constituye por sí misma una prueba estadística de separabilidad ni garantiza desempeño predictivo \cite{}. Su valor radica en proporcionar una representación geométrica que facilite la exploración de la estructura de los datos y la formulación de hipótesis sobre la relación entre las clases, el grado de solapamiento y la presencia de observaciones atípicas, mientras que la evaluación de la capacidad discriminante y del rendimiento predictivo de un clasificador debe sustentarse en métricas cuantitativas \cite{}.
 
-En adelante, se considerarán representaciones de baja dimensión aquellas cuya dimensión no sea mayor a tres, es decir $d\leq3$
+Además de la posibilidad de inspeccionar visualmente la estructura proyectada, una representación de baja dimensión puede adquirir mayor utilidad interpretativa cuando es posible establecer una relación explícita entre sus dimensiones y las características que intervienen en su construcción \cite{}.
 
-En un espacio proyectado de baja dimensión, una separación visualmente marcada entre los grupos puede proporcionar evidencia exploratoria de una estructura discriminante, mientras que el desempeño predictivo debe evaluarse mediante métricas cuantitativas \cite{}.
+Desde esta perspectiva, la trazabilidad de los ejes resulta relevante para determinar que características participan en la construcción de la representación. 
+En ciertos métodos de reducción dimensional, especialmente aquellos que recurren a transformaciones implícitas del espacio de características, la relación explícita entre los ejes obtenidos y las variables originales tiende a ser menos directa, lo que dificulta la interpretación de la representación en términos de las características iniciales \cite{}.
 
-Una representación discriminante de baja dimensión no constituye por sí misma una prueba estadística de separabilidad ni sustituye la evaluación cuantitativa del desempeño de un clasificador. Su utilidad radica en proporcionar una representación geométrica que facilite la exploración de la estructura de los datos y permita formular hipótesis sobre la relación entre las clases, el grado de solapamiento y la presencia de observaciones atípicas.
 
-No obstante, en el contexto de la inteligencia artificial interpretable, la utilidad de estas representaciones 2D y 3D no radica únicamente en observar clases separadas, sino en la \textbf{trazabilidad} de sus ejes. Cuando los ejes proyectados se construyen mediante transformaciones cuya relación con las variables originales no es directamente accesible, resulta difícil interpretar qué características participaron en la construcción de la representación (como ocurre en métodos que utilizan transformaciones implícitas del espacio de características), la interpretación de la representación en términos de las variables originales resulta más difícil. 
 
-Por el contrario, cuiando los ejes de proyección pueden rastrearse hacia las variables originales y hacia los términos transformados que participan en su construcción, la representación proporciona información adicional sobre los elementos que contribuyen a la separación observada.
+La necesidad de contar con representaciones de baja dimensión que, además de facilitar la inspección visual, incorporen explícitamente la información sobre la pertenencia de las observaciones a distintas clases, motiva el empleo de técnicas de proyección discriminante. En este contexto, LDA ofrece un marco matemático que permite construir ejes orientados a maximizar la separación entre clases, estableciendo así la base de una representación discriminante supervisada \cite{}.
 
 
 
@@ -78,9 +86,9 @@ Por el contrario, cuiando los ejes de proyección pueden rastrearse hacia las va
 
 \subsection{Fundamentos y criterio de Fisher}
 
-El Análisis Discriminante Lineal, comúnmente referido como LDA por sus siglas en inglés, es una técnica estadística multivariante propuesta originalmente por Fisher (1936), cuyo propósito es encontrar combinaciones lineales de las variables originales que permitan favorecer la separación entre dos o más clases. En el contexto de la reducción de dimensionalidad supervisada, LDA busca proyectar los datos desde un espacio original de dimensión ($p$) hacia un subespacio de menor dimensión ($d$), procurando que las observaciones pertenecientes a una misma clase permanezcan compactas, mientras que las clases distintas se encuentren lo más separadas posible.
+El Análisis Discriminante Lineal, comúnmente referido como LDA por sus siglas en inglés, es una técnica estadística multivariante propuesta originalmente por Fisher (1936), cuyo propósito es encontrar combinaciones lineales de las variables originales que permitan favorecer la separación entre dos o más clases. En el contexto de la reducción de dimensionalidad supervisada, LDA busca proyectar los datos desde un espacio original de dimensión ($p$) hacia un subespacio de menor dimensión ($d$), procurando que las observaciones pertenecientes a una misma clase permanezcan compactas, mientras que las clases distintas se encuentren lo más separadas posible \cite{CORREGIR}.
 
-A diferencia del Análisis de Componentes Principales (PCA), que identifica direcciones de máxima varianza sin considerar las etiquetas de clase, LDA incorpora explícitamente la información supervisada del problema. Por ello, mientras PCA puede conservar direcciones con alta variabilidad global pero poca utilidad discriminante, LDA orienta la proyección hacia la separación entre grupos previamente definidos. En términos generales, esta separación se plantea como un compromiso entre maximizar la dispersión entre clases y minimizar la dispersión dentro de cada clase \cite{bishop2006pattern}.
+A diferencia de PCA, LDA incorpora explícitamente la información de clase en la construcción de la proyección, orientando sus direcciones hacia la separación entre los grupos  \cite{bishop2006pattern}.
 
 Desde una perspectiva probabilística, LDA suele asociarse con el supuesto de que las densidades condicionales de las clases siguen distribuciones normales multivariantes con una matriz de covarianza común, es decir, bajo una condición de homocedasticidad \cite{mclachlan1992discriminant}. Sin embargo, desde la formulación geométrica de Fisher, el método también puede entenderse como la búsqueda de una proyección lineal que maximiza una razón de separabilidad entre clases \cite{fisher1936use}. Esta distinción es importante, ya que en aplicaciones prácticas LDA puede emplearse tanto como clasificador como técnica de reducción de dimensionalidad supervisada \cite{martinez2001pca}.
 
@@ -141,10 +149,6 @@ La maximización de este criterio conduce a un problema generalizado de valores 
 Los vectores propios asociados a los valores propios más grandes se seleccionan para formar la matriz de proyección final. En este sentido, cada valor propio puede interpretarse como una medida de la separabilidad capturada por su dirección discriminante correspondiente.
 
 Por ello, LDA no maximiza “los ejes” en sí mismos, sino un criterio de separabilidad cuya solución produce los ejes discriminantes del nuevo espacio.
-
-%Para ilustrar esta diferencia fundamental entre la maximización de la %varianza global y la maximización de la separabilidad de clases, la Figura %\ref{fig:MT1} presenta una comparativa geométrica de lo que hace cada una. %Mientras que PCA proyecta los datos buscando la dirección de mayor %dispersión general (ignorando las etiquetas), LDA orienta la proyección %específicamente hacia el eje que maximiza la distancia entre los centroides %de las clases y minimiza el solapamiento interno.
-
-
 
 
 Un aspecto importante de la formulación multiclase es que el número máximo de dimensiones discriminantes que pueden extraerse está limitado por el número de clases. En particular, si existen ($C$) clases, el número máximo de direcciones discriminantes útiles es ($C-1$) \cite{duda2000pattern}. Esto se debe a que la matriz de dispersión interclase tiene un rango máximo determinado por la cantidad de centroides de clase disponibles. Por tanto, LDA no solo reduce la dimensionalidad, sino que también impone una estructura supervisada al espacio reducido \cite{belhumeur1997eigenfaces}.
@@ -371,7 +375,6 @@ Sea $x \in \mathbb{R}^p$ un vector de entrada. Un método kernel asume la existe
 	\label{eq:EMT15}
 \end{equation}
 
-
 La ventaja computacional fundamental de los métodos kernel consiste en que no es necesario calcular explícitamente las coordenadas proyectadas $\phi(x)$. En su lugar, se define una función kernel $K(x_i,x_j)$ que evalúa directamente el producto interno entre dos observaciones en el espacio transformado. Este procedimiento algorítmico se conoce como el kernel trick y permite trabajar con espacios de características de alta dimensionalidad sin incurrir en el costo de construirlos de forma explícita \cite{bishop2006pattern}.
 
 Entre las funciones kernel más estandarizadas en la literatura se encuentran el kernel lineal, el kernel polinomial y el kernel de función de base radial (RBF). El kernel lineal equivale al producto interno ordinario, mientras que el kernel polinomial permite incorporar interacciones de orden superior de forma implícita. Por su parte, el kernel RBF mide la similitud local entre observaciones e induce fronteras de decisión altamente flexibles.
@@ -397,7 +400,7 @@ Matemáticamente, se expresan de la siguiente manera:
 \end{equation}
 
 
-En el contexto de esta tesis, el kernel polinomial resulta particularmente relevante por su vinculación teórica con la expansión polinomial explícita. La diferencia principal radica en que, mientras la expansión polinomial construye explícitamente los términos cuadráticos y las interacciones cruzadas, el kernel polinomial opera sobre un espacio expandido de forma implícita. Esta distinción es crítica porque el enfoque propuesto en esta investigación busca conservar una relación directa y auditable con los términos generados, favoreciendo la trazabilidad analítica de las variables seleccionadas.
+En el contexto de esta tesis, el kernel polinomial resulta particularmente relevante por su vinculación teórica con la expansión polinomial explícita. La diferencia principal radica en que, mientras la expansión polinomial construye explícitamente los términos cuadráticos y las interacciones cruzadas, el kernel polinomial opera sobre un espacio expandido de forma implícita. Esta distinción es crítica porque el enfoque propuesto en esta investigación busca conservar una relación directa rastreable con los términos generados, favoreciendo la trazabilidad analítica de las variables seleccionadas.
 
 \subsection{KFDA y SVM como enfoques no lineales de referencia}
 
