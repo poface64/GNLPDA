@@ -37,3 +37,20 @@
 \contentsline {subsection}{\numberline {2.6.1}Truco Kernel y funciones kernel}{19}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}KFDA y SVM como enfoques no lineales de referencia}{19}{subsection.2.6.2}%
 \contentsline {subsection}{\numberline {2.6.3}Ventajas, limitaciones e interpretabilidad}{20}{subsection.2.6.3}%
+\contentsline {chapter}{\numberline {3}Estado del arte}{23}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Variantes lineales del análisis discriminante}{23}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Regularized LDA}{23}{subsection.3.1.1}%
+\contentsline {subsection}{\numberline {3.1.2}Two-Stage LDA}{24}{subsection.3.1.2}%
+\contentsline {subsection}{\numberline {3.1.3}Variantes lineales relevantes}{24}{subsection.3.1.3}%
+\contentsline {section}{\numberline {3.2}Métodos kernel para clasificación}{24}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Kernel PCA}{24}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}KFDA}{25}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}SVM Polinomial}{25}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}SVM RBF}{25}{subsection.3.2.4}%
+\contentsline {section}{\numberline {3.3}Selección de características basada en algoritmos evolutivos}{26}{section.3.3}%
+\contentsline {subsection}{\numberline {3.3.1}GA para selección de variables}{26}{subsection.3.3.1}%
+\contentsline {subsection}{\numberline {3.3.2}GA + LDA}{26}{subsection.3.3.2}%
+\contentsline {subsection}{\numberline {3.3.3}Métodos híbridos}{26}{subsection.3.3.3}%
+\contentsline {subsection}{\numberline {3.3.4}GPDA}{27}{subsection.3.3.4}%
+\contentsline {section}{\numberline {3.4}Limitaciones identificadas}{27}{section.3.4}%
+\contentsline {section}{\numberline {3.5}Posicionamiento de GNLPDA}{27}{section.3.5}%

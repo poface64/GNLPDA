@@ -14,7 +14,12 @@
 
 Históricamente, el Análisis Discriminante Lineal (LDA) ha sido una metodología central para la reducción de dimensionalidad supervisada y la clasificación lineal. No obstante, su formulación clásica presenta limitaciones importantes en escenarios de alta dimensionalidad y tamaño muestral reducido. En particular, cuando el número de variables es comparable o superior al número de observaciones, la matriz de dispersión intraclase puede volverse singular o estar mal condicionada, lo que dificulta resolver directamente el problema generalizado asociado al criterio de Fisher \cite{yang2023efficient}.
 
-Para mitigar esta dificultad, las variantes regularizadas de LDA incorporan términos de penalización o contracción sobre la matriz de dispersión, con el objetivo de mejorar su estabilidad numérica. En términos generales, estas estrategias modifican la estimación de la matriz de covarianza o añaden un término de regularización que favorece la inversión del sistema y reduce la sensibilidad del modelo ante fluctuaciones derivadas de muestras pequeñas. En este sentido, la regularización no elimina por completo los riesgos asociados al problema SSS, pero constituye una alternativa práctica para mejorar la estabilidad del discriminante lineal en contextos de alta dimensionalidad \cite{Araveeporn2023}.
+Para mitigar esta dificultad, las variantes regularizadas de LDA incorporan términos de penalización o contracción sobre la matriz de dispersión, con el objetivo de mejorar su estabilidad numérica. En términos generales, estas estrategias modifican la estimación de la matriz de covarianza o añaden un término de regularización que favorece la inversión del sistema y reduce la sensibilidad del modelo ante fluctuaciones derivadas de muestras pequeñas. En este sentido, la regularización no elimina por completo los riesgos asociados al problema SSS, pero constituye una alternativa práctica para mejorar la estabilidad del discriminante lineal en  contextos de alta dimensionalidad \cite{Araveeporn2023}.
+
+
+Otro enfoque reciente es el que propone Mahadi y colaboradores \cite{mahadi2024regularized} quienes propusiieron un enfoque denominado NL-RLDA, el cual se basa en tomar el discriminante lineal regularizado y cambiar la forma en que hace la estimación de la matriz inversa de covarianzas mediante una estimación de caracter no lineal. A diferencia de los esquemas lineales tradicionales de contracción, este método aplica dicha transformación no lineal sobre los eigenvalores de la matriz de 
+covarianza, reduciendo la influencia de valores pequeños o nulos y mejorando la robustez del clasificador en escenarios donde la cantidad de variables es mayor a  la cantidad de observaciones ($p\geq n$). Los autores derivan un estimador consistende de la tasa de error de la clasificación y emplean una búsqueda de rejilla para seleccionar el parametro de regularización óptimo. Los resultados experimentales, tanto en datos sintéticos como reales, muestran que $NL-RLDA$ supera a las variantes lineales de RLDA y ofrece un desempeño competitivo frente a otros clasificadores modernos, consolidandose como una alternativa eficaz para los problemas de clasificación en alta dimensión.
+
 
 \subsection{Two-Stage LDA}
 
@@ -44,8 +49,7 @@ En aplicaciones caracterizadas por el problema de muestra reducida, este mapeo i
 
 \subsection{KFDA}
 
-Aunque la reducción de dimensionalidad no supervisada es útil, los escenarios de
-clasificación exigen estrategias que prioricen la discriminación entre clases. El Análisis Discriminante de Fisher mediante Kernel (KFDA) aprovecha mapeos no lineales inducidos por funciones kernel para transformar problemas fuertemente no separables en hiperespacios donde las clases pueden delimitarse analíticamente \cite{du2024exploring}.
+Aunque la reducción de dimensionalidad no supervisada es útil, los escenarios de clasificación exigen estrategias que prioricen la discriminación entre clases. El Análisis Discriminante de Fisher mediante Kernel (KFDA) aprovecha mapeos no lineales inducidos por funciones kernel para transformar problemas fuertemente no separables en hiperespacios donde las clases pueden delimitarse analíticamente \cite{du2024exploring}.
 
 Al trasladar la métrica de Fisher al espacio de Hilbert, el algoritmo enfrenta inevitablemente el desafío de la deficiencia de rango en la matriz de covarianza proyectada, un problema crítico cuando la cantidad de sujetos ($n$) es escasa. Para contrarrestar esta inestabilidad intrínseca, arquitecturas contemporáneas optan por integrar el KFDA dentro de métodos de ensamble y regularización estocástica, lo que promueve una mayor diversidad en los subespacios discriminativos y estabiliza el cálculo del hiperplano sin sacrificar el poder del análisis no lineal \cite{kim2026kernel}. 
 
@@ -72,7 +76,8 @@ La maldición de la dimensionalidad dificulta el uso de enfoques exhaustivos de 
 
 La integración de algoritmos genéticos con LDA puede entenderse como una estrategia de selección de características orientada a reducir la dimensionalidad antes de estimar el discriminante lineal. En escenarios donde $p>n$, seleccionar un subconjunto de variables puede contribuir a disminuir la singularidad de la matriz de dispersión intraclase y mejorar la estabilidad del modelo. Bajo enfoques de este tipo, el algoritmo genético explora combinaciones de variables, mientras que LDA puede utilizarse como clasificador o como criterio de evaluación de la calidad discriminativa del subconjunto seleccionado \cite{lara2025feature}.
 
-La literatura reciente muestra aplicaciones de algoritmos genéticos para selección de características en problemas de clasificación; sin embargo, su integración específica con LDA debe presentarse como una estrategia posible más que como una mejora universal frente a alternativas paramétricas \cite{bahlool2025fasttree}.
+La literatura reciente muestra aplicaciones de algoritmos genéticos para selección de características en problemas de clasificación; sin embargo, su integración específica con LDA debe presentarse como una estrategia posible más que como una mejora universal frente a alternativas paramétricas \cite{bahlool2025fasttree}\cite{ali2021lda}.
+
 
 \subsection{Métodos híbridos}
 

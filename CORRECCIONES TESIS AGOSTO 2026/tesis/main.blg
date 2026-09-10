@@ -4,6 +4,7 @@ The top-level auxiliary file: main.aux
 The style file: natdin.bst
 A level-1 auxiliary file: capitulos/01_introduccion.aux
 A level-1 auxiliary file: capitulos/02_marco_teorico.aux
+A level-1 auxiliary file: capitulos/03_estado_arte.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
@@ -14,47 +15,46 @@ Repeated entry---line 853 of file bibliografia/referenciaslimpias.bib
  : @article{zebari2020comprehensive
  :                                 ,
 I'm skipping whatever remains of this entry
-Warning--I didn't find a database entry for "CORREGIR"
 Warning--empty year in us_algoritmos_geneticos
-You've used 56 entries,
+You've used 77 entries,
             4728 wiz_defined-function locations,
-            1229 strings with 17608 characters,
-and the built_in function-call counts, 47390 in all, are:
-= -- 4837
-> -- 1578
-< -- 1852
-+ -- 2191
-- -- 586
-* -- 3588
-:= -- 8231
-add.period$ -- 59
-call.type$ -- 56
-change.case$ -- 336
-chr.to.int$ -- 56
-cite$ -- 57
-duplicate$ -- 1187
-empty$ -- 2663
-format.name$ -- 953
-if$ -- 8712
-int.to.chr$ -- 1
+            1345 strings with 22420 characters,
+and the built_in function-call counts, 67303 in all, are:
+= -- 6834
+> -- 2340
+< -- 2637
++ -- 3152
+- -- 858
+* -- 5176
+:= -- 11759
+add.period$ -- 81
+call.type$ -- 77
+change.case$ -- 484
+chr.to.int$ -- 76
+cite$ -- 78
+duplicate$ -- 1665
+empty$ -- 3715
+format.name$ -- 1403
+if$ -- 12327
+int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 295
-newline$ -- 302
-num.names$ -- 224
-pop$ -- 503
+missing$ -- 408
+newline$ -- 410
+num.names$ -- 308
+pop$ -- 711
 preamble$ -- 1
-purify$ -- 448
+purify$ -- 638
 quote$ -- 0
-skip$ -- 2827
+skip$ -- 3957
 stack$ -- 0
-substring$ -- 3468
-swap$ -- 312
-text.length$ -- 215
+substring$ -- 4847
+swap$ -- 458
+text.length$ -- 319
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 693
+type$ -- 966
 warning$ -- 1
-while$ -- 410
+while$ -- 584
 width$ -- 0
-write$ -- 747
+write$ -- 1030
 (There was 1 error message)
