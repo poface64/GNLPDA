@@ -10,50 +10,51 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliografia/referenciaslimpias.bib
-Warning--I didn't find a database entry for "2"
-Warning--I didn't find a database entry for "PENDIENTE_LimitacionesPCAVisualizacion"
+Repeated entry---line 853 of file bibliografia/referenciaslimpias.bib
+ : @article{zebari2020comprehensive
+ :                                 ,
+I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "CORREGIR"
-Warning--I didn't find a database entry for ""
 Warning--empty year in us_algoritmos_geneticos
-You've used 49 entries,
+You've used 56 entries,
             4728 wiz_defined-function locations,
-            1192 strings with 16009 characters,
-and the built_in function-call counts, 39427 in all, are:
-= -- 4054
-> -- 1246
-< -- 1483
-+ -- 1746
-- -- 460
-* -- 2952
-:= -- 6798
-add.period$ -- 52
-call.type$ -- 49
-change.case$ -- 279
-chr.to.int$ -- 49
-cite$ -- 50
-duplicate$ -- 1018
-empty$ -- 2305
-format.name$ -- 755
-if$ -- 7330
+            1229 strings with 17608 characters,
+and the built_in function-call counts, 47390 in all, are:
+= -- 4837
+> -- 1578
+< -- 1852
++ -- 2191
+- -- 586
+* -- 3588
+:= -- 8231
+add.period$ -- 59
+call.type$ -- 56
+change.case$ -- 336
+chr.to.int$ -- 56
+cite$ -- 57
+duplicate$ -- 1187
+empty$ -- 2663
+format.name$ -- 953
+if$ -- 8712
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 254
-newline$ -- 267
-num.names$ -- 196
-pop$ -- 424
+missing$ -- 295
+newline$ -- 302
+num.names$ -- 224
+pop$ -- 503
 preamble$ -- 1
-purify$ -- 377
+purify$ -- 448
 quote$ -- 0
-skip$ -- 2343
+skip$ -- 2827
 stack$ -- 0
-substring$ -- 2910
-swap$ -- 254
-text.length$ -- 171
+substring$ -- 3468
+swap$ -- 312
+text.length$ -- 215
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 602
+type$ -- 693
 warning$ -- 1
-while$ -- 343
+while$ -- 410
 width$ -- 0
-write$ -- 656
-(There were 5 warnings)
+write$ -- 747
+(There was 1 error message)
