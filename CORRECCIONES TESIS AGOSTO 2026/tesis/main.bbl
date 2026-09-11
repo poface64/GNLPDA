@@ -71,13 +71,6 @@
 \newblock DOI 10.37394/23206.2023.22.37. --
 \newblock ISSN 1109--2769
 
-\bibitem[Bahlool u.\,a.(2025)Bahlool, Hewahi, u. Harrath]{bahlool2025fasttree}
-\dinatlabel{Bahlool u.\,a. 2025} \textsc{Bahlool}, Rashed ; \textsc{Hewahi},
-  Nabil  ; \textsc{Harrath}, Youssef:
-\newblock FastTree-Guided Genetic Algorithm for Credit Scoring Feature
-  Selection.
-\newblock {In: }\emph{Computers} 14 (2025), Nr. 12, S. 566
-
 \bibitem[Belhumeur u.\,a.(1997)Belhumeur, Hespanha, u.
   Kriegman]{belhumeur1997eigenfaces}
 \dinatlabel{Belhumeur u.\,a. 1997} \textsc{Belhumeur}, Peter~N. ;
@@ -550,6 +543,22 @@
   \textsc{Vargas}, Javier  ; \textsc{Montano}, A~P.:
 \newblock A survey of dimensionality reduction techniques.
 \newblock {In: }\emph{arXiv preprint arXiv:1403.2877}  (2014)
+
+\bibitem[Freire~de Sousa~Papa u.\,a.(2025)Freire~de Sousa~Papa, Almeida~de
+  Oliveira, Lawrynhuk Urbano~Ferreira, Oliveira~Rosendo, Maur{\'\i}cio
+  Sena-Evangelista, Gomes~Lima, Barbosa~Jr, Medeiros~de Morais, Gomes~de Lima,
+  Mendon{\c{c}}a~Ara{\'u}jo, u.\,a.]{freire2025nuclear}
+\dinatlabel{Freire~de Sousa~Papa u.\,a. 2025} \textsc{Sousa~Papa},
+  {\^A}ngela~W. ; \textsc{Oliveira}, Anne~N. ; \textsc{Lawrynhuk
+  Urbano~Ferreira}, Rannapaula ; \textsc{Oliveira~Rosendo}, Geovanna~B. ;
+  \textsc{Maur{\'\i}cio Sena-Evangelista}, Karine~C. ; \textsc{Gomes~Lima},
+  Josivan ; \textsc{Barbosa~Jr}, Fernando ; \textsc{Morais}, Camilo de~L.~d. ;
+  \textsc{Lima}, K{\'a}ssio~M. ; \textsc{Mendon{\c{c}}a~Ara{\'u}jo}, Renata
+  u.\,a.:
+\newblock Nuclear magnetic resonance combined with genetic algorithm with
+  linear discriminant analysis (GA-LDA) is a suitable model for discriminating
+  urinary metabolomic profiles of individuals with glycemic disorders.
+\newblock {In: }\emph{Annals of Medicine} 57 (2025), Nr. 1, S. 2566870
 
 \bibitem[Thrun u.\,a.(2020)]{thrun2020uncovering}
 \dinatlabel{Thrun u.\,a. 2020} \textsc{Thrun}, PhD Michael~C. u.\,a.:
