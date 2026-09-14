@@ -53,3 +53,24 @@
 \contentsline {subsection}{\numberline {3.3.3}GPDA}{27}{subsection.3.3.3}%
 \contentsline {section}{\numberline {3.4}Limitaciones identificadas}{27}{section.3.4}%
 \contentsline {section}{\numberline {3.5}Posicionamiento de GNLPDA}{28}{section.3.5}%
+\contentsline {chapter}{\numberline {4}Metodología}{29}{chapter.4}%
+\contentsline {section}{\numberline {4.1}Selección evolutiva en dos fases}{29}{section.4.1}%
+\contentsline {subsection}{\numberline {4.1.1}Fase I: selección de variables originales}{29}{subsection.4.1.1}%
+\contentsline {subsection}{\numberline {4.1.2}Fase II: selección de términos polinomiales}{31}{subsection.4.1.2}%
+\contentsline {subsection}{\numberline {4.1.3}Salida del procedimiento y ajuste final de LDA}{33}{subsection.4.1.3}%
+\contentsline {section}{\numberline {4.2}Configuración y calibración de GNLPDA}{34}{section.4.2}%
+\contentsline {subsection}{\numberline {4.2.1}Configuración del algoritmo genético.}{35}{subsection.4.2.1}%
+\contentsline {subsubsection}{Representación}{35}{section*.7}%
+\contentsline {subsubsection}{Selección}{35}{section*.8}%
+\contentsline {subsubsection}{Cruza}{35}{section*.9}%
+\contentsline {subsubsection}{Mutación}{36}{section*.10}%
+\contentsline {subsubsection}{Remplazo generacional}{36}{section*.11}%
+\contentsline {section}{\numberline {4.3}Calibración mediante Irace}{36}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Calibración mediante irace}{37}{subsection.4.3.1}%
+\contentsline {section}{\numberline {4.4}Diseño experimental}{38}{section.4.4}%
+\contentsline {subsection}{\numberline {4.4.1}Conjuntos de datos utilizados}{38}{subsection.4.4.1}%
+\contentsline {subsection}{\numberline {4.4.2}Generación de conjuntos sintéticos tipo Cebolla}{40}{subsection.4.4.2}%
+\contentsline {subsection}{\numberline {4.4.3}Protocolo de particionamiento y evaluación}{41}{subsection.4.4.3}%
+\contentsline {subsection}{\numberline {4.4.4}Análisis estadístico de resultados}{42}{subsection.4.4.4}%
+\contentsline {subsection}{\numberline {4.4.5}Evaluación auxiliar del problema Small Sample Size}{42}{subsection.4.4.5}%
+\contentsline {subsection}{\numberline {4.4.6}Métodos comparativos y métrica de evaluación}{43}{subsection.4.4.6}%

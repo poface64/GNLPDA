@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.17)  11 SEP 2026 13:03
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.31)  14 SEP 2026 12:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **main.tex
 (./main.tex
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-08-13>
+L3 programming layer <2025-10-24>
 (c:/texlive/2025/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2025/01/22 v1.4n Standard LaTeX document class
 (c:/texlive/2025/texmf-dist/tex/latex/base/bk12.clo
@@ -41,23 +41,23 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@floatcapt=\box54
 )
 (c:/texlive/2025/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2025/08/03 v25.12 The multilingual framework for LuaLaTeX, pdfLa
+Package: babel 2025/10/22 v25.14 The multilingual framework for LuaLaTeX, pdfLa
 TeX and XeLaTeX
 \babel@savecnt=\count285
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input li
-ne 2045.
+ne 2050.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input li
-ne 2047.
+ne 2052.
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding T1) on input lin
-e 2049.
+e 2054.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding T1) on input lin
-e 2050.
+e 2055.
 LaTeX Encoding Info:    Ignoring declaration for text command \ij (encoding ?) 
-on input line 2051.
+on input line 2056.
 LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?) 
-on input line 2053.
+on input line 2058.
 LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) 
-on input line 2078.
+on input line 2083.
 \U@D=\dimen149
 \l@unhyphenated=\language90
 
@@ -65,13 +65,13 @@ on input line 2078.
 \bbl@readstream=\read2
 \bbl@dirlevel=\count286
 
+(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/en/babel-english.tex)
+(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/es/babel-spanish.tex)
+Package babel Info: Importing font and identification data for english
+(babel)             from babel-en.ini. Reported on input line 4295.
+
 (c:/texlive/2025/texmf-dist/tex/generic/babel-english/english.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
-
-(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/en/babel-english.tex
-Package babel Info: Importing font and identification data for english
-(babel)             from babel-en.ini. Reported on input line 12.
-)
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
 (babel)             (\language0). Reported on input line 102.
 Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
@@ -79,13 +79,11 @@ Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
 Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language22). Reported on input line 108.
 )
+Package babel Info: Importing font and identification data for spanish
+(babel)             from babel-es.ini. Reported on input line 4295.
+
 (c:/texlive/2025/texmf-dist/tex/generic/babel-spanish/spanish.ldf
 Language: spanish.ldf 2021/05/27 v5.0q Spanish support from the babel system
-
-(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/es/babel-spanish.tex
-Package babel Info: Importing font and identification data for spanish
-(babel)             from babel-es.ini. Reported on input line 12.
-)
 \es@quottoks=\toks21
 \es@quotdepth=\count287
 Package babel Info: Making " an active character on input line 570.
@@ -213,7 +211,7 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 Package graphics Info: Driver file: pdftex.def on input line 106.
 
 (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
+File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen158
 \Gin@req@width=\dimen159
@@ -222,18 +220,18 @@ File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 Package: svg 2020/11/26 v2.02k (include SVG pictures)
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2025/06/04 v3.45 KOMA-Script package (KOMA-Script-independent 
+Package: scrbase 2025/09/09 v3.48 KOMA-Script package (KOMA-Script-independent 
 basics and keyval usage)
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile.sty
-Package: scrlfile 2025/06/04 v3.45 KOMA-Script package (file load hooks)
+Package: scrlfile 2025/09/09 v3.48 KOMA-Script package (file load hooks)
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
-Package: scrlfile-hook 2025/06/04 v3.45 KOMA-Script package (using LaTeX hooks)
+Package: scrlfile-hook 2025/09/09 v3.48 KOMA-Script package (using LaTeX hooks)
 
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlogo.sty
-Package: scrlogo 2025/06/04 v3.45 KOMA-Script package (logo)
+Package: scrlogo 2025/09/09 v3.48 KOMA-Script package (logo)
 )))
 Applying: [2021/05/01] Usage of raw or classic option list on input line 254.
 Already applied: [0000/00/00] Usage of raw or classic option list on input line
@@ -305,10 +303,10 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 )
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/pgf.revision.tex)
-Package: pgfrcs 2025-08-14 v3.1.11 (3.1.11)
+Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
 ))
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
-Package: pgfsys 2025-08-14 v3.1.11 (3.1.11)
+Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
 
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks27
@@ -339,23 +337,23 @@ de.tex
 \t@pgf@tokc=\toks32
 \pgf@sys@id@count=\count298
  (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
-File: pgf.cfg 2025-08-14 v3.1.11 (3.1.11)
+File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
-File: pgfsys-pdftex.def 2025-08-14 v3.1.11 (3.1.11)
+File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
 
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
-File: pgfsys-common-pdf.def 2025-08-14 v3.1.11 (3.1.11)
+File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
 )))
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
-File: pgfsyssoftpath.code.tex 2025-08-14 v3.1.11 (3.1.11)
+File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 \pgfsyssoftpath@smallbuffer@items=\count299
 \pgfsyssoftpath@bigbuffer@items=\count300
 )
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
-File: pgfsysprotocol.code.tex 2025-08-14 v3.1.11 (3.1.11)
+File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
 )) (c:/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 
@@ -570,7 +568,7 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 \c@section@level=\count324
 )
 (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
+Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count325
 )
 (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty
@@ -654,7 +652,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 Package hyperref Info: Option `colorlinks' set `true' on input line 85.
 )
 (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count336
 )
 (./main.aux
@@ -667,7 +665,11 @@ LaTeX Info: Redefining \% on input line 15.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  (./capitulos/01_introduccion.aux) (./capitulos/02_marco_teorico.aux) (./capitu
-los/03_estado_arte.aux))
+los/03_estado_arte.aux) (./capitulos/04_metodologia.aux
+
+LaTeX Warning: Label `tab:MM2' multiply defined.
+
+))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -770,7 +772,7 @@ liusADFNoTwo-LF.
 )
 LaTeX Font Info:    Font shape `T1/GilliusADFNoTwo-LF/m/n' will be
 (Font)              scaled to size 12.0pt on input line 9.
-<figuras/logouv.png, id=216, 328.3467pt x 284.7438pt>
+<figuras/logouv.png, id=280, 328.3467pt x 284.7438pt>
 File: figuras/logouv.png Graphic file (type png)
 <use figuras/logouv.png>
 Package pdftex.def Info: figuras/logouv.png  used on input line 13.
@@ -858,7 +860,7 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 
  (./capitulos/01_introduccion.tex
 Cap\'{\i }tulo 1.
-<figuras/D1.png, id=301, 698.172pt x 379.308pt>
+<figuras/D1.png, id=382, 698.172pt x 379.308pt>
 File: figuras/D1.png Graphic file (type png)
 <use figuras/D1.png>
 Package pdftex.def Info: figuras/D1.png  used on input line 20.
@@ -914,7 +916,7 @@ Cap\'{\i }tulo 2.
 
 
 ]
-<figuras/MT1.png, id=380, 1011.78pt x 433.62pt>
+<figuras/MT1.png, id=460, 1011.78pt x 433.62pt>
 File: figuras/MT1.png Graphic file (type png)
 <use figuras/MT1.png>
 Package pdftex.def Info: figuras/MT1.png  used on input line 58.
@@ -944,7 +946,7 @@ LaTeX Info: Redefining \% on input line 203.
 LaTeX Info: Redefining \. on input line 228.
 LaTeX Info: Redefining \% on input line 228.
 [13]
-<figuras/MC2.png, id=477, 296.307pt x 177.66376pt>
+<figuras/MC2.png, id=557, 296.307pt x 177.66376pt>
 File: figuras/MC2.png Graphic file (type png)
 <use figuras/MC2.png>
 Package pdftex.def Info: figuras/MC2.png  used on input line 250.
@@ -954,7 +956,7 @@ Package pdftex.def Info: figuras/MC2.png  used on input line 250.
 LaTeX Info: Redefining \. on input line 262.
 LaTeX Info: Redefining \% on input line 262.
 [14 <./figuras/MC2.png>]
-<figuras/MC3.png, id=493, 259.8435pt x 194.8005pt>
+<figuras/MC3.png, id=573, 259.8435pt x 194.8005pt>
 File: figuras/MC3.png Graphic file (type png)
 <use figuras/MC3.png>
 Package pdftex.def Info: figuras/MC3.png  used on input line 284.
@@ -976,7 +978,7 @@ m/it/12 ; \OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 1]$
 LaTeX Info: Redefining \. on input line 313.
 LaTeX Info: Redefining \% on input line 313.
 [16]
-<figuras/MT2.png, id=516, 982.42032pt x 601.4972pt>
+<figuras/MT2.png, id=596, 982.42032pt x 601.4972pt>
 File: figuras/MT2.png Graphic file (type png)
 <use figuras/MT2.png>
 Package pdftex.def Info: figuras/MT2.png  used on input line 329.
@@ -1049,34 +1051,125 @@ Overfull \hbox (5.07971pt too wide) in paragraph at lines 107--108
 
 LaTeX Info: Redefining \. on input line 25.
 LaTeX Info: Redefining \% on input line 25.
-[28] (./main.bbl
+[28]
+\openout2 = `capitulos/04_metodologia.aux'.
+
+ (./capitulos/04_metodologia.tex
+Cap\'{\i }tulo 4.
+
 
 [29
 
 
 
 
-{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
+]
 
-LaTeX Info: Redefining \. on input line 205.
-LaTeX Info: Redefining \% on input line 205.
+LaTeX Info: Redefining \. on input line 86.
+LaTeX Info: Redefining \% on input line 86.
 [30]
 
-LaTeX Info: Redefining \. on input line 310.
-LaTeX Info: Redefining \% on input line 310.
+LaTeX Info: Redefining \. on input line 155.
+LaTeX Info: Redefining \% on input line 155.
 [31]
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 420.
-LaTeX Info: Redefining \% on input line 420.
+
+
+LaTeX Info: Redefining \. on input line 220.
+LaTeX Info: Redefining \% on input line 220.
 [32]
+Underfull \vbox (badness 6859) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 527.
-LaTeX Info: Redefining \% on input line 527.
-[33])
+
+
+LaTeX Info: Redefining \. on input line 290.
+LaTeX Info: Redefining \% on input line 290.
+[33]
+Underfull \vbox (badness 4899) has occurred while \output is active []
+
+
+
+LaTeX Info: Redefining \. on input line 301.
+LaTeX Info: Redefining \% on input line 301.
+[34]
+
+LaTeX Info: Redefining \. on input line 355.
+LaTeX Info: Redefining \% on input line 355.
+[35]
+
+LaTeX Info: Redefining \. on input line 436.
+LaTeX Info: Redefining \% on input line 436.
+[36]
+Overfull \hbox (4.56496pt too wide) in paragraph at lines 481--482
+[]\T1/ptm/m/n/12 En es-ta in-ves-ti-ga-ción, ira-ce fue uti-li-za-do pa-ra ca-l
+i-brar cin-co pa-rá-me-tros prin-ci-pa-les de GNLP-
+ []
+
+
+
+LaTeX Info: Redefining \. on input line 482.
+LaTeX Info: Redefining \% on input line 482.
+[37]
+
+LaTeX Info: Redefining \. on input line 529.
+LaTeX Info: Redefining \% on input line 529.
+[38]
+
+LaTeX Info: Redefining \. on input line 577.
+LaTeX Info: Redefining \% on input line 577.
+[39]
+
+LaTeX Info: Redefining \. on input line 628.
+LaTeX Info: Redefining \% on input line 628.
+[40]
+
+LaTeX Info: Redefining \. on input line 653.
+LaTeX Info: Redefining \% on input line 653.
+[41]
+
+LaTeX Info: Redefining \. on input line 679.
+LaTeX Info: Redefining \% on input line 679.
+[42]
+
+LaTeX Info: Redefining \. on input line 731.
+LaTeX Info: Redefining \% on input line 731.
+[43])
+
+LaTeX Info: Redefining \. on input line 26.
+LaTeX Info: Redefining \% on input line 26.
+[44] (./main.bbl
+
+[45
+
+
+
+
+{c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
+
+LaTeX Info: Redefining \. on input line 210.
+LaTeX Info: Redefining \% on input line 210.
+[46]
+
+LaTeX Info: Redefining \. on input line 315.
+LaTeX Info: Redefining \% on input line 315.
+[47]
+
+LaTeX Info: Redefining \. on input line 422.
+LaTeX Info: Redefining \% on input line 422.
+[48]
+
+LaTeX Info: Redefining \. on input line 531.
+LaTeX Info: Redefining \% on input line 531.
+[49]
+
+LaTeX Info: Redefining \. on input line 633.
+LaTeX Info: Redefining \% on input line 633.
+[50])
 
 LaTeX Info: Redefining \. on input line 36.
 LaTeX Info: Redefining \% on input line 36.
-[34] (./main.aux
+[51] (./main.aux
 LaTeX Info: Redefining \. on input line 14.
 LaTeX Info: Redefining \% on input line 14.
 LaTeX Info: Redefining \. on input line 15.
@@ -1084,39 +1177,78 @@ LaTeX Info: Redefining \% on input line 15.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  (./capitulos/01_introduccion.aux)
-(./capitulos/02_marco_teorico.aux) (./capitulos/03_estado_arte.aux))
+(./capitulos/02_marco_teorico.aux) (./capitulos/03_estado_arte.aux)
+(./capitulos/04_metodologia.aux))
  ***********
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-08-13>
+L3 programming layer <2025-10-24>
  ***********
-Package rerunfilecheck Info: File `main.out' has not changed.
-(rerunfilecheck)             Checksum: 9BA8D8CC802B3E5C08452D2E8DEEBDB4;11941.
+
+
+LaTeX Warning: There were multiply-defined labels.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+Package rerunfilecheck Info: Checksums for `main.out':
+(rerunfilecheck)             Before: 47853A03630CE125FF0D6EEEA68E978B;15995
+(rerunfilecheck)             After:  3D1E9B3EE65E023C6B4066FABE5BF3C9;15947.
  ) 
 Here is how much of TeX's memory you used:
- 18798 strings out of 467800
- 316215 string characters out of 5436061
- 777606 words of memory out of 5000000
- 46855 multiletter control sequences out of 15000+600000
- 699230 words of font info for 126 fonts, out of 8000000 for 9000
+ 19095 strings out of 467747
+ 321455 string characters out of 5431120
+ 786064 words of memory out of 5000000
+ 47045 multiletter control sequences out of 15000+600000
+ 706775 words of font info for 132 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 99i,6n,134p,1202b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
-<c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Bold.p
-fb><c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Regul
-ar.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c
-:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive
-/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texm
-f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fo
-nts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/
-type1/public/rsfs/rsfs10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-
-super/sftt1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb>
-<c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/te
-xmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2025/texmf-dist/fonts/typ
-e1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8
-a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (38 pages, 771883 bytes).
+ 99i,16n,134p,1202b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
+
+pdfTeX warning (dest): name{subsection.4.3.6} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.3.5} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.3.4} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.3.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.3.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.2.3} has been referenced but does not 
+exist, replaced by a fixed one
+
+
+pdfTeX warning (dest): name{subsection.4.2.2} has been referenced but does not 
+exist, replaced by a fixed one
+
+<c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Bold.pfb
+><c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Regular
+.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/
+texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2
+025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/font
+s/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/ty
+pe1/public/rsfs/rsfs10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-su
+per/sftt1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c
+:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texm
+f-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1
+/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.
+pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (55 pages, 832492 bytes).
 PDF statistics:
- 792 PDF objects out of 1000 (max. 8388607)
- 702 compressed objects within 8 object streams
- 193 named destinations out of 1000 (max. 500000)
- 459 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1104 PDF objects out of 1200 (max. 8388607)
+ 995 compressed objects within 10 object streams
+ 343 named destinations out of 1000 (max. 500000)
+ 587 words of extra memory for PDF output out of 10000 (max. 10000000)
 

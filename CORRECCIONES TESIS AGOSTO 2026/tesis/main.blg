@@ -5,6 +5,7 @@ The style file: natdin.bst
 A level-1 auxiliary file: capitulos/01_introduccion.aux
 A level-1 auxiliary file: capitulos/02_marco_teorico.aux
 A level-1 auxiliary file: capitulos/03_estado_arte.aux
+A level-1 auxiliary file: capitulos/04_metodologia.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
@@ -16,45 +17,45 @@ Repeated entry---line 853 of file bibliografia/referenciaslimpias.bib
  :                                 ,
 I'm skipping whatever remains of this entry
 Warning--empty year in us_algoritmos_geneticos
-You've used 78 entries,
+You've used 88 entries,
             4728 wiz_defined-function locations,
-            1350 strings with 23210 characters,
-and the built_in function-call counts, 70122 in all, are:
-= -- 7134
-> -- 2448
-< -- 2846
-+ -- 3387
-- -- 904
-* -- 5370
-:= -- 12256
-add.period$ -- 82
-call.type$ -- 78
-change.case$ -- 499
-chr.to.int$ -- 77
-cite$ -- 79
-duplicate$ -- 1697
-empty$ -- 3782
-format.name$ -- 1469
-if$ -- 12765
+            1404 strings with 25595 characters,
+and the built_in function-call counts, 79461 in all, are:
+= -- 8103
+> -- 2782
+< -- 3235
++ -- 3851
+- -- 1034
+* -- 6097
+:= -- 13898
+add.period$ -- 92
+call.type$ -- 88
+change.case$ -- 565
+chr.to.int$ -- 87
+cite$ -- 89
+duplicate$ -- 1919
+empty$ -- 4263
+format.name$ -- 1664
+if$ -- 14451
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 414
-newline$ -- 415
-num.names$ -- 312
-pop$ -- 729
+missing$ -- 461
+newline$ -- 465
+num.names$ -- 352
+pop$ -- 824
 preamble$ -- 1
-purify$ -- 655
+purify$ -- 741
 quote$ -- 0
-skip$ -- 4175
+skip$ -- 4729
 stack$ -- 0
-substring$ -- 5113
-swap$ -- 474
-text.length$ -- 333
+substring$ -- 5781
+swap$ -- 536
+text.length$ -- 379
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 979
+type$ -- 1109
 warning$ -- 1
-while$ -- 602
+while$ -- 685
 width$ -- 0
-write$ -- 1043
+write$ -- 1176
 (There was 1 error message)

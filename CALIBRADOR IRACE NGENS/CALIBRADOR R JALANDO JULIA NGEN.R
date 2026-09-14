@@ -79,7 +79,7 @@ scenario <- list(
   targetRunner = target_runner_tesis, # La función que ya corregimos
   instances = archivos_csv,
   parameters = parameters,
-  maxExperiments = 3000,               # Ajusta según el tiempo (500 es buen número para tesis)
+  maxExperiments = 3000,               # Ajusta según el tiempo (5000 es buen número para tesis)
   parallel = 11,                      # Usaremos 10 hilos para dejar uno libre al sistema
   logFile = "calibracion_final_GAN.Rdata"
 )

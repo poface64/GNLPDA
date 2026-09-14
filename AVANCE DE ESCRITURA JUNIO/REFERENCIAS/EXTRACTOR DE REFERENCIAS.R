@@ -14,4 +14,10 @@ df_datos <- bib2df(ruta_bib)
 bib_ref <- ReadBib(ruta_bib, check = FALSE)
 
 
+tabla_refs <- df_datos %>%
+  select(BIBTEXKEY, CAPITULO, RESUMEN)
+
+# 5. Exportar a Excel si lo deseas
+write_xlsx(tabla_refs, "referencias_tabla1.xlsx")
+
 

@@ -46,7 +46,7 @@ Para evitar soluciones degeneradas, se establece una condición mínima de facti
 A partir del cromosoma $z^{(1)}$, se construye el subconjunto $X_{z^{(1)}}$,formado únicamente por las variables originales activas. Sobre este subconjunto se aplica una expansión polinomial de segundo grado, denotada como $\phi_2(X_{z^{(1)}})$. Esta expansión genera términos lineales, términos cuadráticos e interacciones entre las variables seleccionadas. Por ejemplo, si un cromosoma activa las variables $\{x_1,x_3\}$, la expansión cuadrática restringida produce el conjunto:
 
 \begin{equation}
-	\phi_2(\{x_1,x_3\}) = \{x_1,x_3,x_1^2,x_1x_3,x_3^2\}
+	\phi_2(\{x_1,x_3\}) = \{x_1,x_3,x_1^2,x_3^2,x_1x_3\}
 	\label{eq:EM3}
 \end{equation}
 
@@ -143,7 +143,7 @@ El cromosoma de la segunda fase se define como:
 En esta fase, cada gen representa un término específico del espacio polinomial restringido. Por ejemplo, si $S^*= \{x_1,x_3\}$, los genes pueden corresponder a los términos ordenados del espacio:
 
 \begin{equation}
-	\{x_1,x_3,x_1^2,x_1x_3,x_3^2\}
+	\{x_1,x_3,x_1^2,x_3^2,x_1x_3\}
 	\label{eq:EM9}
 \end{equation}
 
@@ -290,152 +290,15 @@ Siendo entonces, que el pseudo-codigo completo con las funciones de aptitud es e
 \section{Configuración y calibración de GNLPDA}
 
 Una vez definida la arquitectura general de GNLPDA, fue necesario establecer la
-configuración del algoritmo genético utilizado en ambas fases de selección. En esta sección se describen los mecanismos que conforman el proceso evolutivo, la representación utilizada y los principales parámetros de configuración. Posteriormente, se presenta el procedimiento de calibración automática mediante \textit{irace} \cite{lopez2016irace}, utilizado para determinar los valores de los parámetros sometidos a busqueda.
+configuración del algoritmo genético utilizado en ambas fases de selección. Dado que el desempeño de los algoritmos evolutivos puede depender de la elección de sus parámetros de control, se realizó una calibración automática mediante irace, con el propósito de identificar una configuración adecuada para el problema de selección de características considerado en esta investigación \cite{lopez2016irace}.
 
-\subsection{Configuración del algoritmo genético.}
-
-\subsubsection{Representación}
-
-El algoritmo genético empleado en GNLPDA utiliza una representación binaria pura. En
-ambas fases, cada cromosoma se codifica como un vector de ceros y unos, donde el valor 1 indica la inclusión de una variable o término, y el valor 0 indica su exclusión.
-
-Por ejemplo, para un conjunto de cinco variables $\{A,B,C,D,E\}$, el individuo de la primera fase puede ser:
-
-\begin{equation}
-	Individuo = \{1,0,1,0,0\}
-	\label{eq:EMN1}
-\end{equation}
-
-Lo cual tiene una correspondencia directa con la selección de variables $\{A,C\}$.
-
-En la segunda fase, se representan términos del espacio polinomial restringido. Si previamente la selección de variables fue $\{A,C\}$ entonces el subconjunto expandido sobre el que se hara la busqueda en la segunda fase es $\{A,C,A^2,A*C,C^2\}$. Dicho subconjunto al tener 5 términos en total, da origen a la siguiente representación binaria:
-
-\begin{equation}
-	Individuo = \{0,0,1,1,0\}
-	\label{eq:EMN2}
-\end{equation}
-
-Lo cual tiene una correspondencia directa con la selección de términos $\{A^2,A*C\}$.
-
-Siendo así que ambas fases usan la misma representación binaria pero mapeando diferentes conjuntos.
-
-\subsubsection{Selección}
-
-En este esquema, dos individuos se seleccionan aleatoriamente de la población y compiten con base en su valor de aptitud. El individuo con mayor aptitud es seleccionado como progenitor.
-
-
-\begin{equation}
-	\text{Padre} = 
-	\begin{cases}
-		I_i, & \text{si } f(I_i) \geq f(I_j) \\
-		I_j, & \text{en otro caso}
-	\end{cases}
-	\label{eq:EMN3}
-\end{equation}
-
-\subsubsection{Cruza}
-
-En el proceso de cruza de un solo punto, dos individuos progenitores son seleccionados y se define un único punto de corte aleatorio común para ambos. A partir de este punto, se construyen los descendientes intercambiando las secciones correspondientes de los padres. De esta manera, cada hijo conserva una parte inicial de un progenitor y una parte final del otro, garantizando la recombinación de información genética en un esquema clásico de cruza. A continuación se muestra un ejemplo de cruza a partir de dos progenitores seleccionando como punto de corte el segundo elemento del vector:
-
-\begin{equation}
-	P_1 = \{1,1,0,0,1\}, \quad 
-	P_2 = \{1,0,1,0,1\}
-\end{equation}
-
-\begin{equation}
-	H_1 = \{1,1,1,0,1\}, \quad 
-	H_2 = \{1,0,0,0,1\}
-\end{equation}
-
-\subsubsection{Mutación}
-
-La mutación implementada es el esquema de mutación por inversión de bits (\textit{bit-flip}).
-
-Este operador actúa sobre cada gen del individuo de manera independiente, aplicando una probabilidad de mutación previamente definida. En caso de que la mutación ocurra, el valor binario del gen se invierte: un 1 se transforma en 0 y, de manera análoga, un 0 se convierte en 1. 
-
-\begin{equation}
-	I = \{1,0,1,0,1\}
-\end{equation}
-
-\begin{equation}
-	I' = \{1,1,1,0,0\}
-\end{equation}
-
-Después de la mutación se aplica una corrección de factibilidad para que el individuo conserve al menos dos genes activos.
-
-
-\subsubsection{Remplazo generacional}
-
-
-El algoritmo genético se implementó bajo un esquema de reemplazo generacional, en el cual la población completa es sustituida en cada generación por individuos recién generados. 
-
-Dentro de  este esquema se incorpora un componente de elitismo, mediante el cual se garantiza la preservación automática de los dos individuos con mayor aptitud de la generación actual, asegurando que las soluciones de mayor calidad no se pierdan en el proceso. A continuación se muestra un breve ejemplo donde $t$ representa la generación actual y $t+1$ la generación siguiente.
-
-\begin{equation}
-	Poblaci\text{ó}n^{(t)} = 
-	\{\, \{1,1,0,1,0\}, \{1,0,1,0,1\}, \ldots, \{0,1,1,0,0\} \,\}
-\end{equation}
-
-\begin{equation}
-	Elites^{(t)} = \{\, \{1,1,0,1,0\}, \{1,0,1,0,1\} \,\}
-\end{equation}
-
-\begin{equation}
-	Descendientes^{(t)} = \{\, \{1,1,1,0,1\}, \{0,1,0,1,0\}, \ldots \,\}
-\end{equation}
-
-\begin{equation}
-	Poblaci\text{ó}n^{(t+1)} = Elites^{(t)} \cup Descendientes^{(t)}
-	\label{eq:EMN4}
-\end{equation}
-
-
-La aplicación conjunta de estos operadores define el ciclo evolutivo empleado en cada fase de GNLPDA. A partir de una población inicial de individuos, cada generación evalúa la aptitud de las soluciones, selecciona progenitores mediante torneo binario, aplica cruza y mutación para generar nuevos individuos y conserva los dos mejores individuos mediante elitismo. Este proceso se repite durante el número de generaciones establecido, manteniendo además un registro de la mejor solución encontrada a lo largo de toda la ejecución.
-
-\begin{table}[htbp]
-	\centering  
-	\begin{tabular}{|c|c|}
-		\hline
-		\encabezado{Parámetro} & \encabezado{Notación} \\
-		\hline
-		Número de generaciones & $ngens$ \\
-		\hline
-		Tamaño de población & $pobsize$ \\
-		\hline
-		Probabilidad de cruce & $P_c$ \\
-		\hline
-		Probabilidad de mutación & $P_m$ \\
-		\hline
-		Penalización & $\lambda$ \\
-		\hline
-		Selección & Torneo binario \\
-		\hline
-		Cruce & Cruce de un solo punto \\
-		\hline
-		Representación & Binaria \\
-		\hline
-		Elitismo & Conservación de los 2 mejores individuos \\
-		\hline
-	\end{tabular}
-	\caption{Configuración del algoritmo genético empleado en GNLPDA.}  
-	\label{tab:MM1K}
-\end{table}
-
-\subsection{Calibración mediante irace}
-
-La configuración de los parámetros de un algoritmo evolutivo puede influir en su capacidad para explorar el espacio de búsqueda y encontrar soluciones de buena calidad. En GNLPDA, estos parámetros intervienen directamente en el comportamiento de las dos fases de selección evolutiva, por lo que su elección no se estableció exclusivamente a partir de valores fijados a priori. Para determinar una configuración adecuada al problema abordado, se empleó \textit{irace}, un procedimiento de configuración automática de algoritmos basado en carreras iteradas (\textit{iterated racing}) \cite{lopez2016irace}.
-
-La calibración se planteó como un problema de búsqueda sobre un conjunto predefinido de parámetros y dominios de valores. Para cada configuración candidata, \textit{irace} ejecutó GNLPDA sobre las instancias de calibración y utilizó el costo obtenido en cada ejecución para comparar las configuraciones y concentrar progresivamente el presupuesto de evaluación en aquellas con mejor desempeño.
-
-
-
-%%%%%%%%%%%%%%% CORRECCIONES DE AQUI PARA ARRIBA %%%%%%%%%%%%%%%%%%
-
+\subsection{Parámetros del algoritmo genético}
 
 El algoritmo genético empleado en GNLPDA utiliza una representación binaria pura. En
 ambas fases, cada cromosoma se codifica como un vector de ceros y unos, donde el valor 1 indica la inclusión de una variable o término, y el valor 0 indica su exclusión. En la primera fase, los genes representan variables originales; en la segunda fase, representan términos del espacio polinomial restringido.
 
-La selección de individuos se realiza mediante torneo binario. En este esquema, dos individuos son seleccionados aleatoriamente de la población y compiten con base en su valor de aptitud; el individuo con mejor aptitud tiene mayor probabilidad de ser elegido como progenitor. Para la recombinación, se emplea cruza de un solo punto, mientras que la mutación se implementa como inversión de bits sobre la representación binaria. Además, se incorpora elitismo, preservando automáticamente los dos mejores individuos de cada generación para la generación siguiente. Esta estrategia evita que las mejores soluciones encontradas se pierdan por efecto de los operadores estocásticos.
+La selección de individuos se realiza mediante torneo binario. En este esquema, dos individuos son seleccionados aleatoriamente de la población y compiten con base en su valor de aptitud; el individuo con mejor aptitud tiene mayor probabilidad de ser elegido como progenitor. Para la recombinación, se emplea cruza de un solo punto, mientras que la mutación se implementa como inversión de bits sobre la
+representación binaria. Además, se incorpora elitismo, preservando automáticamente los dos mejores individuos de cada generación para la generación siguiente. Esta estrategia evita que las mejores soluciones encontradas se pierdan por efecto de los operadores estocásticos.
 
 Los parámetros de control del algoritmo genético son comunes para ambas fases de
 GNLPDA. Es decir, la Fase I y la Fase II utilizan el mismo número de generaciones, tamaño de población, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$).
@@ -473,7 +336,7 @@ La diferencia entre fases está determinada por el espacio de búsqueda: variabl
 		\hline
 	\end{tabular}
 	\caption{Parámetros finales del algoritmo genético empleado en GNLPDA.}	
-	\label{tab:MM2}
+	\label{tab:MM1}
 
 \end{table}
 

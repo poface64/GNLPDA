@@ -12,7 +12,7 @@
 
 
 La arquitectura GNLPDA realiza la búsqueda de características mediante dos fases
-evolutivas consecutivas. La primera fase opera sobre el espacio de variables originales y tiene como objetivo identificar qué variables conviene expandir mediante la transformación polinomial. La segunda fase opera sobre el espacio polinomial generado a partir del subconjunto seleccionado en la
+evolutivas consecutivas. La primera fase opera sobre el espacio de variables originales y tiene como objetivo identificar qué variables conviene expandir polinomialmente. La segunda fase opera sobre el espacio polinomial generado a partir del subconjunto seleccionado en la
 primera etapa, con el propósito de conservar únicamente los términos lineales, cuadráticos o
 de interacción que aportan al desempeño discriminante.
 
@@ -20,8 +20,9 @@ Ambas fases siguen una lógica \textit{wrapper}: cada cromosoma codifica un subc
 
 En el protocolo experimental de esta investigación, la búsqueda evolutiva se realiza
 únicamente sobre la partición de entrenamiento. Dentro de esta partición, GNLPDA calcula
-la aptitud de cada cromosoma mediante validación cruzada interna estratificada de cinco pliegues. La partición de prueba permanece separada durante todo el proceso de selección y se utiliza únicamente para la evaluación final del modelo seleccionado. De esta manera, la
-validación cruzada interna guía la búsqueda evolutiva, mientras que la evaluación sobre la partición de prueba estima la capacidad de generalización del método.
+el \textit{fitness} de cada cromosoma mediante validación cruzada interna estratificada de cinco pliegues. La partición de prueba permanece separada durante todo el proceso de selección y se utiliza únicamente para la evaluación final del modelo seleccionado. De esta manera, la
+validación cruzada interna guía la búsqueda evolutiva, mientras que la evaluación sobre
+prueba estima la capacidad de generalización del método.
 
 \subsection{Fase I: selección de variables originales}
 
@@ -46,7 +47,7 @@ Para evitar soluciones degeneradas, se establece una condición mínima de facti
 A partir del cromosoma $z^{(1)}$, se construye el subconjunto $X_{z^{(1)}}$,formado únicamente por las variables originales activas. Sobre este subconjunto se aplica una expansión polinomial de segundo grado, denotada como $\phi_2(X_{z^{(1)}})$. Esta expansión genera términos lineales, términos cuadráticos e interacciones entre las variables seleccionadas. Por ejemplo, si un cromosoma activa las variables $\{x_1,x_3\}$, la expansión cuadrática restringida produce el conjunto:
 
 \begin{equation}
-	\phi_2(\{x_1,x_3\}) = \{x_1,x_3,x_1^2,x_1x_3,x_3^2\}
+	\phi_2(\{x_1,x_3\}) = \{x_1,x_3,x_1^2,x_3^2,x_1x_3\}
 	\label{eq:EM3}
 \end{equation}
 
@@ -79,45 +80,12 @@ así como el subconjunto de variables originales asociado:
 
 Este subconjunto define qué variables originales serán utilizadas para construir el espacio polinomial restringido de la segunda fase.
 
-Para reducir el costo computacional de la evaluación de la Fase 1, la expansión polinomial de segundo grado de las variables originales se calcula previamente. Para cada individuo, el subconjunto de variables codificado en el cromosoma se utiliza para determinar los términos polinomiales correspondientes dentro de dicha expansión, los cuales son recuperados sin volver a ejecutar el proceso de expansión.
-
-En ambas fases del proceso evolutivo se incorpora un mecanismo de memoria caché inspirado en la propuesta de Barradas-Palmeros y colaboradores \cite{barradas2024computational}. Dicho mecanismo consiste en almacenar dentro de una lista a cada individuo previamente evaluado junto con el valor de aptitud correspondiente. El objetivo principal de esta estrategia es evitar la re evaluación innecesaria de individuos repetidos que puedan surgir conforme avanza el ciclo evolutivo, asignándole directamente el valor ya calculado en lugar de someterlos nuevamente al proceso de evaluación.
-
-A continuación se muestra el pseudo-codigo que describe el funcionamiento de esta primer etapa:
-
-\begin{algorithm}[H]
-	\KwEntrada{$I$: Individuo binario de variables originales,$X_{\text{orig}}$: datos originales,$X_{\text{pool}}$: expansión polinomial precomputada de $X_{\text{orig}}$,
-			$y$: etiquetas,
-			$M$: modelo base LDA,
-			$\lambda$: penalización,$Mem$: memoria de evaluaciones}
-		 		 
-		
-	\KwSalida{Aptitud $f_1$}
-	
-	$q \gets$ número de variables activas en $I$\;
-	$p \gets$ número total de variables originales\;
-	
-	\If{$q < 2$}{
-		\Return $0$\;
-	}
-	
-	\If{$I \in Mem$}{
-		\Return $Mem[I]$\;
-	}
-	
-	$T \gets$ obtener términos polinomiales de $X_{\text{pool}}$ correspondientes a las variables activas en $I$\;
-	
-	$\mu \gets$ exactitud media obtenida mediante validación cruzada estratificada de 5 particiones usando $M$ sobre $T$\;
-	
-	$f_1 \gets \mu - \lambda \cdot (k/N)$\;
-	
-	$Mem[I] \gets f_1$\;
-	
-	\Return $f_1$\;
-	
-	\caption{Evaluación de aptitud con expansión polinomial}
-\end{algorithm}
-
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{M1.png}
+	\caption{Fase I de GNLPDA: selección evolutiva de variables originales y evaluación mediante expansión polinomial y LDA. Fuente: Elaboración propia}
+	\label{fig:M1}
+\end{figure}
 
 \subsection{Fase II: selección de términos polinomiales}
 
@@ -143,7 +111,7 @@ El cromosoma de la segunda fase se define como:
 En esta fase, cada gen representa un término específico del espacio polinomial restringido. Por ejemplo, si $S^*= \{x_1,x_3\}$, los genes pueden corresponder a los términos ordenados del espacio:
 
 \begin{equation}
-	\{x_1,x_3,x_1^2,x_1x_3,x_3^2\}
+	\{x_1,x_2,x_1^2,x_3^2,x_1x_3\}
 	\label{eq:EM9}
 \end{equation}
 
@@ -157,7 +125,7 @@ Así, un cromosoma de la forma:
 El número de términos activos en la segunda fase se define mediante:
 
 \begin{equation}
-	s = |z^{(2)}|_0
+	s = |z^{(0)}|_0
 	\label{eq:EM11}
 \end{equation}
 
@@ -184,258 +152,50 @@ La salida de la segunda fase es el subconjunto de términos polinomiales que max
 
 Este subconjunto constituye la representación final seleccionada por GNLPDA. Su propósito es conservar únicamente los términos que contribuyen al desempeño discriminante, descartando variables lineales, términos cuadráticos o interacciones cuya inclusión no compense el aumento de complejidad del modelo.
 
-\begin{algorithm}[H]
-	\KwEntrada{$I$: Individuo binario de términos polinomiales, 
-		$X^{*}$: espacio polinomial restringido, 
-		$y$: etiquetas de clase, 
-		$M$: modelo base LDA, 
-		$\lambda$: penalización, 
-		$Mem$: memoria de evaluaciones}
-	\KwSalida{Aptitud $f_2$}
-	
-	$s \gets$ número de términos activos en $I$\;
-	$D^{*} \gets$ número total de términos en $X^{*}$\;
-	
-	\If{$s < 2$}{
-		\Return $0$\;
-	}
-	
-	\If{$I \in Mem$}{
-		\Return $Mem[I]$\;
-	}
-	
-	$X_{\text{sub}} \gets$ seleccionar de $X^{*}$ los términos correspondientes a las posiciones activas de $I$\;
-	
-	$\mu \gets$ exactitud media obtenida mediante validación cruzada estratificada de 5 particiones usando $M$ sobre $X_{\text{sub}}$ y $y$\;
-	
-	$f_2 \gets \mu - \lambda \cdot (s/D^{*})$\;
-	
-	$Mem[I] \gets f_2$\;
-	
-	\Return $f_2$\;
-	
-	\caption{Evaluación de aptitud en espacio polinomial restringido}
-\end{algorithm}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{M2.png}
+	\caption{Fase II de GNLPDA: selección evolutiva de términos polinomiales sobre el espacio expandido restringido. Fuente: Elaboración propia.}
+	\label{fig:M2}
+\end{figure}
 
 \subsection{Salida del procedimiento y ajuste final de LDA}
 
 Una vez finalizadas ambas fases, GNLPDA devuelve un subconjunto final de términos
 polinomiales seleccionados. En el protocolo experimental, dicho subconjunto se utiliza para transformar tanto la partición de entrenamiento como la partición de prueba. Posteriormente, se ajusta un modelo LDA final sobre la partición de entrenamiento transformada y se evalúa su desempeño sobre la partición de prueba transformada.
 
-El conjunto de prueba permanece separado del proceso de búsqueda evolutiva y no participa en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo interno de la aptitud. De esta manera, su uso se reserva exclusivamente para estimar la capacidad de generalización del modelo seleccionado.
+El conjunto de prueba permanece separado del proceso de búsqueda evolutiva y no participa en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo interno del fitness. De esta manera, su uso se reserva exclusivamente para estimar la capacidad de generalización del modelo seleccionado.
 
 La salida del método puede resumirse en tres elementos: el subconjunto de variables
 originales retenidas en la primera fase, el subconjunto de términos polinomiales
-seleccionados en la segunda fase y la proyección discriminante final de baja dimensión, destinada a la representación y visualización de la estructura de las clases.
+seleccionados en la segunda fase y la proyección discriminante final obtenida mediante LDA.
 En conjunto, estos elementos permiten reportar tanto el desempeño predictivo del método como la reducción dimensional lograda respecto al espacio polinomial completo.
 
-En términos metodológicos, la primera fase reduce el espacio de variables que serán consideradas en la expansión, mientras que la segunda fase reduce el espacio polinomial resultante. Esta doble selección evita explorar directamente todas las combinaciones de términos de la expansión polinomial completa y permite controlar el crecimiento combinatorio del problema. Por ello, GNLPDA busca obtener una representación discriminante parsimoniosa y adecuada para la delección entre clases, reduciendo el tamaño del espacio de características sobre el cual se ajusta el discriminante y favoreciendo la obtención de una representación de baja dimensión que pueda ser inspeccionada visualmente.
+En términos metodológicos, la primera fase reduce el espacio de variables que serán
+expandidas, mientras que la segunda fase reduce el espacio polinomial resultante. Esta doble selección evita explorar directamente toda la expansión polinomial de las variables originales y permite controlar el crecimiento combinatorio del problema. Por ello, GNLPDA busca equilibrar tres objetivos: mejorar la separabilidad entre clases, conservar una representación parsimoniosa y reducir el riesgo de singularidad, colinealidad y sobreajuste asociado al uso directo del espacio expandido completo.
 
-Siendo entonces, que el pseudo-codigo completo con las funciones de aptitud es el siguiente:
+Siendo entonces que la arquitectura completa y estructurada se ve así: 
 
-\begin{algorithm}[H]
-	\KwEntrada{$X_{\text{orig}}$: datos originales, 
-		$X_{\text{pool}}$: expansión polinomial precomputada, 
-		$y$: etiquetas de clase, 
-		$C$: configuraciones de los algoritmos genéticos, 
-		$\lambda$: parámetro de penalización, 
-		$M$: modelo LDA}
-	\KwSalida{$I_{1}^{*}$: mejor individuo de la Fase 1, 
-		$I_{2}^{*}$: mejor individuo de la Fase 2, 
-		$X_{\text{final}}$: términos polinomiales seleccionados, 
-		$Z$: representación discriminante final de baja dimensión}
-	
-	Inicializar población $P_{1}$ según $C$\;
-	Inicializar $Mem_{1} \gets \emptyset$\;
-	Evaluar $P_{1}$ mediante $F_{1}$ (Algoritmo 1)\;
-	Guardar el mejor individuo $I_{1}^{*}$\;
-	
-	\While{criterio de parada de $GA$ no se cumpla}{
-		Seleccionar padres de $P_{1}$\;
-		Aplicar cruce a los padres seleccionados\;
-		Aplicar mutación a los descendientes\;
-		Evaluar descendientes mediante $F_{1}$\;
-		Formar nueva población mediante elitismo\;
-		Actualizar $I_{1}^{*}$ si se obtiene una mejor solución\;
-	}
-	
-	Obtener $S^{*}$ a partir de $I_{1}^{*}$\;
-	Construir $X^{*}$ recuperando de $X_{\text{pool}}$ los términos correspondientes a $S^{*}$\;
-	
-	Inicializar población $P_{2}$ según $C$\;
-	Inicializar $Mem_{2} \gets \emptyset$\;
-	Evaluar $P_{2}$ mediante $F_{2}$ (Algoritmo 2)\;
-	Guardar el mejor individuo $I_{2}^{*}$\;
-	
-	\While{criterio de parada de $GA$ no se cumpla}{
-		Seleccionar padres de $P_{2}$\;
-		Aplicar cruce a los padres seleccionados\;
-		Aplicar mutación a los descendientes\;
-		Evaluar descendientes mediante $F_{2}$\;
-		Formar nueva población mediante elitismo\;
-		Actualizar $I_{2}^{*}$ si se obtiene una mejor solución\;
-	}
-	
-	$X_{\text{final}} \gets$ seleccionar términos de $X^{*}$ según $I_{2}^{*}$\;
-	Ajustar $M$ sobre $X_{\text{final}}$\;
-	Obtener $Z$\;
-	
-	\Return{$I_{1}^{*}, I_{2}^{*}, X_{\text{final}}, Z$}\;
-	
-	\caption{Procedimiento principal de GNLPDA mediante selección evolutiva en dos fases}
-\end{algorithm}
-
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{M3.png}
+	\caption{Arquitectura completa de GNLPDA. Fuente: Elaboración propia.}
+	\label{fig:M3}
+\end{figure}
 
 
 \section{Configuración y calibración de GNLPDA}
 
 Una vez definida la arquitectura general de GNLPDA, fue necesario establecer la
-configuración del algoritmo genético utilizado en ambas fases de selección. En esta sección se describen los mecanismos que conforman el proceso evolutivo, la representación utilizada y los principales parámetros de configuración. Posteriormente, se presenta el procedimiento de calibración automática mediante \textit{irace} \cite{lopez2016irace}, utilizado para determinar los valores de los parámetros sometidos a busqueda.
+configuración del algoritmo genético utilizado en ambas fases de selección. Dado que el desempeño de los algoritmos evolutivos puede depender de la elección de sus parámetros de control, se realizó una calibración automática mediante irace, con el propósito de identificar una configuración adecuada para el problema de selección de características considerado en esta investigación \cite{lopez2016irace}.
 
-\subsection{Configuración del algoritmo genético.}
-
-\subsubsection{Representación}
-
-El algoritmo genético empleado en GNLPDA utiliza una representación binaria pura. En
-ambas fases, cada cromosoma se codifica como un vector de ceros y unos, donde el valor 1 indica la inclusión de una variable o término, y el valor 0 indica su exclusión.
-
-Por ejemplo, para un conjunto de cinco variables $\{A,B,C,D,E\}$, el individuo de la primera fase puede ser:
-
-\begin{equation}
-	Individuo = \{1,0,1,0,0\}
-	\label{eq:EMN1}
-\end{equation}
-
-Lo cual tiene una correspondencia directa con la selección de variables $\{A,C\}$.
-
-En la segunda fase, se representan términos del espacio polinomial restringido. Si previamente la selección de variables fue $\{A,C\}$ entonces el subconjunto expandido sobre el que se hara la busqueda en la segunda fase es $\{A,C,A^2,A*C,C^2\}$. Dicho subconjunto al tener 5 términos en total, da origen a la siguiente representación binaria:
-
-\begin{equation}
-	Individuo = \{0,0,1,1,0\}
-	\label{eq:EMN2}
-\end{equation}
-
-Lo cual tiene una correspondencia directa con la selección de términos $\{A^2,A*C\}$.
-
-Siendo así que ambas fases usan la misma representación binaria pero mapeando diferentes conjuntos.
-
-\subsubsection{Selección}
-
-En este esquema, dos individuos se seleccionan aleatoriamente de la población y compiten con base en su valor de aptitud. El individuo con mayor aptitud es seleccionado como progenitor.
-
-
-\begin{equation}
-	\text{Padre} = 
-	\begin{cases}
-		I_i, & \text{si } f(I_i) \geq f(I_j) \\
-		I_j, & \text{en otro caso}
-	\end{cases}
-	\label{eq:EMN3}
-\end{equation}
-
-\subsubsection{Cruza}
-
-En el proceso de cruza de un solo punto, dos individuos progenitores son seleccionados y se define un único punto de corte aleatorio común para ambos. A partir de este punto, se construyen los descendientes intercambiando las secciones correspondientes de los padres. De esta manera, cada hijo conserva una parte inicial de un progenitor y una parte final del otro, garantizando la recombinación de información genética en un esquema clásico de cruza. A continuación se muestra un ejemplo de cruza a partir de dos progenitores seleccionando como punto de corte el segundo elemento del vector:
-
-\begin{equation}
-	P_1 = \{1,1,0,0,1\}, \quad 
-	P_2 = \{1,0,1,0,1\}
-\end{equation}
-
-\begin{equation}
-	H_1 = \{1,1,1,0,1\}, \quad 
-	H_2 = \{1,0,0,0,1\}
-\end{equation}
-
-\subsubsection{Mutación}
-
-La mutación implementada es el esquema de mutación por inversión de bits (\textit{bit-flip}).
-
-Este operador actúa sobre cada gen del individuo de manera independiente, aplicando una probabilidad de mutación previamente definida. En caso de que la mutación ocurra, el valor binario del gen se invierte: un 1 se transforma en 0 y, de manera análoga, un 0 se convierte en 1. 
-
-\begin{equation}
-	I = \{1,0,1,0,1\}
-\end{equation}
-
-\begin{equation}
-	I' = \{1,1,1,0,0\}
-\end{equation}
-
-Después de la mutación se aplica una corrección de factibilidad para que el individuo conserve al menos dos genes activos.
-
-
-\subsubsection{Remplazo generacional}
-
-
-El algoritmo genético se implementó bajo un esquema de reemplazo generacional, en el cual la población completa es sustituida en cada generación por individuos recién generados. 
-
-Dentro de  este esquema se incorpora un componente de elitismo, mediante el cual se garantiza la preservación automática de los dos individuos con mayor aptitud de la generación actual, asegurando que las soluciones de mayor calidad no se pierdan en el proceso. A continuación se muestra un breve ejemplo donde $t$ representa la generación actual y $t+1$ la generación siguiente.
-
-\begin{equation}
-	Poblaci\text{ó}n^{(t)} = 
-	\{\, \{1,1,0,1,0\}, \{1,0,1,0,1\}, \ldots, \{0,1,1,0,0\} \,\}
-\end{equation}
-
-\begin{equation}
-	Elites^{(t)} = \{\, \{1,1,0,1,0\}, \{1,0,1,0,1\} \,\}
-\end{equation}
-
-\begin{equation}
-	Descendientes^{(t)} = \{\, \{1,1,1,0,1\}, \{0,1,0,1,0\}, \ldots \,\}
-\end{equation}
-
-\begin{equation}
-	Poblaci\text{ó}n^{(t+1)} = Elites^{(t)} \cup Descendientes^{(t)}
-	\label{eq:EMN4}
-\end{equation}
-
-
-La aplicación conjunta de estos operadores define el ciclo evolutivo empleado en cada fase de GNLPDA. A partir de una población inicial de individuos, cada generación evalúa la aptitud de las soluciones, selecciona progenitores mediante torneo binario, aplica cruza y mutación para generar nuevos individuos y conserva los dos mejores individuos mediante elitismo. Este proceso se repite durante el número de generaciones establecido, manteniendo además un registro de la mejor solución encontrada a lo largo de toda la ejecución.
-
-\begin{table}[htbp]
-	\centering  
-	\begin{tabular}{|c|c|}
-		\hline
-		\encabezado{Parámetro} & \encabezado{Notación} \\
-		\hline
-		Número de generaciones & $ngens$ \\
-		\hline
-		Tamaño de población & $pobsize$ \\
-		\hline
-		Probabilidad de cruce & $P_c$ \\
-		\hline
-		Probabilidad de mutación & $P_m$ \\
-		\hline
-		Penalización & $\lambda$ \\
-		\hline
-		Selección & Torneo binario \\
-		\hline
-		Cruce & Cruce de un solo punto \\
-		\hline
-		Representación & Binaria \\
-		\hline
-		Elitismo & Conservación de los 2 mejores individuos \\
-		\hline
-	\end{tabular}
-	\caption{Configuración del algoritmo genético empleado en GNLPDA.}  
-	\label{tab:MM1K}
-\end{table}
-
-\subsection{Calibración mediante irace}
-
-La configuración de los parámetros de un algoritmo evolutivo puede influir en su capacidad para explorar el espacio de búsqueda y encontrar soluciones de buena calidad. En GNLPDA, estos parámetros intervienen directamente en el comportamiento de las dos fases de selección evolutiva, por lo que su elección no se estableció exclusivamente a partir de valores fijados a priori. Para determinar una configuración adecuada al problema abordado, se empleó \textit{irace}, un procedimiento de configuración automática de algoritmos basado en carreras iteradas (\textit{iterated racing}) \cite{lopez2016irace}.
-
-La calibración se planteó como un problema de búsqueda sobre un conjunto predefinido de parámetros y dominios de valores. Para cada configuración candidata, \textit{irace} ejecutó GNLPDA sobre las instancias de calibración y utilizó el costo obtenido en cada ejecución para comparar las configuraciones y concentrar progresivamente el presupuesto de evaluación en aquellas con mejor desempeño.
-
-
-
-%%%%%%%%%%%%%%% CORRECCIONES DE AQUI PARA ARRIBA %%%%%%%%%%%%%%%%%%
-
+\subsection{Parámetros del algoritmo genético}
 
 El algoritmo genético empleado en GNLPDA utiliza una representación binaria pura. En
 ambas fases, cada cromosoma se codifica como un vector de ceros y unos, donde el valor 1 indica la inclusión de una variable o término, y el valor 0 indica su exclusión. En la primera fase, los genes representan variables originales; en la segunda fase, representan términos del espacio polinomial restringido.
 
-La selección de individuos se realiza mediante torneo binario. En este esquema, dos individuos son seleccionados aleatoriamente de la población y compiten con base en su valor de aptitud; el individuo con mejor aptitud tiene mayor probabilidad de ser elegido como progenitor. Para la recombinación, se emplea cruza de un solo punto, mientras que la mutación se implementa como inversión de bits sobre la representación binaria. Además, se incorpora elitismo, preservando automáticamente los dos mejores individuos de cada generación para la generación siguiente. Esta estrategia evita que las mejores soluciones encontradas se pierdan por efecto de los operadores estocásticos.
+La selección de individuos se realiza mediante torneo binario. En este esquema, dos individuos son seleccionados aleatoriamente de la población y compiten con base en su valor de aptitud; el individuo con mejor fitness tiene mayor probabilidad de ser elegido como progenitor. Para la recombinación, se emplea cruza de un solo punto, mientras que la mutación se implementa como inversión de bits sobre la
+representación binaria. Además, se incorpora elitismo, preservando automáticamente los dos mejores individuos de cada generación para la generación siguiente. Esta estrategia evita que las mejores soluciones encontradas se pierdan por efecto de los operadores estocásticos.
 
 Los parámetros de control del algoritmo genético son comunes para ambas fases de
 GNLPDA. Es decir, la Fase I y la Fase II utilizan el mismo número de generaciones, tamaño de población, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$).
@@ -473,7 +233,7 @@ La diferencia entre fases está determinada por el espacio de búsqueda: variabl
 		\hline
 	\end{tabular}
 	\caption{Parámetros finales del algoritmo genético empleado en GNLPDA.}	
-	\label{tab:MM2}
+	\label{tab:MM1}
 
 \end{table}
 
@@ -507,7 +267,7 @@ En esta investigación, irace fue utilizado para calibrar cinco parámetros prin
 	\label{tab:MM2}
 \end{table}
 
-Dado que irace opera como un procedimiento de minimización, el criterio objetivo se definió a partir del aptitud penalizado obtenido por GNLPDA al finalizar la segunda etapa. En particular, para cada configuración candidata se ejecutó el procedimiento completo de dos fases y se tomó el mejor valor de aptitud obtenido en la Fase II, denotado como $F_2{(z^{(2)*})}$. A partir de este valor, la función de costo entregada a irace se definió como:
+Dado que irace opera como un procedimiento de minimización, el criterio objetivo se definió a partir del fitness penalizado obtenido por GNLPDA al finalizar la segunda etapa. En particular, para cada configuración candidata se ejecutó el procedimiento completo de dos fases y se tomó el mejor valor de aptitud obtenido en la Fase II, denotado como $F_2{(z^{(2)*})}$. A partir de este valor, la función de costo entregada a irace se definió como:
 
 \begin{equation}
 	\mathcal{L}_{irace} = 1-F_2{(z^{(2)*})}
@@ -515,9 +275,9 @@ Dado que irace opera como un procedimiento de minimización, el criterio objetiv
 \end{equation}
 
 
-De esta forma, minimizar $\mathcal{L}_{irace}$ equivale a favorecer configuraciones que produzcan un mayor aptitud penalizado en la segunda etapa. Este criterio incorpora simultáneamente la exactitud promedio estimada mediante validación cruzada estratificada de cinco pliegues y la penalización por complejidad asociada al número de términos polinomiales seleccionados.
+De esta forma, minimizar $\mathcal{L}_{irace}$ equivale a favorecer configuraciones que produzcan un mayor fitness penalizado en la segunda etapa. Este criterio incorpora simultáneamente la exactitud promedio estimada mediante validación cruzada estratificada de cinco pliegues y la penalización por complejidad asociada al número de términos polinomiales seleccionados.
 
-Se estableció un presupuesto de 5000 experimentos considerando el número de parámetros, el costo computacional de ejecutar GNLPDA y la disponibilidad de recursos. Para reducir el tiempo de ejecución, el proceso se paralelizó utilizando 11 núcleos de procesamiento.
+El presupuesto máximo de calibración se fijó en 5000 experimentos. Para reducir el tiempo de ejecución, el proceso se paralelizó utilizando 11 núcleos de procesamiento.
 
 \section{Diseño experimental}
 
@@ -646,7 +406,7 @@ reproducirse.
 Todos los métodos comparativos fueron evaluados utilizando exactamente las mismas
 particiones de entrenamiento y prueba. Por tanto, para una semilla dada, GNLPDA, LDA, QDA, KFDA y las variantes de SVM fueron entrenados y evaluados sobre el mismo bloque experimental. Este diseño permite realizar comparaciones emparejadas entre algoritmos, ya que las diferencias de desempeño no dependen de variaciones en los datos utilizados para entrenamiento o prueba, sino del comportamiento de cada método bajo la misma partición.
 
-En el caso particular de GNLPDA, la búsqueda evolutiva se realizó únicamente dentro del conjunto de entrenamiento de cada partición. A su vez, la evaluación interna de los cromosomas se llevó a cabo mediante validación cruzada estratificada de cinco pliegues sobre dicho conjunto de entrenamiento. El conjunto de prueba no participó en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo de la aptitud. Una vez finalizado el proceso de selección, el modelo final se ajustó con la representación seleccionada sobre el conjunto de entrenamiento y se evaluó sobre el conjunto de prueba correspondiente.
+En el caso particular de GNLPDA, la búsqueda evolutiva se realizó únicamente dentro del conjunto de entrenamiento de cada partición. A su vez, la evaluación interna de los cromosomas se llevó a cabo mediante validación cruzada estratificada de cinco pliegues sobre dicho conjunto de entrenamiento. El conjunto de prueba no participó en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo del fitness. Una vez finalizado el proceso de selección, el modelo final se ajustó con la representación seleccionada sobre el conjunto de entrenamiento y se evaluó sobre el conjunto de prueba correspondiente.
 
 Como resultado, para cada combinación de dataset y método se obtuvieron 30 valores de desempeño, uno por cada partición aleatoria. Estos valores constituyen la base para el análisis comparativo y estadístico descrito en la siguiente sección.
 
