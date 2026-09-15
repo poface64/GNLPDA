@@ -65,12 +65,16 @@
 \contentsline {subsubsection}{Cruza}{35}{section*.9}%
 \contentsline {subsubsection}{Mutación}{36}{section*.10}%
 \contentsline {subsubsection}{Remplazo generacional}{36}{section*.11}%
-\contentsline {section}{\numberline {4.3}Calibración mediante Irace}{36}{section.4.3}%
-\contentsline {subsection}{\numberline {4.3.1}Calibración mediante irace}{37}{subsection.4.3.1}%
-\contentsline {section}{\numberline {4.4}Diseño experimental}{38}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Conjuntos de datos utilizados}{38}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Generación de conjuntos sintéticos tipo Cebolla}{40}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Protocolo de particionamiento y evaluación}{41}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Análisis estadístico de resultados}{42}{subsection.4.4.4}%
-\contentsline {subsection}{\numberline {4.4.5}Evaluación auxiliar del problema Small Sample Size}{42}{subsection.4.4.5}%
-\contentsline {subsection}{\numberline {4.4.6}Métodos comparativos y métrica de evaluación}{43}{subsection.4.4.6}%
+\contentsline {subsection}{\numberline {4.2.2}Calibración mediante \textit {irace}}{37}{subsection.4.2.2}%
+\contentsline {subsubsection}{Parámetros y dominios de búsqueda}{37}{section*.13}%
+\contentsline {subsubsection}{Instancias de calibración}{38}{section*.15}%
+\contentsline {subsubsection}{Función objetivo y procedimiento de evaluación}{38}{section*.16}%
+\contentsline {subsubsection}{Presupuesto computacional y configuración seleccionada}{39}{section*.17}%
+\contentsline {subsection}{\numberline {4.2.3}Calibración mediante irace}{40}{subsection.4.2.3}%
+\contentsline {section}{\numberline {4.3}Diseño experimental}{41}{section.4.3}%
+\contentsline {subsection}{\numberline {4.3.1}Conjuntos de datos utilizados}{41}{subsection.4.3.1}%
+\contentsline {subsection}{\numberline {4.3.2}Generación de conjuntos sintéticos tipo Cebolla}{42}{subsection.4.3.2}%
+\contentsline {subsection}{\numberline {4.3.3}Protocolo de particionamiento y evaluación}{44}{subsection.4.3.3}%
+\contentsline {subsection}{\numberline {4.3.4}Análisis estadístico de resultados}{44}{subsection.4.3.4}%
+\contentsline {subsection}{\numberline {4.3.5}Evaluación auxiliar del problema Small Sample Size}{45}{subsection.4.3.5}%
+\contentsline {subsection}{\numberline {4.3.6}Métodos comparativos y métrica de evaluación}{46}{subsection.4.3.6}%

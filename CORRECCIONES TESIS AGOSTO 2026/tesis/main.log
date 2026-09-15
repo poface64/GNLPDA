@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.31)  14 SEP 2026 12:39
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.31)  14 SEP 2026 22:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -665,11 +665,7 @@ LaTeX Info: Redefining \% on input line 15.
 LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  (./capitulos/01_introduccion.aux) (./capitulos/02_marco_teorico.aux) (./capitu
-los/03_estado_arte.aux) (./capitulos/04_metodologia.aux
-
-LaTeX Warning: Label `tab:MM2' multiply defined.
-
-))
+los/03_estado_arte.aux) (./capitulos/04_metodologia.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -860,7 +856,7 @@ Package babel Info: 'spanish' activates 'spanish' shorthands.
 
  (./capitulos/01_introduccion.tex
 Cap\'{\i }tulo 1.
-<figuras/D1.png, id=382, 698.172pt x 379.308pt>
+<figuras/D1.png, id=383, 698.172pt x 379.308pt>
 File: figuras/D1.png Graphic file (type png)
 <use figuras/D1.png>
 Package pdftex.def Info: figuras/D1.png  used on input line 20.
@@ -1098,78 +1094,237 @@ LaTeX Info: Redefining \. on input line 355.
 LaTeX Info: Redefining \% on input line 355.
 [35]
 
-LaTeX Info: Redefining \. on input line 436.
-LaTeX Info: Redefining \% on input line 436.
+Package natbib Warning: Citation `sipper2018parameter' on page 36 undefined on 
+input line 432.
+
+
+Package natbib Warning: Citation `tuning_evolutionary_algorithms' on page 36 un
+defined on input line 432.
+
+
+Package natbib Warning: Citation `sipper2018parameter' on page 36 undefined on 
+input line 432.
+
+
+
+LaTeX Info: Redefining \. on input line 433.
+LaTeX Info: Redefining \% on input line 433.
 [36]
-Overfull \hbox (4.56496pt too wide) in paragraph at lines 481--482
+
+LaTeX Info: Redefining \. on input line 468.
+LaTeX Info: Redefining \% on input line 468.
+[37]
+
+Package natbib Warning: Citation `sipper2018parameter' on page 38 undefined on 
+input line 469.
+
+
+Package natbib Warning: Citation `tuning_evolutionary_algorithms' on page 38 un
+defined on input line 469.
+
+
+
+LaTeX Info: Redefining \. on input line 497.
+LaTeX Info: Redefining \% on input line 497.
+[38]
+! Misplaced \noalign.
+\hline ->\noalign 
+                  {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
+l.533 		\hline
+              
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! You can't use `\hrule' here except with leaders.
+\vline ->\vrule 
+                \@width \arrayrulewidth 
+l.533 		\hline
+              
+To put a horizontal rule in an hbox or an alignment,
+you should use \leaders or \hrulefill (see The TeXbook).
+
+! Missing number, treated as zero.
+<to be read again> 
+                   }
+l.533 		\hline
+              
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.533 		\hline
+              
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.534 		Probabilidad de mutaci√≥n ($P_m$) &
+                                            $[0.05,0.20]$ & $0.05$ \
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.535 ...ci√≥n ($N_{\mathrm{pop}}$) & $[20,100]$ &
+                                                   $64$ \
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.537 		Penalizaci√≥n ($\lambda$) &
+                                    $[0.01,0.20]$ & $0.01$ \
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Extra alignment tab has been changed to \cr.
+<recently read> \endtemplate 
+                             
+l.538 ...iones ($N_{\mathrm{gen}}$) & $[20,100]$ &
+                                                   $94$ \
+You have given more \span or & marks than there were
+in the preamble to the \halign or \valign now in progress.
+So I'll assume that you meant to type \cr instead.
+
+! Misplaced \noalign.
+\hline ->\noalign 
+                  {\ifnum 0=`}\fi \let \hskip \vskip \let \vrule \hrule \let...
+l.539 		\hline
+              
+I expect to see \noalign only after the \cr of
+an alignment. Proceed, and I'll ignore this case.
+
+! You can't use `\hrule' here except with leaders.
+\vline ->\vrule 
+                \@width \arrayrulewidth 
+l.539 		\hline
+              
+To put a horizontal rule in an hbox or an alignment,
+you should use \leaders or \hrulefill (see The TeXbook).
+
+! Missing number, treated as zero.
+<to be read again> 
+                   }
+l.539 		\hline
+              
+A number should have been here; I inserted `0'.
+(If you can't figure out why I needed to see a number,
+look up `weird error' in the index to The TeXbook.)
+
+! Illegal unit of measure (pt inserted).
+<to be read again> 
+                   }
+l.539 		\hline
+              
+Dimensions can be in units of em, ex, in, pt, pc,
+cm, mm, dd, cc, nd, nc, bp, or sp; but yours is a new one!
+I'll assume that you meant to say pt, for printer's points.
+To recover gracefully from this error, it's best to
+delete the erroneous units; e.g., type `2' to delete
+two letters. (See Chapter 27 of The TeXbook.)
+
+
+Overfull \hbox (181.88469pt too wide) in paragraph at lines 530--541
+ [][] 
+ []
+
+
+
+LaTeX Info: Redefining \. on input line 547.
+LaTeX Info: Redefining \% on input line 547.
+[39]
+Overfull \hbox (4.56496pt too wide) in paragraph at lines 568--569
 []\T1/ptm/m/n/12 En es-ta in-ves-ti-ga-ciÛn, ira-ce fue uti-li-za-do pa-ra ca-l
 i-brar cin-co pa-r·-me-tros prin-ci-pa-les de GNLP-
  []
 
 
 
-LaTeX Info: Redefining \. on input line 482.
-LaTeX Info: Redefining \% on input line 482.
-[37]
-
-LaTeX Info: Redefining \. on input line 529.
-LaTeX Info: Redefining \% on input line 529.
-[38]
-
-LaTeX Info: Redefining \. on input line 577.
-LaTeX Info: Redefining \% on input line 577.
-[39]
-
-LaTeX Info: Redefining \. on input line 628.
-LaTeX Info: Redefining \% on input line 628.
+LaTeX Info: Redefining \. on input line 595.
+LaTeX Info: Redefining \% on input line 595.
 [40]
 
-LaTeX Info: Redefining \. on input line 653.
-LaTeX Info: Redefining \% on input line 653.
+LaTeX Info: Redefining \. on input line 620.
+LaTeX Info: Redefining \% on input line 620.
 [41]
 
-LaTeX Info: Redefining \. on input line 679.
-LaTeX Info: Redefining \% on input line 679.
+LaTeX Info: Redefining \. on input line 670.
+LaTeX Info: Redefining \% on input line 670.
 [42]
 
-LaTeX Info: Redefining \. on input line 731.
-LaTeX Info: Redefining \% on input line 731.
-[43])
+LaTeX Info: Redefining \. on input line 726.
+LaTeX Info: Redefining \% on input line 726.
+[43]
+
+LaTeX Info: Redefining \. on input line 746.
+LaTeX Info: Redefining \% on input line 746.
+[44]
+
+LaTeX Info: Redefining \. on input line 805.
+LaTeX Info: Redefining \% on input line 805.
+[45]
+
+LaTeX Info: Redefining \. on input line 824.
+LaTeX Info: Redefining \% on input line 824.
+[46])
 
 LaTeX Info: Redefining \. on input line 26.
 LaTeX Info: Redefining \% on input line 26.
-[44] (./main.bbl
+[47]
 
-[45
+LaTeX Info: Redefining \. on input line 33.
+LaTeX Info: Redefining \% on input line 33.
+[48
 
 
 
+] (./main.bbl
+
+[49
 
 {c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 
 LaTeX Info: Redefining \. on input line 210.
 LaTeX Info: Redefining \% on input line 210.
-[46]
+[50]
 
 LaTeX Info: Redefining \. on input line 315.
 LaTeX Info: Redefining \% on input line 315.
-[47]
+[51]
 
 LaTeX Info: Redefining \. on input line 422.
 LaTeX Info: Redefining \% on input line 422.
-[48]
+[52]
 
 LaTeX Info: Redefining \. on input line 531.
 LaTeX Info: Redefining \% on input line 531.
-[49]
+[53]
 
 LaTeX Info: Redefining \. on input line 633.
 LaTeX Info: Redefining \% on input line 633.
-[50])
+[54])
+
+Package natbib Warning: There were undefined citations.
+
+
 
 LaTeX Info: Redefining \. on input line 36.
 LaTeX Info: Redefining \% on input line 36.
-[51] (./main.aux
+[55] (./main.aux
 LaTeX Info: Redefining \. on input line 14.
 LaTeX Info: Redefining \% on input line 14.
 LaTeX Info: Redefining \. on input line 15.
@@ -1185,70 +1340,37 @@ L3 programming layer <2025-10-24>
  ***********
 
 
-LaTeX Warning: There were multiply-defined labels.
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
 
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 47853A03630CE125FF0D6EEEA68E978B;15995
-(rerunfilecheck)             After:  3D1E9B3EE65E023C6B4066FABE5BF3C9;15947.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: E793D469B98477E0E561A6FB217D8AE6;15954.
  ) 
 Here is how much of TeX's memory you used:
- 19095 strings out of 467747
- 321455 string characters out of 5431120
- 786064 words of memory out of 5000000
- 47045 multiletter control sequences out of 15000+600000
- 706775 words of font info for 132 fonts, out of 8000000 for 9000
+ 19111 strings out of 467747
+ 321650 string characters out of 5431120
+ 786565 words of memory out of 5000000
+ 47054 multiletter control sequences out of 15000+600000
+ 709543 words of font info for 134 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,16n,134p,1202b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
-
-pdfTeX warning (dest): name{subsection.4.3.6} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.4.3.5} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.4.3.4} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.4.3.3} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.4.3.2} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.4.2.3} has been referenced but does not 
-exist, replaced by a fixed one
-
-
-pdfTeX warning (dest): name{subsection.4.2.2} has been referenced but does not 
-exist, replaced by a fixed one
-
-<c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Bold.pfb
-><c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Regular
-.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c:/
-texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive/2
-025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/font
-s/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/ty
-pe1/public/rsfs/rsfs10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-su
-per/sftt1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c
-:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/texm
-f-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1
-/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.
-pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (55 pages, 832492 bytes).
+<c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Bold.p
+fb><c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Regul
+ar.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmex10.pfb><c
+:/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><c:/texlive
+/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb><c:/texlive/2025/texm
+f-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb><c:/texlive/2025/texmf-dist/fo
+nts/type1/public/amsfonts/symbols/msbm10.pfb><c:/texlive/2025/texmf-dist/fonts/
+type1/public/rsfs/rsfs10.pfb><c:/texlive/2025/texmf-dist/fonts/type1/public/cm-
+super/sftt1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb>
+<c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb><c:/texlive/2025/te
+xmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2025/texmf-dist/fonts/typ
+e1/urw/times/utmbi8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr
+8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8a.pfb><c:/texlive
+/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (59 pages, 848144 bytes).
 PDF statistics:
- 1104 PDF objects out of 1200 (max. 8388607)
- 995 compressed objects within 10 object streams
- 343 named destinations out of 1000 (max. 500000)
+ 1132 PDF objects out of 1200 (max. 8388607)
+ 1016 compressed objects within 11 object streams
+ 348 named destinations out of 1000 (max. 500000)
  587 words of extra memory for PDF output out of 10000 (max. 10000000)
 

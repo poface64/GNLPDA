@@ -392,6 +392,8 @@ Dentro de  este esquema se incorpora un componente de elitismo, mediante el cual
 
 La aplicación conjunta de estos operadores define el ciclo evolutivo empleado en cada fase de GNLPDA. A partir de una población inicial de individuos, cada generación evalúa la aptitud de las soluciones, selecciona progenitores mediante torneo binario, aplica cruza y mutación para generar nuevos individuos y conserva los dos mejores individuos mediante elitismo. Este proceso se repite durante el número de generaciones establecido, manteniendo además un registro de la mejor solución encontrada a lo largo de toda la ejecución.
 
+En conjunto, los elementos descritos determinan la configuración del algoritmo genético utilizada en cada una de las fases de selección de GNLPDA. Si bien los operadores y la representación binaria se mantienen fijos, algunos parámetros de control deben establecerse antes de ejecutar el proceso evolutivo. La Tabla \ref{tab:MM1K} resume los principales elementos que conforman esta configuración, distinguiendo los operadores empleados de los parámetros cuyos valores serán determinados mediante el procedimiento de calibración descrito en la siguiente sección.
+
 \begin{table}[htbp]
 	\centering  
 	\begin{tabular}{|c|c|}
@@ -406,11 +408,11 @@ La aplicación conjunta de estos operadores define el ciclo evolutivo empleado e
 		\hline
 		Probabilidad de mutación & $P_m$ \\
 		\hline
-		Penalización & $\lambda$ \\
+		Penalización por complejidad & $\lambda$ \\
 		\hline
 		Selección & Torneo binario \\
 		\hline
-		Cruce & Cruce de un solo punto \\
+		Cruza & Cruza de un solo punto \\
 		\hline
 		Representación & Binaria \\
 		\hline
@@ -421,11 +423,128 @@ La aplicación conjunta de estos operadores define el ciclo evolutivo empleado e
 	\label{tab:MM1K}
 \end{table}
 
-\subsection{Calibración mediante irace}
 
-La configuración de los parámetros de un algoritmo evolutivo puede influir en su capacidad para explorar el espacio de búsqueda y encontrar soluciones de buena calidad. En GNLPDA, estos parámetros intervienen directamente en el comportamiento de las dos fases de selección evolutiva, por lo que su elección no se estableció exclusivamente a partir de valores fijados a priori. Para determinar una configuración adecuada al problema abordado, se empleó \textit{irace}, un procedimiento de configuración automática de algoritmos basado en carreras iteradas (\textit{iterated racing}) \cite{lopez2016irace}.
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-La calibración se planteó como un problema de búsqueda sobre un conjunto predefinido de parámetros y dominios de valores. Para cada configuración candidata, \textit{irace} ejecutó GNLPDA sobre las instancias de calibración y utilizó el costo obtenido en cada ejecución para comparar las configuraciones y concentrar progresivamente el presupuesto de evaluación en aquellas con mejor desempeño.
+\subsection{Calibración mediante \textit{irace}}
+\label{subsec:calibracion_irace}
+
+Una vez definida la configuración del algoritmo genético empleado en las dos fases de selección de GNLPDA, fue necesario establecer los valores de sus parámetros de control. La selección de estos valores puede influir en el comportamiento del proceso evolutivo y, por tanto, en la calidad de las soluciones obtenidas. En particular, parámetros como el tamaño de población, el número de generaciones y las probabilidades de cruza y mutación forman parte de los principales elementos de configuración de los algoritmos evolutivos \cite{sipper2018parameter,tuning_evolutionary_algorithms}. Debido a que su efecto depende de las características del problema y de los operadores empleados, no existe una combinación de valores que pueda considerarse universalmente adecuada \cite{sipper2018parameter}.
+
+Por esta razón, en lugar de establecer los valores exclusivamente a partir de una selección manual, se empleó \textit{irace} para realizar una calibración automática de los parámetros de GNLPDA. \textit{irace} implementa un procedimiento de configuración automática basado en carreras iteradas (\textit{iterated racing}), mediante el cual diferentes configuraciones candidatas son evaluadas sobre un conjunto de instancias y aquellas con un desempeño inferior pueden ser descartadas progresivamente durante el proceso de búsqueda \cite{lopez2016irace}. En esta investigación, el procedimiento se utilizó para determinar una configuración adecuada para las dos fases de selección evolutiva, manteniendo posteriormente dichos valores fijos durante la evaluación experimental.
+
+\subsubsection{Parámetros y dominios de búsqueda}
+
+La calibración consideró cinco parámetros: probabilidad de mutación, tamaño de población, probabilidad de cruza, penalización por complejidad y número de generaciones. Los dominios de búsqueda se definieron previamente al proceso de calibración y se muestran en la Tabla \ref{tab:param_irace}.
+
+\begin{table}[htbp]
+	\centering	
+	\begin{tabular}{|c|c|c|}
+		\hline
+		\encabezado{Parámetro} &
+		\encabezado{Tipo} &
+		\encabezado{Rango de búsqueda} \\
+		\hline
+		
+		ngen & Entero & [20, 100] \\
+		\hline
+		pobsize & Entero & [20, 100] \\
+		\hline
+		prob cruza & Real & [0.4, 0.95] \\
+		\hline
+		prob muta & Real & [0.05, 0.2] \\
+		\hline
+		Penalizador & Real & [0.01, 0.2] \\
+		\hline
+	\end{tabular}
+	\caption{Rangos de calibración considerados por irace.}	
+	\label{tab:MM2}
+\end{table}
+
+
+
+
+Los dominios se establecieron como espacios de búsqueda y no como valores considerados óptimos a priori. Para los parámetros propios del algoritmo genético se consideraron intervalos suficientemente amplios para explorar diferentes niveles de diversidad poblacional, recombinación y perturbación de los individuos. En particular, el tamaño de población y el número de generaciones se definieron en el intervalo $[20,100]$, mientras que la probabilidad de cruza se estableció entre $0.40$ y $0.95$. La probabilidad de mutación se definió entre $0.05$ y $0.20$, permitiendo explorar diferentes niveles de modificación de los genes durante la evolución.
+
+Estos intervalos se establecieron considerando que los parámetros de los algoritmos evolutivos presentan un comportamiento dependiente del problema y que su selección suele requerir exploración experimental en lugar de asumir valores universales \cite{sipper2018parameter,tuning_evolutionary_algorithms}. Asimismo, los rangos fueron contrastados mediante pruebas preliminares con el propósito de establecer dominios de búsqueda computacionalmente viables para el problema considerado.
+
+La penalización $\lambda$ constituye un parámetro específico de GNLPDA y no un operador convencional del algoritmo genético. Su función es controlar el compromiso entre el desempeño obtenido por una solución y la cantidad de características seleccionadas, de acuerdo con las funciones de aptitud definidas para las dos fases. Por esta razón, se estableció un dominio positivo entre $0.01$ y $0.20$, de manera que el procedimiento de calibración pudiera determinar la intensidad de penalización más adecuada dentro del espacio considerado.
+
+\subsubsection{Instancias de calibración}
+
+La calibración se realizó utilizando cuatro instancias con características complementarias, seleccionadas con el propósito de evaluar las configuraciones candidatas bajo diferentes condiciones de clasificación. Se utilizaron dos conjuntos de datos reales y dos conjuntos sintéticos diseñados para representar una estructura no lineal con diferente dimensionalidad.
+
+El conjunto \textit{Pima Diabetes} se incorporó como un escenario real de clasificación con características que pueden dificultar la separación entre las clases. Por su parte, el conjunto \textit{Wines} se utilizó como un escenario de referencia relativamente favorable, permitiendo considerar un problema real con condiciones de separación menos restrictivas.
+
+Las dos instancias restantes corresponden a los conjuntos sintéticos \textit{Cebolla3D} y \textit{Cebolla10D}. Ambos conjuntos contienen tres clases y 100 observaciones por clase, y fueron generados para representar una estructura no lineal controlada. \textit{Cebolla3D} contiene tres variables originales, mientras que \textit{Cebolla10D} incrementa la dimensionalidad a diez variables manteniendo la estructura general del problema. La inclusión conjunta de estas dos instancias permite considerar tanto la estructura no lineal como el efecto de incrementar la dimensionalidad del espacio original.
+
+En conjunto, las cuatro instancias proporcionan escenarios complementarios para la calibración: dos problemas reales con diferente dificultad y dos problemas sintéticos con una estructura no lineal controlada y diferente dimensionalidad. Estas instancias se utilizaron exclusivamente como parte del proceso de configuración y no sustituyeron posteriormente al conjunto completo de datos empleado en la evaluación experimental.
+
+\subsubsection{Función objetivo y procedimiento de evaluación}
+
+Cada configuración candidata definida por \textit{irace} se representa mediante el conjunto
+
+\begin{equation}
+	\theta =
+	\left(
+	P_m,N_{\mathrm{pop}},P_c,\lambda,N_{\mathrm{gen}}
+	\right).
+	\label{eq:theta_irace}
+\end{equation}
+
+Durante cada evaluación, \textit{irace} proporciona una instancia individual al \textit{target runner}, junto con los valores de la configuración candidata. El \textit{target runner} ejecuta el procedimiento completo de GNLPDA sobre dicha instancia. La misma configuración se emplea en ambas fases de selección evolutiva, por lo que los parámetros calibrados no se ajustan de manera independiente para cada fase.
+
+La calidad de una configuración se determina a partir del mejor valor global de aptitud obtenido durante la Fase 2. Si $F_2^{(g)}$ representa el valor de aptitud alcanzado en la generación $g$, el mejor valor encontrado durante una ejecución se define como
+
+\begin{equation}
+	F_2^{*}(\theta,I)
+	=
+	\max_{g}
+	F_2^{(g)}(\theta,I),
+	\label{eq:f2star_irace}
+\end{equation}
+
+donde $\theta$ representa la configuración evaluada e $I$ la instancia utilizada durante dicha ejecución.
+
+Debido a que \textit{irace} utiliza un criterio de minimización para comparar configuraciones, el valor de aptitud se transforma en un costo mediante
+
+\begin{equation}
+	L_{\mathrm{irace}}(\theta,I)
+	=
+	1-F_2^{*}(\theta,I).
+	\label{eq:cost_irace}
+\end{equation}
+
+De esta manera, una configuración que produce un mayor valor de aptitud en la Fase 2 genera un menor costo para el procedimiento de calibración. El valor $F_2^{*}$ incorpora tanto el desempeño obtenido mediante la validación cruzada estratificada de cinco pliegues como la penalización asociada a la cantidad de términos seleccionados, de acuerdo con la función de aptitud definida previamente.
+
+Es importante señalar que el \textit{target runner} evalúa cada instancia de manera individual y no realiza un promedio manual de los resultados correspondientes a las cuatro instancias. Los costos obtenidos en las distintas evaluaciones son utilizados por \textit{irace} durante el proceso de \textit{racing}, mediante el cual las configuraciones candidatas son comparadas y aquellas con desempeño inferior pueden ser descartadas progresivamente \cite{lopez2016irace}.
+
+\subsubsection{Presupuesto computacional y configuración seleccionada}
+
+El presupuesto máximo de la calibración se estableció en 3000 ejecuciones del procedimiento objetivo. Este límite se determinó considerando el costo computacional asociado a cada evaluación, ya que cada ejecución de GNLPDA implica dos fases de selección evolutiva y múltiples evaluaciones mediante validación cruzada. De esta manera, el presupuesto establecido permitió explorar diferentes configuraciones manteniendo un tiempo de ejecución computacionalmente viable.
+
+Las evaluaciones fueron ejecutadas en paralelo utilizando 11 núcleos de procesamiento. Al finalizar el proceso de calibración se obtuvo una configuración que fue utilizada posteriormente de manera común en las dos fases de selección evolutiva de GNLPDA. Los valores seleccionados se muestran en la Tabla \ref{tab:config_final_irace}.
+
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{lcc}
+		\hline
+		\textbf{Parámetro} & \textbf{Dominio de búsqueda} & \textbf{Valor seleccionado} \
+		\hline
+		Probabilidad de mutación ($P_m$) & $[0.05,0.20]$ & $0.05$ \
+		Tamaño de población ($N_{\mathrm{pop}}$) & $[20,100]$ & $64$ \
+		Probabilidad de cruza ($P_c$) & $[0.40,0.95]$ & $0.90$ \
+		Penalización ($\lambda$) & $[0.01,0.20]$ & $0.01$ \
+		Número de generaciones ($N_{\mathrm{gen}}$) & $[20,100]$ & $94$ \
+		\hline
+	\end{tabular}
+	\caption{Configuración seleccionada mediante la calibración de GNLPDA con \textit{irace}.}
+	\label{tab:config_final_irace}
+\end{table}
+
+La configuración seleccionada corresponde a una probabilidad de mutación de $0.05$, un tamaño de población de 64 individuos, una probabilidad de cruza de $0.90$, una penalización por complejidad de $\lambda=0.01$ y un total de 94 generaciones. Estos valores se mantuvieron fijos en las dos fases evolutivas durante el diseño experimental posterior.
+
+Los valores obtenidos no se consideran parámetros óptimos de carácter universal, sino la configuración seleccionada por el procedimiento de calibración dentro de los dominios establecidos y bajo las instancias y función objetivo definidas en esta investigación. Su utilización posterior sin modificaciones permite mantener constantes las condiciones de configuración del algoritmo durante la comparación experimental de GNLPDA con los métodos de referencia.
 
 
 
@@ -441,41 +560,6 @@ Los parámetros de control del algoritmo genético son comunes para ambas fases 
 GNLPDA. Es decir, la Fase I y la Fase II utilizan el mismo número de generaciones, tamaño de población, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$).
 
 La diferencia entre fases está determinada por el espacio de búsqueda: variables originales en la primera fase y términos polinomiales en la segunda.
-
-\begin{table}[htbp]
-	\centering	
-	\begin{tabular}{|c|c|}
-		\hline
-		\encabezado{Parámetro} &
-		\encabezado{Valor final} \\
-		\hline
-		
-		Número de generaciones & 94 \\
-		\hline
-		Tamaño de población & 64 \\
-		\hline
-		Probabilidad de cruza & 0.9 \\
-		\hline
-		Probabilidad de mutación & 0.05 \\
-		\hline
-		Penalización & 0.01 \\
-		\hline
-		Selección & Torneo binario \\
-		\hline
-		Cruza & Un punto \\
-		\hline
-		Representación & Binaria \\
-		\hline
-		Elitismo & \begin{tabular}{c}
-			2 mejores\\
-			individuos
-		\end{tabular} \\
-		\hline
-	\end{tabular}
-	\caption{Parámetros finales del algoritmo genético empleado en GNLPDA.}	
-	\label{tab:MM2}
-
-\end{table}
 
 \subsection{Calibración mediante irace}
 
@@ -504,7 +588,7 @@ En esta investigación, irace fue utilizado para calibrar cinco parámetros prin
 		\hline
 	\end{tabular}
 	\caption{Rangos de calibración considerados por irace.}	
-	\label{tab:MM2}
+	\label{tab:MM2k}
 \end{table}
 
 Dado que irace opera como un procedimiento de minimización, el criterio objetivo se definió a partir del aptitud penalizado obtenido por GNLPDA al finalizar la segunda etapa. En particular, para cada configuración candidata se ejecutó el procedimiento completo de dos fases y se tomó el mejor valor de aptitud obtenido en la Fase II, denotado como $F_2{(z^{(2)*})}$. A partir de este valor, la función de costo entregada a irace se definió como:
