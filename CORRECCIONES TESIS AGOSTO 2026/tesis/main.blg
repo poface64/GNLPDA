@@ -17,45 +17,45 @@ Repeated entry---line 853 of file bibliografia/referenciaslimpias.bib
  :                                 ,
 I'm skipping whatever remains of this entry
 Warning--empty year in us_algoritmos_geneticos
-You've used 88 entries,
+You've used 89 entries,
             4728 wiz_defined-function locations,
-            1404 strings with 25595 characters,
-and the built_in function-call counts, 79461 in all, are:
-= -- 8103
-> -- 2782
-< -- 3235
-+ -- 3851
-- -- 1034
-* -- 6097
-:= -- 13898
-add.period$ -- 92
-call.type$ -- 88
-change.case$ -- 565
-chr.to.int$ -- 87
-cite$ -- 89
-duplicate$ -- 1919
-empty$ -- 4263
-format.name$ -- 1664
-if$ -- 14451
+            1409 strings with 25770 characters,
+and the built_in function-call counts, 80422 in all, are:
+= -- 8213
+> -- 2810
+< -- 3280
++ -- 3903
+- -- 1045
+* -- 6163
+:= -- 14064
+add.period$ -- 93
+call.type$ -- 89
+change.case$ -- 571
+chr.to.int$ -- 88
+cite$ -- 90
+duplicate$ -- 1940
+empty$ -- 4312
+format.name$ -- 1680
+if$ -- 14626
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 461
-newline$ -- 465
-num.names$ -- 352
-pop$ -- 824
+missing$ -- 462
+newline$ -- 470
+num.names$ -- 356
+pop$ -- 832
 preamble$ -- 1
-purify$ -- 741
+purify$ -- 749
 quote$ -- 0
-skip$ -- 4729
+skip$ -- 4787
 stack$ -- 0
-substring$ -- 5781
-swap$ -- 536
-text.length$ -- 379
+substring$ -- 5865
+swap$ -- 541
+text.length$ -- 383
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1109
+type$ -- 1122
 warning$ -- 1
-while$ -- 685
+while$ -- 693
 width$ -- 0
-write$ -- 1176
+write$ -- 1190
 (There was 1 error message)

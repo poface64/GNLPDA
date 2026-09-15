@@ -18,11 +18,7 @@ de interacción que aportan al desempeño discriminante.
 
 Ambas fases siguen una lógica \textit{wrapper}: cada cromosoma codifica un subconjunto candidato de características, dicho subconjunto se evalúa mediante LDA y el valor de aptitud se calcula a partir de la exactitud promedio obtenida mediante validación cruzada estratificada de cinco pliegues. Además, ambas etapas emplean la misma configuración general del algoritmo genético, incluyendo tamaño de población, número de generaciones, probabilidad de cruza, probabilidad de mutación y valor de penalización ($\lambda$). La diferencia entre ambas fases no radica en los operadores evolutivos utilizados, sino en el espacio sobre el que se realiza la búsqueda.
 
-En el protocolo experimental de esta investigación, la búsqueda evolutiva se realiza
-únicamente sobre la partición de entrenamiento. Dentro de esta partición, GNLPDA calcula
-el \textit{fitness} de cada cromosoma mediante validación cruzada interna estratificada de cinco pliegues. La partición de prueba permanece separada durante todo el proceso de selección y se utiliza únicamente para la evaluación final del modelo seleccionado. De esta manera, la
-validación cruzada interna guía la búsqueda evolutiva, mientras que la evaluación sobre
-prueba estima la capacidad de generalización del método.
+En el protocolo experimental de esta investigación, la búsqueda evolutiva se realiza únicamente sobre la partición de entrenamiento. Dentro de esta partición, GNLPDA calcula el \textit{fitness} de cada cromosoma mediante validación cruzada interna estratificada de cinco pliegues. La partición de prueba permanece separada durante todo el proceso de selección y se utiliza únicamente para la evaluación final del modelo seleccionado. De esta manera, la validación cruzada interna guía la búsqueda evolutiva, mientras que la evaluación sobre prueba estima la capacidad de generalización del método.
 
 \subsection{Fase I: selección de variables originales}
 
@@ -219,18 +215,6 @@ La diferencia entre fases está determinada por el espacio de búsqueda: variabl
 		Probabilidad de mutación & 0.05 \\
 		\hline
 		Penalización & 0.01 \\
-		\hline
-		Selección & Torneo binario \\
-		\hline
-		Cruza & Un punto \\
-		\hline
-		Representación & Binaria \\
-		\hline
-		Elitismo & \begin{tabular}{c}
-			2 mejores\\
-			individuos
-		\end{tabular} \\
-		\hline
 	\end{tabular}
 	\caption{Parámetros finales del algoritmo genético empleado en GNLPDA.}	
 	\label{tab:MM1}
