@@ -6,56 +6,57 @@ A level-1 auxiliary file: capitulos/01_introduccion.aux
 A level-1 auxiliary file: capitulos/02_marco_teorico.aux
 A level-1 auxiliary file: capitulos/03_estado_arte.aux
 A level-1 auxiliary file: capitulos/04_metodologia.aux
+A level-1 auxiliary file: capitulos/05_resultados.aux
+A level-1 auxiliary file: capitulos/06_discusion.aux
+A level-1 auxiliary file: capitulos/07_conclusiones.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliografia/referenciaslimpias.bib
-Repeated entry---line 853 of file bibliografia/referenciaslimpias.bib
- : @article{zebari2020comprehensive
- :                                 ,
-I'm skipping whatever remains of this entry
+Warning--empty number in coomans1992comparison
+Warning--empty note in coomans1992comparison
 Warning--empty year in us_algoritmos_geneticos
-You've used 89 entries,
+You've used 92 entries,
             4728 wiz_defined-function locations,
-            1409 strings with 25770 characters,
-and the built_in function-call counts, 80422 in all, are:
-= -- 8213
-> -- 2810
-< -- 3280
-+ -- 3903
-- -- 1045
-* -- 6163
-:= -- 14064
-add.period$ -- 93
-call.type$ -- 89
-change.case$ -- 571
-chr.to.int$ -- 88
-cite$ -- 90
-duplicate$ -- 1940
-empty$ -- 4312
-format.name$ -- 1680
-if$ -- 14626
+            1428 strings with 26374 characters,
+and the built_in function-call counts, 82390 in all, are:
+= -- 8416
+> -- 2860
+< -- 3327
++ -- 3960
+- -- 1064
+* -- 6322
+:= -- 14388
+add.period$ -- 96
+call.type$ -- 92
+change.case$ -- 586
+chr.to.int$ -- 91
+cite$ -- 95
+duplicate$ -- 1998
+empty$ -- 4462
+format.name$ -- 1708
+if$ -- 15020
 int.to.chr$ -- 2
 int.to.str$ -- 1
-missing$ -- 462
-newline$ -- 470
-num.names$ -- 356
-pop$ -- 832
+missing$ -- 476
+newline$ -- 486
+num.names$ -- 368
+pop$ -- 855
 preamble$ -- 1
-purify$ -- 749
+purify$ -- 770
 quote$ -- 0
-skip$ -- 4787
+skip$ -- 4896
 stack$ -- 0
-substring$ -- 5865
-swap$ -- 541
-text.length$ -- 383
+substring$ -- 6000
+swap$ -- 554
+text.length$ -- 390
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1122
-warning$ -- 1
-while$ -- 693
+type$ -- 1162
+warning$ -- 3
+while$ -- 710
 width$ -- 0
-write$ -- 1190
-(There was 1 error message)
+write$ -- 1231
+(There were 3 warnings)

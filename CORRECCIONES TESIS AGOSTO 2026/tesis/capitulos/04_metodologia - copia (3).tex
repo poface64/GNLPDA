@@ -528,9 +528,9 @@ La configuración seleccionada por \textit{irace} bajo estas condiciones y utili
 Para evaluar el desempeño de GNLPDA se utilizaron diez conjuntos de datos con diferentes tamaños muestrales, dimensionalidades, números de clases y niveles de complejidad geométrica. La selección de estos conjuntos busca cubrir escenarios de clasificación binaria y multiclase, así como problemas donde la frontera de separación entre clases puede variar desde casos relativamente favorables para métodos lineales hasta escenarios con estructuras no lineales o traslape significativo entre clases.
 
 Los conjuntos Palmer Penguins y Wines se incorporaron como puntos de partida
-experimentales. Ambos corresponden a conjuntos de referencia ampliamente utilizados en clasificación supervisada y presentan una estructura de clases relativamente favorable para métodos lineales. Palmer Penguins contiene mediciones morfológicas de tres especies de pingüinos, mientras que Wines describe muestras de vino mediante variables químicas asociadas a tres clases. Estos conjuntos permiten verificar el comportamiento de GNLPDA en escenarios clásicos donde se espera que métodos lineales como LDA tengan un desempeño competitivo \cite{gorman2014ecological}\cite{coomans1992comparison}.
+experimentales. Ambos corresponden a conjuntos de referencia ampliamente utilizados en clasificación supervisada y presentan una estructura de clases relativamente favorable para métodos lineales. Palmer Penguins contiene mediciones morfológicas de tres especies de pingüinos, mientras que Wines describe muestras de vino mediante variables químicas asociadas a tres clases. Estos conjuntos permiten verificar el comportamiento de GNLPDA en escenarios clásicos donde se espera que métodos lineales como LDA tengan un desempeño competitivo \cite{horst2022palmer}\cite{coomans1992comparison}.
 
-Los conjuntos Breast Cancer Wisconsin Diagnostic (WDBC) e Ionosphere se incluyeron como escenarios de referencia con mayor dimensionalidad. Aunque también pueden presentar una separación relativamente favorable para clasificadores lineales, su interés experimental radica en el incremento del número de variables. WDBC corresponde a un problema binario de diagnóstico de cáncer de mama a partir de características extraídas de imágenes digitalizadas de masas celulares. Por su parte, Ionosphere corresponde a un problema binario asociado con señales de radar, donde las observaciones se describen mediante un conjunto de variables numéricas de mayor dimensión. Estos conjuntos permiten analizar si GNLPDA conserva un comportamiento adecuado cuando aumenta el número de características originales disponibles \cite{mangasarian1995breast} \cite{sigillito1989classification}.
+Los conjuntos Breast Cancer Wisconsin Diagnostic (WDBC) e Ionosphere se incluyeron como escenarios de referencia con mayor dimensionalidad. Aunque también pueden presentar una separación relativamente favorable para clasificadores lineales, su interés experimental radica en el incremento del número de variables. WDBC corresponde a un problema binario de diagnóstico de cáncer de mama a partir de características extraídas de imágenes digitalizadas de masas celulares. Por su parte, Ionosphere corresponde a un problema binario asociado con señales de radar, donde las observaciones se describen mediante un conjunto de variables numéricas de mayor dimensión. Estos conjuntos permiten analizar si GNLPDA conserva un comportamiento adecuado cuando aumenta el número de características originales disponibles \cite{salama2012breast} \cite{sigillito1989classification}.
 
 Para evaluar explícitamente el comportamiento de los métodos ante estructuras no lineales, se generaron tres conjuntos sintéticos denominados Cebolla3D, Cebolla10D y Cebolla20D. Estos conjuntos fueron construidos mediante un procedimiento de generación de datos concéntricos, de elaboración propia, en el que las clases se distribuyen en capas o regiones radiales. Por construcción, estos escenarios no presentan una separación lineal directa en el espacio original, por lo que permiten analizar la utilidad de la expansión polinomial y de la selección evolutiva de términos dentro de GNLPDA. La inclusión de versiones en 3, 10 y 20 dimensiones permiten observar el efecto del incremento dimensional en un problema no
 lineal controlado.
@@ -553,13 +553,13 @@ La Tabla~\ref{tab:MM4}, resume las principales características de los conjuntos
 		\encabezado{Referencia} \\
 		\hline
 		
-		penguins & 342 & 4 & 3 & \cite{gorman2014ecological} \\
+		penguins & 342 & 4 & 3 & \cite{horst2022palmer} \\
 		\hline
 		
 		wines & 178 & 13 & 3 & \cite{coomans1992comparison} \\
 		\hline
 		
-		Breast Cancer (WDBC) & 569 & 30 & 2 & \cite{mangasarian1995breast} \\
+		Breast Cancer (WDBC) & 569 & 30 & 2 & \cite{salama2012breast} \\
 		\hline
 		
 		Ionosphere & 351 & 34 & 2 & \cite{sigillito1989classification} \\
@@ -596,8 +596,6 @@ En conjunto, estos datos permiten evaluar el método en cuatro tipos de escenari
 Además de los conjuntos de referencia y de aplicación real, se generaron tres conjuntos sintéticos denominados Cebolla3D, Cebolla10D y Cebolla20D. Estos conjuntos fueron diseñados con el propósito de evaluar el comportamiento de los métodos en escenarios donde la separación entre clases no es lineal en el espacio original. A diferencia de los conjuntos reales, cuya estructura depende de datos observados, los conjuntos tipo Cebolla permiten controlar explícitamente la geometría del problema y controlar explícitamente la estructura concéntrica de clases.
 
 El procedimiento de generación se basa en distribuir observaciones sobre capas radiales alrededor de un centro común. Cada clase se asocia con un intervalo de radios distinto, de manera que la pertenencia de clase depende principalmente de la distancia al origen y no de una combinación lineal de las variables. Por esta razón, las clases no presentan una separación lineal adecuada mediante hiperplanos en el espacio original, lo que convierte a estos conjuntos en escenarios adecuados para evaluar métodos que incorporan transformaciones no lineales del espacio de características.
-
-A continuación se describe el procedimiento propuesto por \cite{marsaglia1972choosing} para generar los datos con estas características.
 
 Sea $x_i \in \mathbb{R}^d$ una observación generada en un espacio de dimensión $d$, con $d \in \{3,10,20\}$.
 
@@ -651,57 +649,6 @@ En cada conjunto sintético se generaron 100 observaciones por clase, para un to
 
 Estos conjuntos fueron generados específicamente para esta investigación, por lo que se reportan como datos de elaboración propia. Su inclusión permite evaluar si GNLPDA logra aprovechar la expansión polinomial y la selección evolutiva de términos para construir una representación discriminante adecuada en problemas donde la no linealidad está presente por construcción.
 
-\subsection{Métodos comparativos y métrica de evaluación}
-
-Para evaluar el desempeño de GNLPDA se consideraron seis métodos comparativos: LDA, QDA, KFDA con kernel gaussiano, SVM con kernel polinomial de grado 2, SVM con kernel polinomial de grado 3 y SVM con kernel gaussiano. La selección de estos competidores busca contrastar la propuesta frente a clasificadores lineales clásicos, clasificadores cuadráticos, métodos kernel discriminantes y clasificadores kernel ampliamente utilizados en problemas de clasificación supervisada.
-
-El primer método comparativo fue LDA, implementado mediante la función lda de la paquetería MASS de R. Este método se incluyó como línea base, ya que representa el enfoque clásico de separación y proyección lineal supervisada. Además, resulta especialmente relevante porque GNLPDA utiliza internamente esta implementación de LDA para evaluar las representaciones generadas durante su proceso de selección evolutiva. La implementación de MASS es pertinente en este contexto debido a su tratamiento computacional de la estimación discriminante, particularmente cuando aparecen problemas de colinealidad o alta dimensionalidad relativa.
-
-El segundo método fue QDA, considerado como una extensión clásica del análisis discriminante que relaja el supuesto de covarianzas iguales entre clases. A diferencia de LDA, QDA permite fronteras de decisión cuadráticas, por lo que se incorporó como un competidor tradicional capaz de modelar separaciones no estrictamente lineales en el espacio original.
-
-También se incluyó KFDA con kernel gaussiano. Este método constituye una alternativa kernel de análisis discriminante de Fisher, al permitir que la separación entre clases se realice en un espacio de características inducido implícitamente por el kernel. Su inclusión resulta relevante porque conserva una interpretación discriminante y proyectiva, pero incorpora la capacidad de modelar relaciones no lineales entre las observaciones. Se implemento manualmente siguiendo las especificaciones de su articulo fundacional\cite{mika1999fisher} y una explicación más reciente su funcionamiento \cite{ghojogh2019fisher}. Fue utilizado como extractor discriminante de características. La decisión de clase se realizó posteriormente mediante el criterio de mínima distancia euclidiana al centroide de cada clase en el espacio generado por KFDA.
-
-Adicionalmente, se evaluaron tres variantes de SVM. La primera corresponde a SVM con kernel polinomial de grado 2, incluida como referencia frente a una transformación polinomial implícita de segundo grado. La segunda corresponde a SVM con kernel polinomial de grado 3, considerada para analizar el efecto de una transformación polinomial implícita de mayor orden. Finalmente, se incluyó SVM con kernel gaussiano, debido a su uso extendido en el estado del arte y a su capacidad para modelar fronteras de decisión no lineales flexibles.
-
-\begin{table}[htbp]
-	\centering
-	\begin{tabular}{|c|c|p{7.5cm}|}
-		\hline
-		\encabezado{Método} &
-		\encabezado{Variante} &
-		\encabezado{Propósito en la comparación} \\
-		\hline
-		
-		LDA & \begin{tabular}{c}
-			LDA de la\\
-			paquetería\\
-			MASS
-		\end{tabular} & Línea base de separación lineal y proyectiva; implementación usada internamente por GNLPDA. \\
-		\hline
-		QDA & Clásico & Clasificador discriminante con fronteras cuadráticas. \\
-		\hline
-		KFDA & Gaussiano & Alternativa kernel de Fisher para separación no lineal. \\
-		\hline
-		SVM & Pol (2) & Comparación frente a una transformación polinomial implícita de segundo grado. \\
-		\hline
-		SVM & Pol (3) & Comparación frente a una transformación polinomial implícita de mayor orden. \\
-		\hline
-		SVM & Gaussiano & Clasificador kernel no lineal ampliamente utilizado. \\
-		\hline
-	\end{tabular}
-	\caption{Resume los métodos comparativos considerados y su propósito dentro del diseño experimental.}
-	\label{tab:MM6}	
-\end{table}
-
-%%%%%%%%%%%% AQUI VA LA DIFERENCIA REACOMODANDO LAS SECCIONES %%%%%%%%%%%%%%%%%%%%%%%%%
-
-%\subsection{Calibración de los competidores}
-
-%%%% PENDIENTE DE ACOMODAR ESTA ESECCIÓN %%%%%
-
-
-%%%% PENDIENTE DE ACOMODAR ESTA ESECCIÓN %%%%%
-
 \subsection{Protocolo de particionamiento y evaluación}
 
 El preprocesamiento de los conjuntos de datos se mantuvo al mínimo con el propósito de evaluar los métodos sobre representaciones cercanas a los datos originales. No se aplicaron procedimientos de estandarización, normalización, reducción dimensional previa ni transformaciones adicionales sobre las variables de entrada. Únicamente se realizaron depuraciones puntuales cuando fue necesario, tales como la eliminación de variables no predictoras, identificadores o columnas incompatibles con el análisis numérico. De esta forma, las diferencias observadas entre métodos se atribuyen principalmente al procedimiento de clasificación o transformación propio de cada técnica evaluada.
@@ -712,19 +659,28 @@ Todos los métodos comparativos fueron evaluados utilizando exactamente las mism
 
 En el caso particular de GNLPDA, la búsqueda evolutiva se realizó únicamente dentro del conjunto de entrenamiento de cada partición. A su vez, la evaluación interna de los cromosomas se llevó a cabo mediante validación cruzada estratificada de cinco pliegues sobre dicho conjunto de entrenamiento. El conjunto de prueba no participó en la selección de variables originales, en la selección de términos polinomiales ni en el cálculo de la aptitud. Una vez finalizado el proceso de selección, el modelo final se ajustó con la representación seleccionada sobre el conjunto de entrenamiento y se evaluó sobre el conjunto de prueba correspondiente.
 
-El rendimiento de los métodos se evaluó mediante exactitud (accuracy) sobre el conjunto de prueba. Para una partición dada, la exactitud se calculó como la proporción de observaciones correctamente clasificadas:
 
-\begin{equation}
-	\text{Accuracy} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} \mathbb{I}(\hat{y}_i = y_i)
-	\label{eq:EM22}
-\end{equation}
+\subsection{Análisis estadístico de resultados}
 
-Dado que cada método fue evaluado sobre las mismas 30 particiones por dataset, para cada combinación método-dataset se obtuvieron 30 valores de exactitud. Estos valores fueron utilizados posteriormente para el análisis estadístico mediante la prueba de Friedman y, cuando correspondió, la prueba post hoc de Nemenyi.
+El análisis estadístico se realizó de manera independiente para cada conjunto de datos. Dado que todos los métodos fueron evaluados sobre las mismas 30 particiones de entrenamiento y prueba, el diseño experimental puede interpretarse como un diseño en bloques emparejados, donde cada partición constituye un bloque y cada algoritmo representa un tratamiento. Bajo este esquema, las comparaciones entre métodos se realizan considerando que todos enfrentan las mismas condiciones experimentales dentro de cada bloque.
 
+Para detectar diferencias globales entre los algoritmos se aplicó la prueba no paramétrica de Friedman. Esta prueba permite comparar múltiples métodos bajo un diseño de bloques, utilizando los rangos de desempeño obtenidos por los algoritmos dentro de cada partición.
+
+En este trabajo, para cada dataset se construyó una matriz de resultados con 30 filas, correspondientes a las particiones aleatorias, y una columna por cada método evaluado. A partir de esta matriz se aplicó la prueba de Friedman con el objetivo de determinar si existían diferencias estadísticamente significativas entre los desempeños de los algoritmos \cite{pereira2015overview}.
+
+Cuando la prueba de Friedman indicó diferencias significativas, se aplicó la prueba post hoc de Nemenyi para identificar entre qué pares de métodos se presentaban diferencias estadísticamente significativas. Esta prueba permite comparar los rangos promedio de los algoritmos y determinar si la diferencia entre dos métodos supera la diferencia crítica establecida para el nivel de significancia considerado \cite{demvsar2006statistical}.
+
+El análisis se realizó en dos niveles. En primer lugar, se consideró el conjunto completo de métodos comparativos, incluyendo LDA, QDA, KFDA, SVM con kernel polinomial de grado 2, SVM con kernel polinomial de grado 3, SVM con kernel gaussiano y GNLPDA.
+
+Esta comparación permite situar la propuesta frente a clasificadores lineales, cuadráticos y no lineales.
+
+En segundo lugar, se repitió el análisis excluyendo a LDA y QDA. Esta segunda comparación se centró únicamente en métodos no lineales o basados en transformaciones del espacio de características, es decir, KFDA, las variantes kernel de SVM y GNLPDA. El propósito de este análisis adicional fue evaluar el comportamiento relativo de la propuesta frente a competidores más cercanos en términos metodológicos, evitando que las diferencias frente a clasificadores lineales dominaran la interpretación de los resultados.
+
+En todos los casos, el análisis estadístico se basó en los resultados obtenidos sobre las 30 particiones aleatorias de cada dataset. De esta forma, la comparación entre métodos incorpora la variabilidad inducida por las particiones entrenamiento-prueba y no depende de una única división de los datos.
 
 \subsection{Evaluación auxiliar del problema Small Sample Size}
 
-Además del análisis comparativo principal, se diseñó una evaluación auxiliar para visualizar el efecto del problema Small Sample Size (SSS) sobre métodos discriminantes. Esta evaluación no tuvo como objetivo comparar exhaustivamente todos los algoritmos del estudio, sino ilustrar el comportamiento de LDA en su formulación manual, la implementación lda de la paquetería MASS y KFDA bajo escenarios donde la relación entre número de observaciones y número de variables se vuelve desfavorable.
+Además del análisis comparativo principal, se diseñó una evaluación auxiliar para visualizar el efecto del problema Small Sample Size (SSS) sobre métodos discriminantes. Esta evaluación no tuvo como objetivo comparar exhaustivamente todos los algoritmos del estudio, sino ilustrar el comportamiento de LDA, la implementación lda de la paquetería MASS y KFDA bajo escenarios donde la relación entre número de observaciones y número de variables se vuelve desfavorable.
 
 Para ello, se construyeron cinco escenarios sintéticos con tres clases balanceadas. 
 
@@ -780,23 +736,54 @@ Esta evaluación permite observar visualmente cómo la expansión del espacio de
 
 Los resultados derivados de esta evaluación se presentan como un análisis complementario al experimento principal. Su propósito es apoyar la discusión metodológica sobre las limitaciones de los enfoques discriminantes cuando el espacio de características crece de manera considerable respecto al número de observaciones disponibles, especialmente después de aplicar expansiones polinomiales.
 
+\subsection{Métodos comparativos y métrica de evaluación}
 
+Para evaluar el desempeño de GNLPDA se consideraron seis métodos comparativos: LDA, QDA, KFDA con kernel gaussiano, SVM con kernel polinomial de grado 2, SVM con kernel polinomial de grado 3 y SVM con kernel gaussiano. La selección de estos competidores busca contrastar la propuesta frente a clasificadores lineales clásicos, clasificadores cuadráticos, métodos kernel discriminantes y clasificadores kernel ampliamente utilizados en problemas de clasificación supervisada.
 
-\subsection{Análisis estadístico de resultados}
+El primer método comparativo fue LDA, implementado mediante la función lda de la paquetería MASS de R. Este método se incluyó como línea base, ya que representa el enfoque clásico de separación y proyección lineal supervisada. Además, resulta especialmente relevante porque GNLPDA utiliza internamente esta implementación de LDA para evaluar las representaciones generadas durante su proceso de selección evolutiva. La implementación de MASS es pertinente en este contexto debido a su tratamiento computacional de la estimación discriminante, particularmente cuando aparecen problemas de colinealidad o alta dimensionalidad relativa.
 
-El análisis estadístico se realizó de manera independiente para cada conjunto de datos. Dado que todos los métodos fueron evaluados sobre las mismas 30 particiones de entrenamiento y prueba, el diseño experimental puede interpretarse como un diseño en bloques emparejados, donde cada partición constituye un bloque y cada algoritmo representa un tratamiento. Bajo este esquema, las comparaciones entre métodos se realizan considerando que todos enfrentan las mismas condiciones experimentales dentro de cada bloque.
+El segundo método fue QDA, considerado como una extensión clásica del análisis discriminante que relaja el supuesto de covarianzas iguales entre clases. A diferencia de LDA, QDA permite fronteras de decisión cuadráticas, por lo que se incorporó como un competidor tradicional capaz de modelar separaciones no estrictamente lineales en el espacio original.
 
-Para detectar diferencias globales entre los algoritmos se aplicó la prueba no paramétrica de Friedman. Esta prueba permite comparar múltiples métodos bajo un diseño de bloques, utilizando los rangos de desempeño obtenidos por los algoritmos dentro de cada partición.
+También se incluyó KFDA con kernel gaussiano. Este método constituye una alternativa kernel al análisis discriminante de Fisher, al permitir que la separación entre clases se realice en un espacio de características inducido implícitamente por el kernel. Su inclusión resulta relevante porque conserva una interpretación discriminante y proyectiva, pero incorpora la capacidad de modelar relaciones no lineales entre las observaciones.
 
-En este trabajo, para cada dataset se construyó una matriz de resultados con 30 filas, correspondientes a las particiones aleatorias, y una columna por cada método evaluado. A partir de esta matriz se aplicó la prueba de Friedman con el objetivo de determinar si existían diferencias estadísticamente significativas entre los desempeños de los algoritmos \cite{pereira2015overview}.
+Adicionalmente, se evaluaron tres variantes de SVM. La primera corresponde a SVM con kernel polinomial de grado 2, incluida como referencia frente a una transformación polinomial implícita de segundo grado. La segunda corresponde a SVM con kernel polinomial de grado 3, considerada para analizar el efecto de una transformación polinomial implícita de mayor orden. Finalmente, se incluyó SVM con kernel gaussiano, debido a su uso extendido en el estado del arte y a su capacidad para modelar fronteras de decisión no lineales flexibles.
 
-Cuando la prueba de Friedman indicó diferencias significativas, se aplicó la prueba post hoc de Nemenyi para identificar entre qué pares de métodos se presentaban diferencias estadísticamente significativas. Esta prueba permite comparar los rangos promedio de los algoritmos y determinar si la diferencia entre dos métodos supera la diferencia crítica establecida para el nivel de significancia considerado \cite{demvsar2006statistical}.
+\begin{table}[htbp]
+	\centering
+	\begin{tabular}{|c|c|p{7.5cm}|}
+		\hline
+		\encabezado{Método} &
+		\encabezado{Variante} &
+		\encabezado{Propósito en la comparación} \\
+		\hline
+		
+		LDA & \begin{tabular}{c}
+			LDA de la\\
+			paquetería\\
+			MASS
+		\end{tabular} & Línea base lineal y proyectiva; implementación usada internamente por GNLPDA. \\
+		\hline
+		QDA & Clásico & Clasificador discriminante con fronteras cuadráticas. \\
+		\hline
+		KFDA & Gauss & Alternativa kernel de Fisher para separación no lineal. \\
+		\hline
+		SVM & Pol (2) & Comparación frente a una transformación polinomial implícita de segundo grado. \\
+		\hline
+		SVM & Pol (3) & Comparación frente a una transformación polinomial implícita de mayor orden. \\
+		\hline
+		SVM & Gauss & Clasificador kernel no lineal ampliamente utilizado. \\
+		\hline
+	\end{tabular}
+	\caption{Resume los métodos comparativos considerados y su propósito dentro del diseño experimental.}
+	\label{tab:MM6}	
+\end{table}
 
-El análisis se realizó en dos niveles. En primer lugar, se consideró el conjunto completo de métodos comparativos, incluyendo LDA, QDA, KFDA, SVM con kernel polinomial de grado 2, SVM con kernel polinomial de grado 3, SVM con kernel gaussiano y GNLPDA.
+El rendimiento de los métodos se evaluó mediante exactitud (accuracy) sobre el conjunto de prueba. Para una partición dada, la exactitud se calculó como la proporción de observaciones correctamente clasificadas:
 
-Esta comparación permite situar la propuesta frente a clasificadores lineales, cuadráticos y no lineales.
+\begin{equation}
+	\text{Accuracy} = \frac{1}{n_{\text{test}}} \sum_{i=1}^{n_{\text{test}}} \mathbb{I}(\hat{y}_i = y_i)
+	\label{eq:EM22}
+\end{equation}
 
-En segundo lugar, se repitió el análisis excluyendo a LDA y QDA. Esta segunda comparación se centró únicamente en métodos no lineales o basados en transformaciones del espacio de características, es decir, KFDA, las variantes kernel de SVM y GNLPDA. El propósito de este análisis adicional fue evaluar el comportamiento relativo de la propuesta frente a competidores más cercanos en términos metodológicos, evitando que las diferencias frente a clasificadores lineales dominaran la interpretación de los resultados.
-
-En todos los casos, el análisis estadístico se basó en los resultados obtenidos sobre las 30 particiones aleatorias de cada dataset. De esta forma, la comparación entre métodos incorpora la variabilidad inducida por las particiones entrenamiento-prueba y no depende de una única división de los datos.
+Dado que cada método fue evaluado sobre las mismas 30 particiones por dataset, para cada combinación método-dataset se obtuvieron 30 valores de exactitud. Estos valores fueron utilizados posteriormente para el análisis estadístico mediante la prueba de Friedman y, cuando correspondió, la prueba post hoc de Nemenyi.
 

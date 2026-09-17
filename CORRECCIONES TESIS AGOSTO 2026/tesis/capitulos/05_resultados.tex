@@ -10,7 +10,7 @@
 \label{chap:Resultados}
 
 
-\section{Resultados gráficos del problema SSS}
+\section{Resultados del problema de muestras pequeñas (SSS)}
 
 \subsection{Caso 1}
 
@@ -188,14 +188,33 @@ de tener una elevada dispersión intra-clase. Por su parte, el mapeo de KFDA ind
 compresión máxima de la varianza intra-clase y maximizando la separación inter-clase. Sin
 embargo, esto puede deberse a un severo problema de sobre ajuste.
 
+%%%%%%%%%%   RECONSTRUIR POR CASOS %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Resultados de las proyecciones de los datasets.}
+\newpage
 
-A continuación, se muestran las proyecciones para LDA MASS, KFDA y GNLPDA para
-cada uno de los datasets.
+\section{Resultados por conjunto de datos}
 
-\subsection{Proyecciones Palmer Penguins}
+En esta sección se encuentran desarrollados los resultados correspondientes a la exploración de cada unos de los conjuntos de datos, sus proyecciones de baja dimensionalidad obtenidas mediante LDA, KFDA y GNLPDA ademas de los resultados comparativos de rendimientos en cuanto a clasificación. 
 
+\subsection{Palmer Penguins}
+
+El conjunto de datos pingüinos Palmer fue originalmente introducido por K. B. Gorman, T. D. Williams y W. R. Fraser en el 2014 \cite{gorman2014ecological}. El conjunto consiste en 342 observaciones distribuidas desigualmente entre tres especies de pingüinos: Adelie ($44.2\%$), Chinstrap($19.8\%$) y Gentoo ($36\%$). Cada observación consta de cuatro variables continuas numéricas:   largo del pico en milímetros, ancho del pico en milímetros, largo de la aleta en milímetros y la masa corporal en gramos.
+
+Desde la perspectiva del reconocimiento de patrones, el conjunto Palmer Penguins presenta propiedades que lo hacen particularmente útil para la evaluación experimental de métodos de clasificación y reducción de dimensionalidad. Los análisis exploratorios reportados en la literatura indican que las observaciones correspondientes a la especie Gentoo tienden a formar un grupo relativamente diferenciado, mientras que las especies Adelie y Chinstrap exhiben cierto grado de solapamiento en el espacio de características, dando lugar a clases con distintos niveles de separabilidad \cite{horst2022palmer}. Adicionalmente, la distribución desigual de observaciones entre especies introduce un escenario de desbalance de clases que permite examinar la sensibilidad y robustez de los métodos analizados frente a distribuciones no uniformes. En conjunto, estas características hacen de Palmer Penguins un caso de estudio pertinente para analizar la capacidad discriminativa de técnicas de proyección y clasificación, así como su comportamiento ante conjuntos de datos que combinan separabilidad parcial y desbalance entre clases.
+
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por especies en pares de variables:
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.5\textwidth]{1DES.png}
+	\caption{Gráficos de dispersión por pares de Palmer Penguins.}
+	\label{fig:D1}
+\end{figure}
+
+En el gráfico \ref{fig:D1} se observa el comportamiento por pares de variables para el conjunto de pinguinos Palmer. Se observa principalmente que lkos grupos se alcanzan a diferenciar bien entre la longitud del pico y el ancho del pico pero mantienen un grado de traslape principalmente observable entre dos especies al observar la dispersión que se forma entre el ancho del pico y la masa corporal.
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 \begin{figure}[htbp]
 	\centering
@@ -230,10 +249,80 @@ hallazgo más destacable reside en la proyección obtenida por el método propue
 del espacio de características expandido, preservando así la interpretabilidad y trazabilidad
 del modelo obtenido.
 
-\subsection{Proyecciones Wines}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_1.2.penguins_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
+		Penguins.}
+	\label{fig:R19}
+\end{figure}
+
+La Figura \ref{fig:R19} presenta la distribución del rendimiento a lo largo de las ejecuciones
+experimentales. Los resultados revelan un escenario de alta separabilidad donde la mayoría
+de los algoritmos incluyendo enfoques lineales (LDA, QDA) y máquinas de vectores de
+soporte (SVM) convergen en medianas superiores a 0.97 con rangos intercuartílicos
+estrechos. La excepción estadística es el modelo KFDA, el cual exhibe una caída significativa
+en su rendimiento central y una varianza pronunciada con múltiples valores atípicos
+inferiores a 0.95. Por su parte, el algoritmo GNLPDA demuestra un comportamiento 
+empírico robusto y competitivo; consolida una mediana equiparable a los mejores enfoques
+evaluados y alcanza la exactitud perfecta (1.0) en el límite superior de su distribución. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos Palmer penguins.}
+	\label{fig:R20}
+\end{figure}
+
+
+Con el objetivo de validar formalmente las diferencias observadas en el rendimiento
+predictivo, se aplicó la prueba de rangos de Friedman, la cual arrojó un estadístico $\chi^2 = 48.175,p<0.001$, proporcionando evidencia suficiente para rechazar la hipótesis de equivalencia entre los clasificadores. Posteriormente, el diagrama de Nemenyi permitió identificar grupos de clasificadores sin diferencias estadísticamente significativas (conectados por líneas horizontales). Se observa que el método propuesto (GNLPDA, rango 4.05) se sitúa en un clúster intermedio; si bien comparte grupo estadístico con modelos de SVM polinomiales y Gaussianos, no presenta diferencias significativas frente a los métodos lineales (LDA/QDA) de mejor rango global. No obstante, destaca la superioridad absoluta de GNLPDA sobre el método KFDA ($p<0.05$), consolidando su posición como una alternativa competitiva y estadísticamente robusta frente al estado del arte en este entorno de baja complejidad.
 
 
 \begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Palmer penguins.}
+	\label{fig:R21}
+\end{figure}
+
+Para profundizar en la evaluación del rendimiento frente a arquitecturas no lineales,
+se realizó una comparativa excluyendo los métodos deterministas lineales. La prueba de
+Friedman ratifica la existencia de diferencias estadísticamente significativas en este
+subconjunto ($\chi^2= 31.391, p< 0.001$). El diagrama de Nemenyi resultante evidencia que
+el método propuesto (GNLPDA, rango 2.77) se integra al clúster de máxima eficacia
+estadística, compartiendo línea de desempeño con SVM(POL2) y SVM(Gauss). Este
+resultado es particularmente valioso, pues confirma que GNLPDA logra equiparar la
+potencia de clasificación de las máquinas de vectores de soporte sin sacrificar la
+interpretabilidad de su espacio de características. En contraste, KFDA (rango 4.27) se aleja
+significativamente de este grupo.
+
+
+\subsection{Wines}
+
+El conjunto de datos Wine fue desarrollado a partir de análisis químicos realizados sobre vinos producidos en una misma región de Italia y derivados de tres cultivares diferentes, siendo posteriormente incorporado al repositorio UCI Machine Learning Repository por Stefan Aeberhard y colaboradores \cite{coomans1992comparison}. El conjunto está conformado por 178 observaciones distribuidas en tres clases correspondientes a los distintos tipos de vino: clase 1 ($33.1\%$), clase 2 ($39.9\%$) y clase 3 ($27.0\%$). Cada observación se describe mediante trece variables continuas relacionadas con propiedades fisicoquímicas de la muestra, entre ellas el contenido de alcohol, ácido málico, cenizas, magnesio, fenoles totales, flavonoides, intensidad de color y prolina.
+
+Desde la perspectiva del reconocimiento de patrones, el conjunto Wine constituye un referente clásico para la evaluación de métodos de clasificación y reducción de dimensionalidad. Los datos corresponden a un problema multiclase bien definido, en el que las trece variables químicas proporcionan información discriminativa suficiente para distinguir entre los tres cultivares de vino. De hecho, la documentación original del conjunto lo describe como un problema de clasificación con una estructura de clases bien comportada, lo que lo convierte en un escenario apropiado para la validación inicial de nuevos clasificadores, aunque con un nivel de complejidad moderado. Asimismo, la presencia de trece características continuas en un espacio de mayor dimensionalidad que otros conjuntos de referencia favorece el análisis de técnicas de proyección y extracción de características, permitiendo estudiar la capacidad de los métodos para preservar la estructura discriminativa de los datos en representaciones de menor dimensión. Adicionalmente, el conjunto presenta un ligero desbalance entre clases y no contiene valores perdidos, por lo que resulta útil para comparar el desempeño de distintos enfoques bajo condiciones controladas y ampliamente documentadas en la literatura.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{3DES.png}
+	\caption{Gráficos de dispersión por pares de Wines.}
+	\label{fig:D3}
+\end{figure}
+
+La figura \ref{fig:D3}  muestra el comportamiento de las clases de vinos mediante gráficos de dispersión por partes, salta a la vista que existen pares de variables donde la separabilidad entre clases es más evidente que en otras, por ejemplo, entre las variables V1 y V7 las clases se encuentran bien separadas con un grado mínimo de traslape. Mientras que al observar pares como V5 y V10, se observa como las observaciones por clase se encuentran traslapadas entre ellas. \\
+
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
+
+\begin{figure}[H]
 	\centering
 	
 	% Primera fila
@@ -268,11 +357,81 @@ recupera la exactitud perfecta mediante la selección exclusiva de 5 términos d
 polinomial. Este hallazgo demuestra la capacidad del algoritmo para superar la robustez
 predictiva de enfoques complejos, aislando interacciones de orden superior.
 
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_1.4.wines_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Wines.}
+	\label{fig:R22}
+\end{figure}
 
-\subsection{Proyecciones Cancer Wisconsin}
+
+La Figura \ref{fig:R22} sintetiza el desempeño de los clasificadores, se observa que los modelos
+SVM y los métodos lineales (LDA/QDA) alcanzan una estabilización superior, con rangos
+intercuartílicos compactos y una exactitud que supera el 0.99. Por su parte, el método
+propuesto (GNLPDA) exhibe una mayor dispersión en su rendimiento, con un rango
+intercuartílico desplazado por debajo de las arquitecturas SVM y los métodos clasicos y la
+presencia de una varianza predictiva más pronunciada. Pese a esta brecha, el modelo sostiene
+una capacidad discriminante superior a métodos como KFDA, validando su competitividad
+frente a las aproximaciones basadas en kernel, aun cuando la parsimonia en la selección de
+variables incrementa la exigencia sobre el proceso evolutivo.
 
 
 \begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.4.wines_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos Wines.}
+	\label{fig:R23}
+\end{figure}
+
+En este escenario de alta dimensionalidad, el test de Friedman reporta un estadístico
+$\chi^2=94.416 (p< 0.001)$, lo que confirma la existencia de diferencias significativas en el
+rendimiento de los algoritmos. El diagrama de Nemenyi resultante ilustra una clara
+estratificación: mientras que los métodos lineales (LDA/QDA) y las SVM de configuración
+polinomial y gaussiana ocupan los rangos superiores, el método GNLPDA se posiciona en
+un nivel de desempeño intermedio, diferenciándose estadísticamente de los clasificadores
+con menor rango. Si bien el modelo no alcanza la competitividad de los métodos de kernel
+altamente optimizados en este dataset específico, su rango global es superior al de KFDA y
+en líneas generales, se mantiene competitivo.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Wines.}
+	\label{fig:R24}
+\end{figure}
+
+Con el propósito de aislar la capacidad discriminante de los clasificadores no lineales,
+se realizó una comparativa excluyendo los métodos lineales. La prueba de Friedman ratifica
+la existencia de diferencias estadísticamente significativas ( $\chi^2 = 68.914, p<0.001)$.
+El diagrama de Nemenyi resultante revela una jerarquía clara: los modelos SVM (con kernels polinomiales y gaussianos) lideran el rendimiento estadístico, manteniéndose en el clúster de máxima eficacia. En este escenario, el método propuesto (GNLPDA, rango 3.82) se sitúa en una posición intermedia, mostrando una brecha significativa respecto a las SVM, aunque conservando una ventaja estadística determinante frente al modelo KFDA (rango 4.50). 
+
+
+
+\subsection{Cancer Wisconsin}
+
+El conjunto de datos Wisconsin Breast Cancer (Diagnostic) fue desarrollado por W. H. Wolberg, W. N. Street y O. L. Mangasarian como parte de investigaciones orientadas al diagnóstico asistido de cáncer de mama, y posteriormente fue descrito en la literatura por O. L. Mangasarian y colaboradores \cite{mangasarian1995breast}. El conjunto está conformado por 569 observaciones correspondientes a muestras de tejido mamario obtenidas mediante aspiración con aguja fina. Las observaciones se distribuyen en dos clases diagnósticas: tumores benignos ($62.7\%$) y tumores malignos ($37.3\%$). Cada muestra se representa mediante 30 variables continuas calculadas a partir de imágenes digitalizadas de los núcleos celulares presentes en el tejido, incluyendo medidas relacionadas con el radio, textura, perímetro, área, suavidad, compacidad, concavidad, simetría y dimensión fractal.
+
+Desde la perspectiva del reconocimiento de patrones, el conjunto Wisconsin Breast Cancer constituye un referente ampliamente utilizado para la evaluación de métodos de clasificación supervisada y reducción de dimensionalidad. Las características fueron diseñadas para capturar propiedades morfológicas relevantes de los núcleos celulares, proporcionando una representación numérica con alto contenido discriminativo entre las clases benigna y maligna. Asimismo, la dimensionalidad relativamente elevada del conjunto, dada por sus treinta variables continuas, favorece el estudio de técnicas de selección de características, extracción de variables y proyección a espacios de menor dimensión. Adicionalmente, la distribución no uniforme entre clases introduce un grado moderado de desbalance que permite analizar la sensibilidad de los métodos ante distribuciones de datos asimétricas. En conjunto, estas características hacen de Wisconsin Breast Cancer un caso de estudio apropiado para comparar la capacidad discriminativa de distintos métodos de clasificación y evaluar la calidad de las representaciones obtenidas mediante técnicas de reducción de dimensionalidad.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{7DES.png}
+	\caption{Gráficos de dispersión por pares de Cancer Wisconsin.}
+	\label{fig:D7}
+\end{figure}
+
+En la figura \ref{fig:D7} se observa el comportamiento de las clases por pares de variables. 
+Destaca el comportamiento de traslape que se puede observar en pares de variables como $smoothness2$ y $symetmetry2$ donde las observaciones están traslapadas. Así como tambien existen pares de variables que muestran una separación más clara de las clases como es el caso del gráfico de dispersión entre $perimeter2$ y $radius3$.
+
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
+
+\begin{figure}[H]
 	\centering
 	
 	% Primera fila
@@ -309,7 +468,73 @@ separación geométrica robusta se logra mediante la selección explícita de 16
 polinomiales, demostrando que GNLPDA evade las distorsiones geométricas. de los mapeos
 implícitos sin sacrificar capacidad predictiva.
 
-\subsection{Proyecciones Ionosphere}
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_4.1.CancerWisconsin_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Cancer
+		Wisconsin.}
+	\label{fig:R25}
+\end{figure}
+
+La Figura \ref{fig:R25} resume el desempeño de los clasificadores en un problema de
+diagnóstico binario. Se observa que el método propuesto (GNLPDA) exhibe un rendimiento
+sobresaliente, superando consistentemente en mediana a los enfoques lineales (LDA/QDA)
+y consolidándose por encima de la inestabilidad operativa mostrada por el modelo KFDA. Si
+bien SVM-POL2 alcanza una mediana ligeramente superior, GNLPDA mantiene un rango intercuartílico notablemente compacto y una dispersión acotada, lo que refleja una alta resiliencia y predictibilidad ante las variaciones en las muestras de entrenamiento.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png}
+	\caption{ Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos Cancer Wisconsin.}
+	\label{fig:R26}
+\end{figure}
+
+El test de Friedman reporta un estadístico $\chi^2 = 64.27 (p<0.001)$ que confirma diferencias estadísticamente significativas entre el desempeño de los clasificadores. El diagrama de Nemenyi evidencia una estructura de rangos donde los modelos SVM(POL2) y SVM(POL3) ocupan la posición de mayor eficacia estadística. El método propuesto
+(GNLPDA, rango 3.70) se ubica en un clúster intermedio, mostrando una competitividad
+estadística superior frente a los modelos LDA y KFDA, y manteniéndose a una distancia
+crítica de los modelos líderes. Este resultado valida la robustez de la aproximación
+estocástica, la cual logra un posicionamiento competitivo frente a la mayoría de los métodos
+evaluados sin incurrir en la fragilidad paramétrica de las aproximaciones de kernel
+tradicional.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Cancer Wisconsin.}
+	\label{fig:R27}
+\end{figure}
+
+Al evaluar exclusivamente el subconjunto de métodos no lineales, el test de Friedman
+($\chi^2= 44.898 ,p<0.001 $) ratifica la existencia de diferencias estadísticamente
+significativas. El diagrama de Nemenyi detalla la jerarquía de desempeño: las arquitecturas
+SVM(POL2) y SVM(POL3) mantienen el rango superior, mientras que el método propuesto
+(GNLPDA, rango 3.13) se posiciona en un nivel intermedio. La relevancia de este resultado
+reside en que, a pesar de la brecha estadística frente a los modelos polinomiales de mejor
+rango, GNLPDA demuestra un comportamiento estadísticamente indiferenciado respecto al
+grupo de alto rendimiento.
+
+
+\subsection{Ionosfera}
+
+El conjunto de datos \textit{Ionosphere} fue originalmente introducido por V. G. Sigillito y colaboradores en 1989 \cite{sigillito1989classification}. El conjunto consiste en 351 observaciones correspondientes a retornos de radar de alta frecuencia dirigidos a electrones libres en la ionosfera, distribuidas en dos clases: retornos estructurados o de interés (\textit{good}, $64.1\%$) y retornos no estructurados (\textit{bad}, $35.9\%$). Cada observación consta de 34 variables numéricas continuas que representan las partes real e imaginaria provenientes de una función de autocorrelación aplicada a patrones de multipulso de las señales electromagnéticas (comúnmente se descarta una variable constante con valor cero en la primera componente continua, resultando en 33 predictores efectivos).  Desde la perspectiva del reconocimiento de patrones, el conjunto Ionosphere presenta propiedades relevantes para la evaluación experimental de clasificadores y algoritmos de selección o reducción de dimensionalidad en espacios de moderada a alta dimensión. A diferencia de conjuntos con límites de decisión simples, sus características exhiben patrones complejos y no lineales con un nivel apreciable de solapamiento interclase en el espacio proyectado, lo que demanda métodos capaces de capturar interacciones de mayor orden para una separación efectiva. Adicionalmente, la desproporción entre las clases introduce un escenario de desbalance moderado que permite examinar la capacidad de generalización y la robustez de las técnicas analizadas ante representaciones asimétricas del espacio de características. En conjunto, estas propiedades convierten a \textit{Ionosphere} en un caso de estudio idóneo para evaluar el rendimiento de modelos de clasificación y la preservación de estructura discriminativa mediante técnicas de proyección continua.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{8DES.png}
+	\caption{Gráficos de dispersión por pares de Ionosphere.}
+	\label{fig:D8}
+\end{figure}
+
+El la figura \ref{fig:D8} se puede observar como para todos los pares de variables las observaciones se encuentran ampliamente dispersar y sin mostrar indicios de una separación lineal definida.
+
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
+
 
 \begin{figure}[htbp]
 	\centering
@@ -348,8 +573,57 @@ densidad fluidas y generalizables. Mediante la selección explícita de 21 térm
 polinomiales, GNLPDA demuestra su capacidad para lidiar con el solapamiento severo
 construyendo un margen de separación matemáticamente interpretable.
 
-\subsection{Proyecciones Cebolla 3D}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_4.2.Ionosphere_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
+		Ionosphere.}
+	\label{fig:R28}
+\end{figure}
 
+
+La Figura \ref{fig:R28} resume el desempeño de los clasificadores en un entorno caracterizado por una alta dimensionalidad de características. El método propuesto (GNLPDA) exhibe una estabilidad destacable, con un rango intercuartílico comparable al de los métodos basados en kernel. Es preciso señalar que, en este escenario, el modelo QDA resultó computacionalmente inviable, reportando una exactitud nula debido a la singularidad o falta de rango completo en la matriz de covarianza requerida para la discriminación cuadrática. Frente a esta limitación del modelo determinista, GNLPDA demuestra una robustez operativa superior ante escenarios complicados y de alta dimensionalidad.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos Ionosphere.}
+	\label{fig:R29}
+\end{figure}
+
+Tras la exclusión del modelo QDA por inviabilidad computacional, el análisis inferencial subraya una estructura de rendimiento heterogénea ($\chi^2=88.363 ,p<0.001$). El diagrama de Nemenyi muestra que, mientras los modelos SVM(Gauss), KFDA y SVM(POL2) se posicionan en el clúster de mayor eficacia estadística, el método propuesto (GNLPDA, rango 3.95) ocupa una posición intermedia. Es notable que, a pesar de la complejidad del dominio, el método logra una separación estadística clara frente a los modelos de menor rango, consolidándose como una alternativa funcional y robusta allí donde otros clasificadores estadísticos tradicionales enfrentan fallos de convergencia numérica. 
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Ionosphere.}
+	\label{fig:R30}
+\end{figure}
+
+Al restringir el análisis exclusivamente a los clasificadores no lineales, el test de
+Friedman corrobora la persistencia de diferencias estadísticamente 
+($\chi^2 = 88.363,p<0.001$). El diagrama de Nemenyi resultante revela una jerarquía donde las configuraciones de SVM (Gauss y POL2) y KFDA dominan la eficacia estadística. El método propuesto (GNLPDA) mantiene su posición intermedia, evidenciando que, aun prescindiendo de los métodos lineales, la brecha de rendimiento frente a las máquinas de soporte vectorial permanece estable.
+
+
+\subsection{Cebolla 3D}
+
+El conjunto de datos sintético Cebolla3D consiste en 300 observaciones generadas sintéticamente y distribuidas equitativamente en tres clases concéntricas en un espacio tridimensional ($p=3$). Cada clase corresponde a un cascarón esférico definido por un radio característico perturbado mediante un factor de ruido gaussiano. Desde la perspectiva del reconocimiento de patrones, constituye un caso de prueba geométrico controlado de baja dimensión pero estrictamente no lineal, diseñado para evaluar la capacidad de proyección y clasificación ante manifolds cerrados donde las fronteras de decisión lineales fracasan por completo.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{4DES.png}
+	\caption{Gráficos de dispersión por pares de Cebolla3D.}
+	\label{fig:D4}
+\end{figure}
+
+El la figura \ref{fig:D4} se observa esta formación característica de capas concéntricas con diferentes grados de dispersión que no son linealmente separables.
+
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 \begin{figure}[htbp]
 	\centering
@@ -389,7 +663,64 @@ la búsqueda estocástica identifica con precisión las transformaciones polinom
 para linealizar la estructura concéntrica, logrando proyectar fronteras de decisión óptimas
 dentro de un espacio de características explícito, parsimonioso y totalmente interpretable.
 
-\subsection{Proyecciones Cebolla 10D}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_3.1.Cebolla3D_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
+		cebolla 3D.}
+	\label{fig:R31}
+\end{figure}
+
+La Figura \ref{fig:R31} ilustra el desempeño de los clasificadores ante una geometría no lineal
+de tres dimensiones. Se observa un colapso operativo del clasificador lineal (LDA), cuya
+exactitud basada en la mediana se desploma por debajo de 0.40, validando la inoperancia de
+los enfoques lineales ante distribuciones de clases no linealmente separables. En contraste,
+el método propuesto (GNLPDA) exhibe una alta eficacia predictiva, alcanzando medianas superiores a 0.90 y manteniéndose competitivo frente a los modelos basados en kernel y máquinas de vectores de soporte. Es destacable que QDA logra obtener desempeños competitivos ante este escenario, sosteniendo un rango intercuartílico compacto y una mediana superior a 0.8.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos cebolla 3D.}
+	\label{fig:R32}
+\end{figure}
+
+La prueba de Friedman confirma la existencia de diferencias estadísticamente significativas en el rendimiento de los algoritmos ($\chi^2=142.551,p<0.001 $). El diagrama de Nemenyi revela una segmentación clara: las configuraciones de SVM (POL2, Gauss y POL3) integran el clúster de máxima eficacia estadística. El método propuesto (GNLPDA, rango 4.27) se posiciona en un nivel intermedio, mostrando un desempeño estadísticamente indiferenciado respecto al KFDA, siendo que en ultima instancia, se genera un grupo donde están LDA y QDA, siendo los de menor rendimiento en comparación.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Cebolla 3D.}
+	\label{fig:R33}
+\end{figure}
+
+
+Al evaluar exclusivamente el subconjunto de métodos no lineales, la prueba de
+Friedman ratifica la existencia de diferencias estadísticamente significativas
+($\chi^2 = 89.354 ,p<0.001$). El diagrama de Nemenyi detalla una clara jerarquía:
+las máquinas de vectores de soporte (SVM-POL2, SVM-Gauss y SVM-POL3) integran el
+clúster de máxima eficacia estadística. El método propuesto (GNLPDA, rango 4.08) se
+posiciona en un nivel intermedio, manteniendo una equivalencia estadística frente al KFDA
+(rango 4.23). 
+
+\subsection{Cebolla 10D}
+
+El conjunto de datos sintético Cebolla10D consta de 300 observaciones pertenecientes a tres clases concéntricas proyectadas en un espacio de 10 dimensiones ($p=10$). El conjunto conserva la estructura de hiper-esferas imbricadas con perturbación gaussiana radial. Desde la perspectiva del reconocimiento de patrones, este conjunto escala la dificultad geométrica al añadir dimensiones ruidosas u ortogonales al espacio de la variedad, permitiendo examinar la estabilidad y robustez de los algoritmos de selección de características y transformación no lineal a medida que aumenta la dimensionalidad del espacio original.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{5DES.png}
+	\caption{Gráficos de dispersión por pares de Cebolla10D.}
+	\label{fig:D5}
+\end{figure}
+
+El la figura \ref{fig:D5} se observa la dispersión presente por cada clase de forma que los traslapes hacen que no se observe una separación clara entre las clases.
+
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 
 \begin{figure}[htbp]
@@ -430,8 +761,70 @@ demuestra de forma contundente que el algoritmo es capaz de reconstruir analíti
 ecuación de una hiperesfera en espacios de alta dimensionalidad, logrando linealizar el
 problema mediante una base polinomial exacta y totalmente transparente.
 
-\subsection{Proyecciones Cebolla 20D}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_3.2.Cebolla10D_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Cancer
+		cebolla 10D.}
+	\label{fig:R34}
+\end{figure}
 
+
+La Figura \ref{fig:R34} muestra el desempeño de los clasificadores ante una geometría no
+lienalmente separable de diez dimensiones. El colapso del modelo lineal (LDA) es absoluto,
+con una exactitud mediana inferior a 0.45. Mientras que los modelos de kernel (KFDA y
+SVM-Gauss) alcanzan los niveles máximos de eficacia predictiva, el método propuesto
+(GNLPDA) mantiene un rendimiento sólido, con una mediana superior a 0.88. Cabe destacar
+que el modelo QDA se mantiene con una mediana superior al 0.8, donde si bien, no figura
+como los mejores, se mantiene competente.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos cebolla 10D.}
+	\label{fig:R35}
+\end{figure}
+
+La prueba de Friedman confirma la existencia de diferencias estadísticamente
+significativas en el rendimiento de los algoritmos ($\chi^2= 144.857 ,p<0.001$).
+El diagrama de Nemenyi revela una estratificación jerárquica: el clúster de mayor
+eficacia estadística está integrado por los modelos KFDA y SVM (Gauss). El método
+propuesto (GNLPDA, rango 4.33) se posiciona en un nivel intermedio, mostrando
+equivalencia estadística frente a los modelos SVM(POL2) y SVM(POL3). Finalmente, los
+modelos QDA y LDA ocupan los rangos inferiores, reafirmando la superioridad de los
+enfoques no lineales frente a estructuras de discriminación lineal o cuadrática simple en este
+entorno de alta dimensionalidad.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos cebolla 10D.}
+	\label{fig:R36}
+\end{figure}
+
+Al evaluar exclusivamente el subconjunto de métodos no lineales, el test de Friedman
+corrobora la existencia de diferencias estadísticamente significativas ($\chi^2 = = 89.354,p<0.001$). El diagrama de Nemenyi muestra una separación clara: el clúster de mayor eficacia estadística está compuesto por KFDA y SVM(Gauss). El
+método propuesto (GNLPDA, rango 3.93) se posiciona junto a las variantes polinomiales de SVM (POL2 y POL3) en un nivel de desempeño intermedio. 
+
+\subsection{Cebolla 20D}
+
+El conjunto de datos sintético Cebolla20D comprende 300 observaciones organizadas en tres clases concéntricas dentro de un espacio de 20 dimensiones ($p=20$). Al igual que las variantes anteriores, el proceso de generación emplea hiper-esferas con ruido estocástico integrado. Desde la perspectiva del reconocimiento de patrones, representa un escenario de prueba en moderada-alta dimensión donde la dispersión del espacio geométrico (maldición de la dimensionalidad) complica la identificación de manifolds concéntricos, resultando idóneo para evaluar la preservación de la estructura discriminativa y la capacidad de generalización de los clasificadores no lineales.
+
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{6DES.png}
+	\caption{Gráficos de dispersión por pares de Cebolla20D.}
+	\label{fig:D6}
+\end{figure}
+
+El la figura \ref{fig:D6} se observa un fuerte traslape entre las clases así como un alto grado de dispersión que no permite encontrar limites de separación claros entre una clase y otra.
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 \begin{figure}[htbp]
 	\centering
@@ -472,7 +865,55 @@ prioriza un equilibrio óptimo entre la parsimonia del modelo, la extracción de
 componentes no lineales subyacentes y una alta capacidad de separación, conservando la
 explicabilidad matemática frente al enfoque de caja negra del kernel.
 
-\subsection{Proyecciones Pima diabetes}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_3.2.Cebolla10D_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
+		cebolla 20D.}
+	\label{fig:R37}
+\end{figure}
+
+La Figura \ref{fig:R37} sintetiza el desempeño de los clasificadores ante una geometría no lineal de veinte dimensiones. En este entorno, se observa una degradación significativa del rendimiento general, donde incluso las arquitecturas de kernel más robustas experimentan una mayor dispersión. El modelo lineal (LDA) confirma su ineficacia estructural, situándose en rendimientos cercanos al azar. Por su parte, el método propuesto (GNLPDA) mantiene una mediana de rendimiento competitiva, aunque con una varianza creciente producto del aumento exponencial en el espacio de búsqueda. Los modelos SVM (Gauss) y KFDA se destacan del resto por mantener los desempeños más altos del gráfico, así como un rango intercuartílico pequeño en comparación con los demás competidores.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos cebolla 20D.}
+	\label{fig:R38}
+\end{figure}
+
+La prueba de Friedman ($\chi^2=2 = 167.214 ,p<0.001$) corrobora la existencia de diferencias estadísticamente significativas entre los clasificadores ante la complejidad extrema del espacio de 20 dimensiones. El diagrama de Nemenyi evidencia una jerarquía donde los modelos SVM(Gauss) y KFDA lideran la eficacia estadística. El método propuesto (GNLPDA, rango 4.13) se sitúa en un nivel intermedio, manteniendo una equivalencia estadística frente al modelo QDA y SVM(POL2).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos cebolla 20D.}
+	\label{fig:R39}
+\end{figure}
+
+Al evaluar exclusivamente el subconjunto de métodos no lineales, el test de Friedman corrobora la existencia de diferencias estadísticamente significativas ($\chi^2= 113.539, p<0.001$). El diagrama de Nemenyi muestra una separación clara donde los modelos SVM(Gauss) y KFDA lideran el desempeño. El método propuesto (GNLPDA, rango 3.77) se sitúa en un nivel de desempeño intermedio, manteniendo una equivalencia estadística frente a SVM(POL2). 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Pima diabetes}
+
+El conjunto de datos Pima Indians Diabetes fue originalmente introducido por J. W. Smith y colaboradores en 1988 \cite{smith1988using}. El conjunto consiste en 768 observaciones recopiladas del Instituto Nacional de Diabetes y Enfermedades Digestivas y del Riñón, limitadas a mujeres de al menos 21 años de edad pertenecientes a la herencia indígena Pima. La variable respuesta es binaria e indica la presencia ($34.9\%$) o ausencia ($65.1\%$) de diabetes mellitus tipo 2 según los criterios del examen de la OMS. Cada observación consta de ocho variables médicas continuas y discretas: número de embarazos, concentración de glucosa en plasma, presión arterial diastólica, grosor del pliegue cutáneo del tríceps, insulina sérica de dos horas, índice de masa corporal, función de pedigrí de diabetes y edad.Desde la perspectiva del reconocimiento de patrones, el conjunto Pima Diabetes representa un escenario de prueba fundamental en el dominio biomédico para la evaluación experimental de clasificadores y métodos de reducción de dimensionalidad o selección de características. Sus predictores presentan correlaciones complejas y grados variables de no linealidad, sumado a un solapamiento considerable entre las clases en el espacio multivariado de características que dificulta la delimitación de fronteras de decisión lineales simples. Asimismo, la distribución desproporcionada de observaciones genera un escenario de desbalance moderado de clases, mientras que la presencia implícita de valores numéricamente inviables (como presiones arteriales o índices de masa corporal iguales a cero) permite examinar la sensibilidad, estabilidad y robustez de los algoritmos ante datos ruidosos e incompletos en un contexto analítico realista.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{2DES.png}
+	\caption{Gráficos de dispersión por pares de Pima Diabetes}
+	\label{fig:D2}
+\end{figure}
+
+El la figura \ref{fig:D2} como las distribuciones por clase de las variables mantienen estructuras similares, mostrando un grado de traslape y dispersión que las hace difíciles de diferenciar entre una clase y otra.
+
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 
 \begin{figure}[htbp]
@@ -513,10 +954,66 @@ resiliencia geométrica se alcanza mediante la extracción de un subconjunto int
 y masa corporal), lo que demuestra que la búsqueda estocástica modela eficazmente la
 complejidad clínica sin recurrir a deformaciones extremas del espacio latente.
 
-\subsection{Proyecciones Indicadores 2015}
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_1.3.pimadiabetes_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Pima
+		diabetes.}
+	\label{fig:R40}
+\end{figure}
 
+La Figura \ref{fig:R40} resume el desempeño de los clasificadores en un problema de diagnóstico biomédico con alta tasa de ruido. El método propuesto (GNLPDA) exhibe un rendimiento sobresaliente, posicionándose con la mediana de exactitud más elevada del conjunto, superando incluso a los modelos de kernel (SVM y KFDA) y lineales (LDA/QDA) aunque se observa una dispersión moderada. Por lo demás, los métodos SVM y QDA parecen mantener rendimientos similares por la posición de su mediana y su rango intercuartílico.
 
 \begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos pima diabetes.}
+	\label{fig:R41}
+\end{figure}
+
+La prueba de Friedman ($\chi^2=48.175 ,p<0.001$ ) ratifica la existencia de diferencias estadísticamente significativas en el desempeño de los algoritmos. El diagrama de Nemenyi muestra la formación de clústeres basados en el rendimiento estadístico: el método propuesto (GNLPDA, rango 2.58) se integra en el primer grupo junto con LDA
+(rango 2.97), denotando que ambos clasificadores comparten el rango de mejor desempeño en este conjunto de datos. Por otro lado, los clasificadores SVM(POL3), SVM(Gauss), SVM(POL2) y KFDA se ubican en niveles de rango intermedios, mientras que el modelo QDA (rango 5.95) se posiciona en el extremo inferior de la jerarquía estadística. Las líneas horizontales negras y la línea verde conectan a los clasificadores que no presentan diferencias estadísticamente significativas entre sí de acuerdo con el umbral de Diferencia Crítica (CD) establecido.
+
+\begin{figure}[htbp]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Pima diabetes.}
+	\label{fig:R42}
+\end{figure}
+
+La prueba de Friedman ($\chi^2= 15.129 , p<0.001 $) corrobora la existencia de
+diferencias estadísticamente significativas entre los clasificadores. El diagrama de Nemenyi
+presenta la jerarquía de rangos observada: el método propuesto (GNLPDA, rango 2.12) se
+ubica en la posición de mejor desempeño estadístico, distanciándose del resto de los
+clasificadores. Los modelos SVM (POL3, rango 3.02), SVM (POL2, rango 3.12) y
+SVM(Gauss, rango 3.15) conforman un grupo intermedio sin diferencias estadísticamente
+significativas entre ellos. Finalmente, el clasificador KFDA (rango 3.60) se posiciona en el
+extremo inferior de la jerarquía presentada. Las conexiones por líneas horizontales indican
+los conjuntos de clasificadores que, bajo el umbral de Diferencia Crítica (CD), no muestran
+diferencias estadísticas significativas.
+
+
+\subsection{Indicadores 2015}
+
+El conjunto de datos Indicadores 2015 fue consolidado por J. A. Navarro-Acosta y colaboradores en el 2025, a partir de mediciones sociodemográficas reales del CONEVAL y la Encuesta Intercensal de INEGI \cite{navarro2025bayesian}. El conjunto consta de 2,446 observaciones municipales organizadas en cinco clases ordinales según el Grado de Rezago Social: muy bajo, bajo, medio, alto y muy alto. Cada observación integra 12 variables continuas que abarcan 11 indicadores de carencias socioeconómicas en educación, salud, vivienda y bienes del hogar, más el índice sintético.  Desde la perspectiva del reconocimiento de patrones, representa un caso de estudio real de mediana dimensión caracterizado por un severo desbalance de clases y distribuciones con asimetría pronunciada. Estas propiedades generan solapamiento en el espacio de características, lo que permite evaluar la capacidad de los clasificadores para delimitar fronteras de decisión no lineales complejas sin asumir normalidad en los predictores.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{9DES.png}
+	\caption{Gráficos de dispersión por pares de indicadores 2015}
+	\label{fig:D9}
+\end{figure}
+
+El la figura \ref{fig:D9} se observa un grado de traslape entre las clases de forma que mantienen una baja dispersión.  
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
+
+
+\begin{figure}[H]
 	\centering
 	
 	% Primera fila
@@ -540,7 +1037,7 @@ complejidad clínica sin recurrir a deformaciones extremas del espacio latente.
 	\label{fig:R15}
 \end{figure}
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	
 	% Primera fila
@@ -577,9 +1074,76 @@ propuesto (GNLPDA), el cual maximiza la exactitud general (0.941) mediante la se
 de 27 términos. La proyección tridimensional evidencia que la evolución estocástica no solo
 optimiza la separabilidad inter-clase, sino que refina matemáticamente esta curva, proyectando una transición geométrica fluida, parsimoniosa y perfectamente estructurada que respeta y acentúa la naturaleza ordinal del fenómeno subyacente.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{Boxplot_5.4.indicadores2015_Accuracy.png}
+	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Indicadores 2015.}
+	\label{fig:R43}
+\end{figure}
 
-\subsection{Proyecciones Indicadores 2020}
+La Figura \ref{fig:R43} detalla el comportamiento de los clasificadores en términos de exactitud
+(accuracy). Los modelos SVM(POL2), SVM(POL3) y SVM(Gauss) alcanzan las medianas
+más elevadas, posicionándose consistentemente por encima de 0.98. El método propuesto
+(GNLPDA) exhibe una mediana superior a 0.92, mostrando una distribución concentrada con
+valores de exactitud competitivos. Seguidamente, los clasificadores LDA y QDA presentan
+medianas situadas en el rango de 0.87 a 0.89. Finalmente, el clasificador KFDA muestra el
+menor desempeño, con una mediana de exactitud próxima a 0.65 y una mayor dispersión en
+los datos en comparación con el resto de los algoritmos evaluados.
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_5.4.indicadores2015_long_graficos_todos.png}
+	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
+		Nemenyi para el conjunto de datos Indicadores 2015.}
+	\label{fig:R44}
+\end{figure}
+
+La prueba de Friedman ($\chi^2= 169.526 ,p<0.001 $) ratifica la existencia de
+diferencias estadísticamente significativas en el desempeño de los algoritmos. El diagrama
+de Nemenyi evidencia una jerarquía donde los modelos SVM(POL2), SVM(Gauss) y
+SVM(POL3) conforman el grupo de mayor eficacia estadística. El método propuesto
+(GNLPDA, rango 4.00) ocupa una posición intermedia en la jerarquía, presentando una
+diferencia estadística significativa respecto al clúster líder, pero superando a los modelos
+LDA, QDA y KFDA. Las conexiones mediante líneas horizontales agrupan a los
+clasificadores que no presentan diferencias estadísticas significativas entre sí, de acuerdo con
+la diferencia crítica (CD) calculada.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png}
+	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
+		mediante distancias críticas de Nemenyi para el conjunto de datos Indicadores 2015.}
+	\label{fig:R45}
+\end{figure}
+
+Al restringir el análisis exclusivamente a los clasificadores no lineales, la prueba de
+Friedman corrobora la existencia de diferencias estadísticamente significativas en el
+desempeño de los algoritmos ($\chi^2 =103.159 , p< 0.001 $ ). El diagrama de Nemenyi detalla
+una jerarquía donde los modelos SVM(POL2), SVM(Gauss) y SVM(POL3) conforman el
+clúster de mayor eficacia estadística, sin diferencias significativas entre ellos. El método
+propuesto (GNLPDA, rango 4.00) se posiciona en un nivel intermedio, presentando una
+diferencia estadística significativa respecto al grupo líder, pero superando al clasificador
+KFDA (rango 5.00), el cual se ubica en el extremo inferior de la jerarquía. Las conexiones
+mediante líneas horizontales identifican a los grupos de clasificadores que, según el umbral
+de Diferencia Crítica (CD), no muestran diferencias estadísticas significativas.
+
+
+\subsection{Indicadores 2020}
+
+El conjunto de datos Indicadores 2020 proviene de la misma investigación desarrollada por J. A. Navarro-Acosta y colaboradores en el 2025, incorporando mediciones reales procedentes del Censo de Población y Vivienda 2020 del INEGI \cite{navarro2025bayesian}. Este conjunto comprende 2,470 observaciones correspondientes a la totalidad de los municipios medidos en dicho periodo. Conserva la misma estructura de 12 variables continuas (11 predictores socioeconómicos y el índice sintético) distribuidas en las mismas cinco categorías del Grado de Rezago Social.  Desde la perspectiva del reconocimiento de patrones, al tratarse de un conjunto de datos real y reciente, ofrece un escenario idóneo para examinar la estabilidad y capacidad de generalización de los algoritmos ante la evolución temporal de las clases. Al compartir el mismo espacio de características que su versión de 2015 pero reflejar la transición demográfica reciente, permite evaluar la sensibilidad de las técnicas de reducción de dimensionalidad y clasificación frente a distribuciones no uniformes y esquemas de desbalance entre clases en contextos socioeconómicos actuales.
+
+A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.5\textwidth]{10DES.png}
+	\caption{Gráficos de dispersión por pares de indicadores 2020}
+	\label{fig:D10}
+\end{figure}
+
+El la figura \ref{fig:D10} se observa baja dispersión entre las variables y un considerable grado de traslape.
+
+A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 \begin{figure}[htbp]
 	\centering
@@ -642,421 +1206,6 @@ superioridad algorítmica al maximizar el rendimiento general (0.959) a través 
 extracción de 39 términos polinomiales. Las proyecciones, especialmente en su vista tridimensional, demuestran que la búsqueda estocástica no solo preserva, sino que acentúa y clarifica la trayectoria continua entre los cinco niveles categóricos. Esta reproducibilidad geométrica a través de diferentes periodos censales consolida la robustez del GNLPDA para generar espacios de características explícitos y parsimoniosos que respetan la naturaleza
 ordinal del problema.
 
-\section{Comparativas de rendimiento entre modelos}
-
-\subsection{Caso Palmer Penguins}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.5\textwidth]{Boxplot_1.2.penguins_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
-		Penguins.}
-	\label{fig:R19}
-\end{figure}
-
-La Figura \ref{fig:R19} presenta la distribución del rendimiento a lo largo de las ejecuciones
-experimentales. Los resultados revelan un escenario de alta separabilidad donde la mayoría
-de los algoritmos incluyendo enfoques lineales (LDA, QDA) y máquinas de vectores de
-soporte (SVM) convergen en medianas superiores a 0.97 con rangos intercuartílicos
-estrechos. La excepción estadística es el modelo KFDA, el cual exhibe una caída significativa
-en su rendimiento central y una varianza pronunciada con múltiples valores atípicos
-inferiores a 0.95. Por su parte, el algoritmo GNLPDA demuestra un comportamiento 
-empírico robusto y competitivo; consolida una mediana equiparable a los mejores enfoques
-evaluados y alcanza la exactitud perfecta (1.0) en el límite superior de su distribución. 
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos Palmer penguins.}
-	\label{fig:R20}
-\end{figure}
-
-
-Con el objetivo de validar formalmente las diferencias observadas en el rendimiento
-predictivo, se aplicó la prueba de rangos de Friedman, la cual arrojó un estadístico $\chi^2 = 48.175,p<0.001$, proporcionando evidencia suficiente para rechazar la hipótesis de equivalencia entre los clasificadores. Posteriormente, el diagrama de Nemenyi permitió identificar grupos de clasificadores sin diferencias estadísticamente significativas (conectados por líneas horizontales). Se observa que el método propuesto (GNLPDA, rango 4.05) se sitúa en un clúster intermedio; si bien comparte grupo estadístico con modelos de SVM polinomiales y Gaussianos, no presenta diferencias significativas frente a los métodos lineales (LDA/QDA) de mejor rango global. No obstante, destaca la superioridad absoluta de GNLPDA sobre el método KFDA ($p<0.05$), consolidando su posición como una alternativa competitiva y estadísticamente robusta frente al estado del arte en este entorno de baja complejidad.
-
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Palmer penguins.}
-	\label{fig:R21}
-\end{figure}
-
-Para profundizar en la evaluación del rendimiento frente a arquitecturas no lineales,
-se realizó una comparativa excluyendo los métodos deterministas lineales. La prueba de
-Friedman ratifica la existencia de diferencias estadísticamente significativas en este
-subconjunto ($\chi^2= 31.391, p< 0.001$). El diagrama de Nemenyi resultante evidencia que
-el método propuesto (GNLPDA, rango 2.77) se integra al clúster de máxima eficacia
-estadística, compartiendo línea de desempeño con SVM(POL2) y SVM(Gauss). Este
-resultado es particularmente valioso, pues confirma que GNLPDA logra equiparar la
-potencia de clasificación de las máquinas de vectores de soporte sin sacrificar la
-interpretabilidad de su espacio de características. En contraste, KFDA (rango 4.27) se aleja
-significativamente de este grupo.
-
-
-\subsection{Caso wines}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.5\textwidth]{Boxplot_1.4.wines_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Wines.}
-	\label{fig:R22}
-\end{figure}
-
-
-La Figura \ref{fig:R22} sintetiza el desempeño de los clasificadores, se observa que los modelos
-SVM y los métodos lineales (LDA/QDA) alcanzan una estabilización superior, con rangos
-intercuartílicos compactos y una exactitud que supera el 0.99. Por su parte, el método
-propuesto (GNLPDA) exhibe una mayor dispersión en su rendimiento, con un rango
-intercuartílico desplazado por debajo de las arquitecturas SVM y los métodos clasicos y la
-presencia de una varianza predictiva más pronunciada. Pese a esta brecha, el modelo sostiene
-una capacidad discriminante superior a métodos como KFDA, validando su competitividad
-frente a las aproximaciones basadas en kernel, aun cuando la parsimonia en la selección de
-variables incrementa la exigencia sobre el proceso evolutivo.
-
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.4.wines_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos Wines.}
-	\label{fig:R23}
-\end{figure}
-
-En este escenario de alta dimensionalidad, el test de Friedman reporta un estadístico
-$\chi^2=94.416 (p< 0.001)$, lo que confirma la existencia de diferencias significativas en el
-rendimiento de los algoritmos. El diagrama de Nemenyi resultante ilustra una clara
-estratificación: mientras que los métodos lineales (LDA/QDA) y las SVM de configuración
-polinomial y gaussiana ocupan los rangos superiores, el método GNLPDA se posiciona en
-un nivel de desempeño intermedio, diferenciándose estadísticamente de los clasificadores
-con menor rango. Si bien el modelo no alcanza la competitividad de los métodos de kernel
-altamente optimizados en este dataset específico, su rango global es superior al de KFDA y
-en líneas generales, se mantiene competitivo.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Wines.}
-	\label{fig:R24}
-\end{figure}
-
-Con el propósito de aislar la capacidad discriminante de los clasificadores no lineales,
-se realizó una comparativa excluyendo los métodos lineales. La prueba de Friedman ratifica
-la existencia de diferencias estadísticamente significativas ( $\chi^2 = 68.914, p<0.001)$.
-El diagrama de Nemenyi resultante revela una jerarquía clara: los modelos SVM (con kernels polinomiales y gaussianos) lideran el rendimiento estadístico, manteniéndose en el clúster de máxima eficacia. En este escenario, el método propuesto (GNLPDA, rango 3.82) se sitúa en una posición intermedia, mostrando una brecha significativa respecto a las SVM, aunque conservando una ventaja estadística determinante frente al modelo KFDA (rango 4.50). 
-
-\subsection{Caso Cancer Wisconsin}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_4.1.CancerWisconsin_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Cancer
-		Wisconsin.}
-	\label{fig:R25}
-\end{figure}
-
-La Figura \ref{fig:R25} resume el desempeño de los clasificadores en un problema de
-diagnóstico binario. Se observa que el método propuesto (GNLPDA) exhibe un rendimiento
-sobresaliente, superando consistentemente en mediana a los enfoques lineales (LDA/QDA)
-y consolidándose por encima de la inestabilidad operativa mostrada por el modelo KFDA. Si
-bien SVM-POL2 alcanza una mediana ligeramente superior, GNLPDA mantiene un rango intercuartílico notablemente compacto y una dispersión acotada, lo que refleja una alta resiliencia y predictibilidad ante las variaciones en las muestras de entrenamiento.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png}
-	\caption{ Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos Cancer Wisconsin.}
-	\label{fig:R26}
-\end{figure}
-
-El test de Friedman reporta un estadístico $\chi^2 = 64.27 (p<0.001)$ que confirma diferencias estadísticamente significativas entre el desempeño de los clasificadores. El diagrama de Nemenyi evidencia una estructura de rangos donde los modelos SVM(POL2) y SVM(POL3) ocupan la posición de mayor eficacia estadística. El método propuesto
-(GNLPDA, rango 3.70) se ubica en un clúster intermedio, mostrando una competitividad
-estadística superior frente a los modelos LDA y KFDA, y manteniéndose a una distancia
-crítica de los modelos líderes. Este resultado valida la robustez de la aproximación
-estocástica, la cual logra un posicionamiento competitivo frente a la mayoría de los métodos
-evaluados sin incurrir en la fragilidad paramétrica de las aproximaciones de kernel
-tradicional.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Cancer Wisconsin.}
-	\label{fig:R27}
-\end{figure}
-
-Al evaluar exclusivamente el subconjunto de métodos no lineales, el test de Friedman
-($\chi^2= 44.898 ,p<0.001 $) ratifica la existencia de diferencias estadísticamente
-significativas. El diagrama de Nemenyi detalla la jerarquía de desempeño: las arquitecturas
-SVM(POL2) y SVM(POL3) mantienen el rango superior, mientras que el método propuesto
-(GNLPDA, rango 3.13) se posiciona en un nivel intermedio. La relevancia de este resultado
-reside en que, a pesar de la brecha estadística frente a los modelos polinomiales de mejor
-rango, GNLPDA demuestra un comportamiento estadísticamente indiferenciado respecto al
-grupo de alto rendimiento.
-
-\subsection{Caso Ionosphere}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_4.2.Ionosphere_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
-		Ionosphere.}
-	\label{fig:R28}
-\end{figure}
-
-
-La Figura \ref{fig:R28} resume el desempeño de los clasificadores en un entorno caracterizado por una alta dimensionalidad de características. El método propuesto (GNLPDA) exhibe una estabilidad destacable, con un rango intercuartílico comparable al de los métodos basados en kernel. Es preciso señalar que, en este escenario, el modelo QDA resultó computacionalmente inviable, reportando una exactitud nula debido a la singularidad o falta de rango completo en la matriz de covarianza requerida para la discriminación cuadrática. Frente a esta limitación del modelo determinista, GNLPDA demuestra una robustez operativa superior ante escenarios complicados y de alta dimensionalidad.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos Ionosphere.}
-	\label{fig:R29}
-\end{figure}
-
-Tras la exclusión del modelo QDA por inviabilidad computacional, el análisis inferencial subraya una estructura de rendimiento heterogénea ($\chi^2=88.363 ,p<0.001$). El diagrama de Nemenyi muestra que, mientras los modelos SVM(Gauss), KFDA y SVM(POL2) se posicionan en el clúster de mayor eficacia estadística, el método propuesto (GNLPDA, rango 3.95) ocupa una posición intermedia. Es notable que, a pesar de la complejidad del dominio, el método logra una separación estadística clara frente a los modelos de menor rango, consolidándose como una alternativa funcional y robusta allí donde otros clasificadores estadísticos tradicionales enfrentan fallos de convergencia numérica. 
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Ionosphere.}
-	\label{fig:R30}
-\end{figure}
-
-Al restringir el análisis exclusivamente a los clasificadores no lineales, el test de
-Friedman corrobora la persistencia de diferencias estadísticamente 
-($\chi^2 = 88.363,p<0.001$). El diagrama de Nemenyi resultante revela una jerarquía donde las configuraciones de SVM (Gauss y POL2) y KFDA dominan la eficacia estadística. El método propuesto (GNLPDA) mantiene su posición intermedia, evidenciando que, aun prescindiendo de los métodos lineales, la brecha de rendimiento frente a las máquinas de soporte vectorial permanece estable.
-
-\subsection{Caso Cebolla 3D}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_3.1.Cebolla3D_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
-		cebolla 3D.}
-	\label{fig:R31}
-\end{figure}
-
-La Figura \ref{fig:R31} ilustra el desempeño de los clasificadores ante una geometría no lineal
-de tres dimensiones. Se observa un colapso operativo del clasificador lineal (LDA), cuya
-exactitud basada en la mediana se desploma por debajo de 0.40, validando la inoperancia de
-los enfoques lineales ante distribuciones de clases no linealmente separables. En contraste,
-el método propuesto (GNLPDA) exhibe una alta eficacia predictiva, alcanzando medianas superiores a 0.90 y manteniéndose competitivo frente a los modelos basados en kernel y máquinas de vectores de soporte. Es destacable que QDA logra obtener desempeños competitivos ante este escenario, sosteniendo un rango intercuartílico compacto y una mediana superior a 0.8.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos cebolla 3D.}
-	\label{fig:R32}
-\end{figure}
-
-La prueba de Friedman confirma la existencia de diferencias estadísticamente significativas en el rendimiento de los algoritmos ($\chi^2=142.551,p<0.001 $). El diagrama de Nemenyi revela una segmentación clara: las configuraciones de SVM (POL2, Gauss y POL3) integran el clúster de máxima eficacia estadística. El método propuesto (GNLPDA, rango 4.27) se posiciona en un nivel intermedio, mostrando un desempeño estadísticamente indiferenciado respecto al KFDA, siendo que en ultima instancia, se genera un grupo donde están LDA y QDA, siendo los de menor rendimiento en comparación.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Cebolla 3D.}
-	\label{fig:R33}
-\end{figure}
-
-
-Al evaluar exclusivamente el subconjunto de métodos no lineales, la prueba de
-Friedman ratifica la existencia de diferencias estadísticamente significativas
-($\chi^2 = 89.354 ,p<0.001$). El diagrama de Nemenyi detalla una clara jerarquía:
-las máquinas de vectores de soporte (SVM-POL2, SVM-Gauss y SVM-POL3) integran el
-clúster de máxima eficacia estadística. El método propuesto (GNLPDA, rango 4.08) se
-posiciona en un nivel intermedio, manteniendo una equivalencia estadística frente al KFDA
-(rango 4.23). 
-
-\subsection{Caso Cebolla 10D}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_3.2.Cebolla10D_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Cancer
-		cebolla 10D.}
-	\label{fig:R34}
-\end{figure}
-
-
-La Figura \ref{fig:R34} muestra el desempeño de los clasificadores ante una geometría no
-lienalmente separable de diez dimensiones. El colapso del modelo lineal (LDA) es absoluto,
-con una exactitud mediana inferior a 0.45. Mientras que los modelos de kernel (KFDA y
-SVM-Gauss) alcanzan los niveles máximos de eficacia predictiva, el método propuesto
-(GNLPDA) mantiene un rendimiento sólido, con una mediana superior a 0.88. Cabe destacar
-que el modelo QDA se mantiene con una mediana superior al 0.8, donde si bien, no figura
-como los mejores, se mantiene competente.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos cebolla 10D.}
-	\label{fig:R35}
-\end{figure}
-
-La prueba de Friedman confirma la existencia de diferencias estadísticamente
-significativas en el rendimiento de los algoritmos ($\chi^2= 144.857 ,p<0.001$).
-El diagrama de Nemenyi revela una estratificación jerárquica: el clúster de mayor
-eficacia estadística está integrado por los modelos KFDA y SVM (Gauss). El método
-propuesto (GNLPDA, rango 4.33) se posiciona en un nivel intermedio, mostrando
-equivalencia estadística frente a los modelos SVM(POL2) y SVM(POL3). Finalmente, los
-modelos QDA y LDA ocupan los rangos inferiores, reafirmando la superioridad de los
-enfoques no lineales frente a estructuras de discriminación lineal o cuadrática simple en este
-entorno de alta dimensionalidad.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos cebolla 10D.}
-	\label{fig:R36}
-\end{figure}
-
-Al evaluar exclusivamente el subconjunto de métodos no lineales, el test de Friedman
-corrobora la existencia de diferencias estadísticamente significativas ($\chi^2 = = 89.354,p<0.001$). El diagrama de Nemenyi muestra una separación clara: el clúster de mayor eficacia estadística está compuesto por KFDA y SVM(Gauss). El
-método propuesto (GNLPDA, rango 3.93) se posiciona junto a las variantes polinomiales de SVM (POL2 y POL3) en un nivel de desempeño intermedio. 
-
-\subsection{Caso Cebolla 20D}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_3.2.Cebolla10D_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos
-		cebolla 20D.}
-	\label{fig:R37}
-\end{figure}
-
-La Figura \ref{fig:R37} sintetiza el desempeño de los clasificadores ante una geometría no lineal de veinte dimensiones. En este entorno, se observa una degradación significativa del rendimiento general, donde incluso las arquitecturas de kernel más robustas experimentan una mayor dispersión. El modelo lineal (LDA) confirma su ineficacia estructural, situándose en rendimientos cercanos al azar. Por su parte, el método propuesto (GNLPDA) mantiene una mediana de rendimiento competitiva, aunque con una varianza creciente producto del aumento exponencial en el espacio de búsqueda. Los modelos SVM (Gauss) y KFDA se destacan del resto por mantener los desempeños más altos del gráfico, así como un rango intercuartílico pequeño en comparación con los demás competidores.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos cebolla 20D.}
-	\label{fig:R38}
-\end{figure}
-
-La prueba de Friedman ($\chi^2=2 = 167.214 ,p<0.001$) corrobora la existencia de diferencias estadísticamente significativas entre los clasificadores ante la complejidad extrema del espacio de 20 dimensiones. El diagrama de Nemenyi evidencia una jerarquía donde los modelos SVM(Gauss) y KFDA lideran la eficacia estadística. El método propuesto (GNLPDA, rango 4.13) se sitúa en un nivel intermedio, manteniendo una equivalencia estadística frente al modelo QDA y SVM(POL2).
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos cebolla 20D.}
-	\label{fig:R39}
-\end{figure}
-
-Al evaluar exclusivamente el subconjunto de métodos no lineales, el test de Friedman corrobora la existencia de diferencias estadísticamente significativas ($\chi^2= 113.539, p<0.001$). El diagrama de Nemenyi muestra una separación clara donde los modelos SVM(Gauss) y KFDA lideran el desempeño. El método propuesto (GNLPDA, rango 3.77) se sitúa en un nivel de desempeño intermedio, manteniendo una equivalencia estadística frente a SVM(POL2). 
-
-\subsection{Caso Pima diabetes}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_1.3.pimadiabetes_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Pima
-		diabetes.}
-	\label{fig:R40}
-\end{figure}
-
-La Figura \ref{fig:R40} resume el desempeño de los clasificadores en un problema de diagnóstico biomédico con alta tasa de ruido. El método propuesto (GNLPDA) exhibe un rendimiento sobresaliente, posicionándose con la mediana de exactitud más elevada del conjunto, superando incluso a los modelos de kernel (SVM y KFDA) y lineales (LDA/QDA) aunque se observa una dispersión moderada. Por lo demás, los métodos SVM y QDA parecen mantener rendimientos similares por la posición de su mediana y su rango intercuartílico.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos pima diabetes.}
-	\label{fig:R41}
-\end{figure}
-
-La prueba de Friedman ($\chi^2=48.175 ,p<0.001$ ) ratifica la existencia de diferencias estadísticamente significativas en el desempeño de los algoritmos. El diagrama de Nemenyi muestra la formación de clústeres basados en el rendimiento estadístico: el método propuesto (GNLPDA, rango 2.58) se integra en el primer grupo junto con LDA
-(rango 2.97), denotando que ambos clasificadores comparten el rango de mejor desempeño en este conjunto de datos. Por otro lado, los clasificadores SVM(POL3), SVM(Gauss), SVM(POL2) y KFDA se ubican en niveles de rango intermedios, mientras que el modelo QDA (rango 5.95) se posiciona en el extremo inferior de la jerarquía estadística. Las líneas horizontales negras y la línea verde conectan a los clasificadores que no presentan diferencias estadísticamente significativas entre sí de acuerdo con el umbral de Diferencia Crítica (CD) establecido.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Pima diabetes.}
-	\label{fig:R42}
-\end{figure}
-
-La prueba de Friedman ($\chi^2= 15.129 , p<0.001 $) corrobora la existencia de
-diferencias estadísticamente significativas entre los clasificadores. El diagrama de Nemenyi
-presenta la jerarquía de rangos observada: el método propuesto (GNLPDA, rango 2.12) se
-ubica en la posición de mejor desempeño estadístico, distanciándose del resto de los
-clasificadores. Los modelos SVM (POL3, rango 3.02), SVM (POL2, rango 3.12) y
-SVM(Gauss, rango 3.15) conforman un grupo intermedio sin diferencias estadísticamente
-significativas entre ellos. Finalmente, el clasificador KFDA (rango 3.60) se posiciona en el
-extremo inferior de la jerarquía presentada. Las conexiones por líneas horizontales indican
-los conjuntos de clasificadores que, bajo el umbral de Diferencia Crítica (CD), no muestran
-diferencias estadísticas significativas.
-
-\subsection{Caso Indicadores 2015}
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{Boxplot_5.4.indicadores2015_Accuracy.png}
-	\caption{Distribución empírica del rendimiento predictivo para el conjunto de datos Indicadores 2015.}
-	\label{fig:R43}
-\end{figure}
-
-La Figura \ref{fig:R43} detalla el comportamiento de los clasificadores en términos de exactitud
-(accuracy). Los modelos SVM(POL2), SVM(POL3) y SVM(Gauss) alcanzan las medianas
-más elevadas, posicionándose consistentemente por encima de 0.98. El método propuesto
-(GNLPDA) exhibe una mediana superior a 0.92, mostrando una distribución concentrada con
-valores de exactitud competitivos. Seguidamente, los clasificadores LDA y QDA presentan
-medianas situadas en el rango de 0.87 a 0.89. Finalmente, el clasificador KFDA muestra el
-menor desempeño, con una mediana de exactitud próxima a 0.65 y una mayor dispersión en
-los datos en comparación con el resto de los algoritmos evaluados.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_5.4.indicadores2015_long_graficos_todos.png}
-	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
-		Nemenyi para el conjunto de datos Indicadores 2015.}
-	\label{fig:R44}
-\end{figure}
-
-La prueba de Friedman ($\chi^2= 169.526 ,p<0.001 $) ratifica la existencia de
-diferencias estadísticamente significativas en el desempeño de los algoritmos. El diagrama
-de Nemenyi evidencia una jerarquía donde los modelos SVM(POL2), SVM(Gauss) y
-SVM(POL3) conforman el grupo de mayor eficacia estadística. El método propuesto
-(GNLPDA, rango 4.00) ocupa una posición intermedia en la jerarquía, presentando una
-diferencia estadística significativa respecto al clúster líder, pero superando a los modelos
-LDA, QDA y KFDA. Las conexiones mediante líneas horizontales agrupan a los
-clasificadores que no presentan diferencias estadísticas significativas entre sí, de acuerdo con
-la diferencia crítica (CD) calculada.
-
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png}
-	\caption{Análisis de significancia estadística post-hoc y corrección por enmascaramiento
-		mediante distancias críticas de Nemenyi para el conjunto de datos Indicadores 2015.}
-	\label{fig:R45}
-\end{figure}
-
-Al restringir el análisis exclusivamente a los clasificadores no lineales, la prueba de
-Friedman corrobora la existencia de diferencias estadísticamente significativas en el
-desempeño de los algoritmos ($\chi^2 =103.159 , p< 0.001 $ ). El diagrama de Nemenyi detalla
-una jerarquía donde los modelos SVM(POL2), SVM(Gauss) y SVM(POL3) conforman el
-clúster de mayor eficacia estadística, sin diferencias significativas entre ellos. El método
-propuesto (GNLPDA, rango 4.00) se posiciona en un nivel intermedio, presentando una
-diferencia estadística significativa respecto al grupo líder, pero superando al clasificador
-KFDA (rango 5.00), el cual se ubica en el extremo inferior de la jerarquía. Las conexiones
-mediante líneas horizontales identifican a los grupos de clasificadores que, según el umbral
-de Diferencia Crítica (CD), no muestran diferencias estadísticas significativas.
-
-
-\subsection{Caso Indicadores 2020}
-
 \begin{figure}[htbp]
 	\centering
 	\includegraphics[width=0.8\textwidth]{Boxplot_5.5.indicadores2020_Accuracy.png}
@@ -1074,7 +1223,7 @@ dispersión moderadamente compactos. Finalmente, el clasificador KFDA muestra el
 desempeño más bajo, con una mediana de exactitud próxima a 0.68 y una mayor dispersión
 en los datos en comparación con el resto de los algoritmos evaluados.
 
-\begin{figure}[htbp]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.8\textwidth]{CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png}
 	\caption{Análisis de significancia estadística post-hoc mediante distancias críticas de
@@ -1111,6 +1260,4 @@ presentando una diferencia estadística significativa respecto al grupo líder, 
 al clasificador KFDA (rango 5.00), el cual se ubica en el extremo inferior de la jerarquía. Las
 líneas horizontales conectan a los grupos de clasificadores que, según el umbral de Diferencia
 Crítica (CD), no muestran diferencias estadísticas significativas.
-
-
 
