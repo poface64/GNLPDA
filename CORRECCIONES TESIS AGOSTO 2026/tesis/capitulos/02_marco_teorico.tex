@@ -37,12 +37,12 @@ La reducción dimensional comprende un conjunto de técnicas orientadas a repres
 
 Cuando la dimensión resultante es suficientemente baja, estas representaciones también pueden emplearse para la exploración visual de los datos \cite{hasan2021review}.
 
-En esta tesis se consideran representaciones de baja dimensión aquellas cuya dimensión no sea mayor a tres, es decir, $d\leq3$.
+En esta tesis se consideran como representaciones de baja dimensión aquellas cuya dimensión no sea mayor a tres, es decir, $d\leq3$.
 
 
 Este proceso de representación puede lograrse seleccionando un subconjunto específico de variables (selección de características) o transformando el espacio mediante combinaciones matemáticas (extracción de características) \cite{nogales2023analysis}. 
 
-La selección de características conserva un subconjunto de variables originales mientras que la extracción construye nuevas dimensiones mediante transformaciones o combinaciones de las variables disponibles. En el contexto de la visualización, ambas estrategias pueden producir representaciones de baja dimensión, aunque difieren en el grado de correspondencia directa que mantienen con las variables originales \cite{zebari2020comprehensive}.
+La selección de características conserva un subconjunto de variables originales mientras que la extracción construye nuevas variables mediante transformaciones o combinaciones de las variables disponibles. En el contexto de la visualización, ambas estrategias pueden producir representaciones de baja dimensión, aunque difieren en el grado de correspondencia directa que mantienen con las variables originales \cite{zebari2020comprehensive}.
 
 \subsection{Proyecciones discriminantes para la visualización supervisada}
 
@@ -63,7 +63,7 @@ Para ilustrar esta diferencia fundamental entre la maximización de la varianza 
 \subsection{Visualización de representaciones de baja dimensión}
 
 
-Las representaciones de baja dimensión permiten convertir un conjunto de observaciones definido originalmente en un espacio multidimensional en una geometría que puede ser inspeccionada visualmente. Cuando la representación tiene una, dos o tres dimensiones, es posible recurrir a recursos gráficos que permiten explorar directamente la distribución de las observaciones y su relación con las clases \cite{thrun2020uncovering}.
+Las representaciones de baja dimensión permiten convertir un conjunto de observaciones definido originalmente en un espacio multidimensional en una geometría que puede ser inspeccionada visualmente. Cuando la representación tiene una, dos o tres dimensiones, es posible utilizar recursos gráficos que permiten explorar directamente la distribución de las observaciones y su relación con las clases \cite{thrun2020uncovering}.
 
 En un espacio proyectado de baja dimensión, una separación visualmente marcada entre los grupos puede ofrecer evidencia exploratoria acerca de la existencia de una estructura discriminante; sin embargo, dicha representación no constituye por sí misma una prueba estadística de separabilidad ni garantiza desempeño predictivo \cite{acevedo2024geometric}. Su valor radica en proporcionar una representación geométrica que facilite la exploración de la estructura de los datos y la formulación de hipótesis sobre la relación entre las clases, el grado de solapamiento y la presencia de observaciones atípicas, mientras que la evaluación de la capacidad discriminante y del rendimiento predictivo de un clasificador debe sustentarse en métricas cuantitativas \cite{de2025low}.
 
@@ -91,22 +91,26 @@ A diferencia de PCA, LDA incorpora explícitamente la información de clase en l
 
 Desde una perspectiva probabilística, LDA suele asociarse con el supuesto de que las densidades condicionales de las clases siguen distribuciones normales multivariantes con una matriz de covarianza común, es decir, bajo una condición de homocedasticidad \cite{mclachlan1992discriminant}. Sin embargo, desde la formulación geométrica de Fisher, el método también puede entenderse como la búsqueda de una proyección lineal que maximiza una razón de separabilidad entre clases \cite{fisher1936use}. Esta distinción es importante, ya que en aplicaciones prácticas LDA puede emplearse tanto como clasificador como técnica de reducción de dimensionalidad supervisada \cite{martinez2001pca}.
 
-Para introducir la formulación básica, considérese primero un problema de clasificación binaria con dos clases $C_1$ y $C_2$. El objetivo consiste en encontrar un vector de proyección $w$ que transforme cada observación del espacio original en un valor escalar mediante una combinación lineal de sus características. La orientación óptima de este vector se determina buscando que las medias de las clases proyectadas queden suficientemente separadas, al mismo tiempo que se controla la variabilidad interna de cada clase.
+Para introducir la formulación básica, considérese primero un problema de clasificación binaria con dos clases $C_1$ y $C_2$. El objetivo consiste en encontrar un vector de proyección $w$ que transforme cada observación del espacio original en un valor escalar mediante una combinación lineal de sus características, como se muestra en la ecuación \ref{eq:EMT1}. La orientación óptima de este vector se determina buscando que las medias de las clases proyectadas queden suficientemente separadas, al mismo tiempo que se controla la variabilidad interna de cada clase.
 
 \begin{equation}
 	y = \mathbf{w}^Tx
-	\label{eq:EMT 1}
+	\label{eq:EMT1}
 \end{equation}
 
-Para formalizar esta idea, se definen dos cantidades principales: la matriz de dispersión intraclase ($S_W$) y la matriz de dispersión inter-clase ($S_B$). La primera resume la variabilidad de las observaciones alrededor de sus respectivos centroides de clase, mientras que la segunda cuantifica la separación entre los centroides de las clases. 
+Para formalizar esta idea, se definen dos cantidades principales: la matriz de dispersión intraclase $S_W$ \ref{eq:EMT2} y la matriz de dispersión inter-clase $S_B$ \ref{eq:EMT2.1}. La primera resume la variabilidad de las observaciones alrededor de sus respectivos centroides de clase denotados como $m_1$ y $m_2$, mientras que la segunda cuantifica la separación entre los centroides de las clases. 
 
 \begin{equation}
-	\mathbf{S}_W = \sum_{n \in C_1} (\mathbf{x}_n - \mathbf{m}_1)(\mathbf{x}_n - \mathbf{m}_1)^T + \sum_{n \in C_2} (\mathbf{x}_n - \mathbf{m}_2)(\mathbf{x}_n - \mathbf{m}_2)^T
+	\mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{m}_1)(\mathbf{x}_i - \mathbf{m}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{m}_2)(\mathbf{x}_n - \mathbf{m}_2)^T
 	\label{eq:EMT2}
 \end{equation}
 
-A partir de estas matrices, el criterio de Fisher se expresa como una razón entre la dispersión interclase y la dispersión intraclase, de modo que la dirección discriminante óptima es aquella que maximiza dicha razón.
+\begin{equation}
+	\mathbf{S}_B = (\mathbf{m}_1 - \mathbf{m}_2)(\mathbf{m}_1 - \mathbf{m}_2)^T
+	\label{eq:EMT2.1}
+\end{equation}
 
+A partir de estas matrices, el criterio de Fisher se expresa como una razón entre la dispersión interclase y la dispersión intraclase, de modo que la dirección discriminante óptima es aquella que maximiza dicha razón.
 
 \begin{equation}
 	J\mathbf{(w)} = \mathbf{\frac{w^TS_Bw}{w^TS_Ww}}	
@@ -138,7 +142,7 @@ En esta formulación, el criterio de optimización busca maximizar la razón ent
 	\label{eq:EMT6}
 \end{equation}
 
-La maximización de este criterio conduce a un problema generalizado de valores propios, en el cual los vectores propios definen las direcciones discriminantes y los valores propios asociados indican la relevancia discriminante de cada dirección \cite{martinez2001pca}.
+La maximización de este criterio conduce a un problema generalizado de valores propios establecido como en la ecuación \ref{eq:EMT7}, en el cual los vectores propios $w_i$ definen las direcciones discriminantes y los valores propios asociados $\lambda_i$ indican la relevancia discriminante de cada dirección \cite{martinez2001pca}.
 
 \begin{equation}
 	\mathbf{S_Bw_i = \lambda_iS_Ww_i}
@@ -160,12 +164,27 @@ Estas condiciones explican algunas de sus principales limitaciones. Cuando las c
 
 Otra limitación importante se relaciona con la necesidad de invertir o resolver sistemas asociados a la matriz de dispersión intraclase. Cuando el número de variables es comparable o superior al número de observaciones, la matriz de dispersión intraclase puede volverse singular o mal condicionada. Este escenario, conocido como problema de muestras pequeñas (Small Sample Size problem), impide aplicar directamente la formulación clásica de LDA y puede producir inestabilidad numérica en la obtención de los vectores discriminantes \cite{gao2006direct}.
 
-Una alternativa clásica frente a la rigidez lineal de LDA es el Análisis Discriminante Cuadrático (QDA). A diferencia de LDA, que estima una matriz de covarianza común para todas las clases, QDA estima una matriz de covarianza distinta para cada clase. Esta diferencia permite construir fronteras de decisión cuadráticas, lo que puede resultar útil cuando las clases presentan estructuras de dispersión diferentes. Sin embargo, QDA debe entenderse principalmente como un clasificador probabilístico y no como un método de proyección supervisada de baja dimensión. Además, al requerir la estimación de una matriz de covarianza por clase, puede ser más sensible que LDA en escenarios de alta dimensionalidad y tamaño muestral reducido \cite{duda2000pattern}.
+Una alternativa clásica frente a la rigidez lineal de LDA es el Análisis Discriminante Cuadrático (QDA). A diferencia de LDA, que estima una matriz de covarianza común para todas las clases, QDA estima una matriz de covarianza distinta $\Sigma_k$ para cada clase $k$. Esta diferencia permite construir fronteras de decisión cuadráticas, lo que puede resultar útil cuando las clases presentan estructuras de dispersión heterogéneas. Sin embargo, QDA debe entenderse principalmente como un clasificador probabilístico y no como un método de proyección supervisada de baja dimensión. Además, al requerir la estimación de múltiples matrices de covarianza, puede ser más sensible que LDA en escenarios de alta dimensionalidad y tamaño muestral reducido \cite{duda2000pattern,ghojogh2019linear}.
+
+Siguiendo el desarrollo propuesto por Ghojogh y Crowley \cite{ghojogh2019linear}, la regla de clasificación de QDA se deriva directamente al la probabilidad a posteriori $P(C_k\|\mathbf{x})$ mediante el Teorema de Bayes, asumiendo una distribución condicional gaussiana para cada clase. Al aplicar el logaritmo natural sobre la densidad condicional y omitir los términos independientes de la clase $k$, se obtiene la función discriminante cuadrática $\delta_k(x)$: 
 
 \begin{equation}
-	\delta_k(x) = -\frac{1}{2} \ln |\Sigma_k| - \frac{1}{2} (x - \mu_k)^T \Sigma_k^{-1} (x - \mu_k) + \ln \pi_k
+	\delta_k(\mathbf{x}) = -\frac{1}{2} \ln |\Sigma_k| - \frac{1}{2} (\mathbf{x} - \mu_k)^T \Sigma_k^{-1} (\mathbf{x} - \mu_k) + \ln \pi_k
 	\label{eq:EMT8}
 \end{equation}
+
+\begin{itemize}
+	
+	\item Términos Lineales ($A,B$): preservan la información original.
+	
+	\item Términos Cuadráticos ($A^2,B^2$): permiten incorporar curvatura en la representación y contribuyen a modelar fronteras de decisión no lineales.
+	
+	\item Términos de Interacción ($AB$): representan efectos multiplicativos entre variables, permitiendo modelar relaciones que no pueden describirse mediante términos lineales independientes \cite{kanade2016}.
+	
+\end{itemize}
+
+
+
 
 En consecuencia, aunque QDA ofrece mayor flexibilidad para modelar fronteras de decisión no lineales, no resuelve por sí mismo el problema de reducción de dimensionalidad supervisada ni elimina las dificultades asociadas a la estimación de matrices de covarianza en escenarios ($p>n$). Por ello, su inclusión resulta pertinente como método comparativo, pero no sustituye la necesidad de estrategias orientadas a estabilizar o reformular la proyección discriminante.
 

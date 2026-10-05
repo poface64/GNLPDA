@@ -30,13 +30,13 @@
 \contentsline {subsection}{\numberline {2.4.1}Formalización de la expansión polinomial}{14}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}Limitaciones: Crecimiento Combinatorio y Complejidad}{15}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Algoritmos genéticos}{16}{section.2.5}%
-\contentsline {subsection}{\numberline {2.5.1}Representación cromosómica y función de aptitud}{16}{subsection.2.5.1}%
+\contentsline {subsection}{\numberline {2.5.1}Representación cromosómica y función de aptitud}{17}{subsection.2.5.1}%
 \contentsline {subsection}{\numberline {2.5.2}Ciclo evolutivo y operadores genéticos}{17}{subsection.2.5.2}%
 \contentsline {subsection}{\numberline {2.5.3}Algoritmos genéticos como estrategia wrapper}{18}{subsection.2.5.3}%
-\contentsline {section}{\numberline {2.6}Métodos kernel y clasificadores no lineales}{18}{section.2.6}%
+\contentsline {section}{\numberline {2.6}Métodos kernel y clasificadores no lineales}{19}{section.2.6}%
 \contentsline {subsection}{\numberline {2.6.1}Truco Kernel y funciones kernel}{19}{subsection.2.6.1}%
-\contentsline {subsection}{\numberline {2.6.2}KFDA y SVM como enfoques no lineales de referencia}{19}{subsection.2.6.2}%
-\contentsline {subsection}{\numberline {2.6.3}Ventajas, limitaciones e interpretabilidad}{20}{subsection.2.6.3}%
+\contentsline {subsection}{\numberline {2.6.2}KFDA y SVM como enfoques no lineales de referencia}{20}{subsection.2.6.2}%
+\contentsline {subsection}{\numberline {2.6.3}Ventajas, limitaciones e interpretabilidad}{21}{subsection.2.6.3}%
 \contentsline {chapter}{\numberline {3}Estado del arte}{23}{chapter.3}%
 \contentsline {section}{\numberline {3.1}Variantes lineales del análisis discriminante}{23}{section.3.1}%
 \contentsline {subsection}{\numberline {3.1.1}Regularized LDA}{23}{subsection.3.1.1}%
