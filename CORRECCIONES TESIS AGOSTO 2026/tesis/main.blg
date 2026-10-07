@@ -4,59 +4,52 @@ The top-level auxiliary file: main.aux
 The style file: natdin.bst
 A level-1 auxiliary file: capitulos/01_introduccion.aux
 A level-1 auxiliary file: capitulos/02_marco_teorico.aux
-A level-1 auxiliary file: capitulos/03_estado_arte.aux
-A level-1 auxiliary file: capitulos/04_metodologia.aux
-A level-1 auxiliary file: capitulos/05_resultados.aux
-A level-1 auxiliary file: capitulos/06_discusion.aux
-A level-1 auxiliary file: capitulos/07_conclusiones.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliografia/referenciaslimpias.bib
-Warning--empty number in coomans1992comparison
-Warning--empty note in coomans1992comparison
 Warning--empty year in us_algoritmos_geneticos
-You've used 93 entries,
+You've used 57 entries,
             4728 wiz_defined-function locations,
-            1432 strings with 26509 characters,
-and the built_in function-call counts, 82993 in all, are:
-= -- 8478
-> -- 2880
-< -- 3344
-+ -- 3981
-- -- 1070
-* -- 6362
-:= -- 14494
-add.period$ -- 97
-call.type$ -- 93
-change.case$ -- 591
-chr.to.int$ -- 92
-cite$ -- 96
-duplicate$ -- 2017
-empty$ -- 4501
-format.name$ -- 1721
-if$ -- 15138
-int.to.chr$ -- 2
+            1231 strings with 17727 characters,
+and the built_in function-call counts, 47993 in all, are:
+= -- 4899
+> -- 1598
+< -- 1869
++ -- 2212
+- -- 592
+* -- 3628
+:= -- 8337
+add.period$ -- 60
+call.type$ -- 57
+change.case$ -- 341
+chr.to.int$ -- 57
+cite$ -- 58
+duplicate$ -- 1206
+empty$ -- 2702
+format.name$ -- 966
+if$ -- 8830
+int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 481
-newline$ -- 491
-num.names$ -- 372
-pop$ -- 864
+missing$ -- 300
+newline$ -- 307
+num.names$ -- 228
+pop$ -- 512
 preamble$ -- 1
-purify$ -- 777
+purify$ -- 455
 quote$ -- 0
-skip$ -- 4935
+skip$ -- 2866
 stack$ -- 0
-substring$ -- 6027
-swap$ -- 558
-text.length$ -- 392
+substring$ -- 3495
+swap$ -- 316
+text.length$ -- 217
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1175
-warning$ -- 3
-while$ -- 715
+type$ -- 706
+warning$ -- 1
+while$ -- 415
 width$ -- 0
-write$ -- 1244
-(There were 3 warnings)
+write$ -- 760
+(There was 1 warning)

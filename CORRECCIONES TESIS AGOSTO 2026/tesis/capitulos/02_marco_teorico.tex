@@ -98,10 +98,10 @@ Para introducir la formulación básica, considérese primero un problema de cla
 	\label{eq:EMT1}
 \end{equation}
 
-Para formalizar esta idea, se definen dos cantidades principales: la matriz de dispersión intraclase $S_W$ \ref{eq:EMT2} y la matriz de dispersión inter-clase $S_B$ \ref{eq:EMT2.1}. La primera resume la variabilidad de las observaciones alrededor de sus respectivos centroides de clase denotados como $m_1$ y $m_2$, mientras que la segunda cuantifica la separación entre los centroides de las clases. 
+Para formalizar esta idea, se definen dos cantidades principales: la matriz de dispersión intraclase $S_W$ (\ref{eq:EMT2}) y la matriz de dispersión inter-clase $S_B$ (\ref{eq:EMT2.1}). La primera resume la variabilidad de las observaciones alrededor de sus respectivos centroides de clase denotados como $m_1$ y $m_2$, mientras que la segunda cuantifica la separación entre los centroides de las clases. 
 
 \begin{equation}
-	\mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{m}_1)(\mathbf{x}_i - \mathbf{m}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{m}_2)(\mathbf{x}_n - \mathbf{m}_2)^T
+	\mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{m}_1)(\mathbf{x}_i - \mathbf{m}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{m}_2)(\mathbf{x}_i - \mathbf{m}_2)^T
 	\label{eq:EMT2}
 \end{equation}
 
@@ -109,6 +109,8 @@ Para formalizar esta idea, se definen dos cantidades principales: la matriz de d
 	\mathbf{S}_B = (\mathbf{m}_1 - \mathbf{m}_2)(\mathbf{m}_1 - \mathbf{m}_2)^T
 	\label{eq:EMT2.1}
 \end{equation}
+
+
 
 A partir de estas matrices, el criterio de Fisher se expresa como una razón entre la dispersión interclase y la dispersión intraclase, de modo que la dirección discriminante óptima es aquella que maximiza dicha razón.
 
@@ -128,12 +130,29 @@ En el caso binario, la solución analítica conduce a una dirección de proyecci
 
 Aunque la formulación binaria permite presentar la intuición geométrica de LDA, muchos problemas de clasificación involucran tres o más clases. En el caso multiclase, el objetivo general se mantiene: encontrar un conjunto de direcciones discriminantes que maximicen la separación entre clases y minimicen la dispersión dentro de cada clase. Sin embargo, en lugar de obtener una única dirección de proyección, se busca una matriz de proyección formada por varios vectores discriminantes.
 
-Para ello, se define primero la media global del conjunto de datos, así como los vectores de medias correspondientes a cada clase. Con base en estos centroides, la matriz de dispersión intraclase acumula la variabilidad interna de cada grupo, mientras que la matriz de dispersión interclase acumula la separación ponderada entre cada centroide de clase y la media global del conjunto de datos.
+Para ello, se define primero la media global del conjunto de datos $\mu$, así como los vectores de medias correspondientes a cada clase $\mu_k$. Con base en estos centroides, la matriz de dispersión intraclase $S_W$ acumula la variabilidad interna de cada grupo, mientras que la matriz de dispersión interclase $S_B$ acumula la separación ponderada entre cada centroide de clase y la media global del conjunto de datos.
+
+La media global $\boldsymbol{\mu}$ de las $N$ observaciones totales y el vector de medias $\boldsymbol{\mu}_k$ de la clase $C_k$ se calculan, respectivamente, como:
 
 \begin{equation}
-	\mathbf{m} = \frac{1}{N} \sum_{k=1}^K N_k \mathbf{m}_k, \qquad \mathbf{S}_W = \sum_{k=1}^K \mathbf{S}_k, \qquad \mathbf{S}_B = \sum_{k=1}^K N_k (\mathbf{m}_k - \mathbf{m})(\mathbf{m}_k - \mathbf{m})^T
-	\label{eq:EMT5}
+	\boldsymbol{\mu} = \frac{1}{N} \sum_{i=1}^N \mathbf{x}_i, \qquad \boldsymbol{\mu}_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i.
+	\label{eq:means_multiclass}
 \end{equation}
+
+A partir de estas, la matriz de dispersión intraclase $\mathbf{S}_W$ se define como la suma de las matrices de dispersión individuales $\mathbf{S}_k$:
+
+\begin{equation}
+	\mathbf{S}_W = \sum_{k=1}^K \mathbf{S}_k, \quad \text{con} \quad \mathbf{S}_k = \sum_{\mathbf{x}_i \in C_k} (\mathbf{x}_i - \boldsymbol{\mu}_k)(\mathbf{x}_i - \boldsymbol{\mu}_k)^T,
+	\label{eq:SW_multiclass}
+\end{equation}
+
+mientras que la matriz de dispersión interclase $\mathbf{S}_B$ pondera la separación entre las medias por clase $\boldsymbol{\mu}_k$ y la media global $\boldsymbol{\mu}$ mediante el tamaño muestral $n_k$:
+\begin{equation}
+	\mathbf{S}_B = \sum_{k=1}^K n_k (\boldsymbol{\mu}_k - \boldsymbol{\mu})(\boldsymbol{\mu}_k - \boldsymbol{\mu})^T.
+	\label{eq:SB_multiclass}
+\end{equation}
+
+%%%%%%%%%%%%%%%%%%%%%%%
 
 En esta formulación, el criterio de optimización busca maximizar la razón entre la dispersión interclase y la dispersión intraclase en el espacio proyectado. Una forma común de expresar este criterio es mediante la razón entre los determinantes de las matrices de dispersión proyectadas \cite{fukunaga2013introduction}.
 
@@ -162,26 +181,27 @@ La formulación clásica de LDA descansa sobre varios supuestos que condicionan 
 
 Estas condiciones explican algunas de sus principales limitaciones. Cuando las clases presentan fronteras de decisión no lineales, distribuciones multimodales o patrones de separación complejos, una frontera lineal puede resultar insuficiente. En tales casos, la proyección obtenida por LDA puede no reflejar adecuadamente la separabilidad real de los datos, lo que limita su desempeño como clasificador o como técnica de reducción de dimensionalidad supervisada \cite{mika1999fisher}.
 
+
+
 Otra limitación importante se relaciona con la necesidad de invertir o resolver sistemas asociados a la matriz de dispersión intraclase. Cuando el número de variables es comparable o superior al número de observaciones, la matriz de dispersión intraclase puede volverse singular o mal condicionada. Este escenario, conocido como problema de muestras pequeñas (Small Sample Size problem), impide aplicar directamente la formulación clásica de LDA y puede producir inestabilidad numérica en la obtención de los vectores discriminantes \cite{gao2006direct}.
 
 Una alternativa clásica frente a la rigidez lineal de LDA es el Análisis Discriminante Cuadrático (QDA). A diferencia de LDA, que estima una matriz de covarianza común para todas las clases, QDA estima una matriz de covarianza distinta $\Sigma_k$ para cada clase $k$. Esta diferencia permite construir fronteras de decisión cuadráticas, lo que puede resultar útil cuando las clases presentan estructuras de dispersión heterogéneas. Sin embargo, QDA debe entenderse principalmente como un clasificador probabilístico y no como un método de proyección supervisada de baja dimensión. Además, al requerir la estimación de múltiples matrices de covarianza, puede ser más sensible que LDA en escenarios de alta dimensionalidad y tamaño muestral reducido \cite{duda2000pattern,ghojogh2019linear}.
 
-Siguiendo el desarrollo propuesto por Ghojogh y Crowley \cite{ghojogh2019linear}, la regla de clasificación de QDA se deriva directamente al la probabilidad a posteriori $P(C_k\|\mathbf{x})$ mediante el Teorema de Bayes, asumiendo una distribución condicional gaussiana para cada clase. Al aplicar el logaritmo natural sobre la densidad condicional y omitir los términos independientes de la clase $k$, se obtiene la función discriminante cuadrática $\delta_k(x)$: 
+Siguiendo el desarrollo propuesto por Ghojogh y Crowley \cite{ghojogh2019linear}, la regla de clasificación de QDA se deriva directamente al la probabilidad a posteriori $P(C_k\|\mathbf{x})$ mediante el Teorema de Bayes, asumiendo una distribución condicional gaussiana para cada clase. Al aplicar el logaritmo natural sobre la densidad condicional y omitir los términos independientes de la clase $k$, se obtiene la función discriminante cuadrática $\delta_k(\mathbf{x})$: 
 
 \begin{equation}
-	\delta_k(\mathbf{x}) = -\frac{1}{2} \ln |\Sigma_k| - \frac{1}{2} (\mathbf{x} - \mu_k)^T \Sigma_k^{-1} (\mathbf{x} - \mu_k) + \ln \pi_k
+	\delta_k(\mathbf{x}) = -\frac{1}{2} \ln |\Sigma_k| - \frac{1}{2} (\mathbf{x} - \boldsymbol{\mu}_k)^T \Sigma_k^{-1} (\mathbf{x} - \boldsymbol{\mu}_k) + \ln \pi_k
 	\label{eq:EMT8}
 \end{equation}
 
+donde:
 \begin{itemize}
-	
-	\item Términos Lineales ($A,B$): preservan la información original.
-	
-	\item Términos Cuadráticos ($A^2,B^2$): permiten incorporar curvatura en la representación y contribuyen a modelar fronteras de decisión no lineales.
-	
-	\item Términos de Interacción ($AB$): representan efectos multiplicativos entre variables, permitiendo modelar relaciones que no pueden describirse mediante términos lineales independientes \cite{kanade2016}.
-	
+	\item $\mathbf{x} \in \mathbb{R}^p$ es el vector de características a clasificar.
+	\item $\pi_k = \frac{n_k}{N}$ representa la probabilidad \textit{a priori} de la clase $k$, con $n_k$ observaciones en la clase y $N$ observaciones totales.
+	\item $\boldsymbol{\mu}_k = \frac{1}{n_k} \sum_{i \in C_k}{\mathbf{x}_i}$ es el vector de medias de la clase $k$.
+	\item $\Sigma_k = \frac{1}{n_k - 1} \sum_{i \in C_k} (\mathbf{x}_i - \boldsymbol{\mu}_k)(\mathbf{x}_i - \boldsymbol{\mu}_k)^T$ denota la matriz de covarianza de la clase $k$.
 \end{itemize}
+
 
 
 
@@ -190,11 +210,11 @@ En consecuencia, aunque QDA ofrece mayor flexibilidad para modelar fronteras de 
 
 \subsection{Implementación computacional y tratamiento de la singularidad}
 
-La formulación algebraica clásica de LDA suele expresarse a partir de la inversión de la matriz de dispersión intraclase ($\mathbf{S_W}$) o, de forma equivalente, mediante un problema generalizado de valores propios. Esta formulación resulta problemática cuando ($\mathbf{S_W}$) es singular o está mal condicionada, situación frecuente en escenarios de alta dimensionalidad, presencia de multicolinealidad o tamaño muestral reducido. En estos casos, el cálculo directo de ($\mathbf{S_W^{-1}}$) puede ser numéricamente inestable o incluso inviable \cite{friedman1989regularized}.
+La formulación algebraica clásica de LDA suele expresarse a partir de la inversión de la matriz de dispersión intraclase $\mathbf{S_W}$ o, de forma equivalente, mediante un problema generalizado de valores propios. Esta formulación resulta problemática cuando $\mathbf{S_W}$ es singular o está mal condicionada, situación frecuente en escenarios de alta dimensionalidad, presencia de multicolinealidad o tamaño muestral reducido. En estos casos, el cálculo directo de $\mathbf{S_W^{-1}}$ puede ser numéricamente inestable o incluso inviable \cite{friedman1989regularized}.
 
 En la práctica, algunas implementaciones computacionales de LDA reformulan el problema para evitar la inversión explícita de la matriz de dispersión intraclase. 
 
-Este es el caso de la función lda del paquete MASS en R, cuya implementación construye una transformación de escala que lleva las observaciones hacia funciones discriminantes normalizadas de manera que la covarianza intragrupo sea esférica.
+Este es el caso de la función \textit{lda} del paquete MASS en R, cuya implementación construye una transformación de escala que lleva las observaciones hacia funciones discriminantes normalizadas de manera que la covarianza intragrupo sea esférica.
 
 Esta operación puede interpretarse como una forma de blanqueamiento del espacio, ya que busca remover la estructura de correlación interna de las clases antes de estimar las direcciones discriminantes \cite{venables2002modern}.
 
@@ -205,14 +225,14 @@ Matemáticamente, el proceso de blanqueamiento o esferización busca encontrar u
 	\label{eq:EMT9}
 \end{equation}
 
-Mediante la descomposición espectral se tiene que 
+Mediante la descomposición espectral se tiene que: 
 
 \begin{equation}
 	\mathbf{S}_W = \mathbf{U} \Lambda \mathbf{U}^T,
 	\label{eq:EMT10}
 \end{equation}
 
-donde $\mathbf{U}$ es la matriz ortogonal de vectores propios y $\Lambda$ es la matriz diagonal de valores propios asociados. La matriz transformadora se define entonces como $\mathbf{W} = \mathbf{U} \Lambda^{-1/2}$.
+\noindent donde $\mathbf{U}$ es la matriz ortogonal de vectores propios y $\Lambda$ es la matriz diagonal de valores propios asociados. La matriz transformadora se define entonces como $\mathbf{W} = \mathbf{U} \Lambda^{-1/2}$.
 
 Al proyectar los datos originales empleando $\mathbf{W}$, la varianza interna de los grupos se vuelve uniforme en todas las direcciones (esférica), reduciendo la estructura de correlación original y estabilizando los cálculos posteriores.
 
@@ -232,7 +252,7 @@ Por ello, utilizar una implementación de LDA basada en blanqueamiento, control 
 
 \section{Problema de muestras pequeñas (Small Sample Size)}
 
-El de muestras pequeñas o Small Sample Size (SSS) aparece en escenarios donde el número de variables descriptivas es elevado en relación con el número de observaciones disponibles. En términos generales, esta situación suele expresarse como ($p>n$), donde ($p$) representa la dimensión del espacio de características y ($n$) el número de muestras. Este escenario es frecuente en dominios de alta dimensionalidad, como bioinformática, análisis de señales, reconocimiento de patrones y problemas donde se generan nuevas variables mediante transformaciones del espacio original \cite{raudys1991small}\cite{sorzano2014survey}.
+El problema de muestras pequeñas o Small Sample Size (problema SSS) aparece en escenarios donde el número de variables descriptivas es elevado en relación con el número de observaciones disponibles. En términos generales, esta situación suele expresarse como $p>n$, donde $p$ representa la dimensión del espacio de características y $n$ el número de muestras. Este escenario es frecuente en dominios de alta dimensionalidad, como bioinformática, análisis de señales, reconocimiento de patrones y problemas donde se generan nuevas variables mediante transformaciones del espacio original \cite{raudys1991small}\cite{sorzano2014survey}.
 
 En métodos basados en la estimación de matrices de covarianza o dispersión, el problema SSS se manifiesta matemáticamente como una deficiencia de rango. En el caso del Análisis Discriminante Lineal (LDA), la matriz de dispersión intraclase ($\mathbf{S_W}$) tiene dimensión ($p\times p$), pero su rango máximo está limitado por la cantidad de observaciones disponibles y por el número de clases. En particular, para ($C$) clases, se cumple que:
 
@@ -251,35 +271,34 @@ Ante las limitaciones geométricas del LDA descritas en la sección anterior, re
 
 \subsection{Formalización de la expansión polinomial}
 
-El procedimiento consiste en mapear el vector de entrada original $\mathbf{x} \in \mathbb{R}^d$ a un espacio de características de mayor dimensión $\mathcal{F} \in \mathbb{R}^D$ mediante una función no lineal $\phi(x)$.
+El procedimiento consiste en mapear el vector de entrada original $\mathbf{x} \in \mathbb{R}^d$ a un espacio de características de mayor dimensión $\mathcal{F} \in \mathbb{R}^D$ mediante una función no lineal $\phi(\mathbf{x})$.
 
-Específicamente, se implementa una expansión polinomial de segundo orden (cuadrática), tal como se detalla en la literatura especializada \cite{kanade2016} \cite{niu2021local}.
+Específicamente, se implementa una expansión polinomial de segundo orden (cuadrática), tal como se detalla en la literatura especializada \cite{kanade2016,niu2021local}.
 
-Para un caso base bidimensional donde el vector de entrada es $x = [x_1,x_2]^T$, la función de mapeo $\phi(x)$ construye un nuevo vector que incluye el sesgo, los términos originales, los términos cuadráticos y las interacciones cruzadas:
+Para un caso base bidimensional donde el vector de entrada es $\mathbf{x} = [A,B]^T$, la función de mapeo $\phi(\mathbf{x})$ construye un nuevo vector que incluye el sesgo, los términos originales, los términos cuadráticos y las interacciones cruzadas:
 
 \begin{equation}
-	\phi(x) = [1,x_1,x_2,x_1^2,x_2^2,x_1x_2]^T
+	\phi(\mathbf{x}) = [1,A,B,A^2,B^2,AB]^T
 	\label{eq:EMT12}
 \end{equation}
 
-Para efectos prácticos de su uso en este trabajo, se omitirá el sesgo debido a que no aporta en el modelado de las fronteras no lineales.
+Para efectos prácticos de su uso en este trabajo, se omitirá el sesgo debido a que al ser una constante no aporta en el modelado de las fronteras no lineales.
 
-\begin{figure}[htbp]
-	\centering
-	\includegraphics[width=0.6\textwidth]{MC2.png}
-	\caption{Ejemplo de términos generados mediante expansión polinomial para dos variables.Elaboración propia.}
-	\label{fig:MC2}
-\end{figure}
+\begin{align}
+	\boldsymbol{\phi}_1(A, B) &= [ \underbrace{A, B}_{\text{Grado 1}} ]^T, \label{eq:poly_deg1} \\[0.5em]
+	\boldsymbol{\phi}_2(A, B) &= [ \underbrace{A, B}_{\text{Grado 1}}, \underbrace{A^2, AB, B^2}_{\text{Grado 2}} ]^T, \label{eq:poly_deg2} \\[0.5em]
+	\boldsymbol{\phi}_3(A, B) &= [ \underbrace{A, B}_{\text{Grado 1}}, \underbrace{A^2, AB, B^2}_{\text{Grado 2}}, \underbrace{A^3, A^2B, AB^2, B^3}_{\text{Grado 3}} ]^T, \label{eq:poly_deg3} \\[0.5em]	
+	\boldsymbol{\phi}_4(A, B) &= [ \underbrace{A, B}_{\text{Grado 1}}, \underbrace{A^2, AB, B^2}_{\text{Grado 2}}, \underbrace{A^3, A^2B, AB^2, B^3}_{\text{Grado 3}}, \underbrace{A^4, A^3B, A^2B^2, AB^3, B^4}_{\text{Grado 4}} ]^T. \label{eq:poly_deg4}	
+\end{align}
 
-Como se ilustra en la Figura \ref{fig:MC2}, cada componente cumple un rol discriminante específico:
+Como se ilustra en las ecuaciones de la \ref{eq:poly_deg1} a la \ref{eq:poly_deg4}, cada componente cumple un rol discriminante específico:
 
 \begin{itemize}
-	\item Términos Lineales ($A,B$): preservan la información original.
+	\item \textbf{Términos lineales ($A, B$):} preservan la información original del espacio de entrada.
 	
-	\item - Términos Cuadráticos ($A^2,B^2$): permiten incorporar curvatura en la
-	representación y contribuyen a modelar fronteras de decisión no lineales.
+	\item \textbf{Términos cuadráticos y de grado superior ($A^k, B^k$):} incorporan curvatura y flexibilidad geométrica en la representación, facilitando el modelado de fronteras de decisión no lineales complejas.
 	
-	\item - Términos de Interacción ($AB$): representan efectos multiplicativos entre variables, permitiendo modelar relaciones que no pueden describirse mediante términos lineales independientes \cite{kanade2016}.
+	\item \textbf{Términos de interacción cruzada ($A^p B^q$):} representan efectos multiplicativos y dependencias conjuntas entre variables que no pueden describirse mediante términos lineales independientes \cite{kanade2016}.
 	
 \end{itemize}
 
@@ -312,7 +331,7 @@ Este fenómeno conlleva dos consecuencias considerables descritas por \cite{bish
 	\item Sobreajuste (Overfitting): Al tener un exceso de parámetros frente a un número limitado de muestras, el modelo tiende a memorizar el ruido de los datos en lugar de aprender la estructura subyacente.
 \end{itemize}
 
-En el contexto de LDA, este crecimiento dimensional es especialmente relevante porque la matriz de dispersión intraclase pasa a definirse sobre el espacio expandido, por lo que su dimensión depende de ($D$) y no solo de la dimensión original ($d$). En consecuencia, si ($D>n-C$), la matriz ($S_W$) no puede alcanzar rango completo, reproduciendo o agravando el problema SSS descrito en la sección anterior. Por esta razón, la expansión polinomial debe acompañarse de mecanismos de selección de características que permitan conservar únicamente los términos con mayor aporte discriminativo y reducir el riesgo de singularidad, colinealidad y sobreajuste.
+En el contexto de LDA, este crecimiento dimensional es especialmente relevante porque la matriz de dispersión intraclase pasa a definirse sobre el espacio expandido, por lo que su dimensión depende de $D$ y no solo de la dimensión original $d$. En consecuencia, si $D>n-C$, la matriz $S_W$ no puede alcanzar rango completo, reproduciendo o agravando el problema SSS descrito en la sección anterior. Por esta razón, la expansión polinomial debe acompañarse de mecanismos de selección de características que permitan conservar únicamente los términos con mayor aporte discriminativo y reducir el riesgo de singularidad, colinealidad y sobreajuste.
 
 \section{Algoritmos genéticos}
 
@@ -328,7 +347,7 @@ A modo de ejemplo, un cromosoma de cinco dimensiones estructurado como $z = [1,0
 
 En el caso de una expansión polinomial, cada gen puede representar una variable original, un término cuadrático o una interacción entre variables. Por ejemplo, si el espacio expandido contiene términos como $x_1,x_2,x_1^2,x_2^2$ y $x_1x_2$, el cromosoma determina cuáles de estos términos serán conservados para entrenar el modelo discriminante. Esta representación permite que el algoritmo genético explore combinaciones de términos que podrían no ser evidentes mediante criterios univariados de selección.
 
-La función de aptitud define el criterio mediante el cual se evalúa la calidad de cada cromosoma. En un esquema wrapper, esta función suele depender del desempeño del clasificador acoplado al subconjunto seleccionado. Para evitar soluciones excesivamente grandes y penalizar la complejidad del modelo, la función de aptitud puede formalmente como \cite{siedlecki1989note}:
+La función de aptitud define el criterio mediante el cual se evalúa la calidad de cada cromosoma dentro de la población. En un esquema wrapper, esta función se encuentra intrínsecamente ligada al desempeño del clasificador acoplado. Con el fin de equilibrar la capacidad discriminante y la parsimonia del modelo, la función de aptitud combina la precisión de clasificación con un término de penalización por la dimensión del subconjunto seleccionado \cite{siedlecki1989note}, expresándose formalmente como:
 
 \begin{equation}
 	fitness^{z} = \text{Desempeño}^{(z)}-\lambda \frac{|z|_0}{D}
@@ -350,7 +369,7 @@ El proceso evolutivo sigue un ciclo iterativo estructurado, el cual se ilustra e
 	\label{fig:MT2}
 \end{figure}
 
-El operador de selección favorece la reproducción de los cromosomas con mayor aptitud. Su propósito es incrementar la probabilidad de que las soluciones más prometedoras transmitan su información genética a la siguiente iteración. Existen diferentes estrategias algorítmicas, como el torneo, la ruleta o el elitismo; sin embargo, todas comparten el objetivo guiar la búsqueda hacia regiones del espacio con mejores propiedades discriminativas.
+El operador de selección favorece la reproducción de los cromosomas con mayor aptitud. Su propósito es incrementar la probabilidad de que las soluciones más prometedoras transmitan su información genética a la siguiente iteración. Existen diferentes estrategias algorítmicas, como el torneo, la ruleta o el elitismo; sin embargo, todas comparten el objetivo de guiar la búsqueda hacia regiones del espacio con mejores propiedades discriminativas.
 
 La cruza o recombinación combina segmentos de dos cromosomas padres para generar descendencia. En la selección de características, este operador permite entrelazar subconjuntos parciales de variables provenientes de soluciones distintas, promoviendo la combinación de términos polinomiales. Un ejemplo de cruza de un punto, asumiendo un punto de corte en la tercera posición, se ilustra de la siguiente forma:
 

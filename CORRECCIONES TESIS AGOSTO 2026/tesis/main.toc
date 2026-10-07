@@ -25,75 +25,15 @@
 \contentsline {subsection}{\numberline {2.2.2}Extensión multiclase y obtención de ejes discriminantes}{10}{subsection.2.2.2}%
 \contentsline {subsection}{\numberline {2.2.3}Supuestos, limitaciones y comparación con QDA}{11}{subsection.2.2.3}%
 \contentsline {subsection}{\numberline {2.2.4}Implementación computacional y tratamiento de la singularidad}{12}{subsection.2.2.4}%
-\contentsline {section}{\numberline {2.3}Problema de muestras pequeñas (Small Sample Size)}{13}{section.2.3}%
+\contentsline {section}{\numberline {2.3}Problema de muestras pequeñas (Small Sample Size)}{14}{section.2.3}%
 \contentsline {section}{\numberline {2.4}Expansión polinomial y espacios de caracteristicas}{14}{section.2.4}%
-\contentsline {subsection}{\numberline {2.4.1}Formalización de la expansión polinomial}{14}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.1}Formalización de la expansión polinomial}{15}{subsection.2.4.1}%
 \contentsline {subsection}{\numberline {2.4.2}Limitaciones: Crecimiento Combinatorio y Complejidad}{15}{subsection.2.4.2}%
 \contentsline {section}{\numberline {2.5}Algoritmos genéticos}{16}{section.2.5}%
 \contentsline {subsection}{\numberline {2.5.1}Representación cromosómica y función de aptitud}{17}{subsection.2.5.1}%
-\contentsline {subsection}{\numberline {2.5.2}Ciclo evolutivo y operadores genéticos}{17}{subsection.2.5.2}%
-\contentsline {subsection}{\numberline {2.5.3}Algoritmos genéticos como estrategia wrapper}{18}{subsection.2.5.3}%
+\contentsline {subsection}{\numberline {2.5.2}Ciclo evolutivo y operadores genéticos}{18}{subsection.2.5.2}%
+\contentsline {subsection}{\numberline {2.5.3}Algoritmos genéticos como estrategia wrapper}{19}{subsection.2.5.3}%
 \contentsline {section}{\numberline {2.6}Métodos kernel y clasificadores no lineales}{19}{section.2.6}%
 \contentsline {subsection}{\numberline {2.6.1}Truco Kernel y funciones kernel}{19}{subsection.2.6.1}%
 \contentsline {subsection}{\numberline {2.6.2}KFDA y SVM como enfoques no lineales de referencia}{20}{subsection.2.6.2}%
 \contentsline {subsection}{\numberline {2.6.3}Ventajas, limitaciones e interpretabilidad}{21}{subsection.2.6.3}%
-\contentsline {chapter}{\numberline {3}Estado del arte}{23}{chapter.3}%
-\contentsline {section}{\numberline {3.1}Variantes lineales del análisis discriminante}{23}{section.3.1}%
-\contentsline {subsection}{\numberline {3.1.1}Regularized LDA}{23}{subsection.3.1.1}%
-\contentsline {subsection}{\numberline {3.1.2}LDA en dos etapas}{24}{subsection.3.1.2}%
-\contentsline {subsection}{\numberline {3.1.3}Variantes lineales relevantes}{24}{subsection.3.1.3}%
-\contentsline {section}{\numberline {3.2}Métodos kernel}{25}{section.3.2}%
-\contentsline {subsection}{\numberline {3.2.1}Análisis de Componentes Principales con Kernel (KPCA) }{25}{subsection.3.2.1}%
-\contentsline {subsection}{\numberline {3.2.2}Análisis Discriminante de Fisher mediante Kernel (KFDA)}{25}{subsection.3.2.2}%
-\contentsline {subsection}{\numberline {3.2.3}SVM Polinomial}{25}{subsection.3.2.3}%
-\contentsline {subsection}{\numberline {3.2.4}SVM RBF}{26}{subsection.3.2.4}%
-\contentsline {section}{\numberline {3.3}Selección de características basada en algoritmos evolutivos}{26}{section.3.3}%
-\contentsline {subsection}{\numberline {3.3.1}GA para selección de variables}{26}{subsection.3.3.1}%
-\contentsline {subsection}{\numberline {3.3.2}Métodos híbridos}{27}{subsection.3.3.2}%
-\contentsline {subsection}{\numberline {3.3.3}GPDA}{27}{subsection.3.3.3}%
-\contentsline {section}{\numberline {3.4}Limitaciones identificadas}{27}{section.3.4}%
-\contentsline {section}{\numberline {3.5}Posicionamiento de GNLPDA}{28}{section.3.5}%
-\contentsline {chapter}{\numberline {4}Metodología}{29}{chapter.4}%
-\contentsline {section}{\numberline {4.1}Selección evolutiva en dos fases}{29}{section.4.1}%
-\contentsline {subsection}{\numberline {4.1.1}Fase I: selección de variables originales}{29}{subsection.4.1.1}%
-\contentsline {subsection}{\numberline {4.1.2}Fase II: selección de términos polinomiales}{31}{subsection.4.1.2}%
-\contentsline {subsection}{\numberline {4.1.3}Salida del procedimiento y ajuste final de LDA}{33}{subsection.4.1.3}%
-\contentsline {section}{\numberline {4.2}Configuración y calibración de GNLPDA}{34}{section.4.2}%
-\contentsline {subsection}{\numberline {4.2.1}Configuración del algoritmo genético.}{35}{subsection.4.2.1}%
-\contentsline {subsubsection}{Representación}{35}{section*.7}%
-\contentsline {subsubsection}{Selección}{35}{section*.8}%
-\contentsline {subsubsection}{Cruza}{35}{section*.9}%
-\contentsline {subsubsection}{Mutación}{36}{section*.10}%
-\contentsline {subsubsection}{Remplazo generacional}{36}{section*.11}%
-\contentsline {section}{\numberline {4.3}Configuración y calibración de los parámetros de GNLPDA}{37}{section.4.3}%
-\contentsline {section}{\numberline {4.4}Diseño experimental}{39}{section.4.4}%
-\contentsline {subsection}{\numberline {4.4.1}Conjuntos de datos utilizados}{39}{subsection.4.4.1}%
-\contentsline {subsection}{\numberline {4.4.2}Generación de conjuntos sintéticos tipo Cebolla}{40}{subsection.4.4.2}%
-\contentsline {subsection}{\numberline {4.4.3}Métodos comparativos y métrica de evaluación}{41}{subsection.4.4.3}%
-\contentsline {subsection}{\numberline {4.4.4}Protocolo de particionamiento y evaluación}{42}{subsection.4.4.4}%
-\contentsline {subsection}{\numberline {4.4.5}Evaluación auxiliar del problema Small Sample Size}{43}{subsection.4.4.5}%
-\contentsline {subsection}{\numberline {4.4.6}Análisis estadístico de resultados}{44}{subsection.4.4.6}%
-\contentsline {chapter}{\numberline {5}Resultados}{47}{chapter.5}%
-\contentsline {section}{\numberline {5.1}Resultados del problema de muestras pequeñas (SSS)}{47}{section.5.1}%
-\contentsline {subsection}{\numberline {5.1.1}Caso 1}{47}{subsection.5.1.1}%
-\contentsline {subsection}{\numberline {5.1.2}Caso 2}{47}{subsection.5.1.2}%
-\contentsline {subsection}{\numberline {5.1.3}Caso 3}{48}{subsection.5.1.3}%
-\contentsline {subsection}{\numberline {5.1.4}Caso 4}{48}{subsection.5.1.4}%
-\contentsline {subsection}{\numberline {5.1.5}Caso 5}{49}{subsection.5.1.5}%
-\contentsline {section}{\numberline {5.2}Resultados por conjunto de datos}{50}{section.5.2}%
-\contentsline {subsection}{\numberline {5.2.1}Palmer Penguins}{50}{subsection.5.2.1}%
-\contentsline {subsection}{\numberline {5.2.2}Wines}{53}{subsection.5.2.2}%
-\contentsline {subsection}{\numberline {5.2.3}Cancer Wisconsin}{56}{subsection.5.2.3}%
-\contentsline {subsection}{\numberline {5.2.4}Ionosfera}{60}{subsection.5.2.4}%
-\contentsline {subsection}{\numberline {5.2.5}Cebolla 3D}{63}{subsection.5.2.5}%
-\contentsline {subsection}{\numberline {5.2.6}Cebolla 10D}{65}{subsection.5.2.6}%
-\contentsline {subsection}{\numberline {5.2.7}Cebolla 20D}{68}{subsection.5.2.7}%
-\contentsline {subsection}{\numberline {5.2.8}Pima diabetes}{71}{subsection.5.2.8}%
-\contentsline {subsection}{\numberline {5.2.9}Indicadores 2015}{75}{subsection.5.2.9}%
-\contentsline {subsection}{\numberline {5.2.10}Indicadores 2020}{78}{subsection.5.2.10}%
-\contentsline {chapter}{\numberline {6}Discusión}{83}{chapter.6}%
-\contentsline {section}{\numberline {6.1}Expansión polinomial y separabilidad de los datos}{83}{section.6.1}%
-\contentsline {section}{\numberline {6.2}Comportamiento frente al problema Small Sample Size}{83}{section.6.2}%
-\contentsline {section}{\numberline {6.3}Comparación con los métodos evaluados}{84}{section.6.3}%
-\contentsline {section}{\numberline {6.4}Interpretación general de la propuesta}{85}{section.6.4}%
-\contentsline {chapter}{\numberline {7}Conclusiones}{87}{chapter.7}%
