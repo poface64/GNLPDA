@@ -55,9 +55,9 @@ Para ilustrar esta diferencia fundamental entre la maximización de la varianza 
 
 \begin{figure}[htbp]
 	\centering
-	\includegraphics[width=1\textwidth]{MT1.png}
+	\includegraphics[width=1\textwidth]{PRUEBASR1.png}
 	\caption{Comparativa conceptual entre los criterios de proyección de PCA y LDA. Elaboración propia.}
-	\label{fig:MT1}	
+	\label{fig:MT1}
 \end{figure}
 
 \subsection{Visualización de representaciones de baja dimensión}
@@ -91,22 +91,22 @@ A diferencia de PCA, LDA incorpora explícitamente la información de clase en l
 
 Desde una perspectiva probabilística, LDA suele asociarse con el supuesto de que las densidades condicionales de las clases siguen distribuciones normales multivariantes con una matriz de covarianza común, es decir, bajo una condición de homocedasticidad \cite{mclachlan1992discriminant}. Sin embargo, desde la formulación geométrica de Fisher, el método también puede entenderse como la búsqueda de una proyección lineal que maximiza una razón de separabilidad entre clases \cite{fisher1936use}. Esta distinción es importante, ya que en aplicaciones prácticas LDA puede emplearse tanto como clasificador como técnica de reducción de dimensionalidad supervisada \cite{martinez2001pca}.
 
-Para introducir la formulación básica, considérese primero un problema de clasificación binaria con dos clases $C_1$ y $C_2$. El objetivo consiste en encontrar un vector de proyección $w$ que transforme cada observación del espacio original en un valor escalar mediante una combinación lineal de sus características, como se muestra en la ecuación \ref{eq:EMT1}. La orientación óptima de este vector se determina buscando que las medias de las clases proyectadas queden suficientemente separadas, al mismo tiempo que se controla la variabilidad interna de cada clase.
+Para introducir la formulación básica, considérese primero un problema de clasificación binaria con dos clases $C_1$ y $C_2$. El objetivo consiste en encontrar un vector de proyección $\mathbf{w}$ que transforme cada observación del espacio original en un valor escalar mediante una combinación lineal de sus características, como se muestra en la ecuación (\ref{eq:EMT1}). La orientación óptima de este vector se determina buscando que las medias de las clases proyectadas queden suficientemente separadas, al mismo tiempo que se controla la variabilidad interna de cada clase.
 
 \begin{equation}
-	y = \mathbf{w}^Tx
+	y = \mathbf{w}^T\mathbf{x}
 	\label{eq:EMT1}
 \end{equation}
 
-Para formalizar esta idea, se definen dos cantidades principales: la matriz de dispersión intraclase $S_W$ (\ref{eq:EMT2}) y la matriz de dispersión inter-clase $S_B$ (\ref{eq:EMT2.1}). La primera resume la variabilidad de las observaciones alrededor de sus respectivos centroides de clase denotados como $m_1$ y $m_2$, mientras que la segunda cuantifica la separación entre los centroides de las clases. 
+Para formalizar esta idea, se definen dos cantidades principales: la matriz de dispersión intraclase $\mathbf{S}_W$ (\ref{eq:EMT2}) y la matriz de dispersión inter-clase $\mathbf{S}_B$ (\ref{eq:EMT2.1}). La primera resume la variabilidad de las observaciones alrededor de sus respectivos centroides de clase denotados como $\mathbf{\mu}_1$ y $\mathbf{\mu}_2$, mientras que la segunda cuantifica la separación entre los centroides de las clases. 
 
 \begin{equation}
-	\mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{m}_1)(\mathbf{x}_i - \mathbf{m}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{m}_2)(\mathbf{x}_i - \mathbf{m}_2)^T
+	\mathbf{S}_W = \sum_{\mathbf{x}_i \in C_1} (\mathbf{x}_i - \mathbf{\mu}_1)(\mathbf{x}_i - \mathbf{\mu}_1)^T + \sum_{\mathbf{x}_i \in C_2} (\mathbf{x}_i - \mathbf{\mu}_2)(\mathbf{x}_i - \mathbf{\mu}_2)^T
 	\label{eq:EMT2}
 \end{equation}
 
 \begin{equation}
-	\mathbf{S}_B = (\mathbf{m}_1 - \mathbf{m}_2)(\mathbf{m}_1 - \mathbf{m}_2)^T
+	\mathbf{S}_B = (\mathbf{\mu}_1 - \mathbf{\mu}_2)(\mathbf{\mu}_1 - \mathbf{\mu}_2)^T
 	\label{eq:EMT2.1}
 \end{equation}
 
@@ -122,7 +122,7 @@ A partir de estas matrices, el criterio de Fisher se expresa como una razón ent
 En el caso binario, la solución analítica conduce a una dirección de proyección proporcional al producto entre la inversa de la matriz de dispersión intraclase y la diferencia entre los vectores de medias de ambas clases. Esta formulación permite entender la intuición central del método: proyectar los datos hacia una dirección donde las clases se separen tanto como sea posible, manteniendo simultáneamente baja la dispersión interna de cada grupo \cite{bishop2006pattern}.
 
 \begin{equation}
-	\mathbf{w^*} \propto \mathbf{S_W^{-1}(m_1-m_2)}
+	\mathbf{w^*} \propto \mathbf{S_W^{-1}(\mu_1-\mu_2)}
 	\label{eq:EMT4}
 \end{equation}
 
@@ -132,7 +132,7 @@ Aunque la formulación binaria permite presentar la intuición geométrica de LD
 
 Para ello, se define primero la media global del conjunto de datos $\mu$, así como los vectores de medias correspondientes a cada clase $\mu_k$. Con base en estos centroides, la matriz de dispersión intraclase $S_W$ acumula la variabilidad interna de cada grupo, mientras que la matriz de dispersión interclase $S_B$ acumula la separación ponderada entre cada centroide de clase y la media global del conjunto de datos.
 
-La media global $\boldsymbol{\mu}$ de las $N$ observaciones totales y el vector de medias $\boldsymbol{\mu}_k$ de la clase $C_k$ se calculan, respectivamente, como:
+La media global $\boldsymbol{\mu}$ de las $N$ observaciones totales y el vector de medias $\boldsymbol{\mu}_k$ de la clase $C_k$ con $n_k$ observaciones se calculan, respectivamente, como:
 
 \begin{equation}
 	\boldsymbol{\mu} = \frac{1}{N} \sum_{i=1}^N \mathbf{x}_i, \qquad \boldsymbol{\mu}_k = \frac{1}{n_k} \sum_{\mathbf{x}_i \in C_k} \mathbf{x}_i.
@@ -401,66 +401,93 @@ La pertinencia de acoplar un algoritmo genético con LDA radica en que la selecc
 
 Los métodos kernel constituyen una familia de enfoques ampliamente utilizados para
 extender modelos lineales hacia escenarios no lineales. Su idea central consiste en
-transformar los datos originales hacia un espacio de características de mayor dimensión, donde relaciones que no son linealmente separables en el espacio original pueden representarse mediante fronteras lineales en el espacio transformado. Esta lógica se relaciona con la motivación subyacente de la expansión polinomial: aumentar la capacidad de representación del modelo mediante transformaciones del espacio de entrada \cite{scholkopf2018learning}.
+transformar los datos originales hacia un espacio de características de mayor dimensión, donde relaciones que no son linealmente separables en el espacio original pueden representarse mediante fronteras lineales en el espacio transformado. Esta lógica se relaciona con la motivación subyacente de la expansión polinomial: aumentar la capacidad de representación del modelo mediante transformaciones del espacio de entrada \cite{scholkopf2001learning}.
 
 \subsection{Truco Kernel y funciones kernel}
 
-Sea $x \in \mathbb{R}^p$ un vector de entrada. Un método kernel asume la existencia de una función de mapeo $\phi(x)$, que proyecta las observaciones desde el espacio original hacia un espacio de características posiblemente de alta o incluso infinita dimensión. En principio, el producto interno en dicho espacio transformado se define como:
+Sea $\mathbf{x} \in \mathbb{R}^p$ un vector de entrada. Un método kernel asume la existencia de una función de mapeo $\phi(\mathbf{x})$, que proyecta las observaciones desde el espacio original hacia un espacio de características $\mathcal{H}$ posiblemente de alta o incluso infinita dimensión. En principio, el producto interno en dicho espacio transformado se define como:
 
 \begin{equation}
-	K(x_i,x_j) = \phi(x_i)^T\phi(x_j)
+	K(\mathbf{x}_i, \mathbf{x}_j) = \langle \phi(\mathbf{x}_i), \phi(\mathbf{x}_j) \rangle
 	\label{eq:EMT15}
 \end{equation}
 
-La ventaja computacional fundamental de los métodos kernel consiste en que no es necesario calcular explícitamente las coordenadas proyectadas $\phi(x)$. En su lugar, se define una función kernel $K(x_i,x_j)$ que evalúa directamente el producto interno entre dos observaciones en el espacio transformado. Este procedimiento algorítmico se conoce como el kernel trick y permite trabajar con espacios de características de alta dimensionalidad sin incurrir en el costo de construirlos de forma explícita \cite{bishop2006pattern}.
+
+La ventaja computacional fundamental de los métodos kernel consiste en que no es necesario calcular explícitamente las coordenadas proyectadas $\phi(\mathbf{x})$. En su lugar, se define una función kernel $K(\mathbf{x}_i,\mathbf{x}_j)$ que evalúa directamente el producto interno entre dos observaciones en el espacio transformado. Este procedimiento algorítmico se conoce como el truco kernel y permite trabajar con espacios de características de alta dimensionalidad sin incurrir en el costo de construirlos de forma explícita \cite{bishop2006pattern}.
 
 Entre las funciones kernel más estandarizadas en la literatura se encuentran el kernel lineal, el kernel polinomial y el kernel de función de base radial (RBF). El kernel lineal equivale al producto interno ordinario, mientras que el kernel polinomial permite incorporar interacciones de orden superior de forma implícita. Por su parte, el kernel RBF mide la similitud local entre observaciones e induce fronteras de decisión altamente flexibles.
 
-Matemáticamente, se expresan de la siguiente manera:
+Matemáticamente, estas funciones se expresan de la siguiente manera para un par de observaciones $\mathbf{x}_i, \mathbf{x}_j \in \mathbb{R}^p$: \\
+
 
 \noindent\textbf{Kernel lineal:}
 \begin{equation}
-	K(\mathbf{x}, \mathbf{z}) = \mathbf{x}^T \mathbf{z}
+	K(\mathbf{x}_i, \mathbf{x}_j) = \mathbf{x}_i^T \mathbf{x}_j
 	\label{eq:EMT16}
 \end{equation}
 
+
 \noindent\textbf{Kernel polinomial:}
 \begin{equation}
-	K(\mathbf{x}, \mathbf{z}) = (\gamma \mathbf{x}^T \mathbf{z} + c)^r
+	K(\mathbf{x}_i, \mathbf{x}_j) = (\beta \mathbf{x}_i^T \mathbf{x}_j + C)^D
 	\label{eq:EMT17}
 \end{equation}
 
+donde:
+
+\begin{itemize}
+	\item $\beta > 0$ es el coeficiente de escala que pondera la influencia del producto interno.
+	\item $C \ge 0$ es el término de sesgo (o constante independiente) que regula el peso relativo entre los términos polinomiales de orden inferior y superior.
+	\item $D \in \mathbb{N}$ ($D \ge 1$) representa el grado del polinomio.
+\end{itemize}
+
 \noindent\textbf{Kernel RBF:}
 \begin{equation}
-	K(\mathbf{x}, \mathbf{z}) = \exp(-\gamma \|\mathbf{x} - \mathbf{z}\|^2)
+	K(\mathbf{x}_i, \mathbf{x}_j) = \exp(-\gamma \|\mathbf{x}_i - \mathbf{x}_j\|^2)
 	\label{eq:EMT18}
 \end{equation}
 
+donde:
+
+\begin{itemize}
+	\item $\|\mathbf{x}_i - \mathbf{x}_j\|^2$ denota la distancia euclidiana al cuadrado entre las observaciones.
+	\item $\gamma > 0$ es el parámetro de ancho de banda que controla el radio de influencia de la función ($\gamma = \frac{1}{2\sigma^2}$, donde $\sigma^2$ representa la varianza del kernel).
+\end{itemize}
 
 En el contexto de esta tesis, el kernel polinomial resulta particularmente relevante por su vinculación teórica con la expansión polinomial explícita. La diferencia principal radica en que, mientras la expansión polinomial construye explícitamente los términos cuadráticos y las interacciones cruzadas, el kernel polinomial opera sobre un espacio expandido de forma implícita. Esta distinción es crítica porque el enfoque propuesto en esta investigación busca conservar una relación directa rastreable con los términos generados, favoreciendo la trazabilidad analítica de las variables seleccionadas.
 
 \subsection{KFDA y SVM como enfoques no lineales de referencia}
 
-El Análisis Discriminante de Fisher con Kernel (KFDA) se concibe como una extensión no lineal del criterio de Fisher clásico. Mientras que LDA busca direcciones discriminantes en el espacio original mediante combinaciones lineales, KFDA traslada el problema de optimización al espacio de características inducido por el kernel. En dicho espacio, el objetivo se mantiene: maximizar la separación interclase y minimizar la dispersión intraclase; no obstante, la solución algebraica se reformula en términos de productos kernel y matrices
-de Gram \cite{mika1999fisher}.
+El Análisis Discriminante de Fisher con Kernel (KFDA) se concibe como una extensión no lineal del criterio de Fisher clásico. Mientras que LDA busca direcciones discriminantes en el espacio original mediante combinaciones lineales, KFDA traslada el problema de optimización al espacio de características inducido por el kernel. En dicho espacio, el objetivo se mantiene: maximizar la separación interclase y minimizar la dispersión intraclase; no obstante, la solución algebraica se reformula en términos de productos kernel y matrices de Gram \cite{mika1999fisher}.
 
-Una diferencia relevante entre KFDA y otros clasificadores kernel radica en su relación con la reducción de dimensionalidad supervisada. Al heredar la lógica del criterio de Fisher, KFDA puede formularse como un método orientado a obtener ejes o proyecciones discriminantes en el espacio de características inducido por el kernel. En este sentido, mantiene una relación conceptual más cercana con LDA, aunque opera mediante una formulación dual basada en productos kernel. Por el contrario, aunque SVM también puede utilizar funciones kernel para inducir fronteras no lineales, su objetivo principal no es construir una proyección discriminante de baja dimensión, sino estimar una frontera de decisión con margen máximo para clasificar nuevas observaciones.
+Una diferencia relevante entre KFDA y otros clasificadores kernel radica en su relación con la reducción de dimensionalidad supervisada. Al heredar la lógica del criterio de Fisher, KFDA puede formularse como un método orientado a obtener ejes o proyecciones discriminantes en el espacio de características inducido por el kernel \cite{baudat2000generalized}. En este sentido, mantiene una relación conceptual más cercana con LDA, aunque opera mediante una formulación dual basada en productos kernel. Por el contrario, aunque SVM también puede utilizar funciones kernel para inducir fronteras no lineales, su objetivo principal no es construir una proyección discriminante de baja dimensión, sino estimar una frontera de decisión con margen máximo para clasificar nuevas observaciones \cite{scholkopf2001learning}.
 
-De manera análoga, las Máquinas de Vectores de Soporte (SVM) emplean el kernel trick para construir fronteras de decisión no lineales. En su formulación clásica, SVM busca un hiperplano de separación que maximice el margen geométrico entre las clases, apoyándose en las observaciones más relevantes, denominadas vectores de soporte \cite{cortes1995support}. Al integrar funciones kernel, la función de decisión para una nueva observación $x$ se formula de la siguiente manera general:
+En su formulación clásica, SVM busca un hiperplano de separación que maximice el margen geométrico entre las clases, apoyándose en las observaciones más relevantes, denominadas vectores de soporte \cite{cortes1995support}. Al integrar funciones kernel, la función de decisión continua para asignar una nueva observación $\mathbf{x} \in \mathbb{R}^p$ se expresa de la siguiente manera \cite{hastie2009elements}:
+
 
 \begin{equation}
-	f(x) = \sum_{i = 1}^{n} {\alpha_iy_iK(x_i,x) + b}
+	f(\mathbf{x}) = \sum_{i = 1}^{n_s} \alpha_i y_i K(\mathbf{x}_i, \mathbf{x}) + b
 	\label{eq:EMT19}
 \end{equation}
 
-Para el marco experimental de esta investigación, SVM con kernel polinomial y SVM con kernel RBF se consideran los clasificadores no lineales de referencia. Ambos enfoques, sin embargo, presentan una alta sensibilidad a la parametrización, dependiendo de la correcta sintonización de hiperparámetros estructurales como el grado del polinomio $r$, el coeficiente $\gamma$, o la constante de regularización ($C$) \cite{chapelle2002choosing}.
+donde:
+
+\begin{itemize}
+	\item $n_s$ es el número de vectores de soporte obtenidos en el entrenamiento ($n_s \le n$).
+	\item $\mathbf{x}_i \in \mathbb{R}^p$ denota el $i$-ésimo vector de soporte y $y_i \in \{-1, +1\}$ su respectiva etiqueta de clase.
+	\item $\alpha_i > 0$ es el multiplicador de Lagrange asociado a $\mathbf{x}_i$, el cual pondera su importancia en la frontera de decisión.
+	\item $K(\mathbf{x}_i, \mathbf{x})$ representa la función kernel que evalúa la similitud en el espacio transformado $\mathcal{H}$.
+	\item $b \in \mathbb{R}$ es el término de sesgo del hiperplano de separación.
+\end{itemize}
+
+Para el marco experimental de esta investigación, la SVM con kernel polinomial y la SVM con kernel RBF se establecen como los clasificadores no lineales de referencia. No obstante, el desempeño predictivo de ambos modelos depende estrictamente del correcto ajuste de sus hiperparámetros estructurales, tales como la constante de penalización $C$, el parámetro de ancho de banda $\gamma$, el grado polinomial $D$ o el coeficiente de escala $\beta$ \cite{chapelle2002choosing}. En consecuencia, se requiere la implementación de una estrategia sistemática de ajuste que permita encontrar las configuraciones óptimas que maximicen la capacidad de generalización de estos modelos sobre los datos de estudio.
+
 
 \subsection{Ventajas, limitaciones e interpretabilidad}
 
-Los métodos kernel presentan una ventaja importante: permiten introducir capacidad de modelado no lineal sin construir explícitamente todas las variables transformadas. En lugar de generar de manera directa los términos del espacio de características, estos métodos operan mediante productos internos definidos por una función kernel. Esta propiedad reduce la necesidad de manipular explícitamente espacios expandidos de alta dimensión y permite modelar fronteras de decisión no lineales estructuras de separación complejas en el espacio original.
+Los métodos kernel presentan una ventaja importante: permiten introducir la capacidad de modelado no lineal sin construir explícitamente todas las variables transformadas. En lugar de generar de manera directa los términos del espacio de características, estos métodos operan mediante productos internos definidos por una función kernel. De este modo, evitan la manipulación explícita de las representaciones transformadas, incluso cuando estas corresponden a espacios de alta dimensión y permite modelar fronteras de decisión no lineales en el espacio original.
 
-No obstante, esta formulación también introduce limitaciones. Al permanecer el espacio transformado de forma implícita, la interpretación directa de las variables originales y de sus interacciones puede volverse menos transparente. En consecuencia, aunque el modelo puede alcanzar buen desempeño predictivo, puede ser más difícil identificar qué variables o combinaciones de variables explican la separación entre clases. Además, el desempeño de los métodos kernel depende de la elección de la función kernel y de la adecuada sintonización de sus hiperparámetros, lo cual puede afectar la capacidad de generalización, especialmente
-en escenarios de tamaño muestral reducido \cite{chapelle2002choosing} \cite{rudin2019stop}. En contraste, la expansión polinomial explícita permite observar directamente los términos generados, como variables originales, términos cuadrados e interacciones. 
+No obstante, esta formulación presenta limitaciones. Dado que el espacio de características permanece implícito, la identificación de las variables originales que contribuyen a la separación entre clases puede requerir mecanismos adicionales de selección o interpretación \cite{PARK2021104800}. Además, el desempeño de los métodos kernel esta ligado a la elección del tipo de función kernel y el adecuado ajuste de sus hiperparámetros, dichos aspectos pueden influir en su capacidad de generalización \cite{chapelle2002choosing, rudin2019stop}. En contraste, la expansión polinomial explícita permite inspeccionar directamente los términos generados, como las variables originales, sus potencias y las interacciones entre ellas.
 
 Esta característica favorece la trazabilidad de la representación transformada y permite identificar qué términos son conservados después del proceso de selección. Sin embargo, dicha ventaja tiene como costo el crecimiento combinatorio del número de características. Por ello, la arquitectura propuesta en esta investigación combina expansión polinomial explícita con selección evolutiva, buscando conservar términos informativos y controlar la dimensionalidad antes de aplicar el análisis discriminante.
 
