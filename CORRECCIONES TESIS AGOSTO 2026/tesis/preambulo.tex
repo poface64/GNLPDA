@@ -21,6 +21,10 @@
 % ---------- Geometría de página (A4, como el PDF original) ----------
 \usepackage[a4paper,margin=2.5cm]{geometry}
 
+\usepackage{multirow} 
+\usepackage{array}
+\newcolumntype{C}[1]{>{\centering\arraybackslash}m{#1}}
+
 % ---------- Tipografía del CUERPO del documento ----------
 % El PDF de Víctor usa "NimbusRomNo9L", el clon libre de Times
 % que trae TeX Live. mathptmx activa esa fuente (texto y matemáticas).

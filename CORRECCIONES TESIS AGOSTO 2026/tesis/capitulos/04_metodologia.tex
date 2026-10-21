@@ -81,13 +81,15 @@ Para reducir el costo computacional de la evaluación de la Fase 1, la expansió
 
 En ambas fases del proceso evolutivo se incorpora un mecanismo de memoria caché inspirado en la propuesta de Barradas-Palmeros y colaboradores \cite{barradas2024computational}. Dicho mecanismo consiste en almacenar dentro de una lista a cada individuo previamente evaluado junto con el valor de aptitud correspondiente. El objetivo principal de esta estrategia es evitar la re evaluación innecesaria de individuos repetidos que puedan surgir conforme avanza el ciclo evolutivo, asignándole directamente el valor ya calculado en lugar de someterlos nuevamente al proceso de evaluación.
 
-A continuación se muestra el pseudo-codigo que describe el funcionamiento de esta primer etapa:
+El algoritmo empleado para calcular la función de aptitud $F_1(\mathbf{z}^{(1)})$ y gestionar la memoria de evaluaciones se presenta en el Algoritmo \ref{alg:fase1}.
+
 
 \begin{algorithm}[H]
 	\KwEntrada{$I$: Individuo binario de variables originales,$X_{\text{orig}}$: datos originales,$X_{\text{pool}}$: expansión polinomial precomputada de $X_{\text{orig}}$,
 			$y$: etiquetas,
 			$M$: modelo base LDA,
-			$\lambda$: penalización,$Mem$: memoria de evaluaciones}
+			$\lambda$: penalización, 
+			$Mem$: memoria de evaluaciones}
 		 		 
 		
 	\KwSalida{Aptitud $f_1$}
@@ -114,6 +116,7 @@ A continuación se muestra el pseudo-codigo que describe el funcionamiento de es
 	\Return $f_1$\;
 	
 	\caption{Evaluación de aptitud con expansión polinomial}
+	\label{alg:fase1}
 \end{algorithm}
 
 
@@ -145,14 +148,16 @@ En esta fase, cada gen representa un término específico del espacio polinomial
 	\label{eq:EM9}
 \end{equation}
 
-Así, un cromosoma de la forma:
+De esta manera, un cromosoma de la forma:
 
 \begin{equation}
-	\{x_1,x_1^2,x_1x_3\}
+	Z^{(2)} = [1, 0, 1, 1, 0]
 	\label{eq:EM10}
 \end{equation}
 
-El número de términos activos en la segunda fase se define mediante:
+representa la selección del subconjunto de términos $\{x_1, x_1^2, x_1 x_3\}$, al asignar el valor $1$ a las posiciones asociadas.
+
+El número de términos activos en la segunda fase se define formalmente mediante:
 
 \begin{equation}
 	s = |z^{(2)}|_0
@@ -182,6 +187,8 @@ La salida de la segunda fase es el subconjunto de términos polinomiales que max
 
 Este subconjunto constituye la representación final seleccionada por GNLPDA. Su propósito es conservar únicamente los términos que contribuyen al desempeño discriminante, descartando variables lineales, términos cuadráticos o interacciones cuya inclusión no compense el aumento de complejidad del modelo.
 
+El proceso para obtener el valor de aptitud $F_2(\mathbf{z}^{(2)})$ sobre el espacio polinomial restringido se resume en el Algoritmo \ref{alg:fase2}.
+
 \begin{algorithm}[H]
 	\KwEntrada{$I$: Individuo binario de términos polinomiales, 
 		$X^{*}$: espacio polinomial restringido, 
@@ -210,9 +217,9 @@ Este subconjunto constituye la representación final seleccionada por GNLPDA. Su
 	
 	$Mem[I] \gets f_2$\;
 	
-	\Return $f_2$\;
-	
+	\Return $f_2$\;	
 	\caption{Evaluación de aptitud en espacio polinomial restringido}
+	\label{alg:fase2}	
 \end{algorithm}
 
 \subsection{Salida del procedimiento y ajuste final de LDA}
@@ -227,9 +234,11 @@ originales retenidas en la primera fase, el subconjunto de términos polinomiale
 seleccionados en la segunda fase y la proyección discriminante final de baja dimensión, destinada a la representación y visualización de la estructura de las clases.
 En conjunto, estos elementos permiten reportar tanto el desempeño predictivo del método como la reducción dimensional lograda respecto al espacio polinomial completo.
 
-En términos metodológicos, la primera fase reduce el espacio de variables que serán consideradas en la expansión, mientras que la segunda fase reduce el espacio polinomial resultante. Esta doble selección evita explorar directamente todas las combinaciones de términos de la expansión polinomial completa y permite controlar el crecimiento combinatorio del problema. Por ello, GNLPDA busca obtener una representación discriminante parsimoniosa y adecuada para la delección entre clases, reduciendo el tamaño del espacio de características sobre el cual se ajusta el discriminante y favoreciendo la obtención de una representación de baja dimensión que pueda ser inspeccionada visualmente.
+En términos metodológicos, la primera fase reduce el espacio de variables que serán consideradas en la expansión, mientras que la segunda fase reduce el espacio polinomial resultante. Esta doble selección evita explorar directamente todas las combinaciones de términos de la expansión polinomial completa y permite controlar el crecimiento combinatorio del problema. Por ello, GNLPDA busca obtener una representación discriminante parsimoniosa y adecuada para la detección entre clases, reduciendo el tamaño del espacio de características sobre el cual se ajusta el discriminante y favoreciendo la obtención de una representación de baja dimensión que pueda ser inspeccionada visualmente.
 
-Siendo entonces, que el pseudo-codigo completo con las funciones de aptitud es el siguiente:
+En términos metodológicos, la primera fase reduce el espacio de variables que serán consideradas en la expansión, mientras que la segunda fase reduce el espacio polinomial resultante. Esta doble selección evita explorar directamente todas las combinaciones de términos de la expansión polinomial completa y permite controlar el crecimiento combinatorio del problema. Por ello, GNLPDA busca obtener una representación discriminante parsimoniosa y adecuada para la detección entre clases, reduciendo el tamaño del espacio de características sobre el cual se ajusta el discriminante y favoreciendo la obtención de una representación de baja dimensión que pueda ser inspeccionada visualmente.
+
+El procedimiento principal que estructura el proceso evolutivo en dos fases y el ajuste final del modelo LDA se presenta formalmente en el Algoritmo \ref{alg:fase3}.
 
 \begin{algorithm}[H]
 	\KwEntrada{$X_{\text{orig}}$: datos originales, 
@@ -281,6 +290,7 @@ Siendo entonces, que el pseudo-codigo completo con las funciones de aptitud es e
 	\Return{$I_{1}^{*}, I_{2}^{*}, X_{\text{final}}, Z$}\;
 	
 	\caption{Procedimiento principal de GNLPDA mediante selección evolutiva en dos fases}
+	\label{alg:fase3}
 \end{algorithm}
 
 
@@ -482,7 +492,7 @@ La penalización por complejidad $\lambda$ constituye un parámetro propio de la
 Para realizar la calibración mediante \textit{irace} se utilizaron cuatro instancias que corresponden a los conjuntos de datos: \textit{wines}, \textit{pimadiabetes}, Cebolla3D y Cebolla10D. Dichos conjuntos y sus características se presentan más adelante en la Tabla \ref{tab:MM4}. Las instancias fueron seleccionadas para representar escenarios complementarios: 
 \textit{wines} como un caso favorable para la separación lineal; \textit{pimadiabetes} como un escenario real con mayor dificultad de separación; y Cebolla3D y Cebolla10D como escenarios sintéticos con estructuras no linealmente separables y diferente dimensionalidad, utilizados para evaluar el efecto de la expansión polinomial. En conjunto, estas instancias permitieron evaluar la configuración del algoritmo bajo diferentes condiciones de dimensionalidad y separabilidad.
 
-Dado que  \textit{irace} opera como un procedimiento de minimización, el criterio objetivo se definió a partir de la aptitud penalizada obtenida por GNLPDA en la Fase II. Para cada configuración candidata e instancia de calibración, se ejecutó el procedimiento completo de dos fases y se registró el mejor valor global de aptitud encontrado durante la Fase II, denotado como como $F_2{(z^{(2)*})}$. A partir de este valor, la función de costo que guiá la búsqueda de \textit{irace} se definió como:
+Dado que  \textit{irace} opera como un procedimiento de minimización, el criterio objetivo se definió a partir de la aptitud penalizada obtenida por GNLPDA en la Fase II. Para cada configuración candidata e instancia de calibración, se ejecutó el procedimiento completo de dos fases y se registró el mejor valor global de aptitud encontrado durante la Fase II, denotado como $F_2{(z^{(2)*})}$. A partir de este valor, la función de costo que guiá la búsqueda de \textit{irace} se definió como:
 
 \begin{equation}
 	\mathcal{L}_{irace} = 1-F_2{(z^{(2)*})}
@@ -658,39 +668,13 @@ El primer método comparativo fue LDA, implementado mediante la función lda de 
 
 El segundo método fue QDA, considerado como una extensión clásica del análisis discriminante que relaja el supuesto de covarianzas iguales entre clases. A diferencia de LDA, QDA permite fronteras de decisión cuadráticas, por lo que se incorporó como un competidor tradicional capaz de modelar separaciones no estrictamente lineales en el espacio original.
 
-También se incluyó KFDA con kernel gaussiano. Este método constituye una alternativa kernel de análisis discriminante de Fisher, al permitir que la separación entre clases se realice en un espacio de características inducido implícitamente por el kernel. Su inclusión resulta relevante porque conserva una interpretación discriminante y proyectiva, pero incorpora la capacidad de modelar relaciones no lineales entre las observaciones. Se implemento manualmente siguiendo las especificaciones de su articulo fundacional\cite{mika1999fisher} y una explicación más reciente su funcionamiento \cite{ghojogh2019fisher}. Fue utilizado como extractor discriminante de características. La decisión de clase se realizó posteriormente mediante el criterio de mínima distancia euclidiana al centroide de cada clase en el espacio generado por KFDA.
+También se incluyó el Análisis Discriminante Kernel de Fisher (KFDA) con kernel gaussiano. Este método constituye una extensión no lineal del Análisis Discriminante de Fisher tradicional, permitiendo que la separación entre clases se realice en un espacio de características inducido de manera implícita por la función kernel. Su inclusión resulta relevante debido a que conserva la interpretación discriminante y proyectiva del método clásico, a la vez que incorpora la capacidad de capturar relaciones no lineales complejas entre las observaciones. La implementación se realizó de forma manual siguiendo la formulación original planteada en \cite{mika1999fisher}, así como la revisión detallada de su funcionamiento presentada en \cite{ghojogh2019fisher}.
+La tecnica fue utilizada como extractor discriminante de características y la decisión de clase se realizó posteriormente mediante el criterio de mínima distancia euclidiana al centroide de cada clase en el espacio generado por KFDA.
+
 
 Adicionalmente, se evaluaron tres variantes de SVM. La primera corresponde a SVM con kernel polinomial de grado 2, incluida como referencia frente a una transformación polinomial implícita de segundo grado. La segunda corresponde a SVM con kernel polinomial de grado 3, considerada para analizar el efecto de una transformación polinomial implícita de mayor orden. Finalmente, se incluyó SVM con kernel gaussiano, debido a su uso extendido en el estado del arte y a su capacidad para modelar fronteras de decisión no lineales flexibles.
 
-\begin{table}[htbp]
-	\centering
-	\begin{tabular}{|c|c|p{7.5cm}|}
-		\hline
-		\encabezado{Método} &
-		\encabezado{Variante} &
-		\encabezado{Propósito en la comparación} \\
-		\hline
-		
-		LDA & \begin{tabular}{c}
-			LDA de la\\
-			paquetería\\
-			MASS
-		\end{tabular} & Línea base de separación lineal y proyectiva; implementación usada internamente por GNLPDA. \\
-		\hline
-		QDA & Clásico & Clasificador discriminante con fronteras cuadráticas. \\
-		\hline
-		KFDA & Gaussiano & Alternativa kernel de Fisher para separación no lineal. \\
-		\hline
-		SVM & Pol (2) & Comparación frente a una transformación polinomial implícita de segundo grado. \\
-		\hline
-		SVM & Pol (3) & Comparación frente a una transformación polinomial implícita de mayor orden. \\
-		\hline
-		SVM & Gaussiano & Clasificador kernel no lineal ampliamente utilizado. \\
-		\hline
-	\end{tabular}
-	\caption{Resume los métodos comparativos considerados y su propósito dentro del diseño experimental.}
-	\label{tab:MM6}	
-\end{table}
+\begin{table}[htbp] \centering \begin{tabular}{|c|c|C{8cm}|} \hline \encabezado{Método} & \encabezado{Variante} & \encabezado{Propósito en la comparación} \\ \hline LDA & MASS & Línea base de separación lineal y proyectiva; implementación usada internamente por GNLPDA. \\ \hline QDA & Clásico & Clasificador discriminante con fronteras cuadráticas. \\ \hline KFDA & Gaussiano & Alternativa kernel de Fisher para separación no lineal. \\ \hline SVM & Pol (2) & Comparación frente a una transformación polinomial implícita de segundo grado. \\ \hline SVM & Pol (3) & Comparación frente a una transformación polinomial implícita de mayor orden. \\ \hline SVM & Gaussiano & Clasificador kernel no lineal ampliamente utilizado. \\ \hline \end{tabular} \caption{Resumen de los métodos comparativos considerados y su propósito dentro del diseño experimental.} \label{tab:MM6} \end{table}
 
 %%%%%%%%%%%% AQUI VA LA DIFERENCIA REACOMODANDO LAS SECCIONES %%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -718,8 +702,13 @@ El rendimiento de los métodos se evaluó mediante exactitud (accuracy) sobre el
 	\label{eq:EM22}
 \end{equation}
 
-Dado que cada método fue evaluado sobre las mismas 30 particiones por dataset, para cada combinación método-dataset se obtuvieron 30 valores de exactitud. Estos valores fueron utilizados posteriormente para el análisis estadístico mediante la prueba de Friedman y, cuando correspondió, la prueba post hoc de Nemenyi.
+Dado que todos los métodos se evaluaron sobre las mismas 30 particiones de cada conjunto de datos, se obtuvieron 30 valores de exactitud por cada combinación de método y conjunto de datos.
 
+Como análisis preliminar, se examinaron los supuestos del ANOVA de medidas repetidas mediante la prueba de Shapiro-Wilk, aplicada a los residuos del modelo, y la prueba de esfericidad de Mauchly. Los resultados se presentan en la Tabla \ref{tab:MMX}. Con un nivel de significancia de ($\alpha=0.05$), se rechazó la hipótesis nula de normalidad en cinco de los diez conjuntos de datos, mientras que la hipótesis nula de esfericidad se rechazó en ocho. Aunque existen correcciones para ajustar el análisis ante desviaciones de la esfericidad, estas no resuelven posibles incumplimientos del supuesto de normalidad.
+
+En conjunto, los resultados del diagnóstico, junto con la estructura emparejada de las evaluaciones, motivaron la elección de un procedimiento no paramétrico para comparar los métodos de clasificación. Se empleó la prueba de Friedman, considerando las particiones como bloques y los métodos como tratamientos. Cuando la prueba global detectó diferencias estadísticamente significativas, se aplicó la prueba post hoc de Nemenyi para realizar comparaciones por pares.
+
+\begin{table}[htbp] \centering \begin{tabular}{|C{3.2cm}|c|c|c|c|c|c|} \hline \encabezado{Dataset} & \multicolumn{3}{c|}{\encabezado{Shapiro--Wilk}} & \multicolumn{3}{c|}{\encabezado{Mauchly}} \\ \cline{2-7} \encabezado{} & \encabezado{$W$} & \encabezado{$p$} & \encabezado{Decisión} & \encabezado{$W$} & \encabezado{$p$} & \encabezado{Decisión} \\ \hline penguins & \textbf{0.937} & \textbf{0.001} & \textbf{Rechazo} & \textbf{0.043} & \textbf{0.001} & \textbf{Rechazo} \\ \hline pimadiabetes & 0.985 & 0.058 & No rechazo & \textbf{0.283} & \textbf{0.029} & \textbf{Rechazo} \\ \hline wines & \textbf{0.979} & \textbf{0.009} & \textbf{Rechazo} & \textbf{0.027} & \textbf{0.001} & \textbf{Rechazo} \\ \hline Cebolla3D & \textbf{0.971} & \textbf{0.001} & \textbf{Rechazo} & \textbf{0.013} & \textbf{0.001} & \textbf{Rechazo} \\ \hline Cebolla10D & \textbf{0.983} & \textbf{0.026} & \textbf{Rechazo} & \textbf{0.156} & \textbf{0.001} & \textbf{Rechazo} \\ \hline Cebolla20D & 0.989 & 0.191 & No rechazo & \textbf{0.047} & \textbf{0.001} & \textbf{Rechazo} \\ \hline CancerWisconsin & 0.992 & 0.409 & No rechazo & 0.406 & 0.239 & No rechazo \\ \hline Ionosphere & 0.990 & 0.367 & No rechazo & 0.590 & 0.430 & No rechazo \\ \hline indicadores2015 & 0.990 & 0.251 & No rechazo & \textbf{0.008} & \textbf{0.001} & \textbf{Rechazo} \\ \hline indicadores2020 & \textbf{0.981} & \textbf{0.014} & \textbf{Rechazo} & \textbf{0.065} & \textbf{0.001} & \textbf{Rechazo} \\ \hline \end{tabular} \caption{Resultados de las pruebas de normalidad de Shapiro--Wilk y esfericidad de Mauchly.} \label{tab:MMX} \end{table}
 
 \subsection{Evaluación auxiliar del problema Small Sample Size}
 
@@ -727,7 +716,7 @@ Además del análisis comparativo principal, se diseñó una evaluación auxilia
 
 Para ello, se construyeron cinco escenarios sintéticos con tres clases balanceadas. 
 
-En cada caso se controló el número total de observaciones, el número de atributos originales y el número de atributos resultantes después de aplicar una expansión polinomial de segundo grado sin término de sesgo. Si ($d$) representa el número de atributos originales, el número de términos generados por la expansión cuadrática se calculó como:
+En cada caso se controló el número total de observaciones, el número de atributos originales y el número de atributos resultantes después de aplicar una expansión polinomial de segundo grado sin término de sesgo. Si $d$ representa el número de atributos originales, el número de términos generados por la expansión cuadrática se calculó como:
 
 \begin{equation}
 	D_\phi = \binom{d+2}{2}-1
