@@ -6,76 +6,58 @@ A level-1 auxiliary file: capitulos/01_introduccion.aux
 A level-1 auxiliary file: capitulos/02_marco_teorico.aux
 A level-1 auxiliary file: capitulos/03_estado_arte.aux
 A level-1 auxiliary file: capitulos/04_metodologia.aux
+A level-1 auxiliary file: capitulos/05_resultados.aux
+A level-1 auxiliary file: capitulos/07_conclusiones.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliografia/referenciaslimpias.bib
-I was expecting a `,' or a `}'---line 229 of file bibliografia/referenciaslimpias.bib
- :  
- :  publisher={Wiley Online Library},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 899 of file bibliografia/referenciaslimpias.bib
- : 
- : @article{hasan2021review,
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 1071 of file bibliografia/referenciaslimpias.bib
- :  
- :  capitulo = {2Marco},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
-I was expecting a `,' or a `}'---line 2043 of file bibliografia/referenciaslimpias.bib
- :  
- :  capitulo = {3Estado},
-(Error may have been on previous line)
-I'm skipping whatever remains of this entry
 Warning--I didn't find a database entry for "uddin2021pca"
 Warning--I didn't find a database entry for "elae023"
-Warning--empty number in coomans1992comparison
-Warning--empty note in coomans1992comparison
 Warning--empty year in us_algoritmos_geneticos
-You've used 94 entries,
+Warning--empty number in venkat2018curse
+Warning--empty note in venkat2018curse
+You've used 96 entries,
             4728 wiz_defined-function locations,
-            1477 strings with 27654 characters,
-and the built_in function-call counts, 84160 in all, are:
-= -- 8592
-> -- 2896
-< -- 3334
-+ -- 3978
-- -- 1073
-* -- 6477
-:= -- 14654
-add.period$ -- 123
-call.type$ -- 94
-change.case$ -- 595
-chr.to.int$ -- 93
-cite$ -- 97
-duplicate$ -- 2050
-empty$ -- 4630
-format.name$ -- 1731
-if$ -- 15448
-int.to.chr$ -- 2
+            1599 strings with 31241 characters,
+and the built_in function-call counts, 87287 in all, are:
+= -- 8931
+> -- 3018
+< -- 3438
++ -- 4130
+- -- 1128
+* -- 6760
+:= -- 15223
+add.period$ -- 188
+call.type$ -- 96
+change.case$ -- 619
+chr.to.int$ -- 96
+cite$ -- 99
+duplicate$ -- 2131
+empty$ -- 4798
+format.name$ -- 1807
+if$ -- 16204
+int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 491
-newline$ -- 531
-num.names$ -- 376
-pop$ -- 861
+missing$ -- 503
+newline$ -- 635
+num.names$ -- 385
+pop$ -- 841
 preamble$ -- 1
-purify$ -- 783
+purify$ -- 811
 quote$ -- 0
-skip$ -- 4931
+skip$ -- 4995
 stack$ -- 0
-substring$ -- 6155
-swap$ -- 557
-text.length$ -- 391
+substring$ -- 6091
+swap$ -- 551
+text.length$ -- 387
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1183
+type$ -- 1204
 warning$ -- 3
-while$ -- 707
+while$ -- 675
 width$ -- 0
-write$ -- 1322
-(There were 4 error messages)
+write$ -- 1537
+(There were 5 warnings)

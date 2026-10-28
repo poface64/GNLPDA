@@ -273,7 +273,7 @@ Ante las limitaciones geométricas del LDA descritas en la sección anterior, re
 
 El procedimiento consiste en mapear el vector de entrada original $\mathbf{x} \in \mathbb{R}^d$ a un espacio de características de mayor dimensión $\mathcal{F} \in \mathbb{R}^D$ mediante una función no lineal $\phi(\mathbf{x})$.
 
-Específicamente, se implementa una expansión polinomial de segundo orden (cuadrática), tal como se detalla en la literatura especializada \cite{kanade2016,niu2021local}.
+Específicamente, se implementa una expansión polinomial de segundo orden (cuadrática), tal como se detalla en la literatura especializada \cite{Murphy2012,niu2021local}.
 
 Para un caso base bidimensional donde el vector de entrada es $\mathbf{x} = [A,B]^T$, la función de mapeo $\phi(\mathbf{x})$ construye un nuevo vector que incluye el sesgo, los términos originales, los términos cuadráticos y las interacciones cruzadas:
 
@@ -298,7 +298,7 @@ Como se ilustra en las ecuaciones de la \ref{eq:poly_deg1} a la \ref{eq:poly_deg
 	
 	\item \textbf{Términos cuadráticos y de grado superior ($A^k, B^k$):} incorporan curvatura y flexibilidad geométrica en la representación, facilitando el modelado de fronteras de decisión no lineales complejas.
 	
-	\item \textbf{Términos de interacción cruzada ($A^p B^q$):} representan efectos multiplicativos y dependencias conjuntas entre variables que no pueden describirse mediante términos lineales independientes \cite{kanade2016}.
+	\item \textbf{Términos de interacción cruzada ($A^p B^q$):} representan efectos multiplicativos y dependencias conjuntas entre variables que no pueden describirse mediante términos lineales independientes \cite{Murphy2012}.
 	
 \end{itemize}
 
@@ -335,7 +335,7 @@ En el contexto de LDA, este crecimiento dimensional es especialmente relevante p
 
 \section{Algoritmos genéticos}
 
-Los algoritmos genéticos constituyen una familia de métodos de búsqueda y optimización inspirados en mecanismos evolutivos como selección, recombinación y mutación. En términos generales, estos algoritmos trabajan con una población de soluciones candidatas que se modifican iterativamente con el propósito de mejorar una función objetivo o función de aptitud \cite{Goldberg1988}.
+Los algoritmos genéticos constituyen una familia de métodos de búsqueda y optimización inspirados en mecanismos evolutivos como selección, recombinación y mutación. En términos generales, estos algoritmos trabajan con una población de soluciones candidatas que se modifican iterativamente con el propósito de mejorar una función objetivo o función de aptitud \cite{Sastry2014Genetic}.
 
 Su utilidad en problemas de selección de características radica en que permiten explorar espacios combinatorios amplios sin evaluar exhaustivamente todos los subconjuntos posibles de variables. En el contexto de esta investigación, los algoritmos genéticos resultan especialmente pertinentes debido al crecimiento dimensional producido por la expansión polinomial. Una vez generados términos originales, términos cuadráticos e interacciones, el número de predictores puede crecer de manera acelerada, lo que aumenta el riesgo de singularidad, colinealidad y sobreajuste. Por ello, se requiere un mecanismo de selección capaz de identificar subconjuntos informativos dentro del espacio expandido. Desde esta perspectiva, el algoritmo genético opera como una estrategia de búsqueda dentro de un esquema wrapper, ya que la calidad de cada subconjunto se evalúa mediante el desempeño de un modelo discriminante \cite{kohavi1997wrappers}.
 
