@@ -1,11 +1,11 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.10.31)  28 OCT 2026 10:10
+This is pdfTeX, Version 3.141592653-2.6-1.40.28 (TeX Live 2025) (preloaded format=pdflatex 2025.8.17)  28 OCT 2026 14:00
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
 **main.tex
 (./main.tex
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-10-24>
+L3 programming layer <2025-08-13>
 (c:/texlive/2025/texmf-dist/tex/latex/base/book.cls
 Document Class: book 2025/01/22 v1.4n Standard LaTeX document class
 (c:/texlive/2025/texmf-dist/tex/latex/base/bk12.clo
@@ -41,23 +41,23 @@ Package: float 2001/11/08 v1.3d Float enhancements (AL)
 \@floatcapt=\box54
 )
 (c:/texlive/2025/texmf-dist/tex/generic/babel/babel.sty
-Package: babel 2025/10/22 v25.14 The multilingual framework for LuaLaTeX, pdfLa
+Package: babel 2025/08/03 v25.12 The multilingual framework for LuaLaTeX, pdfLa
 TeX and XeLaTeX
 \babel@savecnt=\count285
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding OT1) on input li
-ne 2050.
+ne 2045.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding OT1) on input li
-ne 2052.
+ne 2047.
 LaTeX Encoding Info:    Redeclaring text command \ij (encoding T1) on input lin
-e 2054.
+e 2049.
 LaTeX Encoding Info:    Redeclaring text command \IJ (encoding T1) on input lin
-e 2055.
+e 2050.
 LaTeX Encoding Info:    Ignoring declaration for text command \ij (encoding ?) 
-on input line 2056.
+on input line 2051.
 LaTeX Encoding Info:    Ignoring declaration for text command \IJ (encoding ?) 
-on input line 2058.
+on input line 2053.
 LaTeX Encoding Info:    Ignoring declaration for text command \SS (encoding ?) 
-on input line 2083.
+on input line 2078.
 \U@D=\dimen149
 \l@unhyphenated=\language90
 
@@ -65,13 +65,13 @@ on input line 2083.
 \bbl@readstream=\read2
 \bbl@dirlevel=\count286
 
-(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/en/babel-english.tex)
-(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/es/babel-spanish.tex)
-Package babel Info: Importing font and identification data for english
-(babel)             from babel-en.ini. Reported on input line 4295.
-
 (c:/texlive/2025/texmf-dist/tex/generic/babel-english/english.ldf
 Language: english 2017/06/06 v3.3r English support from the babel system
+
+(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/en/babel-english.tex
+Package babel Info: Importing font and identification data for english
+(babel)             from babel-en.ini. Reported on input line 12.
+)
 Package babel Info: Hyphen rules for 'canadian' set to \l@english
 (babel)             (\language0). Reported on input line 102.
 Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
@@ -79,11 +79,13 @@ Package babel Info: Hyphen rules for 'australian' set to \l@ukenglish
 Package babel Info: Hyphen rules for 'newzealand' set to \l@ukenglish
 (babel)             (\language22). Reported on input line 108.
 )
-Package babel Info: Importing font and identification data for spanish
-(babel)             from babel-es.ini. Reported on input line 4295.
-
 (c:/texlive/2025/texmf-dist/tex/generic/babel-spanish/spanish.ldf
 Language: spanish.ldf 2021/05/27 v5.0q Spanish support from the babel system
+
+(c:/texlive/2025/texmf-dist/tex/generic/babel/locale/es/babel-spanish.tex
+Package babel Info: Importing font and identification data for spanish
+(babel)             from babel-es.ini. Reported on input line 12.
+)
 \es@quottoks=\toks21
 \es@quotdepth=\count287
 Package babel Info: Making " an active character on input line 570.
@@ -228,7 +230,7 @@ File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
 Package graphics Info: Driver file: pdftex.def on input line 106.
 
 (c:/texlive/2025/texmf-dist/tex/latex/graphics-def/pdftex.def
-File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
+File: pdftex.def 2024/04/13 v1.2c Graphics/color driver for pdftex
 ))
 \Gin@req@height=\dimen161
 \Gin@req@width=\dimen162
@@ -237,18 +239,18 @@ File: pdftex.def 2025/09/29 v1.2d Graphics/color driver for pdftex
 Package: svg 2020/11/26 v2.02k (include SVG pictures)
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrbase.sty
-Package: scrbase 2025/09/09 v3.48 KOMA-Script package (KOMA-Script-independent 
+Package: scrbase 2025/06/04 v3.45 KOMA-Script package (KOMA-Script-independent 
 basics and keyval usage)
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile.sty
-Package: scrlfile 2025/09/09 v3.48 KOMA-Script package (file load hooks)
+Package: scrlfile 2025/06/04 v3.45 KOMA-Script package (file load hooks)
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlfile-hook.sty
-Package: scrlfile-hook 2025/09/09 v3.48 KOMA-Script package (using LaTeX hooks)
+Package: scrlfile-hook 2025/06/04 v3.45 KOMA-Script package (using LaTeX hooks)
 
 
 (c:/texlive/2025/texmf-dist/tex/latex/koma-script/scrlogo.sty
-Package: scrlogo 2025/09/09 v3.48 KOMA-Script package (logo)
+Package: scrlogo 2025/06/04 v3.45 KOMA-Script package (logo)
 )))
 Applying: [2021/05/01] Usage of raw or classic option list on input line 254.
 Already applied: [0000/00/00] Usage of raw or classic option list on input line
@@ -320,10 +322,10 @@ Package: auxhook 2019-12-17 v1.6 Hooks for auxiliary files (HO)
 )
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/pgf.revision.tex)
-Package: pgfrcs 2025-08-29 v3.1.11a (3.1.11a)
+Package: pgfrcs 2025-08-14 v3.1.11 (3.1.11)
 ))
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
-Package: pgfsys 2025-08-29 v3.1.11a (3.1.11a)
+Package: pgfsys 2025-08-14 v3.1.11 (3.1.11)
 
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
 \pgfkeys@pathtoks=\toks28
@@ -354,23 +356,23 @@ de.tex
 \t@pgf@tokc=\toks33
 \pgf@sys@id@count=\count299
  (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg
-File: pgf.cfg 2025-08-29 v3.1.11a (3.1.11a)
+File: pgf.cfg 2025-08-14 v3.1.11 (3.1.11)
 )
 Driver file for pgf: pgfsys-pdftex.def
 
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
-File: pgfsys-pdftex.def 2025-08-29 v3.1.11a (3.1.11a)
+File: pgfsys-pdftex.def 2025-08-14 v3.1.11 (3.1.11)
 
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.def
-File: pgfsys-common-pdf.def 2025-08-29 v3.1.11a (3.1.11a)
+File: pgfsys-common-pdf.def 2025-08-14 v3.1.11 (3.1.11)
 )))
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.tex
-File: pgfsyssoftpath.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+File: pgfsyssoftpath.code.tex 2025-08-14 v3.1.11 (3.1.11)
 \pgfsyssoftpath@smallbuffer@items=\count300
 \pgfsyssoftpath@bigbuffer@items=\count301
 )
 (c:/texlive/2025/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.tex
-File: pgfsysprotocol.code.tex 2025-08-29 v3.1.11a (3.1.11a)
+File: pgfsysprotocol.code.tex 2025-08-14 v3.1.11 (3.1.11)
 )) (c:/texlive/2025/texmf-dist/tex/latex/caption/subcaption.sty
 Package: subcaption 2023/07/28 v1.6b Sub-captions (AR)
 
@@ -574,7 +576,7 @@ Package: kvoptions 2022-06-15 v3.15 Key value format for package options (HO)
 \c@section@level=\count325
 )
 (c:/texlive/2025/texmf-dist/tex/latex/etoolbox/etoolbox.sty
-Package: etoolbox 2025/10/02 v2.5m e-TeX tools for LaTeX (JAW)
+Package: etoolbox 2025/02/11 v2.5l e-TeX tools for LaTeX (JAW)
 \etb@tempcnta=\count326
 )
 (c:/texlive/2025/texmf-dist/tex/generic/stringenc/stringenc.sty
@@ -658,7 +660,7 @@ Package uniquecounter Info: New unique counter `rerunfilecheck' on input line 2
 Package hyperref Info: Option `colorlinks' set `true' on input line 89.
 )
 (c:/texlive/2025/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def
-File: l3backend-pdftex.def 2025-10-09 L3 backend support: PDF output (pdfTeX)
+File: l3backend-pdftex.def 2025-06-09 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count337
 )
 (./main.aux
@@ -672,7 +674,7 @@ LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  (./capitulos/01_introduccion.aux) (./capitulos/02_marco_teorico.aux) (./capitu
 los/03_estado_arte.aux) (./capitulos/04_metodologia.aux)
-(./capitulos/05_resultados.aux) (./capitulos/07_conclusiones.aux))
+(./capitulos/05_resultados.aux))
 \openout1 = `main.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
@@ -775,7 +777,7 @@ liusADFNoTwo-LF.
 )
 LaTeX Font Info:    Font shape `T1/GilliusADFNoTwo-LF/m/n' will be
 (Font)              scaled to size 12.0pt on input line 9.
-<figuras/logouv.png, id=352, 328.3467pt x 284.7438pt>
+<figuras/logouv.png, id=348, 328.3467pt x 284.7438pt>
 File: figuras/logouv.png Graphic file (type png)
 <use figuras/logouv.png>
 Package pdftex.def Info: figuras/logouv.png  used on input line 13.
@@ -873,7 +875,7 @@ LaTeX Info: Redefining \% on input line 21.
 
  (./capitulos/01_introduccion.tex
 Cap\'{\i }tulo 1.
-<figuras/D1.png, id=485, 698.172pt x 379.308pt>
+<figuras/D1.png, id=480, 698.172pt x 379.308pt>
 File: figuras/D1.png Graphic file (type png)
 <use figuras/D1.png>
 Package pdftex.def Info: figuras/D1.png  used on input line 20.
@@ -937,7 +939,7 @@ Cap\'{\i }tulo 2.
 
 
 ]
-<figuras/PRUEBASR1.png, id=565, 1233.0147pt x 404.8595pt>
+<figuras/PRUEBASR1.png, id=560, 1233.0147pt x 404.8595pt>
 File: figuras/PRUEBASR1.png Graphic file (type png)
 <use figuras/PRUEBASR1.png>
 Package pdftex.def Info: figuras/PRUEBASR1.png  used on input line 58.
@@ -975,7 +977,7 @@ LaTeX Info: Redefining \% on input line 277.
 LaTeX Info: Redefining \. on input line 319.
 LaTeX Info: Redefining \% on input line 319.
 [15]
-<figuras/MC3.png, id=697, 259.8435pt x 194.8005pt>
+<figuras/MC3.png, id=692, 259.8435pt x 194.8005pt>
 File: figuras/MC3.png Graphic file (type png)
 <use figuras/MC3.png>
 Package pdftex.def Info: figuras/MC3.png  used on input line 322.
@@ -997,7 +999,7 @@ m/it/12 ; \OT1/ztmcm/m/n/12 0\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 1]$
 LaTeX Info: Redefining \. on input line 364.
 LaTeX Info: Redefining \% on input line 364.
 [17]
-<figuras/MT2.png, id=720, 982.42032pt x 601.4972pt>
+<figuras/MT2.png, id=715, 982.42032pt x 601.4972pt>
 File: figuras/MT2.png Graphic file (type png)
 <use figuras/MT2.png>
 Package pdftex.def Info: figuras/MT2.png  used on input line 367.
@@ -1162,54 +1164,25 @@ LaTeX Info: Redefining \% on input line 26.
 
  (./capitulos/05_resultados.tex
 Cap\'{\i }tulo 5.
-<figuras/caso_1_1_lda_clasico.png, id=1070, 397.485pt x 361.35pt>
+<figuras/caso_1_1_lda_clasico.png, id=1065, 397.485pt x 361.35pt>
 File: figuras/caso_1_1_lda_clasico.png Graphic file (type png)
 <use figuras/caso_1_1_lda_clasico.png>
 Package pdftex.def Info: figuras/caso_1_1_lda_clasico.png  used on input line 2
-3.
+5.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_1_2_lda_mass.png, id=1071, 397.485pt x 361.35pt>
+<figuras/caso_1_2_lda_mass.png, id=1066, 397.485pt x 361.35pt>
 File: figuras/caso_1_2_lda_mass.png Graphic file (type png)
 <use figuras/caso_1_2_lda_mass.png>
-Package pdftex.def Info: figuras/caso_1_2_lda_mass.png  used on input line 28.
+Package pdftex.def Info: figuras/caso_1_2_lda_mass.png  used on input line 30.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_1_3_kfda.png, id=1072, 397.485pt x 361.35pt>
+<figuras/caso_1_3_kfda.png, id=1067, 397.485pt x 361.35pt>
 File: figuras/caso_1_3_kfda.png Graphic file (type png)
 <use figuras/caso_1_3_kfda.png>
-Package pdftex.def Info: figuras/caso_1_3_kfda.png  used on input line 33.
+Package pdftex.def Info: figuras/caso_1_3_kfda.png  used on input line 35.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_2_1_lda_clasico.png, id=1074, 397.485pt x 361.35pt>
-File: figuras/caso_2_1_lda_clasico.png Graphic file (type png)
-<use figuras/caso_2_1_lda_clasico.png>
-Package pdftex.def Info: figuras/caso_2_1_lda_clasico.png  used on input line 5
-8.
-(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_2_2_lda_mass.png, id=1075, 397.485pt x 361.35pt>
-File: figuras/caso_2_2_lda_mass.png Graphic file (type png)
-<use figuras/caso_2_2_lda_mass.png>
-Package pdftex.def Info: figuras/caso_2_2_lda_mass.png  used on input line 63.
-(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_2_3_kfda.png, id=1076, 397.485pt x 361.35pt>
-File: figuras/caso_2_3_kfda.png Graphic file (type png)
-<use figuras/caso_2_3_kfda.png>
-Package pdftex.def Info: figuras/caso_2_3_kfda.png  used on input line 68.
-(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_3_1_lda_clasico.png, id=1078, 397.485pt x 361.35pt>
-File: figuras/caso_3_1_lda_clasico.png Graphic file (type png)
-<use figuras/caso_3_1_lda_clasico.png>
-Package pdftex.def Info: figuras/caso_3_1_lda_clasico.png  used on input line 9
-2.
-(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_3_2_lda_mass.png, id=1079, 397.485pt x 361.35pt>
-File: figuras/caso_3_2_lda_mass.png Graphic file (type png)
-<use figuras/caso_3_2_lda_mass.png>
-Package pdftex.def Info: figuras/caso_3_2_lda_mass.png  used on input line 97.
-(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/caso_3_3_kfda.png, id=1080, 397.485pt x 361.35pt>
-File: figuras/caso_3_3_kfda.png Graphic file (type png)
-<use figuras/caso_3_3_kfda.png>
-Package pdftex.def Info: figuras/caso_3_3_kfda.png  used on input line 102.
-(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+
+Underfull \vbox (badness 3189) has occurred while \output is active []
+
 
 
 [47
@@ -1219,108 +1192,148 @@ Package pdftex.def Info: figuras/caso_3_3_kfda.png  used on input line 102.
 
  <./figuras/caso_1_1_lda_clasico.png> <./figuras/caso_1_2_lda_mass.png> <./figu
 ras/caso_1_3_kfda.png>]
+<figuras/caso_2_1_lda_clasico.png, id=1074, 397.485pt x 361.35pt>
+File: figuras/caso_2_1_lda_clasico.png Graphic file (type png)
+<use figuras/caso_2_1_lda_clasico.png>
+Package pdftex.def Info: figuras/caso_2_1_lda_clasico.png  used on input line 6
+2.
+(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+<figuras/caso_2_2_lda_mass.png, id=1075, 397.485pt x 361.35pt>
+File: figuras/caso_2_2_lda_mass.png Graphic file (type png)
+<use figuras/caso_2_2_lda_mass.png>
+Package pdftex.def Info: figuras/caso_2_2_lda_mass.png  used on input line 67.
+(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+<figuras/caso_2_3_kfda.png, id=1076, 397.485pt x 361.35pt>
+File: figuras/caso_2_3_kfda.png Graphic file (type png)
+<use figuras/caso_2_3_kfda.png>
+Package pdftex.def Info: figuras/caso_2_3_kfda.png  used on input line 72.
+(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+<figuras/caso_3_1_lda_clasico.png, id=1078, 397.485pt x 361.35pt>
+File: figuras/caso_3_1_lda_clasico.png Graphic file (type png)
+<use figuras/caso_3_1_lda_clasico.png>
+Package pdftex.def Info: figuras/caso_3_1_lda_clasico.png  used on input line 9
+3.
+(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+<figuras/caso_3_2_lda_mass.png, id=1079, 397.485pt x 361.35pt>
+File: figuras/caso_3_2_lda_mass.png Graphic file (type png)
+<use figuras/caso_3_2_lda_mass.png>
+Package pdftex.def Info: figuras/caso_3_2_lda_mass.png  used on input line 98.
+(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+<figuras/caso_3_3_kfda.png, id=1080, 397.485pt x 361.35pt>
+File: figuras/caso_3_3_kfda.png Graphic file (type png)
+<use figuras/caso_3_3_kfda.png>
+Package pdftex.def Info: figuras/caso_3_3_kfda.png  used on input line 103.
+(pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
+
+
+LaTeX Info: Redefining \. on input line 122.
+LaTeX Info: Redefining \% on input line 122.
+[48 <./figuras/caso_2_1_lda_clasico.png> <./figuras/caso_2_2_lda_mass.png> <./f
+iguras/caso_2_3_kfda.png>]
 <figuras/caso_4_1_lda_clasico.png, id=1088, 397.485pt x 361.35pt>
 File: figuras/caso_4_1_lda_clasico.png Graphic file (type png)
 <use figuras/caso_4_1_lda_clasico.png>
 Package pdftex.def Info: figuras/caso_4_1_lda_clasico.png  used on input line 1
-27.
+29.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 <figuras/caso_4_2_lda_mass.png, id=1089, 397.485pt x 361.35pt>
 File: figuras/caso_4_2_lda_mass.png Graphic file (type png)
 <use figuras/caso_4_2_lda_mass.png>
-Package pdftex.def Info: figuras/caso_4_2_lda_mass.png  used on input line 132.
+Package pdftex.def Info: figuras/caso_4_2_lda_mass.png  used on input line 134.
 
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 <figuras/caso_4_3_kfda.png, id=1090, 397.485pt x 361.35pt>
 File: figuras/caso_4_3_kfda.png Graphic file (type png)
 <use figuras/caso_4_3_kfda.png>
-Package pdftex.def Info: figuras/caso_4_3_kfda.png  used on input line 137.
+Package pdftex.def Info: figuras/caso_4_3_kfda.png  used on input line 139.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Info: Redefining \. on input line 155.
-LaTeX Info: Redefining \% on input line 155.
-[48 <./figuras/caso_2_1_lda_clasico.png> <./figuras/caso_2_2_lda_mass.png> <./f
-iguras/caso_2_3_kfda.png> <./figuras/caso_3_1_lda_clasico.png> <./figuras/caso_
-3_2_lda_mass.png> <./figuras/caso_3_3_kfda.png>]
+
+
+LaTeX Info: Redefining \. on input line 160.
+LaTeX Info: Redefining \% on input line 160.
+[49 <./figuras/caso_3_1_lda_clasico.png> <./figuras/caso_3_2_lda_mass.png> <./f
+iguras/caso_3_3_kfda.png> <./figuras/caso_4_1_lda_clasico.png> <./figuras/caso_
+4_2_lda_mass.png> <./figuras/caso_4_3_kfda.png>]
 <figuras/caso_5_1_lda_clasico.png, id=1098, 397.485pt x 361.35pt>
 File: figuras/caso_5_1_lda_clasico.png Graphic file (type png)
 <use figuras/caso_5_1_lda_clasico.png>
 Package pdftex.def Info: figuras/caso_5_1_lda_clasico.png  used on input line 1
-63.
+67.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 <figuras/caso_5_2_lda_mass.png, id=1099, 397.485pt x 361.35pt>
 File: figuras/caso_5_2_lda_mass.png Graphic file (type png)
 <use figuras/caso_5_2_lda_mass.png>
-Package pdftex.def Info: figuras/caso_5_2_lda_mass.png  used on input line 168.
+Package pdftex.def Info: figuras/caso_5_2_lda_mass.png  used on input line 172.
 
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 <figuras/caso_5_3_kfda.png, id=1100, 397.485pt x 361.35pt>
 File: figuras/caso_5_3_kfda.png Graphic file (type png)
 <use figuras/caso_5_3_kfda.png>
-Package pdftex.def Info: figuras/caso_5_3_kfda.png  used on input line 173.
+Package pdftex.def Info: figuras/caso_5_3_kfda.png  used on input line 177.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 193.
-LaTeX Info: Redefining \% on input line 193.
-[49 <./figuras/caso_4_1_lda_clasico.png> <./figuras/caso_4_2_lda_mass.png> <./f
-iguras/caso_4_3_kfda.png> <./figuras/caso_5_1_lda_clasico.png> <./figuras/caso_
-5_2_lda_mass.png> <./figuras/caso_5_3_kfda.png>]
-<figuras/1DES.png, id=1110, 346.896pt x 346.896pt>
+LaTeX Info: Redefining \. on input line 197.
+LaTeX Info: Redefining \% on input line 197.
+[50 <./figuras/caso_5_1_lda_clasico.png> <./figuras/caso_5_2_lda_mass.png> <./f
+iguras/caso_5_3_kfda.png>]
+<figuras/1DES.png, id=1109, 346.896pt x 346.896pt>
 File: figuras/1DES.png Graphic file (type png)
 <use figuras/1DES.png>
-Package pdftex.def Info: figuras/1DES.png  used on input line 210.
+Package pdftex.def Info: figuras/1DES.png  used on input line 211.
 (pdftex.def)             Requested size: 227.62206pt x 227.62346pt.
 
 
-LaTeX Info: Redefining \. on input line 216.
-LaTeX Info: Redefining \% on input line 216.
-[50 <./figuras/1DES.png>]
-<figuras/mejor_escenario_1.2.penguins_1_mass_2d.png, id=1120, 397.485pt x 361.3
+LaTeX Info: Redefining \. on input line 217.
+LaTeX Info: Redefining \% on input line 217.
+[51 <./figuras/1DES.png>]
+<figuras/mejor_escenario_1.2.penguins_1_mass_2d.png, id=1119, 397.485pt x 361.3
 5pt>
 File: figuras/mejor_escenario_1.2.penguins_1_mass_2d.png Graphic file (type png
 )
 <use figuras/mejor_escenario_1.2.penguins_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.2.penguins_1_mass_2d.png  us
-ed on input line 225.
+ed on input line 224.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_1.2.penguins_2_kfda_2d.png, id=1121, 397.485pt x 361.3
+<figuras/mejor_escenario_1.2.penguins_2_kfda_2d.png, id=1120, 397.485pt x 361.3
 5pt>
 File: figuras/mejor_escenario_1.2.penguins_2_kfda_2d.png Graphic file (type png
 )
 <use figuras/mejor_escenario_1.2.penguins_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.2.penguins_2_kfda_2d.png  us
-ed on input line 230.
+ed on input line 229.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_1.2.penguins_3_gnlpda_2d.png, id=1122, 397.485pt x 361
+<figuras/mejor_escenario_1.2.penguins_3_gnlpda_2d.png, id=1121, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_1.2.penguins_3_gnlpda_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_1.2.penguins_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.2.penguins_3_gnlpda_2d.png  
-used on input line 235.
+used on input line 234.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/Boxplot_1.2.penguins_Accuracy.png, id=1124, 614.295pt x 397.485pt>
+<figuras/Boxplot_1.2.penguins_Accuracy.png, id=1123, 614.295pt x 397.485pt>
 File: figuras/Boxplot_1.2.penguins_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_1.2.penguins_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_1.2.penguins_Accuracy.png  used on inp
-ut line 255.
+ut line 247.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
 
 
-LaTeX Info: Redefining \. on input line 270.
-LaTeX Info: Redefining \% on input line 270.
-[51 <./figuras/mejor_escenario_1.2.penguins_1_mass_2d.png> <./figuras/mejor_esc
+LaTeX Info: Redefining \. on input line 260.
+LaTeX Info: Redefining \% on input line 260.
+[52 <./figuras/mejor_escenario_1.2.penguins_1_mass_2d.png> <./figuras/mejor_esc
 enario_1.2.penguins_2_kfda_2d.png> <./figuras/mejor_escenario_1.2.penguins_3_gn
 lpda_2d.png> <./figuras/Boxplot_1.2.penguins_Accuracy.png>]
-<figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png, id=1132, 542.025p
+<figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png, id=1131, 542.025p
 t x 231.264pt>
 File: figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png Graphic file 
 (type png)
 <use figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todo
-s.png  used on input line 273.
+s.png  used on input line 263.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 <figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png, id=1133, 542.
 025pt x 231.264pt>
@@ -1328,164 +1341,162 @@ File: figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png Graphic f
 ile (type png)
 <use figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_camp
-eones.png  used on input line 286.
+eones.png  used on input line 275.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
-Underfull \vbox (badness 10000) has occurred while \output is active []
 
-
-
-LaTeX Info: Redefining \. on input line 307.
-LaTeX Info: Redefining \% on input line 307.
-[52 <./figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png>]
-<figuras/3DES.png, id=1141, 520.344pt x 520.344pt>
+LaTeX Info: Redefining \. on input line 282.
+LaTeX Info: Redefining \% on input line 282.
+[53 <./figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_todos.png> <./figuras/
+CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png>]
+<figuras/3DES.png, id=1144, 520.344pt x 520.344pt>
 File: figuras/3DES.png Graphic file (type png)
 <use figuras/3DES.png>
-Package pdftex.def Info: figuras/3DES.png  used on input line 315.
+Package pdftex.def Info: figuras/3DES.png  used on input line 291.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 319.
-LaTeX Info: Redefining \% on input line 319.
-[53 <./figuras/CDplot_Nemenyi_1.2.penguins_long_graficos_campeones.png>]
-Underfull \hbox (badness 10000) in paragraph at lines 320--321
+LaTeX Info: Redefining \. on input line 295.
+LaTeX Info: Redefining \% on input line 295.
+[54]
+Underfull \hbox (badness 10000) in paragraph at lines 296--297
 
  []
 
-<figuras/mejor_escenario_1.4.wines_1_mass_2d.png, id=1149, 397.485pt x 361.35pt
+<figuras/mejor_escenario_1.4.wines_1_mass_2d.png, id=1150, 397.485pt x 361.35pt
 >
 File: figuras/mejor_escenario_1.4.wines_1_mass_2d.png Graphic file (type png)
 <use figuras/mejor_escenario_1.4.wines_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.4.wines_1_mass_2d.png  used 
-on input line 331.
+on input line 307.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_1.4.wines_2_kfda_2d.png, id=1150, 397.485pt x 361.35pt
+<figuras/mejor_escenario_1.4.wines_2_kfda_2d.png, id=1151, 397.485pt x 361.35pt
 >
 File: figuras/mejor_escenario_1.4.wines_2_kfda_2d.png Graphic file (type png)
 <use figuras/mejor_escenario_1.4.wines_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.4.wines_2_kfda_2d.png  used 
-on input line 336.
+on input line 312.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_1.4.wines_3_gnlpda_2d.png, id=1151, 397.485pt x 361.35
+<figuras/mejor_escenario_1.4.wines_3_gnlpda_2d.png, id=1152, 397.485pt x 361.35
 pt>
 File: figuras/mejor_escenario_1.4.wines_3_gnlpda_2d.png Graphic file (type png)
 
 <use figuras/mejor_escenario_1.4.wines_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.4.wines_3_gnlpda_2d.png  use
-d on input line 341.
+d on input line 317.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/Boxplot_1.4.wines_Accuracy.png, id=1153, 614.295pt x 397.485pt>
+<figuras/Boxplot_1.4.wines_Accuracy.png, id=1154, 614.295pt x 397.485pt>
 File: figuras/Boxplot_1.4.wines_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_1.4.wines_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_1.4.wines_Accuracy.png  used on input 
-line 362.
+line 338.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
 
 
-LaTeX Info: Redefining \. on input line 365.
-LaTeX Info: Redefining \% on input line 365.
-[54 <./figuras/3DES.png> <./figuras/mejor_escenario_1.4.wines_1_mass_2d.png> <.
+LaTeX Info: Redefining \. on input line 341.
+LaTeX Info: Redefining \% on input line 341.
+[55 <./figuras/3DES.png> <./figuras/mejor_escenario_1.4.wines_1_mass_2d.png> <.
 /figuras/mejor_escenario_1.4.wines_2_kfda_2d.png> <./figuras/mejor_escenario_1.
 4.wines_3_gnlpda_2d.png>]
-<figuras/CDplot_Nemenyi_1.4.wines_long_graficos_todos.png, id=1162, 542.025pt x
+<figuras/CDplot_Nemenyi_1.4.wines_long_graficos_todos.png, id=1164, 542.025pt x
  231.264pt>
 File: figuras/CDplot_Nemenyi_1.4.wines_long_graficos_todos.png Graphic file (ty
 pe png)
 <use figuras/CDplot_Nemenyi_1.4.wines_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_1.4.wines_long_graficos_todos.p
-ng  used on input line 381.
+ng  used on input line 357.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 396.
-LaTeX Info: Redefining \% on input line 396.
-[55 <./figuras/Boxplot_1.4.wines_Accuracy.png> <./figuras/CDplot_Nemenyi_1.4.wi
+LaTeX Info: Redefining \. on input line 372.
+LaTeX Info: Redefining \% on input line 372.
+[56 <./figuras/Boxplot_1.4.wines_Accuracy.png> <./figuras/CDplot_Nemenyi_1.4.wi
 nes_long_graficos_todos.png>]
-<figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png, id=1171, 542.025
+<figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png, id=1173, 542.025
 pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png Graphic file
  (type png)
 <use figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeon
-es.png  used on input line 399.
+es.png  used on input line 375.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 417.
-LaTeX Info: Redefining \% on input line 417.
-[56 <./figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png>]
-<figuras/7DES.png, id=1179, 520.344pt x 520.344pt>
+LaTeX Info: Redefining \. on input line 393.
+LaTeX Info: Redefining \% on input line 393.
+[57 <./figuras/CDplot_Nemenyi_1.4.wines_long_graficos_campeones.png>]
+<figuras/7DES.png, id=1181, 520.344pt x 520.344pt>
 File: figuras/7DES.png Graphic file (type png)
 <use figuras/7DES.png>
-Package pdftex.def Info: figuras/7DES.png  used on input line 423.
+Package pdftex.def Info: figuras/7DES.png  used on input line 396.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
-<figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_2d.png, id=1181, 397.485pt 
+<figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_2d.png, id=1183, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_2d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_2d.
-png  used on input line 440.
+png  used on input line 411.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_4.1.CancerWisconsin_2_kfda_2d.png, id=1182, 397.485pt 
+<figuras/mejor_escenario_4.1.CancerWisconsin_2_kfda_2d.png, id=1184, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_4.1.CancerWisconsin_2_kfda_2d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_4.1.CancerWisconsin_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_4.1.CancerWisconsin_2_kfda_2d.
-png  used on input line 445.
+png  used on input line 416.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_4.1.CancerWisconsin_3_gnlpda_2d.png, id=1183, 397.485p
+<figuras/mejor_escenario_4.1.CancerWisconsin_3_gnlpda_2d.png, id=1185, 397.485p
 t x 361.35pt>
 File: figuras/mejor_escenario_4.1.CancerWisconsin_3_gnlpda_2d.png Graphic file 
 (type png)
 <use figuras/mejor_escenario_4.1.CancerWisconsin_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_4.1.CancerWisconsin_3_gnlpda_2
-d.png  used on input line 450.
+d.png  used on input line 421.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 470.
-LaTeX Info: Redefining \% on input line 470.
-[57 <./figuras/7DES.png> <./figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_
+LaTeX Info: Redefining \. on input line 433.
+LaTeX Info: Redefining \% on input line 433.
+[58 <./figuras/7DES.png> <./figuras/mejor_escenario_4.1.CancerWisconsin_1_mass_
 2d.png> <./figuras/mejor_escenario_4.1.CancerWisconsin_2_kfda_2d.png> <./figura
 s/mejor_escenario_4.1.CancerWisconsin_3_gnlpda_2d.png>]
-<figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png, id=1192, 614.295pt x 397.485
+<figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png, id=1194, 614.295pt x 397.485
 pt>
 File: figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png  used
- on input line 474.
+ on input line 436.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
-<figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png, id=1194, 5
+<figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png, id=1196, 5
 42.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png Graphi
 c file (type png)
 <use figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_grafic
-os_todos.png  used on input line 488.
+os_todos.png  used on input line 450.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 493.
-LaTeX Info: Redefining \% on input line 493.
-[58 <./figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png>]
+LaTeX Info: Redefining \. on input line 455.
+LaTeX Info: Redefining \% on input line 455.
+[59 <./figuras/Boxplot_4.1.CancerWisconsin_Accuracy.png>]
 <figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_campeones.png, id=120
-0, 542.025pt x 231.264pt>
+2, 542.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_campeones.png Gr
 aphic file (type png)
 <use figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_grafic
-os_campeones.png  used on input line 504.
+os_campeones.png  used on input line 466.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
-Overfull \hbox (0.51367pt too wide) in paragraph at lines 510--518
+Overfull \hbox (0.51367pt too wide) in paragraph at lines 472--480
 \T1/ptm/m/n/12 ma de Ne-men-yi de-ta-lla la je-rar-quía de de-sem-pe-ño: las ar
 -qui-tec-tu-ras SVM(POL2) y SVM(POL3)
  []
@@ -1495,628 +1506,607 @@ Underfull \vbox (badness 1755) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 523.
-LaTeX Info: Redefining \% on input line 523.
-[59 <./figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png> <./f
+LaTeX Info: Redefining \. on input line 485.
+LaTeX Info: Redefining \% on input line 485.
+[60 <./figuras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_todos.png> <./f
 iguras/CDplot_Nemenyi_4.1.CancerWisconsin_long_graficos_campeones.png>]
-<figuras/8DES.png, id=1210, 520.344pt x 520.344pt>
+<figuras/8DES.png, id=1212, 520.344pt x 520.344pt>
 File: figuras/8DES.png Graphic file (type png)
 <use figuras/8DES.png>
-Package pdftex.def Info: figuras/8DES.png  used on input line 528.
+Package pdftex.def Info: figuras/8DES.png  used on input line 490.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
-<figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png, id=1212, 397.485pt x 361
+<figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png, id=1214, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png  
-used on input line 545.
+used on input line 507.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_4.2.Ionosphere_2_kfda_2d.png, id=1213, 397.485pt x 361
+<figuras/mejor_escenario_4.2.Ionosphere_2_kfda_2d.png, id=1215, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_4.2.Ionosphere_2_kfda_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_4.2.Ionosphere_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_4.2.Ionosphere_2_kfda_2d.png  
-used on input line 550.
+used on input line 512.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_4.2.Ionosphere_3_gnlpda_2d.png, id=1214, 397.485pt x 3
+<figuras/mejor_escenario_4.2.Ionosphere_3_gnlpda_2d.png, id=1216, 397.485pt x 3
 61.35pt>
 File: figuras/mejor_escenario_4.2.Ionosphere_3_gnlpda_2d.png Graphic file (type
  png)
 <use figuras/mejor_escenario_4.2.Ionosphere_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_4.2.Ionosphere_3_gnlpda_2d.png
-  used on input line 555.
+  used on input line 517.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 575.
-LaTeX Info: Redefining \% on input line 575.
-[60 <./figuras/8DES.png>]
-<figuras/Boxplot_4.2.Ionosphere_Accuracy.png, id=1223, 614.295pt x 397.485pt>
+LaTeX Info: Redefining \. on input line 537.
+LaTeX Info: Redefining \% on input line 537.
+[61 <./figuras/8DES.png>]
+<figuras/Boxplot_4.2.Ionosphere_Accuracy.png, id=1226, 614.295pt x 397.485pt>
 File: figuras/Boxplot_4.2.Ionosphere_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_4.2.Ionosphere_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_4.2.Ionosphere_Accuracy.png  used on i
-nput line 578.
+nput line 540.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
 
 
-LaTeX Info: Redefining \. on input line 586.
-LaTeX Info: Redefining \% on input line 586.
-[61 <./figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png> <./figuras/mejor_e
+LaTeX Info: Redefining \. on input line 548.
+LaTeX Info: Redefining \% on input line 548.
+[62 <./figuras/mejor_escenario_4.2.Ionosphere_1_mass_2d.png> <./figuras/mejor_e
 scenario_4.2.Ionosphere_2_kfda_2d.png> <./figuras/mejor_escenario_4.2.Ionospher
 e_3_gnlpda_2d.png> <./figuras/Boxplot_4.2.Ionosphere_Accuracy.png>]
-<figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png, id=1231, 542.02
+<figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png, id=1233, 542.02
 5pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png Graphic fil
 e (type png)
 <use figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_to
-dos.png  used on input line 589.
+dos.png  used on input line 551.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
-<figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png, id=1232, 54
+<figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png, id=1234, 54
 2.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png Graphic
  file (type png)
 <use figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_ca
-mpeones.png  used on input line 599.
+mpeones.png  used on input line 561.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 613.
-LaTeX Info: Redefining \% on input line 613.
-[62 <./figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png> <./figura
+LaTeX Info: Redefining \. on input line 575.
+LaTeX Info: Redefining \% on input line 575.
+[63 <./figuras/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_todos.png> <./figura
 s/CDplot_Nemenyi_4.2.Ionosphere_long_graficos_campeones.png>]
-<figuras/4DES.png, id=1241, 346.896pt x 346.896pt>
+<figuras/4DES.png, id=1243, 346.896pt x 346.896pt>
 File: figuras/4DES.png Graphic file (type png)
 <use figuras/4DES.png>
-Package pdftex.def Info: figuras/4DES.png  used on input line 618.
+Package pdftex.def Info: figuras/4DES.png  used on input line 580.
 (pdftex.def)             Requested size: 227.62206pt x 227.62346pt.
-<figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png, id=1243, 397.485pt x 361.
+<figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png, id=1245, 397.485pt x 361.
 35pt>
 File: figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png Graphic file (type pn
 g)
 <use figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png  u
-sed on input line 634.
+sed on input line 596.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_3.1.Cebolla3D_2_kfda_2d.png, id=1244, 397.485pt x 361.
+<figuras/mejor_escenario_3.1.Cebolla3D_2_kfda_2d.png, id=1246, 397.485pt x 361.
 35pt>
 File: figuras/mejor_escenario_3.1.Cebolla3D_2_kfda_2d.png Graphic file (type pn
 g)
 <use figuras/mejor_escenario_3.1.Cebolla3D_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.1.Cebolla3D_2_kfda_2d.png  u
-sed on input line 639.
+sed on input line 601.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_3.1.Cebolla3D_3_gnlpda_2d.png, id=1245, 397.485pt x 36
+<figuras/mejor_escenario_3.1.Cebolla3D_3_gnlpda_2d.png, id=1247, 397.485pt x 36
 1.35pt>
 File: figuras/mejor_escenario_3.1.Cebolla3D_3_gnlpda_2d.png Graphic file (type 
 png)
 <use figuras/mejor_escenario_3.1.Cebolla3D_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.1.Cebolla3D_3_gnlpda_2d.png 
- used on input line 644.
+ used on input line 606.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 665.
-LaTeX Info: Redefining \% on input line 665.
-[63 <./figuras/4DES.png> <./figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png
+LaTeX Info: Redefining \. on input line 627.
+LaTeX Info: Redefining \% on input line 627.
+[64 <./figuras/4DES.png> <./figuras/mejor_escenario_3.1.Cebolla3D_1_mass_2d.png
 > <./figuras/mejor_escenario_3.1.Cebolla3D_2_kfda_2d.png> <./figuras/mejor_esce
 nario_3.1.Cebolla3D_3_gnlpda_2d.png>]
-<figuras/Boxplot_3.1.Cebolla3D_Accuracy.png, id=1254, 614.295pt x 397.485pt>
+<figuras/Boxplot_3.1.Cebolla3D_Accuracy.png, id=1256, 614.295pt x 397.485pt>
 File: figuras/Boxplot_3.1.Cebolla3D_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_3.1.Cebolla3D_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_3.1.Cebolla3D_Accuracy.png  used on in
-put line 668.
+put line 630.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
-<figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png, id=1256, 542.025
+<figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png, id=1258, 542.025
 pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png Graphic file
  (type png)
 <use figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_tod
-os.png  used on input line 682.
+os.png  used on input line 644.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 687.
-LaTeX Info: Redefining \% on input line 687.
-[64 <./figuras/Boxplot_3.1.Cebolla3D_Accuracy.png>]
-<figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png, id=1262, 542
+LaTeX Info: Redefining \. on input line 649.
+LaTeX Info: Redefining \% on input line 649.
+[65 <./figuras/Boxplot_3.1.Cebolla3D_Accuracy.png>]
+<figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png, id=1264, 542
 .025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png Graphic 
 file (type png)
 <use figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_cam
-peones.png  used on input line 692.
+peones.png  used on input line 654.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 710.
-LaTeX Info: Redefining \% on input line 710.
-[65 <./figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png> <./figuras
+LaTeX Info: Redefining \. on input line 672.
+LaTeX Info: Redefining \% on input line 672.
+[66 <./figuras/CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_todos.png> <./figuras
 /CDplot_Nemenyi_3.1.Cebolla3D_long_graficos_campeones.png>]
-<figuras/5DES.png, id=1271, 520.344pt x 520.344pt>
+<figuras/5DES.png, id=1274, 520.344pt x 520.344pt>
 File: figuras/5DES.png Graphic file (type png)
 <use figuras/5DES.png>
-Package pdftex.def Info: figuras/5DES.png  used on input line 715.
+Package pdftex.def Info: figuras/5DES.png  used on input line 677.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
-<figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.png, id=1273, 397.485pt x 361
+<figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.png, id=1276, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.png  
-used on input line 732.
+used on input line 694.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_3.2.Cebolla10D_2_kfda_2d.png, id=1274, 397.485pt x 361
+<figuras/mejor_escenario_3.2.Cebolla10D_2_kfda_2d.png, id=1277, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_3.2.Cebolla10D_2_kfda_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_3.2.Cebolla10D_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.2.Cebolla10D_2_kfda_2d.png  
-used on input line 737.
+used on input line 699.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_3.2.Cebolla10D_3_gnlpda_2d.png, id=1275, 397.485pt x 3
+<figuras/mejor_escenario_3.2.Cebolla10D_3_gnlpda_2d.png, id=1278, 397.485pt x 3
 61.35pt>
 File: figuras/mejor_escenario_3.2.Cebolla10D_3_gnlpda_2d.png Graphic file (type
  png)
 <use figuras/mejor_escenario_3.2.Cebolla10D_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.2.Cebolla10D_3_gnlpda_2d.png
-  used on input line 742.
+  used on input line 704.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 763.
-LaTeX Info: Redefining \% on input line 763.
-[66 <./figuras/5DES.png> <./figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.pn
+LaTeX Info: Redefining \. on input line 725.
+LaTeX Info: Redefining \% on input line 725.
+[67 <./figuras/5DES.png> <./figuras/mejor_escenario_3.2.Cebolla10D_1_mass_2d.pn
 g> <./figuras/mejor_escenario_3.2.Cebolla10D_2_kfda_2d.png> <./figuras/mejor_es
 cenario_3.2.Cebolla10D_3_gnlpda_2d.png>]
-<figuras/Boxplot_3.2.Cebolla10D_Accuracy.png, id=1285, 614.295pt x 397.485pt>
+<figuras/Boxplot_3.2.Cebolla10D_Accuracy.png, id=1288, 614.295pt x 397.485pt>
 File: figuras/Boxplot_3.2.Cebolla10D_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_3.2.Cebolla10D_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_3.2.Cebolla10D_Accuracy.png  used on i
-nput line 766.
+nput line 728.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
-<figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png, id=1287, 542.02
+<figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png, id=1290, 542.02
 5pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png Graphic fil
 e (type png)
 <use figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_to
-dos.png  used on input line 783.
+dos.png  used on input line 745.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 788.
-LaTeX Info: Redefining \% on input line 788.
-[67 <./figuras/Boxplot_3.2.Cebolla10D_Accuracy.png>]
-<figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png, id=1294, 54
+LaTeX Info: Redefining \. on input line 750.
+LaTeX Info: Redefining \% on input line 750.
+[68 <./figuras/Boxplot_3.2.Cebolla10D_Accuracy.png>]
+<figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png, id=1296, 54
 2.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png Graphic
  file (type png)
 <use figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_ca
-mpeones.png  used on input line 801.
+mpeones.png  used on input line 763.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 814.
-LaTeX Info: Redefining \% on input line 814.
-[68 <./figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png> <./figura
+LaTeX Info: Redefining \. on input line 776.
+LaTeX Info: Redefining \% on input line 776.
+[69 <./figuras/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_todos.png> <./figura
 s/CDplot_Nemenyi_3.2.Cebolla10D_long_graficos_campeones.png>]
-<figuras/6DES.png, id=1303, 520.344pt x 520.344pt>
+<figuras/6DES.png, id=1305, 520.344pt x 520.344pt>
 File: figuras/6DES.png Graphic file (type png)
 <use figuras/6DES.png>
-Package pdftex.def Info: figuras/6DES.png  used on input line 820.
+Package pdftex.def Info: figuras/6DES.png  used on input line 782.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
-<figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.png, id=1305, 397.485pt x 361
+<figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.png, id=1307, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.png  
-used on input line 835.
+used on input line 797.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_3.3.Cebolla20D_2_kfda_2d.png, id=1306, 397.485pt x 361
+<figuras/mejor_escenario_3.3.Cebolla20D_2_kfda_2d.png, id=1308, 397.485pt x 361
 .35pt>
 File: figuras/mejor_escenario_3.3.Cebolla20D_2_kfda_2d.png Graphic file (type p
 ng)
 <use figuras/mejor_escenario_3.3.Cebolla20D_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.3.Cebolla20D_2_kfda_2d.png  
-used on input line 840.
+used on input line 802.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_3.3.Cebolla20D_3_gnlpda_2d.png, id=1307, 397.485pt x 3
+<figuras/mejor_escenario_3.3.Cebolla20D_3_gnlpda_2d.png, id=1309, 397.485pt x 3
 61.35pt>
 File: figuras/mejor_escenario_3.3.Cebolla20D_3_gnlpda_2d.png Graphic file (type
  png)
 <use figuras/mejor_escenario_3.3.Cebolla20D_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_3.3.Cebolla20D_3_gnlpda_2d.png
-  used on input line 845.
+  used on input line 807.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 867.
-LaTeX Info: Redefining \% on input line 867.
-[69 <./figuras/6DES.png> <./figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.pn
+LaTeX Info: Redefining \. on input line 829.
+LaTeX Info: Redefining \% on input line 829.
+[70 <./figuras/6DES.png> <./figuras/mejor_escenario_3.3.Cebolla20D_1_mass_2d.pn
 g> <./figuras/mejor_escenario_3.3.Cebolla20D_2_kfda_2d.png> <./figuras/mejor_es
 cenario_3.3.Cebolla20D_3_gnlpda_2d.png>]
 File: figuras/Boxplot_3.2.Cebolla10D_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_3.2.Cebolla10D_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_3.2.Cebolla10D_Accuracy.png  used on i
-nput line 870.
+nput line 832.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
-<figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png, id=1317, 542.02
+<figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png, id=1319, 542.02
 5pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png Graphic fil
 e (type png)
 <use figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_to
-dos.png  used on input line 880.
+dos.png  used on input line 842.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 885.
-LaTeX Info: Redefining \% on input line 885.
-[70]
-<figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png, id=1323, 54
+LaTeX Info: Redefining \. on input line 847.
+LaTeX Info: Redefining \% on input line 847.
+[71]
+<figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png, id=1325, 54
 2.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png Graphic
  file (type png)
 <use figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_ca
-mpeones.png  used on input line 890.
+mpeones.png  used on input line 852.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 903.
-LaTeX Info: Redefining \% on input line 903.
-[71 <./figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png> <./figura
+LaTeX Info: Redefining \. on input line 865.
+LaTeX Info: Redefining \% on input line 865.
+[72 <./figuras/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_todos.png> <./figura
 s/CDplot_Nemenyi_3.3.Cebolla20D_long_graficos_campeones.png>]
-<figuras/2DES.png, id=1333, 520.344pt x 520.344pt>
+<figuras/2DES.png, id=1335, 520.344pt x 520.344pt>
 File: figuras/2DES.png Graphic file (type png)
 <use figuras/2DES.png>
-Package pdftex.def Info: figuras/2DES.png  used on input line 908.
+Package pdftex.def Info: figuras/2DES.png  used on input line 870.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
-<figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png, id=1335, 397.485pt x 3
+<figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png, id=1337, 397.485pt x 3
 61.35pt>
 File: figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png Graphic file (type
  png)
 <use figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png
-  used on input line 925.
+  used on input line 887.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_1.3.pimadiabetes_2_kfda_2d.png, id=1336, 397.485pt x 3
+<figuras/mejor_escenario_1.3.pimadiabetes_2_kfda_2d.png, id=1338, 397.485pt x 3
 61.35pt>
 File: figuras/mejor_escenario_1.3.pimadiabetes_2_kfda_2d.png Graphic file (type
  png)
 <use figuras/mejor_escenario_1.3.pimadiabetes_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.3.pimadiabetes_2_kfda_2d.png
-  used on input line 930.
+  used on input line 892.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_1.3.pimadiabetes_3_gnlpda_2d.png, id=1337, 397.485pt x
+<figuras/mejor_escenario_1.3.pimadiabetes_3_gnlpda_2d.png, id=1339, 397.485pt x
  361.35pt>
 File: figuras/mejor_escenario_1.3.pimadiabetes_3_gnlpda_2d.png Graphic file (ty
 pe png)
 <use figuras/mejor_escenario_1.3.pimadiabetes_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_1.3.pimadiabetes_3_gnlpda_2d.p
-ng  used on input line 935.
+ng  used on input line 897.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 956.
-LaTeX Info: Redefining \% on input line 956.
-[72 <./figuras/2DES.png>]
-<figuras/Boxplot_1.3.pimadiabetes_Accuracy.png, id=1346, 614.295pt x 397.485pt>
+LaTeX Info: Redefining \. on input line 918.
+LaTeX Info: Redefining \% on input line 918.
+[73 <./figuras/2DES.png>]
+<figuras/Boxplot_1.3.pimadiabetes_Accuracy.png, id=1349, 614.295pt x 397.485pt>
 
 File: figuras/Boxplot_1.3.pimadiabetes_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_1.3.pimadiabetes_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_1.3.pimadiabetes_Accuracy.png  used on
- input line 959.
+ input line 921.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
-<figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png, id=1348, 542.
+<figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png, id=1351, 542.
 025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png Graphic f
 ile (type png)
 <use figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_
-todos.png  used on input line 969.
+todos.png  used on input line 931.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 977.
-LaTeX Info: Redefining \% on input line 977.
-[73 <./figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png> <./figuras/mejor
+LaTeX Info: Redefining \. on input line 939.
+LaTeX Info: Redefining \% on input line 939.
+[74 <./figuras/mejor_escenario_1.3.pimadiabetes_1_mass_2d.png> <./figuras/mejor
 _escenario_1.3.pimadiabetes_2_kfda_2d.png> <./figuras/mejor_escenario_1.3.pimad
 iabetes_3_gnlpda_2d.png> <./figuras/Boxplot_1.3.pimadiabetes_Accuracy.png>]
-<figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png, id=1355, 
+<figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png, id=1357, 
 542.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png Graph
 ic file (type png)
 <use figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_
-campeones.png  used on input line 980.
+campeones.png  used on input line 942.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 1001.
-LaTeX Info: Redefining \% on input line 1001.
-[74 <./figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png> <./figu
+LaTeX Info: Redefining \. on input line 963.
+LaTeX Info: Redefining \% on input line 963.
+[75 <./figuras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_todos.png> <./figu
 ras/CDplot_Nemenyi_1.3.pimadiabetes_long_graficos_campeones.png>]
-<figuras/9DES.png, id=1365, 520.344pt x 520.344pt>
+<figuras/9DES.png, id=1367, 520.344pt x 520.344pt>
 File: figuras/9DES.png Graphic file (type png)
 <use figuras/9DES.png>
-Package pdftex.def Info: figuras/9DES.png  used on input line 1006.
+Package pdftex.def Info: figuras/9DES.png  used on input line 968.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
-<figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.png, id=1367, 397.485pt 
+<figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.png, id=1369, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.
-png  used on input line 1022.
+png  used on input line 984.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.4.indicadores2015_2_kfda_2d.png, id=1368, 397.485pt 
+<figuras/mejor_escenario_5.4.indicadores2015_2_kfda_2d.png, id=1370, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.4.indicadores2015_2_kfda_2d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.4.indicadores2015_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.4.indicadores2015_2_kfda_2d.
-png  used on input line 1027.
+png  used on input line 989.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda_2d.png, id=1369, 397.485p
+<figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda_2d.png, id=1371, 397.485p
 t x 361.35pt>
 File: figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda_2d.png Graphic file 
 (type png)
 <use figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda_2
-d.png  used on input line 1032.
+d.png  used on input line 994.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 1039.
-LaTeX Info: Redefining \% on input line 1039.
-[75 <./figuras/9DES.png>]
-<figuras/mejor_escenario_5.4.indicadores2015_1_mass_3d.png, id=1376, 397.485pt 
+LaTeX Info: Redefining \. on input line 1001.
+LaTeX Info: Redefining \% on input line 1001.
+[76 <./figuras/9DES.png>]
+<figuras/mejor_escenario_5.4.indicadores2015_1_mass_3d.png, id=1378, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.4.indicadores2015_1_mass_3d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.4.indicadores2015_1_mass_3d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.4.indicadores2015_1_mass_3d.
-png  used on input line 1046.
+png  used on input line 1008.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.4.indicadores2015_2_kfda.png, id=1377, 397.485pt x 3
+<figuras/mejor_escenario_5.4.indicadores2015_2_kfda.png, id=1379, 397.485pt x 3
 61.35pt>
 File: figuras/mejor_escenario_5.4.indicadores2015_2_kfda.png Graphic file (type
  png)
 <use figuras/mejor_escenario_5.4.indicadores2015_2_kfda.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.4.indicadores2015_2_kfda.png
-  used on input line 1051.
+  used on input line 1013.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda.png, id=1378, 397.485pt x
+<figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda.png, id=1380, 397.485pt x
  361.35pt>
 File: figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda.png Graphic file (ty
 pe png)
 <use figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda.p
-ng  used on input line 1056.
+ng  used on input line 1018.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/Boxplot_5.4.indicadores2015_Accuracy.png, id=1379, 614.295pt x 397.485
+<figuras/Boxplot_5.4.indicadores2015_Accuracy.png, id=1381, 614.295pt x 397.485
 pt>
 File: figuras/Boxplot_5.4.indicadores2015_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_5.4.indicadores2015_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_5.4.indicadores2015_Accuracy.png  used
- on input line 1079.
+ on input line 1041.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 1083.
-LaTeX Info: Redefining \% on input line 1083.
-[76 <./figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.png> <./figuras/me
+LaTeX Info: Redefining \. on input line 1045.
+LaTeX Info: Redefining \% on input line 1045.
+[77 <./figuras/mejor_escenario_5.4.indicadores2015_1_mass_2d.png> <./figuras/me
 jor_escenario_5.4.indicadores2015_2_kfda_2d.png> <./figuras/mejor_escenario_5.4
 .indicadores2015_3_gnlpda_2d.png> <./figuras/mejor_escenario_5.4.indicadores201
 5_1_mass_3d.png> <./figuras/mejor_escenario_5.4.indicadores2015_2_kfda.png> <./
 figuras/mejor_escenario_5.4.indicadores2015_3_gnlpda.png>]
-<figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_todos.png, id=1390, 5
+<figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_todos.png, id=1392, 5
 42.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_todos.png Graphi
 c file (type png)
 <use figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_5.4.indicadores2015_long_grafic
-os_todos.png  used on input line 1095.
+os_todos.png  used on input line 1057.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 
-LaTeX Info: Redefining \. on input line 1110.
-LaTeX Info: Redefining \% on input line 1110.
-[77 <./figuras/Boxplot_5.4.indicadores2015_Accuracy.png> <./figuras/CDplot_Neme
+LaTeX Info: Redefining \. on input line 1072.
+LaTeX Info: Redefining \% on input line 1072.
+[78 <./figuras/Boxplot_5.4.indicadores2015_Accuracy.png> <./figuras/CDplot_Neme
 nyi_5.4.indicadores2015_long_graficos_todos.png>]
-<figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png, id=139
-8, 542.025pt x 231.264pt>
+<figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png, id=140
+0, 542.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png Gr
 aphic file (type png)
 <use figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_5.4.indicadores2015_long_grafic
-os_campeones.png  used on input line 1113.
+os_campeones.png  used on input line 1075.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
-<figuras/10DES.png, id=1400, 520.344pt x 520.344pt>
+<figuras/10DES.png, id=1402, 520.344pt x 520.344pt>
 File: figuras/10DES.png Graphic file (type png)
 <use figuras/10DES.png>
-Package pdftex.def Info: figuras/10DES.png  used on input line 1139.
+Package pdftex.def Info: figuras/10DES.png  used on input line 1101.
 (pdftex.def)             Requested size: 227.62206pt x 227.62611pt.
 
 
-LaTeX Info: Redefining \. on input line 1143.
-LaTeX Info: Redefining \% on input line 1143.
-[78 <./figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png>]
-<figuras/mejor_escenario_5.5.indicadores2020_1_mass_2d.png, id=1408, 397.485pt 
+LaTeX Info: Redefining \. on input line 1105.
+LaTeX Info: Redefining \% on input line 1105.
+[79 <./figuras/CDplot_Nemenyi_5.4.indicadores2015_long_graficos_campeones.png>]
+<figuras/mejor_escenario_5.5.indicadores2020_1_mass_2d.png, id=1411, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.5.indicadores2020_1_mass_2d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.5.indicadores2020_1_mass_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.5.indicadores2020_1_mass_2d.
-png  used on input line 1154.
+png  used on input line 1116.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.5.indicadores2020_2_kfda_2d.png, id=1409, 397.485pt 
+<figuras/mejor_escenario_5.5.indicadores2020_2_kfda_2d.png, id=1412, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.5.indicadores2020_2_kfda_2d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.5.indicadores2020_2_kfda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.5.indicadores2020_2_kfda_2d.
-png  used on input line 1159.
+png  used on input line 1121.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_2d.png, id=1410, 397.485p
+<figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_2d.png, id=1413, 397.485p
 t x 361.35pt>
 File: figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_2d.png Graphic file 
 (type png)
 <use figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_2d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_2
-d.png  used on input line 1164.
+d.png  used on input line 1126.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.5.indicadores2020_1_mass_3d.png, id=1411, 397.485pt 
+<figuras/mejor_escenario_5.5.indicadores2020_1_mass_3d.png, id=1414, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.5.indicadores2020_1_mass_3d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.5.indicadores2020_1_mass_3d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.5.indicadores2020_1_mass_3d.
-png  used on input line 1178.
+png  used on input line 1140.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.5.indicadores2020_2_kfda_3d.png, id=1412, 397.485pt 
+<figuras/mejor_escenario_5.5.indicadores2020_2_kfda_3d.png, id=1415, 397.485pt 
 x 361.35pt>
 File: figuras/mejor_escenario_5.5.indicadores2020_2_kfda_3d.png Graphic file (t
 ype png)
 <use figuras/mejor_escenario_5.5.indicadores2020_2_kfda_3d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.5.indicadores2020_2_kfda_3d.
-png  used on input line 1183.
+png  used on input line 1145.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
-<figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_3d.png, id=1413, 397.485p
+<figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_3d.png, id=1416, 397.485p
 t x 361.35pt>
 File: figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_3d.png Graphic file 
 (type png)
 <use figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_3d.png>
 Package pdftex.def Info: figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_3
-d.png  used on input line 1188.
+d.png  used on input line 1150.
 (pdftex.def)             Requested size: 136.57462pt x 124.15862pt.
 
 
-LaTeX Info: Redefining \. on input line 1208.
-LaTeX Info: Redefining \% on input line 1208.
-[79 <./figuras/10DES.png> <./figuras/mejor_escenario_5.5.indicadores2020_1_mass
+LaTeX Info: Redefining \. on input line 1170.
+LaTeX Info: Redefining \% on input line 1170.
+[80 <./figuras/10DES.png> <./figuras/mejor_escenario_5.5.indicadores2020_1_mass
 _2d.png> <./figuras/mejor_escenario_5.5.indicadores2020_2_kfda_2d.png> <./figur
 as/mejor_escenario_5.5.indicadores2020_3_gnlpda_2d.png> <./figuras/mejor_escena
 rio_5.5.indicadores2020_1_mass_3d.png> <./figuras/mejor_escenario_5.5.indicador
 es2020_2_kfda_3d.png> <./figuras/mejor_escenario_5.5.indicadores2020_3_gnlpda_3
 d.png>]
-<figuras/Boxplot_5.5.indicadores2020_Accuracy.png, id=1428, 614.295pt x 397.485
+<figuras/Boxplot_5.5.indicadores2020_Accuracy.png, id=1430, 614.295pt x 397.485
 pt>
 File: figuras/Boxplot_5.5.indicadores2020_Accuracy.png Graphic file (type png)
 <use figuras/Boxplot_5.5.indicadores2020_Accuracy.png>
 Package pdftex.def Info: figuras/Boxplot_5.5.indicadores2020_Accuracy.png  used
- on input line 1211.
+ on input line 1173.
 (pdftex.def)             Requested size: 364.19667pt x 235.66042pt.
-<figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png, id=1430, 5
+<figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png, id=1432, 5
 42.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png Graphi
 c file (type png)
 <use figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_5.5.indicadores2020_long_grafic
-os_todos.png  used on input line 1228.
+os_todos.png  used on input line 1190.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
 
 
-LaTeX Info: Redefining \. on input line 1233.
-LaTeX Info: Redefining \% on input line 1233.
-[80 <./figuras/Boxplot_5.5.indicadores2020_Accuracy.png>]
+LaTeX Info: Redefining \. on input line 1195.
+LaTeX Info: Redefining \% on input line 1195.
+[81 <./figuras/Boxplot_5.5.indicadores2020_Accuracy.png>]
 <figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_campeones.png, id=143
-6, 542.025pt x 231.264pt>
+8, 542.025pt x 231.264pt>
 File: figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_campeones.png Gr
 aphic file (type png)
 <use figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_campeones.png>
 Package pdftex.def Info: figuras/CDplot_Nemenyi_5.5.indicadores2020_long_grafic
-os_campeones.png  used on input line 1247.
+os_campeones.png  used on input line 1209.
 (pdftex.def)             Requested size: 364.19667pt x 155.39423pt.
 )
 
 LaTeX Info: Redefining \. on input line 27.
 LaTeX Info: Redefining \% on input line 27.
-[81 <./figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png> <./f
+[82 <./figuras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_todos.png> <./f
 iguras/CDplot_Nemenyi_5.5.indicadores2020_long_graficos_campeones.png>]
-\openout2 = `capitulos/07_conclusiones.aux'.
+(./main.bbl
 
-
-(./capitulos/07_conclusiones.tex
-
-LaTeX Info: Redefining \. on input line 8.
-LaTeX Info: Redefining \% on input line 8.
-[82
+[83
 
 
 
-
-]
-Cap\'{\i }tulo 6.
-)
-
-[83]
-
-LaTeX Info: Redefining \. on input line 32.
-LaTeX Info: Redefining \% on input line 32.
-[84
-
-
-
-] (./main.bbl
-
-[85
 
 {c:/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-t1.enc}]
 
 LaTeX Info: Redefining \. on input line 215.
 LaTeX Info: Redefining \% on input line 215.
-[86]
+[84]
 
 LaTeX Info: Redefining \. on input line 316.
 LaTeX Info: Redefining \% on input line 316.
-[87]
+[85]
 
 LaTeX Info: Redefining \. on input line 415.
 LaTeX Info: Redefining \% on input line 415.
-[88]
+[86]
 
 LaTeX Info: Redefining \. on input line 519.
 LaTeX Info: Redefining \% on input line 519.
-[89]
+[87]
 
 LaTeX Info: Redefining \. on input line 630.
 LaTeX Info: Redefining \% on input line 630.
-[90]
+[88]
 
 LaTeX Info: Redefining \. on input line 729.
 LaTeX Info: Redefining \% on input line 729.
-[91]
+[89]
 
 LaTeX Info: Redefining \. on input line 839.
 LaTeX Info: Redefining \% on input line 839.
-[92])
+[90])
 
 Package natbib Warning: There were undefined citations.
 
@@ -2124,7 +2114,7 @@ Package natbib Warning: There were undefined citations.
 
 LaTeX Info: Redefining \. on input line 35.
 LaTeX Info: Redefining \% on input line 35.
-[93] (./main.aux
+[91] (./main.aux
 LaTeX Info: Redefining \. on input line 14.
 LaTeX Info: Redefining \% on input line 14.
 LaTeX Info: Redefining \. on input line 15.
@@ -2133,28 +2123,20 @@ LaTeX Info: Redefining \. on input line 16.
 LaTeX Info: Redefining \% on input line 16.
  (./capitulos/01_introduccion.aux)
 (./capitulos/02_marco_teorico.aux) (./capitulos/03_estado_arte.aux)
-(./capitulos/04_metodologia.aux) (./capitulos/05_resultados.aux)
-(./capitulos/07_conclusiones.aux))
+(./capitulos/04_metodologia.aux) (./capitulos/05_resultados.aux))
  ***********
 LaTeX2e <2025-06-01> patch level 1
-L3 programming layer <2025-10-24>
+L3 programming layer <2025-08-13>
  ***********
-
-
-Package rerunfilecheck Warning: File `main.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `main.out':
-(rerunfilecheck)             Before: 20A80EF4095890F1437E52AA6B5202B9;20584
-(rerunfilecheck)             After:  C4228331D857AAD9075E8DC99BE89DE0;20393.
+Package rerunfilecheck Info: File `main.out' has not changed.
+(rerunfilecheck)             Checksum: 34B55CBB986CE7B9B30C55C2A76255E9;20289.
  ) 
 Here is how much of TeX's memory you used:
- 20263 strings out of 467747
- 369822 string characters out of 5431120
- 804322 words of memory out of 5000000
- 48065 multiletter control sequences out of 15000+600000
- 708639 words of font info for 135 fonts, out of 8000000 for 9000
+ 20216 strings out of 467800
+ 368425 string characters out of 5436061
+ 802940 words of memory out of 5000000
+ 47975 multiletter control sequences out of 15000+600000
+ 707743 words of font info for 135 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  99i,16n,134p,1948b,860s stack positions out of 10000i,1000n,20000p,200000b,200000s
 <c:/texlive/2025/texmf-dist/fonts/type1/arkandis/gillius/GilliusADFNo2-Bold.p
@@ -2170,10 +2152,10 @@ super/sftt1200.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/symbol/usyr.pfb>
 xmf-dist/fonts/type1/urw/times/utmb8a.pfb><c:/texlive/2025/texmf-dist/fonts/typ
 e1/urw/times/utmr8a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmr8
 a.pfb><c:/texlive/2025/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (99 pages, 14079712 bytes).
+Output written on main.pdf (97 pages, 14080579 bytes).
 PDF statistics:
- 1800 PDF objects out of 2073 (max. 8388607)
- 1516 compressed objects within 16 object streams
- 470 named destinations out of 1000 (max. 500000)
- 1176 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 1788 PDF objects out of 2073 (max. 8388607)
+ 1506 compressed objects within 16 object streams
+ 467 named destinations out of 1000 (max. 500000)
+ 1168 words of extra memory for PDF output out of 10000 (max. 10000000)
 

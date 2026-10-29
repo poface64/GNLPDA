@@ -14,6 +14,8 @@
 
 \subsection{Caso 1: Evaluación en condiciones de baja dimensionalidad y suficiencia muestral}
 
+En este primer caso se analiza el comportamiento de los métodos de proyección bajo condiciones de suficiencia muestral. A partir de $p = 3$ variables originales y $n_i = 50$ observaciones por clase ($N = 150$ muestras en total), la expansión polinomial incrementa la dimensionalidad del espacio de características a $p_{\text{exp}} = 9$ variables. Debido a que se cumple la condición $n_i > p_{\text{exp}}$, la matriz de dispersión intra-clase conserva su rango completo, lo que permite la inversión directa sin problemas de inestabilidad numérica. Este experimento establece la línea de base para evaluar la capacidad de la expansión polinomial junto con las proyecciones de LDA para separar estructuras no lineales (datos tipo cebolla) en ausencia del problema muestras pequeñas.
+
 \begin{figure}[htbp]
 	\centering
 	
@@ -49,6 +51,8 @@ intra-clase.
 
 \subsection{Caso 2: Evaluación bajo incremento de dimensionalidad por expansión polinomial}
 
+En el segundo caso se examina la respuesta de las técnicas cuando el espacio de representación inicial ($p = 10$, $n_i = 50$) es expandido mediante la expansión polinomial, aumentando así el numero de variables ($p_{\text{exp}} = 65$). Aunque la formulación base cuenta con un número adecuado de observaciones, la expansión de características provoca que la cantidad de atributos expandidos supere el número de muestras disponibles por clase ($p_{\text{exp}} > n_i$). Este escenario permite observar el efecto de la acumulación de variables sobre el condicionamiento de la matriz de dispersión y la estabilidad de las proyecciones resultantes.
+
 \begin{figure}[htbp]
 	\centering
 	
@@ -73,15 +77,12 @@ intra-clase.
 	\label{fig:R2}
 \end{figure}
 
-La Figura \ref{fig:R2} muestra las proyecciones obtenidas por los tres métodos en un escenario
-de mayor complejidad donde ($n<p$ ). Se observa que pese a ser más variables que
-observaciones, la estructura geométrica del mapeo lograda por el LDA clásico y LDA MASS
-es similar, diferenciándose principalmente por la orientación de los datos y la escala de los
-ejes nuevamente. Por su parte, la proyección del KFDA genera un espacio ultra compacto
-donde la dispersión intra-clase es mínima y la dispersión entre-clases es máxima en un
-espacio muy reducido.
+La Figura \ref{fig:R2} muestra las proyecciones obtenidas por los tres métodos en un escenario de mayor complejidad donde ($n<p$ ). Se observa que pese a ser más variables que observaciones, la estructura geométrica del mapeo lograda por el LDA clásico y LDA MASS es similar, diferenciándose principalmente por la orientación de los datos y la escala de los
+ejes nuevamente. Por su parte, la proyección del KFDA genera un espacio ultra compacto donde la dispersión intra-clase es mínima y la dispersión entre-clases es máxima en un espacio muy reducido.
 
 \subsection{Caso 3: Evaluación de muestras reducidas y dimensionalidad expandida moderada}
+
+El objetivo del tercer caso es evaluar el desempeño de las técnicas proyectivas ante una restricción en el tamaño de la muestra frente a la cantidad de variables, empleando $n_i = 5$ observaciones por clase ($N = 15$ muestras totales) y $p = 3$ variables originales. Tras aplicar la expansión polinomial, el espacio de características aumenta a $p_{\text{exp}} = 9$ variables. Aun cuando la dimensión expandida es reducida en términos absolutos, el número de variables excede la cantidad de datos por clase. Este caso permite analizar la sensibilidad de los métodos ante la escasez de datos en espacios de dimensión moderada.
 
 \begin{figure}[htbp]
 	\centering
@@ -107,8 +108,7 @@ espacio muy reducido.
 	\label{fig:R3}
 \end{figure}
 
-La Figura \ref{fig:R3} muestra las proyecciones obtenidas por los tres métodos en un escenario
-de mayor complejidad donde ($n<p$). Pese a que la cantidad de observaciones por grupo es
+La Figura \ref{fig:R3} muestra las proyecciones obtenidas por los tres métodos en un escenario de mayor complejidad donde ($n<p$). Pese a que la cantidad de observaciones por grupo es
 menor a la cantidad de variables presentes, los modelos aún son capaces de ofrecer
 proyecciones de los datos. La estructura geométrica del mapeo lograda por el LDA clásico y
 LDA MASS es similar, diferenciándose principalmente por la orientación de los datos y la
@@ -117,6 +117,8 @@ proyección donde la dispersión intra-clase es mínima y la dispersión entre c
 diferenciándose de los comportamientos mostrados por los demás métodos.
 
 \subsection{Caso 4: Evaluación en condiciones de alta dimensionalidad y muestras pequeñas}
+
+El cuarto experimento se plantea como un escenario donde el problema de muestras pequeñas se presenta desde el espacio de características original, con $p = 10$ atributos frente a $n_i = 5$ observaciones por clase. La aplicación de la expansión polinomial eleva la dimensionalidad a $p_{\text{exp}} = 65$ variables. El propósito de esta prueba es identificar qué algoritmos logran obtener proyecciones cuando coinciden una baja disponibilidad muestral y un incremento en la cantidad de variables, evaluando la robustez de los métodos ante la pérdida de rango en la matriz intra-clase.
 
 \begin{figure}[htbp]
 	\centering
@@ -153,6 +155,8 @@ en coordenadas singulares; si bien esto exhibe una separación inter-clase total
 comportamiento sugiere fuertemente un sobreajuste geométrico en el espacio transformado.
 
 \subsection{Caso 5: Evaluación en condiciones límite de alta dimensionalidad y muestras pequeñas.}
+
+En el quinto caso se analiza la relación entre el número de variables y el tamaño muestral en una condición crítica, considerando $p = 15$ variables base, $n_i = 5$ datos por clase y $p_{\text{exp}} = 135$ atributos en el espacio expandido. Este experimento busca verificar las limitaciones operativas del algoritmo LDA en su formulación clásica debido a la singularidad de la matriz de dispersión y como se comportan los otros métodos de proyección ante una situación limite.
 
 \begin{figure}[htbp]
 	\centering
@@ -198,12 +202,9 @@ En esta sección se encuentran desarrollados los resultados correspondientes a l
 
 \subsection{Palmer Penguins}
 
-El conjunto de datos pingüinos Palmer fue originalmente introducido por K. B. Gorman, T. D. Williams y W. R. Fraser en el 2014 \cite{gorman2014ecological}. El conjunto consiste en 342 observaciones distribuidas desigualmente entre tres especies de pingüinos: Adelie ($44.2\%$), Chinstrap($19.8\%$) y Gentoo ($36\%$). Cada observación consta de cuatro variables continuas numéricas:   largo del pico en milímetros, ancho del pico en milímetros, largo de la aleta en milímetros y la masa corporal en gramos.
+El conjunto de datos pingüinos Palmer fue originalmente introducido por K. B. Gorman, T. D. Williams y W. R. Fraser en el 2014 \cite{gorman2014ecological}. El conjunto consiste en 342 observaciones distribuidas desigualmente entre tres especies de pingüinos: Adelie ($44.2\%$), Chinstrap ($19.8\%$) y Gentoo ($36\%$). Cada observación consta de cuatro variables continuas numéricas:   largo del pico en milímetros, ancho del pico en milímetros, largo de la aleta en milímetros y la masa corporal en gramos.
 
 Desde la perspectiva del reconocimiento de patrones, el conjunto Palmer Penguins presenta propiedades que lo hacen particularmente útil para la evaluación experimental de métodos de clasificación y reducción de dimensionalidad. Los análisis exploratorios reportados en la literatura indican que las observaciones correspondientes a la especie Gentoo tienden a formar un grupo relativamente diferenciado, mientras que las especies Adelie y Chinstrap exhiben cierto grado de solapamiento en el espacio de características, dando lugar a clases con distintos niveles de separabilidad \cite{horst2022palmer}. Adicionalmente, la distribución desigual de observaciones entre especies introduce un escenario de desbalance de clases que permite examinar la sensibilidad y robustez de los métodos analizados frente a distribuciones no uniformes. En conjunto, estas características hacen de Palmer Penguins un caso de estudio pertinente para analizar la capacidad discriminativa de técnicas de proyección y clasificación, así como su comportamiento ante conjuntos de datos que combinan separabilidad parcial y desbalance entre clases.
-
-
-A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por especies en pares de variables:
 
 \begin{figure}[htbp]
 	\centering
@@ -212,9 +213,7 @@ A continuación se muestra mediante gráficos de dispersión el comportamiento d
 	\label{fig:D1}
 \end{figure}
 
-En el gráfico \ref{fig:D1} se observa el comportamiento por pares de variables para el conjunto de pinguinos Palmer. Se observa principalmente que lkos grupos se alcanzan a diferenciar bien entre la longitud del pico y el ancho del pico pero mantienen un grado de traslape principalmente observable entre dos especies al observar la dispersión que se forma entre el ancho del pico y la masa corporal.
-
-A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
+En el gráfico \ref{fig:D1} se observa el comportamiento por pares de variables para el conjunto de pinguinos Palmer. Se observa principalmente que los grupos se alcanzan a diferenciar bien entre la longitud del pico y el ancho del pico pero mantienen un grado de traslape principalmente observable entre las especies de Adelie y Chinstrap, esto se puede observar mediante el diagrama de dispersión que se forma entre el ancho del pico y la masa corporal.
 
 \begin{figure}[htbp]
 	\centering
@@ -240,14 +239,7 @@ A continuación se obtuvieron las proyecciones visuales mediante la reducción d
 	\label{fig:R6}
 \end{figure}
 
-La Figura \ref{fig:R6} presenta los espacios latentes generados por los tres enfoques evaluados
-con capacidad de proyectar. Dada la baja complejidad geométrica del conjunto Palmer
-Penguines, se advierte que la aproximación lineal (LDA MASS) logra una separación de
-clases adecuada. Simultáneamente, el mapeo no lineal implícito (KFDA) maximiza de forma
-esperada la distancia inter-clase, consolidando agrupaciones visualmente compactas. El
-hallazgo más destacable reside en la proyección obtenida por el método propuesto: GNLPDA no solo iguala la capacidad de separación óptima del kernel gaussiano y del LDA MASS, sino que alcanza este rendimiento filtrando y seleccionando explícitamente solo 3 variables
-del espacio de características expandido, preservando así la interpretabilidad y trazabilidad
-del modelo obtenido.
+La Figura \ref{fig:R6} presenta los espacios latentes generados por los tres enfoques evaluados con capacidad de proyectar. Dada la baja complejidad geométrica del conjunto Palmer Penguines, se advierte que la aproximación lineal (LDA MASS) logra una separación de clases adecuada. Simultáneamente, el mapeo no lineal implícito (KFDA) maximiza de forma esperada la distancia inter-clase, consolidando agrupaciones visualmente compactas. El hallazgo más destacable reside en la proyección obtenida por el método propuesto: GNLPDA no solo iguala la capacidad de separación óptima del kernel gaussiano y del LDA MASS, sino que alcanza este rendimiento filtrando y seleccionando explícitamente solo 3 variables del espacio de características expandido, preservando así la interpretabilidad y trazabilidad del modelo obtenido.
 
 
 \begin{figure}[htbp]
@@ -258,9 +250,7 @@ del modelo obtenido.
 	\label{fig:R19}
 \end{figure}
 
-La Figura \ref{fig:R19} presenta la distribución del rendimiento a lo largo de las ejecuciones
-experimentales. Los resultados revelan un escenario de alta separabilidad donde la mayoría
-de los algoritmos incluyendo enfoques lineales (LDA, QDA) y máquinas de vectores de
+La Figura \ref{fig:R19} presenta la distribución del rendimiento a lo largo de las ejecuciones experimentales. Los resultados revelan un escenario de alta separabilidad  donde la mayoría de los algoritmos incluyendo enfoques lineales (LDA, QDA) y máquinas de vectores de
 soporte (SVM) convergen en medianas superiores a 0.97 con rangos intercuartílicos
 estrechos. La excepción estadística es el modelo KFDA, el cual exhibe una caída significativa
 en su rendimiento central y una varianza pronunciada con múltiples valores atípicos
@@ -277,8 +267,7 @@ evaluados y alcanza la exactitud perfecta (1.0) en el límite superior de su dis
 \end{figure}
 
 
-Con el objetivo de validar formalmente las diferencias observadas en el rendimiento
-predictivo, se aplicó la prueba de rangos de Friedman, la cual arrojó un estadístico $\chi^2 = 48.175,p<0.001$, proporcionando evidencia suficiente para rechazar la hipótesis de equivalencia entre los clasificadores. Posteriormente, el diagrama de Nemenyi permitió identificar grupos de clasificadores sin diferencias estadísticamente significativas (conectados por líneas horizontales). Se observa que el método propuesto (GNLPDA, rango 4.05) se sitúa en un clúster intermedio; si bien comparte grupo estadístico con modelos de SVM polinomiales y Gaussianos, no presenta diferencias significativas frente a los métodos lineales (LDA/QDA) de mejor rango global. No obstante, destaca la superioridad absoluta de GNLPDA sobre el método KFDA ($p<0.05$), consolidando su posición como una alternativa competitiva y estadísticamente robusta frente al estado del arte en este entorno de baja complejidad.
+Con el objetivo de validar formalmente las diferencias observadas en el rendimiento predictivo, se aplicó la prueba de rangos de Friedman, la cual arrojó un estadístico $\chi^2 = 48.175,p<0.001$, proporcionando evidencia suficiente para rechazar la hipótesis de equivalencia entre los clasificadores. Posteriormente, el diagrama de Nemenyi que se muestra en \ref{fig:R20} permitió identificar grupos de clasificadores sin diferencias estadísticamente significativas (conectados por líneas horizontales). Se observa que el método propuesto (GNLPDA, rango 4.05) se sitúa en un clúster intermedio; si bien comparte grupo estadístico con modelos de SVM polinomiales y Gaussianos, no presenta diferencias significativas frente a los métodos lineales (LDA/QDA) de mejor rango global. No obstante, destaca la superioridad absoluta de GNLPDA sobre el método KFDA ($p<0.05$), consolidando su posición como una alternativa competitiva y estadísticamente robusta frente al estado del arte en este entorno de baja complejidad.
 
 
 \begin{figure}[htbp]
@@ -289,26 +278,13 @@ predictivo, se aplicó la prueba de rangos de Friedman, la cual arrojó un estad
 	\label{fig:R21}
 \end{figure}
 
-Para profundizar en la evaluación del rendimiento frente a arquitecturas no lineales,
-se realizó una comparativa excluyendo los métodos deterministas lineales. La prueba de
-Friedman ratifica la existencia de diferencias estadísticamente significativas en este
-subconjunto ($\chi^2= 31.391, p< 0.001$). El diagrama de Nemenyi resultante evidencia que
-el método propuesto (GNLPDA, rango 2.77) se integra al clúster de máxima eficacia
-estadística, compartiendo línea de desempeño con SVM(POL2) y SVM(Gauss). Este
-resultado es particularmente valioso, pues confirma que GNLPDA logra equiparar la
-potencia de clasificación de las máquinas de vectores de soporte sin sacrificar la
-interpretabilidad de su espacio de características. En contraste, KFDA (rango 4.27) se aleja
-significativamente de este grupo.
-
+Para profundizar en la evaluación del rendimiento frente a arquitecturas no lineales, se realizó una comparativa excluyendo los métodos deterministas lineales. La prueba de Friedman ratifica la existencia de diferencias estadísticamente significativas en este subconjunto ($\chi^2= 31.391, p< 0.001$). El diagrama de Nemenyi que se muestra en \ref{fig:R21} resultante evidencia que el método propuesto (GNLPDA, rango 2.77) se integra al clúster de máxima eficacia estadística, compartiendo línea de desempeño con SVM(POL2) y SVM(Gauss). Este resultado es particularmente valioso, pues confirma que GNLPDA logra equiparar la potencia de clasificación de las máquinas de vectores de soporte sin sacrificar la interpretabilidad de su espacio de características. En contraste, KFDA (rango 4.27) se aleja significativamente de este grupo.
 
 \subsection{Wines}
 
 El conjunto de datos Wine fue desarrollado a partir de análisis químicos realizados sobre vinos producidos en una misma región de Italia y derivados de tres cultivares diferentes, siendo posteriormente incorporado al repositorio UCI Machine Learning Repository por Stefan Aeberhard y colaboradores \cite{coomans1992comparison}. El conjunto está conformado por 178 observaciones distribuidas en tres clases correspondientes a los distintos tipos de vino: clase 1 ($33.1\%$), clase 2 ($39.9\%$) y clase 3 ($27.0\%$). Cada observación se describe mediante trece variables continuas relacionadas con propiedades fisicoquímicas de la muestra, entre ellas el contenido de alcohol, ácido málico, cenizas, magnesio, fenoles totales, flavonoides, intensidad de color y prolina.
 
 Desde la perspectiva del reconocimiento de patrones, el conjunto Wine constituye un referente clásico para la evaluación de métodos de clasificación y reducción de dimensionalidad. Los datos corresponden a un problema multiclase bien definido, en el que las trece variables químicas proporcionan información discriminativa suficiente para distinguir entre los tres cultivares de vino. De hecho, la documentación original del conjunto lo describe como un problema de clasificación con una estructura de clases bien comportada, lo que lo convierte en un escenario apropiado para la validación inicial de nuevos clasificadores, aunque con un nivel de complejidad moderado. Asimismo, la presencia de trece características continuas en un espacio de mayor dimensionalidad que otros conjuntos de referencia favorece el análisis de técnicas de proyección y extracción de características, permitiendo estudiar la capacidad de los métodos para preservar la estructura discriminativa de los datos en representaciones de menor dimensión. Adicionalmente, el conjunto presenta un ligero desbalance entre clases y no contiene valores perdidos, por lo que resulta útil para comparar el desempeño de distintos enfoques bajo condiciones controladas y ampliamente documentadas en la literatura.
-
-A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
-
 
 \begin{figure}[H]
 	\centering
@@ -385,8 +361,7 @@ variables incrementa la exigencia sobre el proceso evolutivo.
 \end{figure}
 
 En este escenario de alta dimensionalidad, el test de Friedman reporta un estadístico
-$\chi^2=94.416 (p< 0.001)$, lo que confirma la existencia de diferencias significativas en el
-rendimiento de los algoritmos. El diagrama de Nemenyi resultante ilustra una clara
+$\chi^2=94.416 (p< 0.001)$, lo que confirma la existencia de diferencias significativas en el rendimiento de los algoritmos. El diagrama de Nemenyi que se muestra en \ref{fig:R23} resultante ilustra una clara
 estratificación: mientras que los métodos lineales (LDA/QDA) y las SVM de configuración
 polinomial y gaussiana ocupan los rangos superiores, el método GNLPDA se posiciona en
 un nivel de desempeño intermedio, diferenciándose estadísticamente de los clasificadores
@@ -415,9 +390,6 @@ El conjunto de datos Wisconsin Breast Cancer (Diagnostic) fue desarrollado por W
 
 Desde la perspectiva del reconocimiento de patrones, el conjunto Wisconsin Breast Cancer constituye un referente ampliamente utilizado para la evaluación de métodos de clasificación supervisada y reducción de dimensionalidad. Las características fueron diseñadas para capturar propiedades morfológicas relevantes de los núcleos celulares, proporcionando una representación numérica con alto contenido discriminativo entre las clases benigna y maligna. Asimismo, la dimensionalidad relativamente elevada del conjunto, dada por sus treinta variables continuas, favorece el estudio de técnicas de selección de características, extracción de variables y proyección a espacios de menor dimensión. Adicionalmente, la distribución no uniforme entre clases introduce un grado moderado de desbalance que permite analizar la sensibilidad de los métodos ante distribuciones de datos asimétricas. En conjunto, estas características hacen de Wisconsin Breast Cancer un caso de estudio apropiado para comparar la capacidad discriminativa de distintos métodos de clasificación y evaluar la calidad de las representaciones obtenidas mediante técnicas de reducción de dimensionalidad.
 
-A continuación se muestra mediante gráficos de dispersión el comportamiento de las observaciones por clase en pares de variables:
-
-
 \begin{figure}[H]
 	\centering
 	\includegraphics[width=0.5\textwidth]{7DES.png}
@@ -428,8 +400,6 @@ A continuación se muestra mediante gráficos de dispersión el comportamiento d
 En la figura \ref{fig:D7} se observa el comportamiento de las clases por pares de variables. 
 Destaca el comportamiento de traslape que se puede observar en pares de variables como $smoothness2$ y $symetmetry2$ donde las observaciones están traslapadas. Así como tambien existen pares de variables que muestran una separación más clara de las clases como es el caso del gráfico de dispersión entre $perimeter2$ y $radius3$.
 
-
-A continuación se obtuvieron las proyecciones visuales mediante la reducción de características con LDA, KFDA y GNLPDA.
 
 \begin{figure}[H]
 	\centering
@@ -455,19 +425,10 @@ A continuación se obtuvieron las proyecciones visuales mediante la reducción d
 	\label{fig:R8}
 \end{figure}
 
-La Figura \ref{fig:R8} presenta las distribuciones de densidad estimadas para el escenario de
-clasificación binaria en el conjunto de datos de Cancer Wisconsin. Se observa que el enfoque
-lineal (LDA MASS) alcanza un alto rendimiento predictivo (0.982), manteniendo una
-transición suave entre las clases con un área de solapamiento natural. Por su parte, el KFDA
-empata esta exactitud, pero su espacio latente exhibe una severa deformación multimodal
-con picos de densidad muy marcados; este comportamiento sugiere que pese a lograr un buen
-desempeño, el método deforma el espacio de una manera muy agresiva. En contraste, el
+La Figura \ref{fig:R8} presenta las distribuciones de densidad estimadas para el escenario de clasificación binaria en el conjunto de datos de Cancer Wisconsin. Se observa que el enfoque lineal (LDA MASS) alcanza un alto rendimiento predictivo (0.982), manteniendo una transición suave entre las clases con un área de solapamiento natural. Por su parte, el KFDA empata esta exactitud, pero su espacio latente exhibe una severa deformación multimodal con picos de densidad muy marcados; este comportamiento sugiere que pese a lograr un buen desempeño, el método deforma el espacio de una manera muy agresiva. En contraste, el
 método propuesto (GNLPDA) iguala la exactitud óptima de 0.982 restaurando una
 distribución de densidad unimodal, fluida, suave y estadísticamente coherente. Esta
-separación geométrica robusta se logra mediante la selección explícita de 16 términos
-polinomiales, demostrando que GNLPDA evade las distorsiones geométricas. de los mapeos
-implícitos sin sacrificar capacidad predictiva.
-
+separación geométrica robusta se logra mediante la selección explícita de 16 términos polinomiales, demostrando que GNLPDA evade las distorsiones geométricas. de los mapeos implícitos sin sacrificar capacidad predictiva.
 
 \begin{figure}[htbp]
 	\centering
