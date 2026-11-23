@@ -7,6 +7,7 @@ A level-1 auxiliary file: capitulos/02_marco_teorico.aux
 A level-1 auxiliary file: capitulos/03_estado_arte.aux
 A level-1 auxiliary file: capitulos/04_metodologia.aux
 A level-1 auxiliary file: capitulos/05_resultados.aux
+A level-1 auxiliary file: capitulos/06_discusion.aux
 A level-1 auxiliary file: capitulos/07_conclusiones.aux
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
@@ -14,50 +15,48 @@ Reallocated wiz_functions (elt_size=4) to 6000 items from 3000.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Reallocated singl_function (elt_size=4) to 100 items from 50.
 Database file #1: bibliografia/referenciaslimpias.bib
-Warning--I didn't find a database entry for "uddin2021pca"
-Warning--I didn't find a database entry for "elae023"
 Warning--empty year in us_algoritmos_geneticos
 Warning--empty number in venkat2018curse
 Warning--empty note in venkat2018curse
-You've used 96 entries,
+You've used 97 entries,
             4728 wiz_defined-function locations,
-            1599 strings with 31241 characters,
-and the built_in function-call counts, 87287 in all, are:
-= -- 8931
-> -- 3018
-< -- 3438
-+ -- 4130
-- -- 1128
-* -- 6760
-:= -- 15223
-add.period$ -- 188
-call.type$ -- 96
-change.case$ -- 619
-chr.to.int$ -- 96
-cite$ -- 99
-duplicate$ -- 2131
-empty$ -- 4798
-format.name$ -- 1807
-if$ -- 16204
+            1607 strings with 31368 characters,
+and the built_in function-call counts, 87854 in all, are:
+= -- 8988
+> -- 3030
+< -- 3445
++ -- 4136
+- -- 1131
+* -- 6804
+:= -- 15311
+add.period$ -- 192
+call.type$ -- 97
+change.case$ -- 623
+chr.to.int$ -- 97
+cite$ -- 100
+duplicate$ -- 2151
+empty$ -- 4846
+format.name$ -- 1817
+if$ -- 16325
 int.to.chr$ -- 1
 int.to.str$ -- 1
-missing$ -- 503
-newline$ -- 635
-num.names$ -- 385
-pop$ -- 841
+missing$ -- 508
+newline$ -- 642
+num.names$ -- 389
+pop$ -- 847
 preamble$ -- 1
-purify$ -- 811
+purify$ -- 817
 quote$ -- 0
-skip$ -- 4995
+skip$ -- 5024
 stack$ -- 0
-substring$ -- 6091
-swap$ -- 551
-text.length$ -- 387
+substring$ -- 6133
+swap$ -- 555
+text.length$ -- 389
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 1204
+type$ -- 1217
 warning$ -- 3
-while$ -- 675
+while$ -- 680
 width$ -- 0
-write$ -- 1537
-(There were 5 warnings)
+write$ -- 1554
+(There were 3 warnings)

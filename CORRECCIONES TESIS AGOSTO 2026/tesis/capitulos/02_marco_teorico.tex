@@ -208,6 +208,21 @@ donde:
 
 En consecuencia, aunque QDA ofrece mayor flexibilidad para modelar fronteras de decisión no lineales, no resuelve por sí mismo el problema de reducción de dimensionalidad supervisada ni elimina las dificultades asociadas a la estimación de matrices de covarianza en escenarios ($p>n$). Por ello, su inclusión resulta pertinente como método comparativo, pero no sustituye la necesidad de estrategias orientadas a estabilizar o reformular la proyección discriminante.
 
+\subsection{Problema de muestras pequeñas (Small Sample Size)}
+
+El problema de muestras pequeñas o Small Sample Size (problema SSS) aparece en escenarios donde el número de variables descriptivas es elevado en relación con el número de observaciones disponibles. En términos generales, esta situación suele expresarse como $p>n$, donde $p$ representa la dimensión del espacio de características y $n$ el número de muestras. Este escenario es frecuente en dominios de alta dimensionalidad, como bioinformática, análisis de señales, reconocimiento de patrones y problemas donde se generan nuevas variables mediante transformaciones del espacio original \cite{raudys1991small}\cite{sorzano2014survey}.
+
+En métodos basados en la estimación de matrices de covarianza o dispersión, el problema SSS se manifiesta matemáticamente como una deficiencia de rango. En el caso del Análisis Discriminante Lineal (LDA), la matriz de dispersión intraclase ($\mathbf{S_W}$) tiene dimensión ($p\times p$), pero su rango máximo está limitado por la cantidad de observaciones disponibles y por el número de clases. En particular, para ($C$) clases, se cumple que:
+
+\begin{equation}
+	\mathbf{rank(S_W)}\leq n-C
+	\label{eq:EMT11}
+\end{equation}
+
+Por tanto, bajo la condición de singularidad donde $p>n-C$, la matriz $\mathbf{S_W}$ no puede alcanzar un rango completo. Esta deficiencia la vuelve singular (no invertible), lo que impide aplicar directamente la formulación clásica que requiere el cálculo algebraico de $\mathbf{S_W^{-1}}$.
+
+La consecuencia práctica de este problema es que la estimación de las direcciones discriminantes puede volverse numéricamente inestable o no estar definida bajo la formulación algebraica clásica. En LDA, esto afecta la resolución del problema generalizado de valores propios y limita la obtención de proyecciones discriminantes estables \cite{gao2006direct} \cite{martinez2001pca}. Aunque existen estrategias computacionales para reducir la dependencia de la inversión directa de $\mathbf{S_W}$, como el uso de la Descomposición en Valores Singulares (SVD), el blanqueamiento o la regularización, estas alternativas no eliminan por completo la dificultad intrínseca de trabajar con un espacio de variables que supera a la información disponible.
+
 \subsection{Implementación computacional y tratamiento de la singularidad}
 
 La formulación algebraica clásica de LDA suele expresarse a partir de la inversión de la matriz de dispersión intraclase $\mathbf{S_W}$ o, de forma equivalente, mediante un problema generalizado de valores propios. Esta formulación resulta problemática cuando $\mathbf{S_W}$ es singular o está mal condicionada, situación frecuente en escenarios de alta dimensionalidad, presencia de multicolinealidad o tamaño muestral reducido. En estos casos, el cálculo directo de $\mathbf{S_W^{-1}}$ puede ser numéricamente inestable o incluso inviable \cite{friedman1989regularized}.
@@ -250,20 +265,6 @@ En el contexto de esta investigación, esta consideración es relevante porque l
 
 Por ello, utilizar una implementación de LDA basada en blanqueamiento, control de singularidad y SVD permite emplear el discriminante lineal como motor de evaluación dentro de un esquema wrapper, siempre que previamente se controle la dimensionalidad mediante selección evolutiva. Así, la estabilidad computacional de LDA no se asume como una solución aislada al problema SSS, sino como un componente operativo que se beneficia de la reducción previa del espacio de características.
 
-\section{Problema de muestras pequeñas (Small Sample Size)}
-
-El problema de muestras pequeñas o Small Sample Size (problema SSS) aparece en escenarios donde el número de variables descriptivas es elevado en relación con el número de observaciones disponibles. En términos generales, esta situación suele expresarse como $p>n$, donde $p$ representa la dimensión del espacio de características y $n$ el número de muestras. Este escenario es frecuente en dominios de alta dimensionalidad, como bioinformática, análisis de señales, reconocimiento de patrones y problemas donde se generan nuevas variables mediante transformaciones del espacio original \cite{raudys1991small}\cite{sorzano2014survey}.
-
-En métodos basados en la estimación de matrices de covarianza o dispersión, el problema SSS se manifiesta matemáticamente como una deficiencia de rango. En el caso del Análisis Discriminante Lineal (LDA), la matriz de dispersión intraclase ($\mathbf{S_W}$) tiene dimensión ($p\times p$), pero su rango máximo está limitado por la cantidad de observaciones disponibles y por el número de clases. En particular, para ($C$) clases, se cumple que:
-
-\begin{equation}
-	\mathbf{rank(S_W)}\leq n-C
-	\label{eq:EMT11}
-\end{equation}
-
-Por tanto, bajo la condición de singularidad donde $p>n-C$, la matriz $\mathbf{S_W}$ no puede alcanzar un rango completo. Esta deficiencia la vuelve singular (no invertible), lo que impide aplicar directamente la formulación clásica que requiere el cálculo algebraico de $\mathbf{S_W^{-1}}$.
-
-La consecuencia práctica de este problema es que la estimación de las direcciones discriminantes puede volverse numéricamente inestable o no estar definida bajo la formulación algebraica clásica. En LDA, esto afecta la resolución del problema generalizado de valores propios y limita la obtención de proyecciones discriminantes estables \cite{gao2006direct} \cite{martinez2001pca}. Aunque existen estrategias computacionales para reducir la dependencia de la inversión directa de $\mathbf{S_W}$, como el uso de la Descomposición en Valores Singulares (SVD), el blanqueamiento o la regularización, estas alternativas no eliminan por completo la dificultad intrínseca de trabajar con un espacio de variables que supera a la información disponible.
 
 \section{Expansión polinomial y espacios de caracteristicas}
 

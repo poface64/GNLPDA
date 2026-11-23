@@ -22,10 +22,7 @@ De manera general, estas técnicas se agrupan en dos enfoques principales (ver F
 	\label{fig:MI1}	
 \end{figure}
 
-La proyección de los datos hacia espacios de baja dimensión (dos o tres dimensiones) cumple un propósito exploratorio fundamental. En dominios complejos como la genómica o la radiómica, visualizar la geometría de los datos permite evaluar si los biomarcadores extraídos logran discriminar claramente entre condiciones sanas y patológicas \cite{bruno2020data, neha2026radiomics}. Comúnmente, esta exploración se realiza proyectando las dos primeras componentes de PCA \cite{kabir2023performance}.
-
-La reducción de dimensionalidad tiene aplicaciones en diversos dominios donde los datos presentan un elevado número de características. En la teledetección, por ejemplo, la selección de bandas espectrales y la extracción de características permiten reducir la redundancia de las imágenes hiperespectrales y facilitar tareas de clasificación de coberturas terrestres \cite{uddin2021pca}. En visión por computadora, estas técnicas permiten explorar representaciones de imágenes de alta dimensión y visualizar sus similitudes estructurales. De manera similar, en bioinformática, métodos como PCA y UMAP se emplean para representar datos de expresión génica en espacios de menor dimensión, facilitando la exploración de subpoblaciones celulares y patrones de variación \cite{elae023}. Estas aplicaciones ilustran que la reducción de dimensionalidad no solo contribuye a simplificar los datos, sino que también permite explorar su estructura y generar representaciones visuales que apoyan el análisis de patrones complejos. En particular, las proyecciones bidimensionales y tridimensionales ofrecen una representación accesible de la distribución de las observaciones, aunque la información preservada y la separación entre clases dependen del método de reducción empleado.
-
+La proyección de los datos hacia espacios de baja dimensión (dos o tres dimensiones) cumple un propósito exploratorio fundamental en diversos campos científicos. En neurociencia, estas representaciones se utilizan para visualizar la actividad de grandes poblaciones neuronales e identificar patrones y dinámicas subyacentes \cite{Cunningham2014}. Por su parte, en biología computacional e investigación biomédica, permiten explorar datos moleculares, transcriptómicos y clínicos, facilitando la identificación de agrupamientos y subpoblaciones celulares \cite{Kopf2021Latent}. Asimismo, en áreas como la genómica y la radiómica, la visualización de las muestras permite explorar su distribución y evaluar si las características extraídas reflejan diferencias entre condiciones sanas y patológicas \cite{bruno2020data,neha2026radiomics}.
 
 
 \section{Planteamiento del problema}
@@ -71,7 +68,7 @@ A partir de esta problemática, la presente investigación plantea la siguiente 
 \section{Hipótesis}
 \label{sec:Hipótesis}
 
-La integración de un mecanismo de selección evolutiva en dos fases sobre una expansión polinomial explícita permite generar representaciones discriminantes visualizables en baja dimensión (hasta tres dimensiones) para conjuntos de datos con estructuras no linealmente separables. El enfoque permite reducir la dimensionalidad del espacio expandido e identificar los términos polinomiales seleccionados que contribuyen a la separación discriminante, proporcionando trazabilidad sobre el proceso de construcción de la representación y favoreciendo su interpretabilidad. Asimismo, se plantea que esta representación puede obtenerse manteniendo tiempos de ejecución viables y una exactitud de clasificación estadísticamente competitiva frente a métodos no lineales de referencia de tipo caja negra, sin requerir una superioridad sistemática en rendimiento predictivo.
+La integración de un mecanismo de selección evolutiva en dos fases sobre una expansión polinomial explícita permite obtener representaciones discriminantes visualizables hasta en tres dimensiones para datos con estructuras no linealmente separables, identificando los términos seleccionados y conservando la trazabilidad de su construcción.
 
 \section{Objetivos}
 \label{sec:Objetivo-General}
